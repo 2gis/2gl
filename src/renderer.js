@@ -15,6 +15,11 @@ export default class Renderer {
         let gl = this._gl;
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+        scene._objects.forEach(object => {
+            object.initFromRender(gl);
+            object.render();
+        });
     }
 
     _initCanvas() {

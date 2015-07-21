@@ -2,10 +2,13 @@ import fragmentShader from './floor.frag';
 import vertexShader from './floor.vert';
 import glm from 'gl-matrix';
 
-export default class Floor {
-    constructor(options) {
-        this._vertices = options.vertices;
-        this._dataRooms = options.rooms;
+export default class Triangle {
+    constructor() {
+        this._vertices = [
+             0.0,  1.0,  0.0,
+            -1.0, -1.0,  0.0,
+             1.0, -1.0,  0.0
+        ];
 
         this.initializedFromRender = false;
     }
@@ -22,6 +25,7 @@ export default class Floor {
         let gl = this._gl;
 
         this._mvMatrix = glm.mat4.create();
+        this._pMatrix = glm.mat4.create();
 
         let temp = glm.mat4.clone(this._mvMatrix);
 
@@ -36,6 +40,7 @@ export default class Floor {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._vertexIndexBuffer);
 
         gl.uniformMatrix4fv(this._mvMatrixUniform, false, this._mvMatrix);
+        gl.uniformMatrix4fv(this._pMatrixUniform, false, this._pMatrix);
 
         gl.drawElements(gl.TRIANGLES, this._vertexIndexBuffer.length, gl.UNSIGNED_SHORT, 0);
     }

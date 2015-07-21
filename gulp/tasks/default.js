@@ -1,3 +1,3 @@
 var gulp = require('gulp');
 
-gulp.task('default', ['copyAssets', 'js']);
+gulp.task('default', ['js']);

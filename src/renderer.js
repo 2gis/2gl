@@ -14,6 +14,8 @@ export default class Renderer {
     render(scene, camera) {
         let gl = this._gl;
 
+        gl.clearColor(1.0, 1.0, 1.0, 1.0);
+        gl.enable(gl.DEPTH_TEST);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         scene._objects.forEach(object => {
@@ -24,6 +26,10 @@ export default class Renderer {
 
     _initCanvas() {
         this._canvasElement = document.createElement('canvas');
+
+        this._canvasElement.width = window.innerWidth;
+        this._canvasElement.height = window.innerHeight;
+
         this._container.appendChild(this._canvasElement);
 
         this._gl = this._canvasElement.getContext('webgl');

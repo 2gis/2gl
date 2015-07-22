@@ -7,12 +7,15 @@ export default class Floor {
     constructor(options) {
         this._dataVertices = options.vertices;
         this._dataRooms = options.rooms;
+        this._dataIslands = options.islands;
         this._dataFloor = options;
 
         this.initializedFromRender = false;
     }
 
     initFromRender(gl) {
+        if (this.initializedFromRender) { return; }
+
         this.initializedFromRender = true;
 
         this._gl = gl;
@@ -20,7 +23,7 @@ export default class Floor {
         this._initRooms();
     }
 
-    render() {
+    render(camera) {
         let gl = this._gl;
 
         this._mvMatrix = glm.mat4.create();
@@ -37,7 +40,7 @@ export default class Floor {
         gl.vertexAttribPointer(this._vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
 
         gl.uniformMatrix4fv(this._mvMatrixUniform, false, this._mvMatrix);
-        gl.uniformMatrix4fv(this._pMatrixUniform, false, this._pMatrix);
+        gl.uniformMatrix4fv(this._pMatrixUniform, false, camera.matrix);
 
         gl.drawArrays(gl.TRIANGLES, 0, this._vertices.length / 3);
     }
@@ -106,9 +109,11 @@ export default class Floor {
             this._vertices = this._vertices.concat(vertices);
 
             let colorVertices = [];
+            let color = room.color.map(c => c * 0.95);
+            color[3] = 1;
 
             for (let i = 0; i < vertices.length / 3; i++) {
-                colorVertices = colorVertices.concat([0, 0, 0, 1]);
+                colorVertices = colorVertices.concat(color);
             }
 
             this._colorVertices = this._colorVertices.concat(colorVertices);
@@ -128,12 +133,14 @@ export default class Floor {
         };
 
         // полы
-        //addAreas(this._dataFloor);
+        addAreas(this._dataFloor);
         this._dataRooms.forEach(addAreas);
+        this._dataIslands.forEach(addAreas);
 
         // стены
         addWalls(this._dataFloor);
         this._dataRooms.forEach(addWalls);
+        this._dataIslands.forEach(addWalls);
 
         // верхушки стен
         addWallTopAreas(this._dataFloor);

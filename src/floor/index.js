@@ -7,6 +7,7 @@ export default class Floor {
     constructor(options) {
         this._dataVertices = options.vertices;
         this._dataRooms = options.rooms;
+        this._dataFloor = options;
 
         this.initializedFromRender = false;
     }
@@ -25,11 +26,9 @@ export default class Floor {
         this._mvMatrix = glm.mat4.create();
         this._pMatrix = glm.mat4.create();
 
-        glm.mat4.perspective(this._pMatrix, 45, window.innerWidth / window.innerHeight, 0.1, 100.0);
+        glm.mat4.perspective(this._pMatrix, 45, window.innerWidth / window.innerHeight, 10, 100000.0);
         glm.mat4.identity(this._mvMatrix);
-        glm.mat4.translate(this._mvMatrix, this._mvMatrix, [-1.5, 0.0, -7.0]);
-
-        glm.mat4.scale(this._mvMatrix, this._mvMatrix, [0.02, 0.02, 0.02]);
+        glm.mat4.translate(this._mvMatrix, this._mvMatrix, [-1.5, 0.0, -207.0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this._vertexPositionBuffer);
         gl.vertexAttribPointer(this._vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
@@ -89,7 +88,7 @@ export default class Floor {
         this._vertices = [];
         this._colorVertices = [];
 
-        this._dataRooms.forEach(room => {
+        let addAreas = room => {
             let vertices = utils.mapIndicesToVertices(this._dataVertices, room.areaIndices);
             this._vertices = this._vertices.concat(vertices);
 
@@ -100,7 +99,45 @@ export default class Floor {
             }
 
             this._colorVertices = this._colorVertices.concat(colorVertices);
-        });
+        };
+
+        let addWalls = room => {
+            let vertices = utils.mapIndicesToVertices(this._dataVertices, room.wallIndices);
+            this._vertices = this._vertices.concat(vertices);
+
+            let colorVertices = [];
+
+            for (let i = 0; i < vertices.length / 3; i++) {
+                colorVertices = colorVertices.concat([0, 0, 0, 1]);
+            }
+
+            this._colorVertices = this._colorVertices.concat(colorVertices);
+        };
+
+        let addWallTopAreas = room => {
+            let vertices = utils.mapIndicesToVertices(this._dataVertices, room.wallTopAreaIndices);
+            this._vertices = this._vertices.concat(vertices);
+
+            let colorVertices = [];
+
+            for (let i = 0; i < vertices.length / 3; i++) {
+                colorVertices = colorVertices.concat([1, 1, 1, 1]);
+            }
+
+            this._colorVertices = this._colorVertices.concat(colorVertices);
+        };
+
+        // полы
+        //addAreas(this._dataFloor);
+        this._dataRooms.forEach(addAreas);
+
+        // стены
+        addWalls(this._dataFloor);
+        this._dataRooms.forEach(addWalls);
+
+        // верхушки стен
+        addWallTopAreas(this._dataFloor);
+        this._dataRooms.forEach(addWallTopAreas);
 
         this._vertexPositionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this._vertexPositionBuffer);

@@ -14,8 +14,9 @@ export default class Renderer {
     render(scene, camera) {
         let gl = this._gl;
 
-        gl.clearColor(1.0, 1.0, 1.0, 1.0);
+        gl.clearColor(0.9, 0.9, 0.9, 1.0);
         gl.enable(gl.DEPTH_TEST);
+        gl.enable(gl.CULL_FACE);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         scene._objects.forEach(object => {

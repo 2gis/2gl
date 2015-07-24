@@ -1,7 +1,7 @@
 import Floor from './floor';
 //import Triangle from './triangle';
 import Renderer from './renderer';
-import Scene from './scene';
+import Object3D from './Object3D';
 import Color from './Color';
 import Camera from './Camera';
 import Stats from 'stats-js';
@@ -40,6 +40,7 @@ floorData.islands.forEach(addColorField);
 let floor = new Floor(floorData);
 
 let camera = new Camera();
+camera.position[2] = -200;
 
 
 let renderer = new Renderer({
@@ -48,7 +49,7 @@ let renderer = new Renderer({
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-let scene = new Scene();
+let scene = new Object3D();
 
 scene.add(floor);
 

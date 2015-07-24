@@ -27,11 +27,6 @@ export default class Floor {
         let gl = this._gl;
 
         this._mvMatrix = glm.mat4.create();
-        this._pMatrix = glm.mat4.create();
-
-        glm.mat4.perspective(this._pMatrix, 45, window.innerWidth / window.innerHeight, 10, 100000.0);
-        glm.mat4.identity(this._mvMatrix);
-        glm.mat4.translate(this._mvMatrix, this._mvMatrix, [-1.5, 0.0, -207.0]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this._vertexPositionBuffer);
         gl.vertexAttribPointer(this._vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);

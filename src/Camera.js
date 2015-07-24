@@ -1,14 +1,22 @@
-import {vec3, mat4} from 'gl-matrix';
+import Object3D from './Object3D';
+import {mat4} from 'gl-matrix';
 
-export default class Camera {
+export default class Camera extends Object3D {
     constructor() {
-        this.position = vec3.create();
-        this.matrix = mat4.create();
+        super();
+
+        this.projectionMatrix = mat4.create();
+
+        this.updateProjectionMatrix();
+    }
+
+    updateProjectionMatrix() {
+        mat4.perspective(this.projectionMatrix, 45, window.innerWidth / window.innerHeight, 10, 100000);
     }
 
     updateMatrix() {
-        mat4.perspective(this.matrix, 45, window.innerWidth / window.innerHeight, 10, 100000);
-        mat4.translate(this.matrix, this.matrix, this.position);
-        mat4.rotateX(this.matrix, this.matrix, -0.2);
+        super.updateMatrix();
+
+        mat4.multiply(this.matrix, this.projectionMatrix, this.matrix);
     }
 }

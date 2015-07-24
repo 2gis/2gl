@@ -17,12 +17,24 @@ export default class Program {
         for (let name in this.attributes) {
             gl.enableVertexAttribArray(this.attributes[name]);
         }
+
+        return this;
     }
 
     unuse(gl) {
         for (let name in this.attributes) {
             gl.disableVertexAttribArray(this.attributes[name]);
         }
+
+        return this;
+    }
+
+    getAttribute(name) {
+        return this.attributes[name];
+    }
+
+    getUniform(name) {
+        return this.uniforms[name];
     }
 
     _prepare(gl) {

@@ -4,5 +4,5 @@ var gulp = require('gulp');
 gulp.task('dev', function(cb) {
     global.debug = true;
 
-    runSequence(['js'], cb);
+    runSequence(['js', 'demo'], cb);
 });

@@ -8,8 +8,8 @@ var util = require('gulp-util');
 var brfs = require('brfs');
 var gulp = require('gulp');
 
-gulp.task('js', function() {
-    var bundler = browserify('./src/index.js', {
+gulp.task('demo', function() {
+    var bundler = browserify('./demo/index.js', {
         debug: global.debug,
         entry: true,
         transform: [babelify, brfs]
@@ -18,7 +18,7 @@ gulp.task('js', function() {
     function bundle() {
         return bundler.bundle()
             .on('error', util.log.bind(util, 'Browserify Error'))
-            .pipe(source('four.js'))
+            .pipe(source('demo.js'))
             .pipe(buffer())
             .pipe(global.debug ? util.noop() : uglify())
             .pipe(gulp.dest('dist'));
@@ -28,7 +28,7 @@ gulp.task('js', function() {
         bundler = watchify(bundler);
         bundler.on('update', bundle);
         bundler.on('time', function(time) {
-            util.log('App rebundled in ' + time + ' ms');
+            util.log('Demo app rebundled in ' + time + ' ms');
         });
     }
 

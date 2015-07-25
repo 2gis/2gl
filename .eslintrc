@@ -29,7 +29,8 @@
     "space-unary-ops": 0
   },
   "globals": {
-    "mallData": true
+    "mallData": true,
+    "four": true
   },
   "env": {
     "node": true,

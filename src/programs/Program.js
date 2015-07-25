@@ -1,5 +1,8 @@
-import fragmentShader from './shaders/basic.frag.glsl';
-import vertexShader from './shaders/basic.vert.glsl';
+// brfs module has error with import then using require
+let fs = require('fs');
+
+let fragmentShader = fs.readFileSync(__dirname + '/shaders/basic.frag.glsl', 'utf8');
+let vertexShader = fs.readFileSync(__dirname + '/shaders/basic.vert.glsl', 'utf8');
 
 export default class Program {
     constructor() {

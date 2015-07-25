@@ -12,7 +12,7 @@ gulp.task('js', function() {
     var bundler = browserify('./src/index.js', {
         debug: global.debug,
         entry: true,
-        transform: [stringify(['.vert', '.frag', '.glsl']), babelify]
+        transform: [stringify(['.glsl']), babelify]
     });
 
     function bundle() {

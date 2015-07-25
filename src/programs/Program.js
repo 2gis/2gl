@@ -10,7 +10,7 @@ export default class Program {
         this._uniformList = ['uCamera', 'uPosition'];
     }
 
-    use(gl) {
+    enable(gl) {
         if (!this._shaderProgram) {
             this._prepare(gl);
         }
@@ -24,7 +24,7 @@ export default class Program {
         return this;
     }
 
-    unuse(gl) {
+    disable(gl) {
         for (let name in this.attributes) {
             gl.disableVertexAttribArray(this.attributes[name]);
         }
@@ -41,12 +41,12 @@ export default class Program {
     }
 
     _prepare(gl) {
-        this._initShaders(gl);
-        this._initAttributes(gl);
-        this._initUniforms(gl);
+        this._prepareShaders(gl);
+        this._prepareAttributes(gl);
+        this._prepareUniforms(gl);
     }
 
-    _initShaders(gl) {
+    _prepareShaders(gl) {
         this._fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
         gl.shaderSource(this._fragmentShader, fragmentShader);
         gl.compileShader(this._fragmentShader);
@@ -69,11 +69,11 @@ export default class Program {
         gl.linkProgram(this._shaderProgram);
 
         if (!gl.getProgramParameter(this._shaderProgram, gl.LINK_STATUS)) {
-            console.log('Could not initialise shaders');
+            console.log('Could not initialize shaders');
         }
     }
 
-    _initAttributes(gl) {
+    _prepareAttributes(gl) {
         this.attributes = {};
 
         this._attributeList.forEach(name => {
@@ -81,7 +81,7 @@ export default class Program {
         });
     }
 
-    _initUniforms(gl) {
+    _prepareUniforms(gl) {
         this.uniforms = {};
 
         this._uniformList.forEach(name => {

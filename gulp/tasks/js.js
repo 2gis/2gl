@@ -4,8 +4,8 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var watchify = require('watchify');
 var babelify = require('babelify');
-var brfs = require('brfs');
 var util = require('gulp-util');
+var brfs = require('brfs');
 var gulp = require('gulp');
 
 gulp.task('js', function() {

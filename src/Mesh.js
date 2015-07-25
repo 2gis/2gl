@@ -9,14 +9,14 @@ export default class Mesh extends Object3D {
     }
 
     render(gl, camera) {
-        this.program.use(gl);
+        this.program.enable(gl);
 
         this._bindAttributes(gl);
         this._bindUniforms(gl, camera);
 
         gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
 
-        this.program.unuse(gl);
+        this.program.disable(gl);
     }
 
     _bindAttributes(gl) {

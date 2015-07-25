@@ -1,8 +1,8 @@
 exports.mapIndicesToVertices = function(vertices, indices) {
-    var result = new Array(indices.length * 3);
+    let result = new Array(indices.length * 3);
 
-    for (var i = 0; i < indices.length; i++) {
-        var index = indices[i];
+    for (let i = 0; i < indices.length; i++) {
+        let index = indices[i];
 
         result[i * 3]     = vertices[index * 3];
         result[i * 3 + 1] = vertices[index * 3 + 1];

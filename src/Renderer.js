@@ -21,10 +21,7 @@ export default class Renderer {
 
         camera.updateMatrix();
 
-        scene.childs.forEach(object => {
-            object.initFromRender(gl);
-            object.render(camera);
-        });
+        scene.childs.forEach(object => object.render(gl, camera));
     }
 
     _initCanvas() {

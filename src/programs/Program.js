@@ -1,5 +1,5 @@
-import fragmentShader from './glsl/basic.frag.glsl';
-import vertexShader from './glsl/basic.vert.glsl';
+import fragmentShader from './shaders/basic.frag.glsl';
+import vertexShader from './shaders/basic.vert.glsl';
 
 export default class Program {
     constructor() {

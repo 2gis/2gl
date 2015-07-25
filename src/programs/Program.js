@@ -1,8 +1,4 @@
-// brfs module has error with import then using require
-let fs = require('fs');
-
-let fragmentShader = fs.readFileSync(__dirname + '/shaders/basic.frag.glsl', 'utf8');
-let vertexShader = fs.readFileSync(__dirname + '/shaders/basic.vert.glsl', 'utf8');
+import {basic as shader} from '../shaders';
 
 export default class Program {
     constructor() {
@@ -48,7 +44,7 @@ export default class Program {
 
     _prepareShaders(gl) {
         this._fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(this._fragmentShader, fragmentShader);
+        gl.shaderSource(this._fragmentShader, shader.fragment);
         gl.compileShader(this._fragmentShader);
 
         if (!gl.getShaderParameter(this._fragmentShader, gl.COMPILE_STATUS)) {
@@ -56,7 +52,7 @@ export default class Program {
         }
 
         this._vertexShader = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(this._vertexShader, vertexShader);
+        gl.shaderSource(this._vertexShader, shader.vertex);
         gl.compileShader(this._vertexShader);
 
         if (!gl.getShaderParameter(this._vertexShader, gl.COMPILE_STATUS)) {

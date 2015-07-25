@@ -12,12 +12,4 @@ export default class Geometry {
     getBuffer(name) {
         return this.buffers[name];
     }
-
-    concat(geometry) {
-        for (let name in this.buffers) {
-            Array.prototype.push.apply(this.buffers[name], geometry.buffers[name]);
-        }
-
-        return this;
-    }
 }

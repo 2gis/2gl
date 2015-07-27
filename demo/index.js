@@ -66,6 +66,7 @@ function initRooms() {
     let dataFloor = floorData;
     let allVertices = [];
     let allColorVertices = [];
+    let allTextureVertices = [];
 
     let addAreas = room => {
         let vertices = utils.mapIndicesToVertices(dataVertices, room.areaIndices);
@@ -75,6 +76,7 @@ function initRooms() {
 
         for (let i = 0; i < vertices.length / 3; i++) {
             colorVertices = colorVertices.concat(room.color);
+            allTextureVertices.push(0, 0);
         }
 
         allColorVertices = allColorVertices.concat(colorVertices);
@@ -90,6 +92,7 @@ function initRooms() {
 
         for (let i = 0; i < vertices.length / 3; i++) {
             colorVertices = colorVertices.concat(color);
+            allTextureVertices.push(0, 0);
         }
 
         allColorVertices = allColorVertices.concat(colorVertices);
@@ -103,6 +106,7 @@ function initRooms() {
 
         for (let i = 0; i < vertices.length / 3; i++) {
             colorVertices = colorVertices.concat([1, 1, 1, 1]);
+            allTextureVertices.push(0, 0);
         }
 
         allColorVertices = allColorVertices.concat(colorVertices);
@@ -110,29 +114,36 @@ function initRooms() {
 
     // полы
     addAreas(dataFloor);
-    dataRooms.forEach(addAreas);
-    dataIslands.forEach(addAreas);
+    //dataRooms.forEach(addAreas);
+    //dataIslands.forEach(addAreas);
 
     // стены
-    addWalls(dataFloor);
-    dataRooms.forEach(addWalls);
-    dataIslands.forEach(addWalls);
+    //addWalls(dataFloor);
+    //dataRooms.forEach(addWalls);
+    //dataIslands.forEach(addWalls);
 
     // верхушки стен
-    addWallTopAreas(dataFloor);
-    dataRooms.forEach(addWallTopAreas);
+    //addWallTopAreas(dataFloor);
+    //dataRooms.forEach(addWallTopAreas);
 
     let vertexBuffer = new four.Buffer(new Float32Array(allVertices), 3);
     let colorBuffer = new four.Buffer(new Float32Array(allColorVertices), 4);
+    let textureBuffer = new four.Buffer(new Float32Array(allTextureVertices), 2);
 
     let geometry = new four.Geometry();
     geometry
         .setBuffer('position', vertexBuffer)
-        .setBuffer('color', colorBuffer);
+        .setBuffer('color', colorBuffer)
+        .setBuffer('texture', textureBuffer);
 
     let program = new four.Program();
 
     let mesh = new four.Mesh(geometry, program);
 
-    scene.add(mesh);
+    let img = document.createElement('img');
+    img.onload = function() {
+        mesh.setTexture(new four.Texture(img));
+        scene.add(mesh);
+    };
+    img.src = './ship3.png';
 }

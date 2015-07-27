@@ -5,15 +5,17 @@ import Buffer from './Buffer';
 import Geometry from './Geometry';
 import Program from './programs/Program';
 import Mesh from './Mesh';
+import Texture from './Texture';
 
 let four = {
-    Renderer: Renderer,
-    Object3D: Object3D,
-    Camera: Camera,
-    Buffer: Buffer,
-    Geometry: Geometry,
-    Program: Program,
-    Mesh: Mesh
+    Renderer,
+    Object3D,
+    Camera,
+    Buffer,
+    Geometry,
+    Program,
+    Mesh,
+    Texture
 };
 
 window.four = four;

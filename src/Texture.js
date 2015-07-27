@@ -4,7 +4,7 @@ export default class Texture {
     }
 
     enable(gl, uniform) {
-        if (!this._glBuffer) {
+        if (!this._texture) {
             this._prepare(gl);
         }
 

@@ -1,9 +1,11 @@
 import {basic as shader} from '../shaders';
+import definitions from './definitions';
 
 export default class Program {
     constructor() {
         this._attributeList = ['position', 'color'];
         this._uniformList = ['uCamera', 'uPosition'];
+        this._definitions = [];
     }
 
     enable(gl) {
@@ -36,6 +38,14 @@ export default class Program {
         return this.uniforms[name];
     }
 
+    define(type) {
+        if (definitions[type]) {
+            this._definitions.push(type);
+        }
+
+        return this;
+    }
+
     _prepare(gl) {
         this._prepareShaders(gl);
         this._prepareAttributes(gl);
@@ -44,7 +54,7 @@ export default class Program {
 
     _prepareShaders(gl) {
         this._fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(this._fragmentShader, shader.fragment);
+        gl.shaderSource(this._fragmentShader, this._addDefinitions(shader.fragment));
         gl.compileShader(this._fragmentShader);
 
         if (!gl.getShaderParameter(this._fragmentShader, gl.COMPILE_STATUS)) {
@@ -52,7 +62,7 @@ export default class Program {
         }
 
         this._vertexShader = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(this._vertexShader, shader.vertex);
+        gl.shaderSource(this._vertexShader, this._addDefinitions(shader.vertex));
         gl.compileShader(this._vertexShader);
 
         if (!gl.getShaderParameter(this._vertexShader, gl.COMPILE_STATUS)) {
@@ -67,6 +77,10 @@ export default class Program {
         if (!gl.getProgramParameter(this._shaderProgram, gl.LINK_STATUS)) {
             console.log('Could not initialize shaders');
         }
+    }
+
+    _addDefinitions(shader) {
+        return this._definitions.map(type => definitions[type]).join('\n') + '\n' + shader;
     }
 
     _prepareAttributes(gl) {

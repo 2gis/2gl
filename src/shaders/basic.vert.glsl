@@ -10,8 +10,8 @@ attribute vec4 color;
 
 #if DIR_LIGHT_NUM > 0
     attribute vec3 normal;
-	uniform vec3 uDirectionLightColors[DIR_LIGHTS_NUM];
-	uniform vec3 uDirectionLightPositions[DIR_LIGHTS_NUM];
+	uniform vec3 uDirectionLightColors[DIR_LIGHT_NUM];
+	uniform vec3 uDirectionLightPositions[DIR_LIGHT_NUM];
 	uniform mat3 uNormalMatrix;
 #endif
 
@@ -36,7 +36,7 @@ void main(void) {
     #if DIR_LIGHT_NUM > 0
         vec3 transformedNormal = uNormalMatrix * normal;
 
-        for(int i = 0; i < DIR_LIGHTS_NUM; i++) {
+        for(int i = 0; i < DIR_LIGHT_NUM; i++) {
             vec3 dirVector = uDirectionLightPositions[i];
 
             float dotProduct = dot(transformedNormal, dirVector);

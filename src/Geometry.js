@@ -25,19 +25,17 @@ export default class Geometry {
         let n = vec3.create();
 
         for (let i = 0; i < positionBuffer.length / 3; i++) {
-/*            let a = positionBuffer.getElement(i * 3);
+            let a = positionBuffer.getElement(i * 3);
             let b = positionBuffer.getElement(i * 3 + 1);
             let c = positionBuffer.getElement(i * 3 + 2);
 
             vec3.sub(ab, a, b);
             vec3.sub(cb, c ,b);
             vec3.cross(n, ab, cb);
-            vec3.normalize(n, n);*/
+            vec3.normalize(n, n);
 
-            n = [0, 0, 1];
-            normals = normals.concat(Array.prototype.slice.call(n));
-            normals = normals.concat(Array.prototype.slice.call(n));
-            normals = normals.concat(Array.prototype.slice.call(n));
+            n = Array.prototype.slice.call(n);
+            normals = normals.concat(n, n, n);
         }
 
         this.setBuffer('normal', new Buffer(new Float32Array(normals), 3));

@@ -7,7 +7,7 @@ export default class Program {
         this._uniformList = ['uCamera', 'uPosition', 'uAmbientLightColor',
             'uDirectionLightColors', 'uDirectionLightPositions', 'uNormalMatrix'];
         this._definitions = [];
-        this.define('directionLights', 1);
+        this.define('directionLights', 2);
     }
 
     enable(gl) {
@@ -64,7 +64,6 @@ export default class Program {
         }
 
         this._vertexShader = gl.createShader(gl.VERTEX_SHADER);
-        console.log(this._addDefinitions(shader.vertex));
         gl.shaderSource(this._vertexShader, this._addDefinitions(shader.vertex));
         gl.compileShader(this._vertexShader);
 

@@ -36,6 +36,14 @@ let ambientLight = new four.AmbientLight([0.5, 0.5, 0.5]);
 
 scene.addLight(ambientLight);
 
+let directionalLight = new four.DirectionalLight([0.6, 0.5, 0.5]);
+directionalLight.position[0] = 1;
+scene.addLight(directionalLight);
+
+/*let directionalLight2 = new four.DirectionalLight([0.6, 0.8, 0.5]);
+directionalLight2.position[1] = 1;
+scene.addLight(directionalLight2);*/
+
 initRooms();
 
 function renderLoop() {
@@ -163,7 +171,7 @@ function initRooms() {
 
     // полы
     addAreas(dataFloor);
-    dataRooms.forEach(addAreas);
+/*    dataRooms.forEach(addAreas);
     dataIslands.forEach(addAreas);
 
     // стены
@@ -173,7 +181,7 @@ function initRooms() {
 
     // верхушки стен
     addWallTopAreas(dataFloor);
-    dataRooms.forEach(addWallTopAreas);
+    dataRooms.forEach(addWallTopAreas);*/
 
     let vertexBuffer = new four.Buffer(new Float32Array(allVertices), 3);
     let colorBuffer = new four.Buffer(new Float32Array(allColorVertices), 4);

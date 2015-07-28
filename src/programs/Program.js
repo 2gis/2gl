@@ -3,9 +3,11 @@ import definitions from './definitions';
 
 export default class Program {
     constructor() {
-        this._attributeList = ['position', 'color'];
-        this._uniformList = ['uCamera', 'uPosition', 'uAmbientLightColor'];
+        this._attributeList = ['position', 'color', 'normal'];
+        this._uniformList = ['uCamera', 'uPosition', 'uAmbientLightColor',
+            'uDirectionLightColors', 'uDirectionLightPositions', 'uNormalMatrix'];
         this._definitions = [];
+        this.define('directionLights', 1);
     }
 
     enable(gl) {
@@ -38,9 +40,9 @@ export default class Program {
         return this.uniforms[name];
     }
 
-    define(type) {
+    define(type, value) {
         if (definitions[type]) {
-            this._definitions.push(type);
+            this._definitions.push({type, value});
         }
 
         return this;
@@ -62,6 +64,7 @@ export default class Program {
         }
 
         this._vertexShader = gl.createShader(gl.VERTEX_SHADER);
+        console.log(this._addDefinitions(shader.vertex));
         gl.shaderSource(this._vertexShader, this._addDefinitions(shader.vertex));
         gl.compileShader(this._vertexShader);
 
@@ -80,7 +83,13 @@ export default class Program {
     }
 
     _addDefinitions(shader) {
-        return this._definitions.map(type => definitions[type]).join('\n') + '\n' + shader;
+        return this._definitions.map(def => {
+            if (def.value) {
+                return definitions[def.type] + ' ' + def.value;
+            } else {
+                return definitions[def.type];
+            }
+        }).join('\n') + '\n' + shader;
     }
 
     _prepareAttributes(gl) {

@@ -1,6 +1,7 @@
 import Object3D from './Object3D';
 import AmbientLight from './lights/AmbientLight';
 import DirectionalLight from './lights/DirectionalLight';
+import {vec3, mat3, mat4} from 'gl-matrix';
 
 export default class Mesh extends Object3D {
     constructor(geometry, program) {
@@ -41,11 +42,21 @@ export default class Mesh extends Object3D {
         gl.uniformMatrix4fv(this.program.getUniform('uPosition'), false, this.matrix);
         gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.matrix);
 
+        let normalMatrix = mat3.create();
+        mat3.fromMat4(normalMatrix, this.matrix);
+        mat3.invert(normalMatrix, normalMatrix);
+        mat3.transpose(normalMatrix, normalMatrix);
+        gl.uniformMatrix3fv(this.program.getUniform('uNormalMatrix'), false, normalMatrix);
+
+
         if (this._texture) {
             this._texture.enable(gl, this.program.getUniform('uTexture'));
         }
 
         let lights = scene.getLights();
+
+        let directionLightsColor = [];
+        let directionLightsPosition = [];
 
         lights.forEach(light => {
             if (light instanceof AmbientLight) {
@@ -54,9 +65,19 @@ export default class Mesh extends Object3D {
                     light.color[1],
                     light.color[2]
                 );
+            } else if (light instanceof DirectionalLight) {
+                directionLightsColor = directionLightsColor.concat(light.color);
+
+                let reverted = vec3.create();
+                vec3.scale(reverted, light.position, -1);
+                directionLightsPosition = directionLightsPosition.concat(Array.prototype.slice.call(reverted));
             }
         });
 
+        if (directionLightsColor && directionLightsPosition) {
+            gl.uniform3fv(this.program.getUniform('uDirectionLightColors'), new Float32Array(directionLightsColor));
+            gl.uniform3fv(this.program.getUniform('uDirectionLightPositions'), new Float32Array(directionLightsPosition));
+        }
     }
 }
 

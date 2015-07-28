@@ -3,7 +3,7 @@ import definitions from './definitions';
 
 export default class Program {
     constructor() {
-        this._attributeList = ['position', 'color', 'normal'];
+        this._attributeList = ['position', 'color', 'normal', 'directionLightAlpha'];
         this._uniformList = ['uCamera', 'uPosition', 'uAmbientLightColor',
             'uDirectionLightColors', 'uDirectionLightPositions', 'uNormalMatrix'];
         this._definitions = [];

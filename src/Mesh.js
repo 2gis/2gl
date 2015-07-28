@@ -35,6 +35,7 @@ export default class Mesh extends Object3D {
         this.geometry.getBuffer('position').bind(gl, this.program.getAttribute('position'));
         this.geometry.getBuffer('color').bind(gl, this.program.getAttribute('color'));
         this.geometry.getBuffer('normal').bind(gl, this.program.getAttribute('normal'));
+        this.geometry.getBuffer('directionLightAlpha').bind(gl, this.program.getAttribute('directionLightAlpha'));
         this.geometry.getBuffer('texture').bind(gl, this.program.getAttribute('texture'));
         this.geometry.getBuffer('textureAlpha').bind(gl, this.program.getAttribute('textureAlpha'));
     }

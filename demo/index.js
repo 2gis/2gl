@@ -120,6 +120,7 @@ function initRooms() {
     let allColorVertices = [];
     let allTextureVertices = [];
     let allTextureAlphaVertices = [];
+    let allLightAlphaVertices = [];
 
     let addAreas = room => {
         let vertices = utils.mapIndicesToVertices(dataVertices, room.areaIndices);
@@ -131,6 +132,7 @@ function initRooms() {
             colorVertices = colorVertices.concat(room.color);
             allTextureVertices.push(0, 0);
             allTextureAlphaVertices.push(0);
+            allLightAlphaVertices.push(0);
         }
 
         allColorVertices = allColorVertices.concat(colorVertices);
@@ -147,6 +149,7 @@ function initRooms() {
         for (let i = 0; i < vertices.length / 3; i++) {
             colorVertices = colorVertices.concat(color);
             allTextureAlphaVertices.push(1);
+            allLightAlphaVertices.push(1);
         }
 
         allTextureVertices = allTextureVertices.concat(getUVArray(room.wallIndices.length));
@@ -164,6 +167,7 @@ function initRooms() {
             colorVertices = colorVertices.concat([1, 1, 1, 1]);
             allTextureVertices.push(0, 0);
             allTextureAlphaVertices.push(0);
+            allLightAlphaVertices.push(0);
         }
 
         allColorVertices = allColorVertices.concat(colorVertices);
@@ -187,13 +191,15 @@ function initRooms() {
     let colorBuffer = new four.Buffer(new Float32Array(allColorVertices), 4);
     let textureBuffer = new four.Buffer(new Float32Array(allTextureVertices), 2);
     let textureAlphaBuffer = new four.Buffer(new Float32Array(allTextureAlphaVertices), 1);
+    let lightAlphaBuffer = new four.Buffer(new Float32Array(allLightAlphaVertices), 1);
 
     let geometry = new four.Geometry();
     geometry
         .setBuffer('position', vertexBuffer)
         .setBuffer('color', colorBuffer)
         .setBuffer('texture', textureBuffer)
-        .setBuffer('textureAlpha', textureAlphaBuffer);
+        .setBuffer('textureAlpha', textureAlphaBuffer)
+        .setBuffer('directionLightAlpha', lightAlphaBuffer);
 
     geometry.computeNormals();
 

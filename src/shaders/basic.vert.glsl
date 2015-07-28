@@ -10,6 +10,7 @@ attribute vec4 color;
 
 #if DIR_LIGHT_NUM > 0
     attribute vec3 normal;
+    attribute float directionLightAlpha;
 	uniform vec3 uDirectionLightColors[DIR_LIGHT_NUM];
 	uniform vec3 uDirectionLightPositions[DIR_LIGHT_NUM];
 	uniform mat3 uNormalMatrix;
@@ -31,19 +32,23 @@ void main(void) {
         vTextureAlpha = textureAlpha;
     #endif
 
-    vec3 vLightTemp = vec3(0.0);
+    if (directionLightAlpha > 0.5) {
+        vec3 vLightTemp = vec3(0.0);
 
-    #if DIR_LIGHT_NUM > 0
-        vec3 transformedNormal = uNormalMatrix * normal;
+        #if DIR_LIGHT_NUM > 0
+            vec3 transformedNormal = uNormalMatrix * normal;
 
-        for(int i = 0; i < DIR_LIGHT_NUM; i++) {
-            vec3 dirVector = uDirectionLightPositions[i];
+            for(int i = 0; i < DIR_LIGHT_NUM; i++) {
+                vec3 dirVector = uDirectionLightPositions[i];
 
-            float dotProduct = dot(transformedNormal, dirVector);
-	        vec3 directionalLightWeighting = vec3(max(dotProduct, 0.0));
-	        vLightTemp += uDirectionLightColors[i] * directionalLightWeighting;
-        }
-    #endif
+                float dotProduct = dot(transformedNormal, dirVector);
+                vec3 directionalLightWeighting = vec3(max(dotProduct, 0.0));
+                vLightTemp += uDirectionLightColors[i] * directionalLightWeighting;
+            }
+        #endif
 
-    vLightWeighting = uAmbientLightColor + vLightTemp;
+        vLightWeighting = uAmbientLightColor + vLightTemp;
+    } else {
+        vLightWeighting = vec3(1.0);
+    }
 }

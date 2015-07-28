@@ -11,7 +11,7 @@ export default class Mesh extends Object3D {
     setTexture(texture) {
         this._texture = texture;
         this.program.define('texture');
-        this.program._attributeList.push('texture');
+        this.program._attributeList.push('texture', 'textureAlpha');
         this.program._uniformList.push('uTexture');
 
         return this;
@@ -32,6 +32,7 @@ export default class Mesh extends Object3D {
         this.geometry.getBuffer('position').bind(gl, this.program.getAttribute('position'));
         this.geometry.getBuffer('color').bind(gl, this.program.getAttribute('color'));
         this.geometry.getBuffer('texture').bind(gl, this.program.getAttribute('texture'));
+        this.geometry.getBuffer('textureAlpha').bind(gl, this.program.getAttribute('textureAlpha'));
     }
 
     _bindUniforms(gl, camera) {

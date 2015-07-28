@@ -3,7 +3,9 @@ attribute vec4 color;
 
 #ifdef USE_TEXTURE
     attribute vec2 texture;
+    attribute float textureAlpha;
     varying vec2 vTextureCoord;
+    varying float vTextureAlpha;
 #endif
 
 uniform mat4 uPosition;
@@ -17,5 +19,6 @@ void main(void) {
 
     #ifdef USE_TEXTURE
         vTextureCoord = texture;
+        vTextureAlpha = textureAlpha;
     #endif
 }

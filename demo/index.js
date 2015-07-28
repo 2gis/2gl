@@ -183,6 +183,8 @@ function initRooms() {
         .setBuffer('texture', textureBuffer)
         .setBuffer('textureAlpha', textureAlphaBuffer);
 
+    geometry.computeNormals();
+
     let program = new four.Program();
 
     let mesh = new four.Mesh(geometry, program);

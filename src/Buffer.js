@@ -24,6 +24,14 @@ export default class Buffer {
         return this;
     }
 
+    getArray() {
+        return this._array;
+    }
+
+    getElement(index) {
+        return this._array.subarray(index * this.itemSize, (index + 1) * this.itemSize);
+    }
+
     _prepare(gl) {
         this._glBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);

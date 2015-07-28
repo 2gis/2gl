@@ -4,7 +4,7 @@ import definitions from './definitions';
 export default class Program {
     constructor() {
         this._attributeList = ['position', 'color'];
-        this._uniformList = ['uCamera', 'uPosition'];
+        this._uniformList = ['uCamera', 'uPosition', 'uAmbientLightColor'];
         this._definitions = [];
     }
 

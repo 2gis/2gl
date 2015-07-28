@@ -30,7 +30,11 @@ let renderer = new four.Renderer({
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-let scene = new four.Object3D();
+let scene = new four.Scene();
+
+let ambientLight = new four.AmbientLight([0.5, 0.5, 0.5]);
+
+scene.addLight(ambientLight);
 
 initRooms();
 

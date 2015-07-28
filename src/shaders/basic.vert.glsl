@@ -10,8 +10,10 @@ attribute vec4 color;
 
 uniform mat4 uPosition;
 uniform mat4 uCamera;
+uniform vec3 uAmbientLightColor;
 
 varying vec4 vColor;
+varying vec3 vLightWeighting;
 
 void main(void) {
     gl_Position = uCamera * uPosition * vec4(position, 1.0);
@@ -21,4 +23,6 @@ void main(void) {
         vTextureCoord = texture;
         vTextureAlpha = textureAlpha;
     #endif
+
+    vLightWeighting = uAmbientLightColor;
 }

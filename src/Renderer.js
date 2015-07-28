@@ -1,14 +1,25 @@
 export default class Renderer {
     constructor(options) {
         this._container = document.getElementById(options.container);
+        this._pixelRatio = 1;
 
         this._initCanvas();
     }
 
+    setPixelRatio(value) {
+        this._pixelRatio = value;
+
+        return this;
+    }
+
     setSize(width, height) {
-        this._canvasElement.width = width;
-        this._canvasElement.height = height;
-        this._gl.viewport(0, 0, width, height);
+        this._canvasElement.width = width * this._pixelRatio;
+        this._canvasElement.height = height * this._pixelRatio;
+        this._canvasElement.style.width = width + 'px';
+        this._canvasElement.style.height = height + 'px';
+        this._gl.viewport(0, 0, width * this._pixelRatio, height * this._pixelRatio);
+
+        return this;
     }
 
     render(scene, camera) {
@@ -22,6 +33,8 @@ export default class Renderer {
         camera.updateMatrix();
 
         scene.childs.forEach(object => object.render(gl, scene, camera));
+
+        return this;
     }
 
     _initCanvas() {

@@ -28,6 +28,8 @@ let renderer = new four.Renderer({
     container: 'container'
 });
 
+let retinaFactor = window.devicePixelRatio || (window.screen.deviceXDPI / window.screen.logicalXDPI) || 1;
+renderer.setPixelRatio(retinaFactor);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 let scene = new four.Scene();

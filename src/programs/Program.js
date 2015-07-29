@@ -1,13 +1,12 @@
 import {basic as shader} from '../shaders';
 import definitions from './definitions';
+import DirectionalLight from '../lights/DirectionalLight';
 
 export default class Program {
     constructor() {
-        this._attributeList = ['position', 'color', 'normal', 'directionLightAlpha'];
-        this._uniformList = ['uCamera', 'uPosition', 'uAmbientLightColor',
-            'uDirectionLightColors', 'uDirectionLightPositions', 'uNormalMatrix'];
+        this._attributeList = ['position', 'color'];
+        this._uniformList = ['uCamera', 'uPosition'];
         this._definitions = [];
-        this.define('directionLights', 2);
     }
 
     enable(gl) {
@@ -38,6 +37,34 @@ export default class Program {
 
     getUniform(name) {
         return this.uniforms[name];
+    }
+
+    enableLight(lights) {
+        this.define('light');
+
+        let directionLightNumber = 0;
+
+        lights.forEach(l => {
+            if (l instanceof DirectionalLight) {
+                directionLightNumber++;
+            }
+        });
+
+        this.define('directionLights', directionLightNumber);
+
+        if (directionLightNumber > 0) {
+            this._attributeList.push('normal');
+        }
+
+        this._attributeList.push('directionLightAlpha');
+        this._uniformList.push('uAmbientLightColor', 'uDirectionLightColors',
+            'uDirectionLightPositions', 'uNormalMatrix');
+    }
+
+    enableTexture() {
+        this.define('texture');
+        this._attributeList.push('texture', 'textureAlpha');
+        this._uniformList.push('uTexture');
     }
 
     define(type, value) {
@@ -83,10 +110,10 @@ export default class Program {
 
     _addDefinitions(shader) {
         return this._definitions.map(def => {
-            if (def.value) {
-                return definitions[def.type] + ' ' + def.value;
+            if (def.value !== undefined) {
+                return '#define ' + definitions[def.type] + ' ' + def.value;
             } else {
-                return definitions[def.type];
+                return '#define ' + definitions[def.type];
             }
         }).join('\n') + '\n' + shader;
     }

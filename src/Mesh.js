@@ -9,18 +9,21 @@ export default class Mesh extends Object3D {
 
         this.geometry = geometry;
         this.program = program;
+
+        this._prepared = false;
     }
 
     setTexture(texture) {
         this._texture = texture;
-        this.program.define('texture');
-        this.program._attributeList.push('texture', 'textureAlpha');
-        this.program._uniformList.push('uTexture');
 
         return this;
     }
 
     render(gl, scene, camera) {
+        if (!this._prepared) {
+            this._prepare(gl, scene, camera);
+        }
+
         this.program.enable(gl);
 
         this._bindAttributes(gl);
@@ -31,24 +34,29 @@ export default class Mesh extends Object3D {
         this.program.disable(gl);
     }
 
+    _prepare(gl, scene, camera) {
+        let lights = scene.getLights();
+
+        if (lights.length) {
+            this.program.enableLight(lights);
+        }
+
+        if (this._texture) {
+            this.program.enableTexture();
+        }
+
+        this._prepared = true;
+    }
+
     _bindAttributes(gl) {
-        this.geometry.getBuffer('position').bind(gl, this.program.getAttribute('position'));
-        this.geometry.getBuffer('color').bind(gl, this.program.getAttribute('color'));
-        this.geometry.getBuffer('normal').bind(gl, this.program.getAttribute('normal'));
-        this.geometry.getBuffer('directionLightAlpha').bind(gl, this.program.getAttribute('directionLightAlpha'));
-        this.geometry.getBuffer('texture').bind(gl, this.program.getAttribute('texture'));
-        this.geometry.getBuffer('textureAlpha').bind(gl, this.program.getAttribute('textureAlpha'));
+        this.program._attributeList.forEach(name => {
+            this.geometry.getBuffer(name).bind(gl, this.program.getAttribute(name));
+        });
     }
 
     _bindUniforms(gl, scene, camera) {
         gl.uniformMatrix4fv(this.program.getUniform('uPosition'), false, this.matrix);
         gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.matrix);
-
-        let normalMatrix = mat3.create();
-        mat3.fromMat4(normalMatrix, this.matrix);
-        mat3.invert(normalMatrix, normalMatrix);
-        mat3.transpose(normalMatrix, normalMatrix);
-        gl.uniformMatrix3fv(this.program.getUniform('uNormalMatrix'), false, normalMatrix);
 
 
         if (this._texture) {
@@ -57,28 +65,36 @@ export default class Mesh extends Object3D {
 
         let lights = scene.getLights();
 
-        let directionLightsColor = [];
-        let directionLightsPosition = [];
+        if (lights.length) {
+            let normalMatrix = mat3.create();
+            mat3.fromMat4(normalMatrix, this.matrix);
+            mat3.invert(normalMatrix, normalMatrix);
+            mat3.transpose(normalMatrix, normalMatrix);
+            gl.uniformMatrix3fv(this.program.getUniform('uNormalMatrix'), false, normalMatrix);
 
-        lights.forEach(light => {
-            if (light instanceof AmbientLight) {
-                gl.uniform3f(this.program.getUniform('uAmbientLightColor'),
-                    light.color[0],
-                    light.color[1],
-                    light.color[2]
-                );
-            } else if (light instanceof DirectionalLight) {
-                directionLightsColor = directionLightsColor.concat(light.color);
+            let directionLightsColor = [];
+            let directionLightsPosition = [];
 
-                let reverted = vec3.create();
-                vec3.scale(reverted, light.position, -1);
-                directionLightsPosition = directionLightsPosition.concat(Array.prototype.slice.call(reverted));
+            lights.forEach(light => {
+                if (light instanceof AmbientLight) {
+                    gl.uniform3f(this.program.getUniform('uAmbientLightColor'),
+                        light.color[0],
+                        light.color[1],
+                        light.color[2]
+                    );
+                } else if (light instanceof DirectionalLight) {
+                    directionLightsColor = directionLightsColor.concat(light.color);
+
+                    let reverted = vec3.create();
+                    vec3.scale(reverted, light.position, -1);
+                    directionLightsPosition = directionLightsPosition.concat(Array.prototype.slice.call(reverted));
+                }
+            });
+
+            if (directionLightsColor.length && directionLightsPosition.length) {
+                gl.uniform3fv(this.program.getUniform('uDirectionLightColors'), new Float32Array(directionLightsColor));
+                gl.uniform3fv(this.program.getUniform('uDirectionLightPositions'), new Float32Array(directionLightsPosition));
             }
-        });
-
-        if (directionLightsColor && directionLightsPosition) {
-            gl.uniform3fv(this.program.getUniform('uDirectionLightColors'), new Float32Array(directionLightsColor));
-            gl.uniform3fv(this.program.getUniform('uDirectionLightPositions'), new Float32Array(directionLightsPosition));
         }
     }
 }

@@ -1,4 +1,5 @@
 export default {
-    texture: `#define USE_TEXTURE`,
-    directionLights: `#define DIR_LIGHT_NUM`
+    texture: `USE_TEXTURE`,
+    light: 'USE_LIGHT',
+    directionLights: `DIR_LIGHT_NUM`
 };

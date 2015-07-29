@@ -12,7 +12,9 @@ gulp.task('js', function() {
     var bundler = browserify('./src/index.js', {
         debug: global.debug,
         entry: true,
-        transform: [babelify, brfs]
+        transform: [babelify.configure({
+            ignore: /node_modules/
+        }), brfs]
     });
 
     function bundle() {

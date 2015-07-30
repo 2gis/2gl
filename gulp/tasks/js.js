@@ -20,7 +20,7 @@ gulp.task('js', function() {
     function bundle() {
         return bundler.bundle()
             .on('error', util.log.bind(util, 'Browserify Error'))
-            .pipe(source('four.js'))
+            .pipe(source('2gl.js'))
             .pipe(buffer())
             .pipe(global.debug ? util.noop() : uglify())
             .pipe(gulp.dest('dist'));

@@ -20,11 +20,11 @@ addColorField(floorData);
 floorData.rooms.forEach(addColorField);
 floorData.islands.forEach(addColorField);
 
-let camera = new four.Camera();
+let camera = new dgl.Camera();
 camera.position[2] = -200;
 
 
-let renderer = new four.Renderer({
+let renderer = new dgl.Renderer({
     container: 'container'
 });
 
@@ -32,17 +32,17 @@ let retinaFactor = window.devicePixelRatio || (window.screen.deviceXDPI / window
 renderer.setPixelRatio(retinaFactor);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-let scene = new four.Scene();
+let scene = new dgl.Scene();
 
-let ambientLight = new four.AmbientLight([0.5, 0.5, 0.5]);
+let ambientLight = new dgl.AmbientLight([0.5, 0.5, 0.5]);
 
 scene.addLight(ambientLight);
 
-let directionalLight = new four.DirectionalLight([0.5, 0.5, 0.5]);
+let directionalLight = new dgl.DirectionalLight([0.5, 0.5, 0.5]);
 directionalLight.position[0] = 1;
 scene.addLight(directionalLight);
 
-let directionalLight2 = new four.DirectionalLight([0.5, 0.5, 0.5]);
+let directionalLight2 = new dgl.DirectionalLight([0.5, 0.5, 0.5]);
 directionalLight2.position[0] = -1;
 scene.addLight(directionalLight2);
 
@@ -189,13 +189,13 @@ function initRooms() {
     addWallTopAreas(dataFloor);
     dataRooms.forEach(addWallTopAreas);
 
-    let vertexBuffer = new four.Buffer(new Float32Array(allVertices), 3);
-    let colorBuffer = new four.Buffer(new Float32Array(allColorVertices), 4);
-    let textureBuffer = new four.Buffer(new Float32Array(allTextureVertices), 2);
-    let textureAlphaBuffer = new four.Buffer(new Float32Array(allTextureAlphaVertices), 1);
-    let lightAlphaBuffer = new four.Buffer(new Float32Array(allLightAlphaVertices), 1);
+    let vertexBuffer = new dgl.Buffer(new Float32Array(allVertices), 3);
+    let colorBuffer = new dgl.Buffer(new Float32Array(allColorVertices), 4);
+    let textureBuffer = new dgl.Buffer(new Float32Array(allTextureVertices), 2);
+    let textureAlphaBuffer = new dgl.Buffer(new Float32Array(allTextureAlphaVertices), 1);
+    let lightAlphaBuffer = new dgl.Buffer(new Float32Array(allLightAlphaVertices), 1);
 
-    let geometry = new four.Geometry();
+    let geometry = new dgl.Geometry();
     geometry
         .setBuffer('position', vertexBuffer)
         .setBuffer('color', colorBuffer)
@@ -205,13 +205,13 @@ function initRooms() {
 
     geometry.computeNormals();
 
-    let program = new four.Program();
+    let program = new dgl.Program();
 
-    let mesh = new four.Mesh(geometry, program);
+    let mesh = new dgl.Mesh(geometry, program);
 
     //let img = document.createElement('img');
     //img.onload = function() {
-        mesh.setTexture(new four.Texture(createWallTexture()));
+        mesh.setTexture(new dgl.Texture(createWallTexture()));
         scene.add(mesh);
     //};
     //img.src = './ship3.png';

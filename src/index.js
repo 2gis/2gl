@@ -10,7 +10,7 @@ import Texture from './Texture';
 import AmbientLight from './lights/AmbientLight';
 import DirectionalLight from './lights/DirectionalLight';
 
-let four = {
+let dgl = {
     Renderer,
     Object3D,
     Camera,
@@ -24,4 +24,4 @@ let four = {
     DirectionalLight
 };
 
-window.four = four;
+window.dgl = dgl;

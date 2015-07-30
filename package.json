@@ -1,7 +1,10 @@
 {
-  "name": "fourjs",
+  "name": "2gl",
   "version": "0.0.1",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:2gis/2gl.git"
+  },
   "dependencies": {
     "babel": "^5.8.5",
     "babel-eslint": "^3.1.26",

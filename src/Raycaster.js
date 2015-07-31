@@ -9,8 +9,15 @@ export default class Raycaster {
         this.far = far || Infinity;
     }
 
-    setFromCamera() {
+    setFromCamera(coords, camera) {
+        // TODO: camera may be orphographic
 
+        this.ray.origin = vec3.clone(camera.position);
+
+        let direction = vec3.fromValues(coords[0], coords[1], 0.5);
+        direction = camera.unproject(direction);
+        vec3.sub(direction, direction, camera.position);
+        vec3.normalize(direction, direction);
     }
 
     intersectObject(object, recursive) {

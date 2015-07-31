@@ -1,5 +1,5 @@
 import Object3D from './Object3D';
-import {mat4} from 'gl-matrix';
+import {vec3, mat4} from 'gl-matrix';
 
 export default class Camera extends Object3D {
     constructor() {
@@ -18,5 +18,29 @@ export default class Camera extends Object3D {
         super.updateLocalMatrix();
 
         mat4.multiply(this.localMatrix, this.projectionMatrix, this.localMatrix);
+    }
+
+    project(vector) {
+        let matrix = mat4.create();
+        let inverseMatrix = mat4.create();
+        let result = vec3.create();
+
+        mat4.invert(inverseMatrix, this.worldMatrix);
+        mat4.mul(matrix, this.projectionMatrix, inverseMatrix);
+        vec3.transformMat4(result, vector, matrix);
+
+        return result;
+    }
+
+    unproject(vector) {
+        let matrix = mat4.create();
+        let inverseMatrix = mat4.create();
+        let result = vec3.create();
+
+        mat4.invert(inverseMatrix, this.projectionMatrix);
+        mat4.mul(matrix, this.worldMatrix, inverseMatrix);
+        vec3.transformMat4(result, vector, matrix);
+
+        return result;
     }
 }

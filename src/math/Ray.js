@@ -6,6 +6,10 @@ export default class Ray {
         this.direction = direction || vec3.create();
     }
 
+    clone() {
+        return new Ray(vec3.clone(this.origin), vec3.clone(this.origin));
+    }
+
     at(t) {
         let result = vec3.create();
         vec3.scaleAndAdd(result, this.direction, this.origin, vec3.fromValues(t, t, t));
@@ -61,10 +65,89 @@ export default class Ray {
 
         if (tzmax < tmax || tmax !== tmax) { tmax = tzmax; }
 
-        //return point closest to the ray (positive side)
+        // return point closest to the ray (positive side)
         if (tmax < 0) { return null; }
 
         return this.at(tmin >= 0 ? tmin : tmax);
-
     }
+
+    applyMatrix4(matrix) {
+        vec3.add(this.direction, this.direction, this.origin);
+        vec3.transformMat4(this.direction, this.direction, matrix);
+        vec3.transformMat4(this.origin, this.origin, matrix);
+        vec3.sub(this.direction, this.direction, this.origin);
+        vec3.normalize(this.direction, this.direction);
+
+        return this;
+    }
+
+    intersectTriangle(triangle, backfaceCulling) {
+        // from https://github.com/mrdoob/three.js/blob/master/src/math/Ray.js
+
+        // Compute the offset origin, edges, and normal.
+        let edge1 = vec3.create();
+        let edge2 = vec3.create();
+        let normal = vec3.create();
+
+        vec3.sub(edge1, triangle[1], triangle[0]);
+        vec3.sub(edge2, triangle[2], triangle[0]);
+        vec3.cross(normal, edge1, edge2);
+
+        // Solve Q + t*D = b1*E1 + b2*E2 (Q = kDiff, D = ray direction,
+        // E1 = kEdge1, E2 = kEdge2, N = Cross(E1,E2)) by
+        //   |Dot(D,N)| * b1 = sign(Dot(D, N)) * Dot(D, Cross(Q, E2))
+        //   |Dot(D,N)| * b2 = sign(Dot(D, N)) * Dot(D, Cross(E1, Q))
+        //   |Dot(D,N)| * t = -sign(Dot(D, N)) * Dot(Q, N)
+        var DdN = vec3.dot(this.direction, normal);
+        var sign;
+
+        if (DdN > 0) {
+            if (backfaceCulling) return null;
+            sign = 1;
+        } else if (DdN < 0) {
+            sign = - 1;
+            DdN = - DdN;
+        } else {
+            return null;
+        }
+
+        let diff = vec3.create();
+        vec3.sub(diff, this.origin, a);
+
+        let cde2 = vec3.create();
+        vec3.cross(cde2, diff, edge2);
+
+        let DdQxE2 = sign * vec3.dot(this.direction, cde2);
+
+        // b1 < 0, no intersection
+        if (DdQxE2 < 0) {
+            return null;
+        }
+
+        let cde1 = vec3.create();
+        vec3.cross(cde1, edge1, diff);
+        let DdE1xQ = sign * vec3.dot(this.direction, cde1);
+
+        // b2 < 0, no intersection
+        if (DdE1xQ < 0) {
+            return null;
+        }
+
+        // b1+b2 > 1, no intersection
+        if (DdQxE2 + DdE1xQ > DdN) {
+            return null;
+        }
+
+        // Line intersects triangle, check if ray does.
+        let QdN = - sign * vec3.dot(diff, normal);
+
+        // t < 0, no intersection
+        if (QdN < 0) {
+            return null;
+        }
+
+        // Ray intersects triangle.
+        return this.at(QdN / DdN);
+
+    };
 }

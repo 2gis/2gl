@@ -1,7 +1,7 @@
 import Object3D from './Object3D';
 import AmbientLight from './lights/AmbientLight';
 import DirectionalLight from './lights/DirectionalLight';
-import {vec3, mat3} from 'gl-matrix';
+import {vec3, mat3, mat4} from 'gl-matrix';
 
 export default class Mesh extends Object3D {
     constructor(geometry, program) {
@@ -35,7 +35,37 @@ export default class Mesh extends Object3D {
     }
 
     raycast(raycaster, intersects) {
+        let inverseMatrix = mat4.create();
+        mat4.invert(inverseMatrix, inverseMatrix);
 
+        let ray = raycaster.ray.clone();
+        ray.applyMatrix4(inverseMatrix);
+
+        let boundingBox = this.geometry.getBoundingBox();
+
+        if (!ray.intersectBox(boundingBox)) { return; }
+
+        let positionBuffer = this.buffer.position;
+
+        for (let i = 0; i < positionBuffer.length / 3; i++) {
+            let triangle = positionBuffer.getTriangle(i);
+
+            let intersectionPoint = ray.intersectTriangle(triangle, true);
+
+            if (!intersectionPoint) { continue; }
+
+            vec3.transformMat4(intersectionPoint, intersectionPoint, this.worldMatrix);
+
+            let distance = vec3.dist(raycaster.ray.origin, intersectionPoint);
+
+            if (distance < raycaster.precision || distance < raycaster.near || distance > raycaster.far) { continue; }
+
+            intersects.push({
+                distance: distance,
+                point: intersectionPoint,
+                object: this
+            });
+        }
     }
 
     _prepare(gl, scene, camera) {

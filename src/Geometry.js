@@ -27,12 +27,10 @@ export default class Geometry {
         let n = vec3.create();
 
         for (let i = 0; i < positionBuffer.length / 3; i++) {
-            let a = positionBuffer.getElement(i * 3);
-            let b = positionBuffer.getElement(i * 3 + 1);
-            let c = positionBuffer.getElement(i * 3 + 2);
+            let triangle = positionBuffer.getTriangle(i);
 
-            vec3.sub(ab, a, b);
-            vec3.sub(cb, c, b);
+            vec3.sub(ab, triangle[0], triangle[1]);
+            vec3.sub(cb, triangle[2], triangle[1]);
             vec3.cross(n, ab, cb);
             vec3.normalize(n, n);
 
@@ -53,11 +51,11 @@ export default class Geometry {
 
     computeBoundingBox() {
         let boundingBox = this._boundingBox = new Box();
-        let positions = this.buffers.position;
+        let positionBuffer = this.buffers.position;
 
-        if (positions) {
-            for (let i = 0; i < positions.length; i += 3) {
-                boundingBox.expandByPoint(positions.subarray(i, i + 3));
+        if (positionBuffer) {
+            for (let i = 0; i < positionBuffer.length; i++) {
+                boundingBox.expandByPoint(positionBuffer.getElement(i));
             }
         }
     }

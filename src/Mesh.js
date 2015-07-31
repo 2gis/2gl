@@ -59,8 +59,8 @@ export default class Mesh extends Object3D {
     }
 
     _bindUniforms(gl, scene, camera) {
-        gl.uniformMatrix4fv(this.program.getUniform('uPosition'), false, this.matrix);
-        gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.matrix);
+        gl.uniformMatrix4fv(this.program.getUniform('uPosition'), false, this.worldMatrix);
+        gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.worldMatrix);
 
 
         if (this._texture) {
@@ -71,7 +71,7 @@ export default class Mesh extends Object3D {
 
         if (lights.length) {
             let normalMatrix = mat3.create();
-            mat3.fromMat4(normalMatrix, this.matrix);
+            mat3.fromMat4(normalMatrix, this.worldMatrix);
             mat3.invert(normalMatrix, normalMatrix);
             mat3.transpose(normalMatrix, normalMatrix);
             gl.uniformMatrix3fv(this.program.getUniform('uNormalMatrix'), false, normalMatrix);

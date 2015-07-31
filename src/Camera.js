@@ -14,9 +14,9 @@ export default class Camera extends Object3D {
         mat4.perspective(this.projectionMatrix, 45, window.innerWidth / window.innerHeight, 10, 100000);
     }
 
-    updateMatrix() {
-        super.updateMatrix();
+    updateLocalMatrix() {
+        super.updateLocalMatrix();
 
-        mat4.multiply(this.matrix, this.projectionMatrix, this.matrix);
+        mat4.multiply(this.localMatrix, this.projectionMatrix, this.localMatrix);
     }
 }

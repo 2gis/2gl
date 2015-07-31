@@ -30,7 +30,8 @@ export default class Renderer {
         gl.enable(gl.CULL_FACE);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        camera.updateMatrix();
+        camera.updateLocalMatrix();
+        camera.updateWorldMatrix();
 
         scene.childs.forEach(object => object.render(gl, scene, camera));
 

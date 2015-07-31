@@ -7,7 +7,8 @@ export default class Object3D {
 
         this.position = vec3.create();
         this.quaternion = quat.create();
-        this.matrix = mat4.create();
+        this.localMatrix = mat4.create();
+        this.worldMatrix = mat4.create();
     }
 
     add(object) {
@@ -28,7 +29,17 @@ export default class Object3D {
         return this;
     }
 
-    updateMatrix() {
-        mat4.fromRotationTranslation(this.matrix, this.quaternion, this.position);
+    updateLocalMatrix() {
+        mat4.fromRotationTranslation(this.localMatrix, this.quaternion, this.position);
+    }
+
+    updateWorldMatrix() {
+        if (this.parent) {
+            mat4.mul(this.worldMatrix, this.parent.worldMatrix, this.worldMatrix);
+        } else {
+            mat4.copy(this.worldMatrix, this.localMatrix);
+        }
+
+        this.childs.forEach(child => child.updateWorldMatrix());
     }
 }

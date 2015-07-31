@@ -30,7 +30,7 @@ export default class Geometry {
             let c = positionBuffer.getElement(i * 3 + 2);
 
             vec3.sub(ab, a, b);
-            vec3.sub(cb, c ,b);
+            vec3.sub(cb, c, b);
             vec3.cross(n, ab, cb);
             vec3.normalize(n, n);
 

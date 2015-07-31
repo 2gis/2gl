@@ -1,7 +1,7 @@
 import Object3D from './Object3D';
 import AmbientLight from './lights/AmbientLight';
 import DirectionalLight from './lights/DirectionalLight';
-import {vec3, mat3, mat4} from 'gl-matrix';
+import {vec3, mat3} from 'gl-matrix';
 
 export default class Mesh extends Object3D {
     constructor(geometry, program) {

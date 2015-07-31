@@ -1,9 +1,10 @@
 // brfs module has error with import then using require
-let fs = require('fs');
+var fs = require('fs');
+var path = require('path');
 
 export default {
     basic: {
-        vertex: fs.readFileSync(__dirname + '/basic.vert.glsl', 'utf8'),
-        fragment: fs.readFileSync(__dirname + '/basic.frag.glsl', 'utf8')
+        vertex: fs.readFileSync(path.join(__dirname, '/basic.vert.glsl'), 'utf8'),
+        fragment: fs.readFileSync(path.join(__dirname, '/basic.frag.glsl'), 'utf8')
     }
 };

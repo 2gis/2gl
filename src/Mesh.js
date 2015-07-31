@@ -34,6 +34,10 @@ export default class Mesh extends Object3D {
         this.program.disable(gl);
     }
 
+    raycast(raycaster, intersects) {
+
+    }
+
     _prepare(gl, scene, camera) {
         let lights = scene.getLights();
 

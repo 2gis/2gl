@@ -1,9 +1,11 @@
 import {vec3} from 'gl-matrix';
 import Buffer from './Buffer';
+import Box from './math/Box';
 
 export default class Geometry {
     constructor() {
         this.buffers = {};
+        this._boundingBox = null;
     }
 
     setBuffer(name, attribute) {
@@ -39,6 +41,24 @@ export default class Geometry {
         }
 
         this.setBuffer('normal', new Buffer(new Float32Array(normals), 3));
+    }
 
+    getBoundingBox() {
+        if (!this._boundingBox) {
+            this.computeBoundingBox();
+        }
+
+        return this._boundingBox;
+    }
+
+    computeBoundingBox() {
+        let boundingBox = this._boundingBox = new Box();
+        let positions = this.buffers.position;
+
+        if (positions) {
+            for (let i = 0; i < positions.length; i += 3) {
+                boundingBox.expandByPoint(positions.subarray(i, i + 3));
+            }
+        }
     }
 }

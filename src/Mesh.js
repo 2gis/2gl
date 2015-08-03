@@ -36,7 +36,7 @@ export default class Mesh extends Object3D {
 
     raycast(raycaster, intersects) {
         let inverseMatrix = mat4.create();
-        mat4.invert(inverseMatrix, inverseMatrix);
+        mat4.invert(inverseMatrix, this.worldMatrix);
 
         let ray = raycaster.ray.clone();
         ray.applyMatrix4(inverseMatrix);
@@ -45,12 +45,12 @@ export default class Mesh extends Object3D {
 
         if (!ray.intersectBox(boundingBox)) { return; }
 
-        let positionBuffer = this.buffer.position;
+        let positionBuffer = this.geometry.buffers.position;
 
         for (let i = 0; i < positionBuffer.length / 3; i++) {
             let triangle = positionBuffer.getTriangle(i);
 
-            let intersectionPoint = ray.intersectTriangle(triangle, true);
+            let intersectionPoint = ray.intersectTriangle(triangle, false);
 
             if (!intersectionPoint) { continue; }
 
@@ -90,7 +90,7 @@ export default class Mesh extends Object3D {
 
     _bindUniforms(gl, scene, camera) {
         gl.uniformMatrix4fv(this.program.getUniform('uPosition'), false, this.worldMatrix);
-        gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.worldMatrix);
+        gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.worldInverseMatrix);
 
 
         if (this._texture) {

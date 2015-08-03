@@ -11,3 +11,11 @@ exports.mapIndicesToVertices = function(vertices, indices) {
 
     return result;
 };
+
+exports.normalizeMousePosition = function(point) {
+    return [
+        (point[0] / window.innerWidth) * 2 - 1,
+        - (point[1] / window.innerHeight) * 2 + 1
+    ];
+};
+

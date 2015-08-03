@@ -9,7 +9,20 @@ stats.domElement.style.left = '0';
 stats.domElement.style.bottom = '0';
 document.body.appendChild(stats.domElement);
 
-let floorData = mallData.floorGeometries[2];
+//let floorData = mallData.floorGeometries[2];
+
+let floorData = window.floorData = {
+    rooms: [],
+    islands: [],
+    wallIndices: [],
+    wallTopAreaIndices: [],
+    vertices: [
+        -100, 0, 0,
+        0, 100, 0,
+        100, 0, 0
+    ],
+    areaIndices: [0, 2, 1]
+};
 
 let addColorField = room => {
     room.color = Color.getByType(room.type);
@@ -21,7 +34,7 @@ floorData.rooms.forEach(addColorField);
 floorData.islands.forEach(addColorField);
 
 let camera = new dgl.Camera();
-camera.position[2] = -200;
+camera.position[2] = 200;
 
 
 let renderer = new dgl.Renderer({
@@ -67,9 +80,9 @@ window.addEventListener('mousewheel', function(ev) {
     var z = camera.position[2];
 
     if (ev.wheelDelta > 0) {
-        camera.position[2] = Math.max(zoomMin, z + zoomDelta);
+        camera.position[2] = Math.max(zoomMin, z - zoomDelta);
     } else {
-        camera.position[2] = Math.min(zoomMax, z - zoomDelta);
+        camera.position[2] = Math.min(zoomMax, z + zoomDelta);
     }
 });
 
@@ -215,4 +228,13 @@ function initRooms() {
         scene.add(mesh);
     //};
     //img.src = './ship3.png';
+
+    window.addEventListener('click', function(ev) {
+        let coords = utils.normalizeMousePosition([ev.clientX, ev.clientY]);
+
+        let raycaster = new dgl.Raycaster();
+        raycaster.setFromCamera(coords, camera);
+
+        console.log(raycaster.intersectObjects(scene.childs, true));
+    });
 }

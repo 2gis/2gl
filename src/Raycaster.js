@@ -18,6 +18,7 @@ export default class Raycaster {
         direction = camera.unproject(direction);
         vec3.sub(direction, direction, camera.position);
         vec3.normalize(direction, direction);
+        this.ray.direction = direction;
     }
 
     intersectObject(object, recursive) {
@@ -50,10 +51,10 @@ export default class Raycaster {
         object.raycast(this, intersects);
 
         if (recursive) {
-            let children = object.children;
+            let childs = object.childs;
 
-            for (let i = 0; i < children.length; i++) {
-                this._intersectObject(children[i], intersects, true);
+            for (let i = 0; i < childs.length; i++) {
+                this._intersectObject(childs[i], intersects, true);
             }
         }
     }

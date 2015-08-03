@@ -7,7 +7,7 @@ export default class Ray {
     }
 
     clone() {
-        return new Ray(vec3.clone(this.origin), vec3.clone(this.origin));
+        return new Ray(vec3.clone(this.origin), vec3.clone(this.direction));
     }
 
     at(t) {
@@ -102,7 +102,7 @@ export default class Ray {
         var sign;
 
         if (DdN > 0) {
-            if (backfaceCulling) return null;
+            if (backfaceCulling) { return null; }
             sign = 1;
         } else if (DdN < 0) {
             sign = - 1;
@@ -112,7 +112,7 @@ export default class Ray {
         }
 
         let diff = vec3.create();
-        vec3.sub(diff, this.origin, a);
+        vec3.sub(diff, this.origin, triangle[0]);
 
         let cde2 = vec3.create();
         vec3.cross(cde2, diff, edge2);

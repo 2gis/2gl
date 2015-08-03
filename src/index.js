@@ -9,6 +9,10 @@ import Scene from './Scene';
 import Texture from './Texture';
 import AmbientLight from './lights/AmbientLight';
 import DirectionalLight from './lights/DirectionalLight';
+import Raycaster from './Raycaster';
+import Ray from './math/Ray';
+import Plane from './math/Plane';
+import Box from './math/Box';
 
 let dgl = {
     Renderer,
@@ -21,7 +25,11 @@ let dgl = {
     Scene,
     Texture,
     AmbientLight,
-    DirectionalLight
+    DirectionalLight,
+    Raycaster,
+    Ray,
+    Plane,
+    Box
 };
 
 window.dgl = dgl;

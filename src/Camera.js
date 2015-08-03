@@ -6,6 +6,7 @@ export default class Camera extends Object3D {
         super();
 
         this.projectionMatrix = mat4.create();
+        this.worldInverseMatrix = mat4.create();
 
         this.updateProjectionMatrix();
     }
@@ -14,10 +15,11 @@ export default class Camera extends Object3D {
         mat4.perspective(this.projectionMatrix, 45, window.innerWidth / window.innerHeight, 10, 100000);
     }
 
-    updateLocalMatrix() {
-        super.updateLocalMatrix();
+    updateWorldMatrix() {
+        super.updateWorldMatrix();
 
-        mat4.multiply(this.localMatrix, this.projectionMatrix, this.localMatrix);
+        mat4.invert(this.worldInverseMatrix, this.worldMatrix);
+        mat4.multiply(this.worldInverseMatrix, this.projectionMatrix, this.worldInverseMatrix);
     }
 
     project(vector) {

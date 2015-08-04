@@ -1,10 +1,11 @@
 import Object3D from '../Object3D';
-import {vec3, mat4} from 'gl-matrix';
+import {vec3, mat3, mat4, quat} from 'gl-matrix';
 
 export default class Camera extends Object3D {
     constructor() {
         super();
 
+        this.up = vec3.fromValues(0, 1, 0);
         this.projectionMatrix = mat4.create();
         this.worldInverseMatrix = mat4.create();
     }
@@ -40,5 +41,15 @@ export default class Camera extends Object3D {
         vec3.transformMat4(result, vector, matrix);
 
         return result;
+    }
+
+    lookAt(vector) {
+        let matrix4 = mat4.create();
+        let matrix3 = mat3.create();
+        mat4.lookAt(matrix4, this.position, vector, this.up);
+        mat3.fromMat4(matrix3, matrix4);
+        quat.fromMat3(this.quaternion, matrix3);
+
+        return this;
     }
 }

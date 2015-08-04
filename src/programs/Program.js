@@ -5,7 +5,7 @@ import DirectionalLight from '../lights/DirectionalLight';
 export default class Program {
     constructor() {
         this._attributeList = ['position', 'color'];
-        this._uniformList = ['uCamera', 'uPosition'];
+        this._uniformList = ['uCamera', 'uPosition', 'uColorAlpha'];
         this._definitions = [];
     }
 

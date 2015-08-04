@@ -10,16 +10,17 @@ precision mediump float;
     varying vec3 vLightWeighting;
 #endif
 
+uniform float uColorAlpha;
 varying vec4 vColor;
 
 void main(void) {
-    vec4 color = vColor;
+    vec4 color = vec4(vColor.rgb, vColor.a * uColorAlpha);
 
     #ifdef USE_TEXTURE
         if (vTextureAlpha > 0.5) {
             vec4 textureColor = texture2D(uTexture, vec2(vTextureCoord.s, vTextureCoord.t));
 
-            color = vec4(textureColor.rgb * vColor.rgb, 1);
+            color = vec4(textureColor.rgb * vColor.rgb, color.a);
         }
     #endif
 

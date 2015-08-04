@@ -149,4 +149,33 @@ export default class Ray {
         // Ray intersects triangle.
         return this.at(QdN / DdN);
     }
+
+    distanceToPlane(plane) {
+        let denominator = vec3.dot(plane.normal, this.direction);
+
+        if (denominator == 0) {
+            // line is coplanar, return origin
+            if (plane.distanceToPoint(this.origin) == 0) {
+                return 0;
+            }
+
+            // Null is preferable to undefined since undefined means.... it is undefined
+            return null;
+        }
+
+        let t = -(vec3.dot(this.origin, plane.normal) + plane.constant) / denominator;
+
+        // Return if the ray never intersects the plane
+        return t >= 0 ? t : null;
+    }
+
+    intersectPlane(plane) {
+        let t = this.distanceToPlane(plane);
+
+        if (t === null) {
+            return null;
+        }
+
+        return this.at(t);
+    }
 }

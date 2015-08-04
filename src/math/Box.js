@@ -17,6 +17,5 @@ export default class Box {
         vec3.max(this.max, this.max, point);
 
         return this;
-
     }
 }

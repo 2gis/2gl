@@ -6,5 +6,7 @@ export default class Plane {
         this.constant = constant || 0;
     }
 
-
+    distanceToPoint(point) {
+        return vec3.dot(this.normal, point) + this.constant;
+    }
 }

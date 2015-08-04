@@ -34,6 +34,12 @@ floorData.rooms.forEach(addColorField);
 floorData.islands.forEach(addColorField);
 
 let camera = new dgl.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 10, 100000);
+
+/*let w = window.innerWidth / 2;
+let h = window.innerHeight / 2;
+let camera = new dgl.OrthographicCamera(-w, w, h, -h, 10, 100000);*/
+
+
 camera.position[2] = 200;
 camera.updateProjectionMatrix();
 

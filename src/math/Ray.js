@@ -12,7 +12,7 @@ export default class Ray {
 
     at(t) {
         let result = vec3.create();
-        vec3.scaleAndAdd(result, this.direction, this.origin, vec3.fromValues(t, t, t));
+        vec3.scaleAndAdd(result, this.origin, this.direction, t);
         return result;
     }
 
@@ -21,9 +21,9 @@ export default class Ray {
 
         let tmin, tmax, tymin, tymax, tzmin, tzmax;
 
-        let invdirx = 1 / this.direction[0],
-            invdiry = 1 / this.direction[1],
-            invdirz = 1 / this.direction[2];
+        let invdirx = 1 / this.direction[0];
+        let invdiry = 1 / this.direction[1];
+        let invdirz = 1 / this.direction[2];
 
         let origin = this.origin;
 

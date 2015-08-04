@@ -26,7 +26,7 @@ export default class Geometry {
         let cb = vec3.create();
         let n = vec3.create();
 
-        for (let i = 0; i < positionBuffer.length / 3; i++) {
+        for (let i = 0; i < positionBuffer.length; i += 3) {
             let triangle = positionBuffer.getTriangle(i);
 
             vec3.sub(ab, triangle[0], triangle[1]);

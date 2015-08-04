@@ -9,9 +9,9 @@ stats.domElement.style.left = '0';
 stats.domElement.style.bottom = '0';
 document.body.appendChild(stats.domElement);
 
-//let floorData = mallData.floorGeometries[2];
+let floorData = mallData.floorGeometries[2];
 
-let floorData = window.floorData = {
+/*let floorData = window.floorData = {
     rooms: [],
     islands: [],
     wallIndices: [],
@@ -22,7 +22,7 @@ let floorData = window.floorData = {
         100, 0, 0
     ],
     areaIndices: [0, 2, 1]
-};
+};*/
 
 let addColorField = room => {
     room.color = Color.getByType(room.type);

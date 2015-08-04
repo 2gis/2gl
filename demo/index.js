@@ -140,137 +140,115 @@ function initRooms() {
     let dataFloor = floorData;
     let geometries = [];
 
+    let elementLength = 0;
+    let allVertices = [];
+    let allColorVertices = [];
+
+    let allTextureVertices = [];
+    let allTextureAlphaVertices = [];
+
     let addAreas = room => {
         let vertices = utils.mapIndicesToVertices(dataVertices, room.areaIndices);
+        allVertices.push.apply(allVertices, vertices);
 
-        let colorVertices = [];
-        let textureVertices = [];
-        let textureAlphaVertices = [];
-        let lightAlphaVertices = [];
+        elementLength += vertices.length / 3;
 
         for (let i = 0; i < vertices.length / 3; i++) {
-            colorVertices = colorVertices.concat(room.color);
-            textureVertices.push(0, 0);
-            textureAlphaVertices.push(0);
-            lightAlphaVertices.push(0);
+            allColorVertices.push.apply(allColorVertices, room.color);
         }
-
-        let vertexBuffer = new dgl.Buffer(new Float32Array(vertices), 3);
-        let colorBuffer = new dgl.Buffer(new Float32Array(colorVertices), 4);
-        let textureBuffer = new dgl.Buffer(new Float32Array(textureVertices), 2);
-        let textureAlphaBuffer = new dgl.Buffer(new Float32Array(textureAlphaVertices), 1);
-        let lightAlphaBuffer = new dgl.Buffer(new Float32Array(lightAlphaVertices), 1);
-
-        let geometry = new dgl.Geometry();
-
-        geometry
-            .setBuffer('position', vertexBuffer)
-            .setBuffer('color', colorBuffer)
-            .setBuffer('texture', textureBuffer)
-            .setBuffer('textureAlpha', textureAlphaBuffer)
-            .setBuffer('directionLightAlpha', lightAlphaBuffer);
-
-        geometry.computeNormals();
-
-        geometries.push(geometry);
-    };
-
-    let addWalls = room => {
-        let vertices = utils.mapIndicesToVertices(dataVertices, room.wallIndices);
-
-        let color = room.color.map(c => c * 0.95);
-        color[3] = 1;
-
-        let colorVertices = [];
-        let textureVertices = getUVArray(room.wallIndices.length);
-        let textureAlphaVertices = [];
-        let lightAlphaVertices = [];
-
-        for (let i = 0; i < vertices.length / 3; i++) {
-            colorVertices = colorVertices.concat(color);
-            textureAlphaVertices.push(1);
-            lightAlphaVertices.push(1);
-        }
-
-        let vertexBuffer = new dgl.Buffer(new Float32Array(vertices), 3);
-        let colorBuffer = new dgl.Buffer(new Float32Array(colorVertices), 4);
-        let textureBuffer = new dgl.Buffer(new Float32Array(textureVertices), 2);
-        let textureAlphaBuffer = new dgl.Buffer(new Float32Array(textureAlphaVertices), 1);
-        let lightAlphaBuffer = new dgl.Buffer(new Float32Array(lightAlphaVertices), 1);
-
-        let geometry = new dgl.Geometry();
-
-        geometry
-            .setBuffer('position', vertexBuffer)
-            .setBuffer('color', colorBuffer)
-            .setBuffer('texture', textureBuffer)
-            .setBuffer('textureAlpha', textureAlphaBuffer)
-            .setBuffer('directionLightAlpha', lightAlphaBuffer);
-
-        geometry.computeNormals();
-
-        geometries.push(geometry);
     };
 
     let addWallTopAreas = room => {
         let vertices = utils.mapIndicesToVertices(dataVertices, room.wallTopAreaIndices);
+        allVertices.push.apply(allVertices, vertices);
 
-        let colorVertices = [];
-        let textureVertices = [];
-        let textureAlphaVertices = [];
-        let lightAlphaVertices = [];
+        elementLength += vertices.length / 3;
 
         for (let i = 0; i < vertices.length / 3; i++) {
-            colorVertices = colorVertices.concat([1, 1, 1, 1]);
-            textureVertices.push(0, 0);
-            textureAlphaVertices.push(0);
-            lightAlphaVertices.push(0);
+            allColorVertices.push.apply(allColorVertices, [1, 1, 1, 1]);
         }
-
-        let vertexBuffer = new dgl.Buffer(new Float32Array(vertices), 3);
-        let colorBuffer = new dgl.Buffer(new Float32Array(colorVertices), 4);
-        let textureBuffer = new dgl.Buffer(new Float32Array(textureVertices), 2);
-        let textureAlphaBuffer = new dgl.Buffer(new Float32Array(textureAlphaVertices), 1);
-        let lightAlphaBuffer = new dgl.Buffer(new Float32Array(lightAlphaVertices), 1);
-
-        let geometry = new dgl.Geometry();
-
-        geometry
-            .setBuffer('position', vertexBuffer)
-            .setBuffer('color', colorBuffer)
-            .setBuffer('texture', textureBuffer)
-            .setBuffer('textureAlpha', textureAlphaBuffer)
-            .setBuffer('directionLightAlpha', lightAlphaBuffer);
-
-        geometry.computeNormals();
-
-        geometries.push(geometry);
     };
 
+    let addWalls = room => {
+        let vertices = utils.mapIndicesToVertices(dataVertices, room.wallIndices);
+        allVertices.push.apply(allVertices, vertices);
 
-    console.time('geometry');
+        let color = room.color.map(c => c * 0.95);
+        color[3] = 1;
+
+        allTextureVertices.push.apply(allTextureVertices, getUVArray(room.wallIndices.length));
+
+        for (let i = 0; i < vertices.length / 3; i++) {
+            allColorVertices.push.apply(allColorVertices, color);
+            allTextureAlphaVertices.push(1);
+        }
+    };
+
+    console.time('make geometries');
 
     // полы
     addAreas(dataFloor);
     dataRooms.forEach(addAreas);
     dataIslands.forEach(addAreas);
 
+    // верхушки стен
+    addWallTopAreas(dataFloor);
+    dataRooms.forEach(addWallTopAreas);
+
+    {
+        let vertexBuffer = new dgl.Buffer(new Float32Array(allVertices), 3);
+        let colorBuffer = new dgl.Buffer(new Float32Array(allColorVertices), 4);
+        let textureBuffer = new dgl.Buffer(new Float32Array(elementLength * 2), 2);
+        let textureAlphaBuffer = new dgl.Buffer(new Float32Array(elementLength), 1);
+        let lightAlphaBuffer = new dgl.Buffer(new Float32Array(elementLength), 1);
+        let normalBuffer = new dgl.Buffer(new Float32Array(elementLength * 3), 3);
+
+        let geometry = new dgl.Geometry();
+
+        geometry
+            .setBuffer('position', vertexBuffer)
+            .setBuffer('color', colorBuffer)
+            .setBuffer('texture', textureBuffer)
+            .setBuffer('textureAlpha', textureAlphaBuffer)
+            .setBuffer('directionLightAlpha', lightAlphaBuffer)
+            .setBuffer('normal', normalBuffer);
+
+        geometries.push(geometry);
+    }
+
+    allVertices = [];
+    allColorVertices = [];
+
     // стены
     addWalls(dataFloor);
     dataRooms.forEach(addWalls);
     dataIslands.forEach(addWalls);
 
-    // верхушки стен
-    addWallTopAreas(dataFloor);
-    dataRooms.forEach(addWallTopAreas);
+    {
+        let vertexBuffer = new dgl.Buffer(new Float32Array(allVertices), 3);
+        let colorBuffer = new dgl.Buffer(new Float32Array(allColorVertices), 4);
+        let textureBuffer = new dgl.Buffer(new Float32Array(allTextureVertices), 2);
+        let textureAlphaBuffer = new dgl.Buffer(new Float32Array(allTextureAlphaVertices), 1);
+        let lightAlphaBuffer = new dgl.Buffer(new Float32Array(allTextureAlphaVertices), 1);
 
-    let geometry = geometries[0];
+        let geometry = new dgl.Geometry();
 
-    for (let i = 1; i < geometries.length; i++) {
-        geometry.concat(geometries[i]);
+        geometry
+            .setBuffer('position', vertexBuffer)
+            .setBuffer('color', colorBuffer)
+            .setBuffer('texture', textureBuffer)
+            .setBuffer('textureAlpha', textureAlphaBuffer)
+            .setBuffer('directionLightAlpha', lightAlphaBuffer);
+
+        geometry.computeNormals();
+
+        geometries.push(geometry);
     }
 
-    console.timeEnd('geometry');
+    let geometry = geometries[0];
+    geometry.concat(geometries[1]);
+
+    console.timeEnd('make geometries');
 
     let program = new dgl.Program();
 

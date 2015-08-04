@@ -6,6 +6,7 @@
     "type": "git",
     "url": "git@github.com:2gis/2gl.git"
   },
+  "main": "src/index.js",
   "dependencies": {
     "gl-matrix": "^2.3.1",
     "stats-js": "^1.0.0-alpha1"

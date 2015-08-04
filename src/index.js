@@ -1,6 +1,6 @@
 import Renderer from './Renderer';
 import Object3D from './Object3D';
-import Camera from './Camera';
+import PerspectiveCamera from './cameras/PerspectiveCamera';
 import Buffer from './Buffer';
 import Geometry from './Geometry';
 import Program from './programs/Program';
@@ -17,7 +17,7 @@ import Box from './math/Box';
 let dgl = {
     Renderer,
     Object3D,
-    Camera,
+    PerspectiveCamera,
     Buffer,
     Geometry,
     Program,

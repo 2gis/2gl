@@ -35,7 +35,7 @@ export default class Ray {
             tmax = (box.min[0] - origin[0]) * invdirx;
         }
 
-        if ( invdiry >= 0 ) {
+        if (invdiry >= 0) {
             tymin = (box.min[1] - origin[1]) * invdiry;
             tymax = (box.max[1] - origin[1]) * invdiry;
         } else {
@@ -148,6 +148,5 @@ export default class Ray {
 
         // Ray intersects triangle.
         return this.at(QdN / DdN);
-
-    };
+    }
 }

@@ -1,4 +1,4 @@
-import {vec3, mat4, quat} from 'gl-matrix';
+import {vec3} from 'gl-matrix';
 import Ray from './math/Ray';
 import OrthographicCamera from './cameras/OrthographicCamera';
 import PerspectiveCamera from './cameras/PerspectiveCamera';
@@ -44,7 +44,7 @@ export default class Raycaster {
         let intersects = [];
 
         for (let i = 0; i < objects.length; i++) {
-            this._intersectObject(objects[i], intersects, recursive );
+            this._intersectObject(objects[i], intersects, recursive);
         }
 
         intersects.sort(this._descSort);

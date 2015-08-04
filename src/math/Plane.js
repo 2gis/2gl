@@ -1,4 +1,4 @@
-import {vec3, mat4, quat} from 'gl-matrix';
+import {vec3} from 'gl-matrix';
 
 export default class Plane {
     constructor(normal, constant) {

@@ -95,19 +95,20 @@ window.addEventListener('mousewheel', function(ev) {
 
 function createWallTexture() {
     var canvas = document.createElement('canvas');
+    let textureResolution = 128;
 
-    canvas.width = 2;
-    canvas.height = 512;
+    canvas.width = 1;
+    canvas.height = textureResolution;
 
     var context = canvas.getContext('2d');
 
-    var gradient = context.createLinearGradient(0, 0, 0, 512);
+    var gradient = context.createLinearGradient(0, 0, 0, textureResolution);
 
     gradient.addColorStop(0.65, '#ffffff');
     gradient.addColorStop(1, '#888888');
 
     context.fillStyle = gradient;
-    context.fillRect(0, 0, 2, 512);
+    context.fillRect(0, 0, 1, textureResolution);
 
     return canvas;
 }

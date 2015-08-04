@@ -1,12 +1,11 @@
-import {basic as shader} from '../shaders';
 import definitions from './definitions';
-import DirectionalLight from '../lights/DirectionalLight';
 
 export default class Program {
     constructor() {
-        this._attributeList = ['position', 'color'];
-        this._uniformList = ['uCamera', 'uPosition', 'uColorAlpha'];
+        this._attributeList = [];
+        this._uniformList = [];
         this._definitions = [];
+        this._shader = null;
     }
 
     enable(gl) {
@@ -39,34 +38,6 @@ export default class Program {
         return this.uniforms[name];
     }
 
-    enableLight(lights) {
-        this.define('light');
-
-        let directionLightNumber = 0;
-
-        lights.forEach(l => {
-            if (l instanceof DirectionalLight) {
-                directionLightNumber++;
-            }
-        });
-
-        this.define('directionLights', directionLightNumber);
-
-        if (directionLightNumber > 0) {
-            this._attributeList.push('normal');
-        }
-
-        this._attributeList.push('directionLightAlpha');
-        this._uniformList.push('uAmbientLightColor', 'uDirectionLightColors',
-            'uDirectionLightPositions', 'uNormalMatrix');
-    }
-
-    enableTexture() {
-        this.define('texture');
-        this._attributeList.push('texture', 'textureAlpha');
-        this._uniformList.push('uTexture');
-    }
-
     define(type, value) {
         if (definitions[type]) {
             this._definitions.push({type, value});
@@ -83,7 +54,7 @@ export default class Program {
 
     _prepareShaders(gl) {
         this._fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(this._fragmentShader, this._addDefinitions(shader.fragment));
+        gl.shaderSource(this._fragmentShader, this._addDefinitions(this._shader.fragment));
         gl.compileShader(this._fragmentShader);
 
         if (!gl.getShaderParameter(this._fragmentShader, gl.COMPILE_STATUS)) {
@@ -91,7 +62,7 @@ export default class Program {
         }
 
         this._vertexShader = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(this._vertexShader, this._addDefinitions(shader.vertex));
+        gl.shaderSource(this._vertexShader, this._addDefinitions(this._shader.vertex));
         gl.compileShader(this._vertexShader);
 
         if (!gl.getShaderParameter(this._vertexShader, gl.COMPILE_STATUS)) {

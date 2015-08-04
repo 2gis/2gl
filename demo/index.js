@@ -251,7 +251,7 @@ function initRooms() {
 
     console.timeEnd('make geometries');
 
-    let program = new dgl.Program();
+    let program = new dgl.MeshProgram();
 
     let mesh = new dgl.Mesh(geometry, program);
 

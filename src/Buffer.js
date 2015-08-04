@@ -40,6 +40,16 @@ export default class Buffer {
         ];
     }
 
+    concat(buffer) {
+        let addArray = buffer.getArray();
+        let newArray = new Float32Array(this._array.length + addArray.length);
+        newArray.set(this._array, 0);
+        newArray.set(addArray, this._array.length);
+
+        this._array = newArray;
+        this.length = newArray.length / this.itemSize;
+    }
+
     _prepare(gl) {
         this._glBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);

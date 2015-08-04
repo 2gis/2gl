@@ -20,7 +20,7 @@ export default class Geometry {
 
     computeNormals() {
         let positionBuffer = this.buffers.position;
-        let normals = [];
+        let normals = new Float32Array(positionBuffer.length * positionBuffer.itemSize);
 
         let ab = vec3.create();
         let cb = vec3.create();
@@ -34,11 +34,12 @@ export default class Geometry {
             vec3.cross(n, ab, cb);
             vec3.normalize(n, n);
 
-            n = Array.prototype.slice.call(n);
-            normals = normals.concat(n, n, n);
+            normals.set(n, i * 3);
+            normals.set(n, (i + 1) * 3);
+            normals.set(n, (i + 2) * 3);
         }
 
-        this.setBuffer('normal', new Buffer(new Float32Array(normals), 3));
+        this.setBuffer('normal', new Buffer(normals, 3));
     }
 
     getBoundingBox() {
@@ -57,6 +58,12 @@ export default class Geometry {
             for (let i = 0; i < positionBuffer.length; i++) {
                 boundingBox.expandByPoint(positionBuffer.getElement(i));
             }
+        }
+    }
+
+    concat(geometry) {
+        for (let type in this.buffers) {
+            this.buffers[type].concat(geometry.buffers[type]);
         }
     }
 }

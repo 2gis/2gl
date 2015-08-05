@@ -50,7 +50,7 @@ export default class Renderer {
         camera.updateLocalMatrix();
         camera.updateWorldMatrix();
 
-        scene.childs.forEach(object => object.render(gl, scene, camera));
+        scene.render(gl, camera);
 
         return this;
     }

@@ -29,6 +29,10 @@ export default class Object3D {
         return this;
     }
 
+    render(gl, scene, camera) {
+        this.childs.forEach(object => object.render(gl, scene, camera));
+    }
+
     updateLocalMatrix() {
         mat4.fromRotationTranslation(this.localMatrix, this.quaternion, this.position);
     }

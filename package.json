@@ -28,7 +28,7 @@
   },
   "scripts": {
     "build": "browserify src/index.js -s dgl > dist/2gl.js",
-    "dev:lib": "watchify src/index.js -o dist/2gl.js -dv",
+    "dev:lib": "watchify src/index.js -s dgl -o dist/2gl.js -dv",
     "dev:demo": "watchify demo/index.js -o dist/demo.js -dv",
     "dev": "npm run dev:lib & npm run dev:demo",
     "lint": "eslint src; exit 0"

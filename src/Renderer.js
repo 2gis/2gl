@@ -1,6 +1,8 @@
 export default class Renderer {
     constructor(options) {
-        this._container = document.getElementById(options.container);
+        this._container = typeof options.container === 'string' ?
+            document.getElementById(options.container) : options.container;
+
         this._pixelRatio = options.pixelRatio || 1;
         this._antialias = options.antialias !== undefined ? options.antialias : true;
         this.autoClear = options.autoClear !== undefined ? options.autoClear : true;

@@ -29,6 +29,8 @@ export default class Object3D {
         return this;
     }
 
+    raycast() {}
+
     render(gl, scene, camera) {
         this.childs.forEach(object => object.render(gl, scene, camera));
     }

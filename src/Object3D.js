@@ -41,7 +41,7 @@ export default class Object3D {
 
     updateWorldMatrix() {
         if (this.parent) {
-            mat4.mul(this.worldMatrix, this.parent.worldMatrix, this.worldMatrix);
+            mat4.mul(this.worldMatrix, this.parent.worldMatrix, this.localMatrix);
         } else {
             mat4.copy(this.worldMatrix, this.localMatrix);
         }

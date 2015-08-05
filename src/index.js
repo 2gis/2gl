@@ -5,6 +5,7 @@ import OrthographicCamera from './cameras/OrthographicCamera';
 import Buffer from './Buffer';
 import Geometry from './Geometry';
 import MeshProgram from './programs/MeshProgram';
+import Mesh from './Mesh';
 import Scene from './Scene';
 import Texture from './Texture';
 import AmbientLight from './lights/AmbientLight';
@@ -13,6 +14,7 @@ import Raycaster from './Raycaster';
 import Ray from './math/Ray';
 import Plane from './math/Plane';
 import Box from './math/Box';
+import {vec3, mat3, mat4} from 'gl-matrix';
 
 let dgl = {
     Renderer,
@@ -21,6 +23,7 @@ let dgl = {
     OrthographicCamera,
     Buffer,
     Geometry,
+    Mesh,
     MeshProgram,
     Scene,
     Texture,
@@ -29,26 +32,10 @@ let dgl = {
     Raycaster,
     Ray,
     Plane,
-    Box
+    Box,
+    vec3,
+    mat3,
+    mat4
 };
 
-function expose() {
-    var oldDgl = window.dgl;
-
-    dgl.noConflict = function () {
-        window.dgl = oldDgl;
-        return this;
-    };
-
-    window.dgl = dgl;
-}
-
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = dgl;
-} else if (typeof define === 'function' && define.amd) {
-    define(dgl);
-}
-
-if (typeof window !== 'undefined') {
-    expose();
-}
+module.exports = dgl;

@@ -48,6 +48,7 @@ export default class Camera extends Object3D {
         let matrix4 = mat4.create();
         let matrix3 = mat3.create();
         mat4.lookAt(matrix4, this.position, vector, this.up);
+        mat4.transpose(matrix4, matrix4);
         mat3.fromMat4(matrix3, matrix4);
         quat.fromMat3(this.quaternion, matrix3);
 

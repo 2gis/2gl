@@ -1,4 +1,4 @@
-import {vec3} from 'gl-matrix';
+import {vec3, mat3} from 'gl-matrix';
 import Ray from './math/Ray';
 import OrthographicCamera from './cameras/OrthographicCamera';
 import PerspectiveCamera from './cameras/PerspectiveCamera';
@@ -26,7 +26,11 @@ export default class Raycaster {
             this.ray.origin = camera.unproject(origin);
 
             this.ray.direction = vec3.fromValues(0, 0, -1);
-            vec3.transformMat4(this.ray.direction, this.ray.direction, camera.worldMatrix);
+
+            let matrix3 = mat3.create();
+            mat3.fromMat4(matrix3, camera.worldMatrix);
+            vec3.transformMat3(this.ray.direction, this.ray.direction, matrix3);
+            vec3.normalize(this.ray.direction, this.ray.direction);
         }
     }
 

@@ -7,6 +7,7 @@ export default class Camera extends Object3D {
 
         this.up = vec3.fromValues(0, 1, 0);
         this.projectionMatrix = mat4.create();
+        this.projectionInverseMatrix = mat4.create();
         this.worldInverseMatrix = mat4.create();
     }
 
@@ -16,7 +17,7 @@ export default class Camera extends Object3D {
         super.updateWorldMatrix();
 
         mat4.invert(this.worldInverseMatrix, this.worldMatrix);
-        mat4.multiply(this.worldInverseMatrix, this.projectionMatrix, this.worldInverseMatrix);
+        mat4.multiply(this.projectionInverseMatrix, this.projectionMatrix, this.worldInverseMatrix);
     }
 
     project(vector) {

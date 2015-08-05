@@ -91,7 +91,7 @@ export default class Mesh extends Object3D {
 
     _bindUniforms(gl, scene, camera) {
         gl.uniformMatrix4fv(this.program.getUniform('uPosition'), false, this.worldMatrix);
-        gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.worldInverseMatrix);
+        gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.projectionInverseMatrix);
         gl.uniform1f(this.program.getUniform('uColorAlpha'), this.opacity);
 
 

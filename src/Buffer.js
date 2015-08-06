@@ -1,6 +1,6 @@
 export default class Buffer {
     constructor(array, itemSize) {
-        this._array = array;
+        this._array = new Float32Array(array);
         this.itemSize = itemSize;
         this.length = array.length / itemSize;
     }

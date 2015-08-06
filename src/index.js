@@ -14,7 +14,9 @@ import Raycaster from './Raycaster';
 import Ray from './math/Ray';
 import Plane from './math/Plane';
 import Box from './math/Box';
-import {vec3, mat3, mat4} from 'gl-matrix';
+import {vec3, mat3, mat4, glMatrix} from 'gl-matrix';
+
+glMatrix.ARRAY_TYPE = Float64Array;
 
 let dgl = {
     Renderer,

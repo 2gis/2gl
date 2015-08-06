@@ -90,8 +90,8 @@ export default class Mesh extends Object3D {
     }
 
     _bindUniforms(gl, scene, camera) {
-        gl.uniformMatrix4fv(this.program.getUniform('uPosition'), false, this.worldMatrix);
-        gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, camera.projectionInverseMatrix);
+        gl.uniformMatrix4fv(this.program.getUniform('uPosition'), false, new Float32Array(this.worldMatrix));
+        gl.uniformMatrix4fv(this.program.getUniform('uCamera'), false, new Float32Array(camera.projectionInverseMatrix));
         gl.uniform1f(this.program.getUniform('uColorAlpha'), this.opacity);
 
 
@@ -106,7 +106,7 @@ export default class Mesh extends Object3D {
             mat3.fromMat4(normalMatrix, this.worldMatrix);
             mat3.invert(normalMatrix, normalMatrix);
             mat3.transpose(normalMatrix, normalMatrix);
-            gl.uniformMatrix3fv(this.program.getUniform('uNormalMatrix'), false, normalMatrix);
+            gl.uniformMatrix3fv(this.program.getUniform('uNormalMatrix'), false, new Float32Array(normalMatrix));
 
             let directionLightsColor = [];
             let directionLightsPosition = [];

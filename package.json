@@ -1,6 +1,6 @@
 {
   "name": "2gl",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "WebGL library for 2gis projects",
   "repository": {
     "type": "git",

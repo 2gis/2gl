@@ -39,8 +39,16 @@ export default class Renderer {
     render(scene, camera) {
         let gl = this._gl;
 
+        gl.clearDepth(1);
+        gl.clearStencil(0);
+
         gl.enable(gl.DEPTH_TEST);
+        gl.depthFunc(gl.LEQUAL);
+
+        gl.frontFace(gl.CCW);
+        gl.cullFace(gl.BACK);
         gl.enable(gl.CULL_FACE);
+
         gl.enable(gl.BLEND);
         gl.blendEquation(gl.FUNC_ADD);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);

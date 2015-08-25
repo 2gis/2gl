@@ -17,7 +17,6 @@
     "browserify": "^11.0.0",
     "dat-gui": "^0.5.0",
     "eslint": "^0.24.1",
-    "stats-js": "^1.0.0-alpha1",
     "uglify-js": "^2.4.24",
     "watchify": "^3.3.1"
   },

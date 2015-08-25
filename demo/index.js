@@ -1,148 +1,74 @@
-var Stats = require('stats-js');
-var control = require('./control');
 var dat = require('dat-gui');
+var Stats = require('./Stats');
 
-var gui = new dat.GUI();
+var stats = new Stats();
+document.body.appendChild(stats.element);
+
 var settings = {
-    size: 30,
-    rotate: true
+    trianglesSize: 10,
+    triangles: 100000,
+    rotationCamera: true,
+    rotationMesh: true,
+    cameraOffset: 1000
 };
-
-var data = {"quarter":{"outerArea":[-7.5,5.5,0,-7.5,-7.5,0,-5.5,-5.5,0,3.5,-5.5,0,-5.5,-5.5,0,-7.5,-7.5,0,-7.5,5.5,0,-5.5,-5.5,0,-5.5,3.5,0,3.5,-5.5,0,-7.5,-7.5,0,5.5,-7.5,0,5.5,5.5,0,-7.5,5.5,0,-5.5,3.5,0,3.5,3.5,0,3.5,-5.5,0,5.5,-7.5,0,5.5,5.5,0,-5.5,3.5,0,3.5,3.5,0,3.5,3.5,0,5.5,-7.5,0,5.5,5.5,0],"walls":[-5.5,-5.5,0,-5.5,-5.5,1,-5.5,-3.5,0,-5.5,-3.5,1,-5.5,-3.5,0,-5.5,-5.5,1,-5.5,-3.5,0,-5.5,-3.5,1,-4.5,-3.5,0,-4.5,-3.5,1,-4.5,-3.5,0,-5.5,-3.5,1,-4.5,-3.5,0,-4.5,-3.5,1,-4.5,-4.5,0,-4.5,-4.5,1,-4.5,-4.5,0,-4.5,-3.5,1,-4.5,-4.5,0,-4.5,-4.5,1,-1.5,-4.5,0,-1.5,-4.5,1,-1.5,-4.5,0,-4.5,-4.5,1,-1.5,-4.5,0,-1.5,-4.5,1,-1.5,-1.5,0,-1.5,-1.5,1,-1.5,-1.5,0,-1.5,-4.5,1,-1.5,-1.5,0,-1.5,-1.5,1,-4.5,-1.5,0,-4.5,-1.5,1,-4.5,-1.5,0,-1.5,-1.5,1,-4.5,-1.5,0,-4.5,-1.5,1,-4.5,-2.5,0,-4.5,-2.5,1,-4.5,-2.5,0,-4.5,-1.5,1,-4.5,-2.5,0,-4.5,-2.5,1,-5.5,-2.5,0,-5.5,-2.5,1,-5.5,-2.5,0,-4.5,-2.5,1,-5.5,-2.5,0,-5.5,-2.5,1,-5.5,0.5,0,-5.5,0.5,1,-5.5,0.5,0,-5.5,-2.5,1,-5.5,0.5,0,-5.5,0.5,1,-4.5,0.5,0,-4.5,0.5,1,-4.5,0.5,0,-5.5,0.5,1,-4.5,0.5,0,-4.5,0.5,1,-4.5,-0.5,0,-4.5,-0.5,1,-4.5,-0.5,0,-4.5,0.5,1,-4.5,-0.5,0,-4.5,-0.5,1,-1.5,-0.5,0,-1.5,-0.5,1,-1.5,-0.5,0,-4.5,-0.5,1,-1.5,-0.5,0,-1.5,-0.5,1,-1.5,2.5,0,-1.5,2.5,1,-1.5,2.5,0,-1.5,-0.5,1,-1.5,2.5,0,-1.5,2.5,1,-4.5,2.5,0,-4.5,2.5,1,-4.5,2.5,0,-1.5,2.5,1,-4.5,2.5,0,-4.5,2.5,1,-4.5,1.5,0,-4.5,1.5,1,-4.5,1.5,0,-4.5,2.5,1,-4.5,1.5,0,-4.5,1.5,1,-5.5,1.5,0,-5.5,1.5,1,-5.5,1.5,0,-4.5,1.5,1,-5.5,1.5,0,-5.5,1.5,1,-5.5,3.5,0,-5.5,3.5,1,-5.5,3.5,0,-5.5,1.5,1,-5.5,3.5,0,-5.5,3.5,1,3.5,3.5,0,3.5,3.5,1,3.5,3.5,0,-5.5,3.5,1,3.5,3.5,0,3.5,3.5,1,3.5,1.5,0,3.5,1.5,1,3.5,1.5,0,3.5,3.5,1,3.5,1.5,0,3.5,1.5,1,2.5,1.5,0,2.5,1.5,1,2.5,1.5,0,3.5,1.5,1,2.5,1.5,0,2.5,1.5,1,2.5,2.5,0,2.5,2.5,1,2.5,2.5,0,2.5,1.5,1,2.5,2.5,0,2.5,2.5,1,-0.5,2.5,0,-0.5,2.5,1,-0.5,2.5,0,2.5,2.5,1,-0.5,2.5,0,-0.5,2.5,1,-0.5,-0.5,0,-0.5,-0.5,1,-0.5,-0.5,0,-0.5,2.5,1,-0.5,-0.5,0,-0.5,-0.5,1,2.5,-0.5,0,2.5,-0.5,1,2.5,-0.5,0,-0.5,-0.5,1,2.5,-0.5,0,2.5,-0.5,1,2.5,0.5,0,2.5,0.5,1,2.5,0.5,0,2.5,-0.5,1,2.5,0.5,0,2.5,0.5,1,3.5,0.5,0,3.5,0.5,1,3.5,0.5,0,2.5,0.5,1,3.5,0.5,0,3.5,0.5,1,3.5,-2.5,0,3.5,-2.5,1,3.5,-2.5,0,3.5,0.5,1,3.5,-2.5,0,3.5,-2.5,1,2.5,-2.5,0,2.5,-2.5,1,2.5,-2.5,0,3.5,-2.5,1,2.5,-2.5,0,2.5,-2.5,1,2.5,-1.5,0,2.5,-1.5,1,2.5,-1.5,0,2.5,-2.5,1,2.5,-1.5,0,2.5,-1.5,1,-0.5,-1.5,0,-0.5,-1.5,1,-0.5,-1.5,0,2.5,-1.5,1,-0.5,-1.5,0,-0.5,-1.5,1,-0.5,-4.5,0,-0.5,-4.5,1,-0.5,-4.5,0,-0.5,-1.5,1,-0.5,-4.5,0,-0.5,-4.5,1,2.5,-4.5,0,2.5,-4.5,1,2.5,-4.5,0,-0.5,-4.5,1,2.5,-4.5,0,2.5,-4.5,1,2.5,-3.5,0,2.5,-3.5,1,2.5,-3.5,0,2.5,-4.5,1,2.5,-3.5,0,2.5,-3.5,1,3.5,-3.5,0,3.5,-3.5,1,3.5,-3.5,0,2.5,-3.5,1,3.5,-3.5,0,3.5,-3.5,1,3.5,-5.5,0,3.5,-5.5,1,3.5,-5.5,0,3.5,-3.5,1,3.5,-5.5,0,3.5,-5.5,1,-5.5,-5.5,0,-5.5,-5.5,1,-5.5,-5.5,0,3.5,-5.5,1],"topArea":[-4.5,-3.5,1,-5.5,-3.5,1,-5.5,-5.5,1,3.5,-5.5,1,3.5,-3.5,1,2.5,-3.5,1,2.5,-1.5,1,2.5,-2.5,1,3.5,-2.5,1,3.5,-2.5,1,3.5,0.5,1,2.5,0.5,1,2.5,2.5,1,2.5,1.5,1,3.5,1.5,1,-5.5,3.5,1,-5.5,1.5,1,-4.5,1.5,1,-4.5,-0.5,1,-4.5,0.5,1,-5.5,0.5,1,-5.5,0.5,1,-5.5,-2.5,1,-4.5,-2.5,1,-4.5,-4.5,1,-4.5,-3.5,1,-5.5,-5.5,1,3.5,-5.5,1,2.5,-3.5,1,2.5,-4.5,1,3.5,-2.5,1,2.5,0.5,1,2.5,-0.5,1,2.5,2.5,1,3.5,1.5,1,3.5,3.5,1,-5.5,3.5,1,-4.5,1.5,1,-4.5,2.5,1,-5.5,0.5,1,-4.5,-2.5,1,-4.5,-1.5,1,-1.5,-4.5,1,-4.5,-4.5,1,-5.5,-5.5,1,-5.5,-5.5,1,3.5,-5.5,1,2.5,-4.5,1,2.5,-1.5,1,3.5,-2.5,1,2.5,-0.5,1,-0.5,2.5,1,2.5,2.5,1,3.5,3.5,1,3.5,3.5,1,-5.5,3.5,1,-4.5,2.5,1,-4.5,-0.5,1,-5.5,0.5,1,-4.5,-1.5,1,-5.5,-5.5,1,2.5,-4.5,1,-0.5,-4.5,1,-0.5,-1.5,1,2.5,-1.5,1,2.5,-0.5,1,3.5,3.5,1,-4.5,2.5,1,-1.5,2.5,1,-1.5,-0.5,1,-4.5,-0.5,1,-4.5,-1.5,1,-1.5,-4.5,1,-5.5,-5.5,1,-0.5,-4.5,1,-0.5,-1.5,1,2.5,-0.5,1,-0.5,-0.5,1,-0.5,2.5,1,3.5,3.5,1,-1.5,2.5,1,-1.5,-0.5,1,-4.5,-1.5,1,-1.5,-1.5,1,-1.5,-1.5,1,-1.5,-4.5,1,-0.5,-4.5,1,-0.5,-0.5,1,-0.5,2.5,1,-1.5,2.5,1,-1.5,-0.5,1,-1.5,-1.5,1,-0.5,-4.5,1,-0.5,-1.5,1,-0.5,-0.5,1,-1.5,2.5,1,-1.5,2.5,1,-1.5,-0.5,1,-0.5,-4.5,1,-0.5,-4.5,1,-0.5,-1.5,1,-1.5,2.5,1],"area":[-4.5,-2.5,0,-5.5,-2.5,0,-5.5,-3.5,0,-4.5,-3.5,0,-4.5,-4.5,0,-1.5,-4.5,0,-1.5,-4.5,0,-1.5,-1.5,0,-4.5,-1.5,0,-4.5,-2.5,0,-5.5,-3.5,0,-4.5,-3.5,0,-1.5,-4.5,0,-4.5,-1.5,0,-4.5,-2.5,0,-4.5,-2.5,0,-4.5,-3.5,0,-1.5,-4.5,0,-4.5,1.5,0,-5.5,1.5,0,-5.5,0.5,0,-4.5,0.5,0,-4.5,-0.5,0,-1.5,-0.5,0,-1.5,-0.5,0,-1.5,2.5,0,-4.5,2.5,0,-4.5,1.5,0,-5.5,0.5,0,-4.5,0.5,0,-1.5,-0.5,0,-4.5,2.5,0,-4.5,1.5,0,-4.5,1.5,0,-4.5,0.5,0,-1.5,-0.5,0,2.5,0.5,0,3.5,0.5,0,3.5,1.5,0,2.5,1.5,0,2.5,2.5,0,-0.5,2.5,0,-0.5,2.5,0,-0.5,-0.5,0,2.5,-0.5,0,2.5,0.5,0,3.5,1.5,0,2.5,1.5,0,-0.5,2.5,0,2.5,-0.5,0,2.5,0.5,0,2.5,0.5,0,2.5,1.5,0,-0.5,2.5,0,2.5,-3.5,0,3.5,-3.5,0,3.5,-2.5,0,2.5,-2.5,0,2.5,-1.5,0,-0.5,-1.5,0,-0.5,-1.5,0,-0.5,-4.5,0,2.5,-4.5,0,2.5,-3.5,0,3.5,-2.5,0,2.5,-2.5,0,-0.5,-1.5,0,2.5,-4.5,0,2.5,-3.5,0,2.5,-3.5,0,2.5,-2.5,0,-0.5,-1.5,0]},"emptyQuarter":{"outerArea":[-7.5,-7.5,0,5.5,5.5,0,-7.5,5.5,0,-7.5,-7.5,0,5.5,-7.5,0,5.5,5.5,0]}};
-var topAreaColor = [0.95, 0.95, 0.95, 1];
-var outerAreaColor = [0.9, 0.9, 0.9, 1];
-
-var quarters = [data.quarter, data.quarter, data.emptyQuarter];
-var quarterSize = 13;
 
 function getRandomRGBA() {
     return [Math.random(), Math.random(), Math.random(), 1];
 }
 
-function getQuarter(x, y) {
-    var i;
+function getTriangle(size) {
+    var x = (0.5 - Math.random()) * size;
+    var y = (0.5 - Math.random()) * size;
+    var z = (0.5 - Math.random()) * size;
 
-    var n = Math.round(Math.random() * (quarters.length - 1));
-    var quarter = quarters[n];
+    var tr = [
+        Math.random() + x, Math.random() + y, Math.random() + z,
+        Math.random() + x, Math.random() + y, Math.random() + z,
+        Math.random() + x, Math.random() + y, Math.random() + z
+    ];
 
-    var outerArea = new Float32Array(quarter.outerArea || 0);
-    for (i = 0; i < outerArea.length; i += 3) {
-        outerArea[i] = x + outerArea[i];
-        outerArea[i + 1] = y + outerArea[i + 1];
-        outerArea[i + 2] = outerArea[i + 2];
-    }
+    var blockSize = settings.trianglesSize;
 
-    var area = new Float32Array(quarter.area || 0);
-    for (i = 0; i < area.length; i += 3) {
-        area[i] = x + area[i];
-        area[i + 1] = y + area[i + 1];
-        area[i + 2] = area[i + 2];
-    }
-
-    var topArea = new Float32Array(quarter.topArea || 0);
-    for (i = 0; i < topArea.length; i += 3) {
-        topArea[i] = x + topArea[i];
-        topArea[i + 1] = y + topArea[i + 1];
-        topArea[i + 2] = topArea[i + 2];
-    }
-
-    var walls = new Float32Array(quarter.walls || 0);
-    for (i = 0; i < walls.length; i += 3) {
-        walls[i] = x + walls[i];
-        walls[i + 1] = y + walls[i + 1];
-        walls[i + 2] = walls[i + 2];
-    }
-
-    return {
-        outerArea: outerArea,
-        area: area,
-        topArea: topArea,
-        walls: walls
-    };
+    return tr.map(function(x) {
+        return x * blockSize;
+    });
 }
 
 function getMesh() {
-    var i, j;
+    var vertices = [];
+    var colors = [];
+    var size = Math.pow(settings.triangles, 1 / 3);
 
-    console.time('init time');
+    for (var i = 0; i < settings.triangles; i++) {
+        var tr = getTriangle(size);
+        var randomColor = getRandomRGBA();
+        var j;
 
-    var program = new dgl.MeshProgram();
+        Array.prototype.push.apply(vertices, tr);
 
-    var geometry = new dgl.Geometry();
-    var wallGeometry = new dgl.Geometry();
-
-    var allVertices = [];
-    var allColors = [];
-
-    var allWallVertices = [];
-    var allWallColors = [];
-
-    for (i = Math.ceil(-settings.size / 2); i < settings.size / 2; i++) {
-        for (j = Math.ceil(-settings.size / 2); j < settings.size / 2; j++) {
-            (function(el) {
-                var randomColor = getRandomRGBA();
-                var i;
-
-                var color = randomColor;
-                Array.prototype.push.apply(allVertices, el.area);
-                for (i = 0; i < el.area.length / 3; i++) {
-                    Array.prototype.push.apply(allColors, color);
-                }
-
-                color = topAreaColor;
-                Array.prototype.push.apply(allVertices, el.topArea);
-                for (i = 0; i < el.topArea.length / 3; i++) {
-                    Array.prototype.push.apply(allColors, color);
-                }
-
-                color = outerAreaColor;
-                Array.prototype.push.apply(allVertices, el.outerArea);
-                for (i = 0; i < el.outerArea.length / 3; i++) {
-                    Array.prototype.push.apply(allColors, color);
-                }
-
-                color = [randomColor[0] * 0.95, randomColor[1] * 0.95, randomColor[2] * 0.95, 1];
-                Array.prototype.push.apply(allWallVertices, el.walls);
-                for (i = 0; i < el.walls.length / 3; i++) {
-                    Array.prototype.push.apply(allWallColors, color);
-                }
-            })(getQuarter(quarterSize * i, quarterSize * j));
+        for (j = 0; j < tr.length / 3; j++) {
+            Array.prototype.push.apply(colors, randomColor);
         }
     }
 
-    var vertexBuffer = new dgl.Buffer(allVertices, 3);
-    var colorBuffer = new dgl.Buffer(allColors, 4);
-    var normalBuffer = new dgl.Buffer(new Float32Array(allVertices.length), 3);
-    var lightAlphaBuffer = new dgl.Buffer(new Float32Array(allVertices.length / 3), 1);
+    var program = new dgl.MeshProgram();
+    var geometry = new dgl.Geometry();
+
+    var vertexBuffer = new dgl.Buffer(vertices, 3);
+    var colorBuffer = new dgl.Buffer(colors, 4);
+
+    var lightAlphaVertices = new Float32Array(vertices.length / 3);
+    for (i = 0; i < lightAlphaVertices.length; i++) {
+        lightAlphaVertices[i] = 1;
+    }
+    var lightAlphaBuffer = new dgl.Buffer(lightAlphaVertices, 1);
 
     geometry
         .setBuffer('position', vertexBuffer)
         .setBuffer('color', colorBuffer)
-        .setBuffer('normal', normalBuffer)
         .setBuffer('directionLightAlpha', lightAlphaBuffer);
 
-    vertexBuffer = new dgl.Buffer(allWallVertices, 3);
-    colorBuffer = new dgl.Buffer(allWallColors, 4);
-
-    var lightAlphaVertices = new Float32Array(allWallVertices.length / 3);
-    for (i = 0; i < lightAlphaVertices.length; i++) {
-        lightAlphaVertices[i] = 1;
-    }
-    lightAlphaBuffer = new dgl.Buffer(lightAlphaVertices, 1);
-
-    wallGeometry
-        .setBuffer('position', vertexBuffer)
-        .setBuffer('color', colorBuffer)
-        .setBuffer('directionLightAlpha', lightAlphaBuffer);
-
-    wallGeometry.computeNormals();
-
-    geometry.concat(wallGeometry);
-
-    allVertices = null;
-    allColors = null;
-    allWallVertices = null;
-    allWallColors = null;
+    geometry.computeNormals();
 
     return new dgl.Mesh(geometry, program);
 }
@@ -153,7 +79,7 @@ var scene = new dgl.Scene();
 scene.add(mesh);
 
 var camera = new dgl.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
-camera.position[2] = 50;
+camera.position[2] = settings.cameraOffset;
 camera.updateProjectionMatrix();
 
 var ambientLight = new dgl.AmbientLight([0.5, 0.5, 0.5]);
@@ -173,37 +99,70 @@ var renderer = new dgl.Renderer({
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-var stats = new Stats();
-stats.setMode(0);
-stats.domElement.style.position = 'absolute';
-stats.domElement.style.left = '0';
-stats.domElement.style.bottom = '0';
-document.body.appendChild(stats.domElement);
+window.addEventListener('resize', function() {
+    stats.reset();
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
-control = control(camera, settings);
+function rotateMesh(dt) {
+    if (!settings.rotationMesh) { return; }
+
+    dgl.quat.rotateX(mesh.quaternion, mesh.quaternion, dt / 3000);
+    dgl.quat.rotateY(mesh.quaternion, mesh.quaternion, dt / 3000);
+
+    mesh.updateLocalMatrix();
+    mesh.updateWorldMatrix();
+}
+
+function rotateCamera(dt) {
+    if (!settings.rotationCamera) { return; }
+
+    dgl.quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
+}
+
+var lastUpdateTime = Date.now();
 
 function render() {
     requestAnimationFrame(render);
 
-    stats.begin();
-    control.update();
+    var dt = Date.now() - lastUpdateTime;
+
+    stats.start();
+    rotateMesh(dt);
+    rotateCamera(dt);
     renderer.render(scene, camera);
     stats.end();
-}
 
-console.timeEnd('init time');
+    lastUpdateTime = Date.now();
+}
 
 render();
 
-var guiSize = gui.add(settings, 'size', 1, 100);
+var gui = new dat.GUI();
+var guiTriangles = gui.add(settings, 'triangles', 1, 1000000);
+var guiTrianglesSize = gui.add(settings, 'trianglesSize', 1, 100);
 var timeout;
-guiSize.onChange(function() {
+
+function onChange() {
     clearTimeout(timeout);
     timeout = setTimeout(function() {
         scene.remove(mesh);
         mesh = getMesh();
         scene.add(mesh);
+        stats.reset();
     }, 1000);
-});
+}
 
-gui.add(settings, 'rotate');
+guiTriangles.onChange(onChange);
+guiTrianglesSize.onChange(onChange);
+
+gui.add(settings, 'rotationMesh');
+gui.add(settings, 'rotationCamera');
+
+var guiCameraOffset = gui.add(settings, 'cameraOffset', 0, 10000);
+guiCameraOffset.onChange(function(value) {
+    camera.position[2] = value;
+    stats.reset();
+});

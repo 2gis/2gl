@@ -9,7 +9,7 @@ var settings = {
     triangles: 100000,
     rotationCamera: true,
     rotationMesh: true,
-    cameraOffset: 1000
+    cameraOffset: 200
 };
 
 function getRandomRGBA() {
@@ -63,20 +63,41 @@ function getMesh() {
     }
     var lightAlphaBuffer = new dgl.Buffer(lightAlphaVertices, 1);
 
+    var uv = [];
+    var textureEnable = [];
+    for (var k = 0; k < vertices.length / 9; k++) {
+        uv.push(0, 0, 0.5, 1, 1, 0);
+        textureEnable.push(1, 1, 1);
+    }
+    var uvBuffer = new dgl.Buffer(uv, 2);
+    var textureEnableBuffer = new dgl.Buffer(textureEnable, 1);
+
+
     geometry
         .setBuffer('position', vertexBuffer)
         .setBuffer('color', colorBuffer)
-        .setBuffer('directionLightAlpha', lightAlphaBuffer);
+        .setBuffer('lightEnable', lightAlphaBuffer)
+        .setBuffer('texture', uvBuffer)
+        .setBuffer('textureEnable', textureEnableBuffer);
 
     geometry.computeNormals();
 
     return new dgl.Mesh(geometry, program);
 }
 
-var mesh = getMesh();
+var img = document.createElement('img');
+var texture;
+var mesh;
+
+img.onload = function() {
+    texture = new dgl.Texture(img);
+    mesh = getMesh();
+    mesh.setTexture(texture);
+    scene.add(mesh);
+};
+img.src = './demo/texture.png';
 
 var scene = new dgl.Scene();
-scene.add(mesh);
 
 var camera = new dgl.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
 camera.position[2] = settings.cameraOffset;
@@ -130,8 +151,10 @@ function render() {
     var dt = Date.now() - lastUpdateTime;
 
     stats.start();
-    rotateMesh(dt);
-    rotateCamera(dt);
+    if (mesh) {
+        rotateMesh(dt);
+        rotateCamera(dt);
+    }
     renderer.render(scene, camera);
     stats.end();
 
@@ -139,6 +162,7 @@ function render() {
 }
 
 render();
+stats.reset();
 
 var gui = new dat.GUI();
 var guiTriangles = gui.add(settings, 'triangles', 1, 1000000);
@@ -150,6 +174,7 @@ function onChange() {
     timeout = setTimeout(function() {
         scene.remove(mesh);
         mesh = getMesh();
+        mesh.setTexture(texture);
         scene.add(mesh);
         stats.reset();
     }, 1000);

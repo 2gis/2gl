@@ -73,11 +73,11 @@ export default class Mesh extends Object3D {
         let lights = scene.getLights();
 
         if (lights.length) {
-            this.program.enableLight(lights);
+            this.program.enableLight(lights, Boolean(this.geometry.getBuffer('lightEnable')));
         }
 
         if (this._texture) {
-            this.program.enableTexture();
+            this.program.enableTexture(Boolean(this.geometry.getBuffer('textureEnable')));
         }
 
         this._prepared = true;

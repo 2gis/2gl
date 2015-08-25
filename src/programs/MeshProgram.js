@@ -11,7 +11,7 @@ export default class MeshProgram extends Program {
         this._shader = shader;
     }
 
-    enableLight(lights) {
+    enableLight(lights, useLightEnabling) {
         this.define('light');
 
         let directionLightNumber = 0;
@@ -28,14 +28,24 @@ export default class MeshProgram extends Program {
             this._attributeList.push('normal');
         }
 
-        this._attributeList.push('directionLightAlpha');
         this._uniformList.push('uAmbientLightColor', 'uDirectionLightColors',
             'uDirectionLightPositions', 'uNormalMatrix');
+
+        if (useLightEnabling) {
+            this.define('lightEnable');
+            this._attributeList.push('lightEnable');
+        }
     }
 
-    enableTexture() {
+    enableTexture(useTextureEnabling) {
         this.define('texture');
-        this._attributeList.push('texture', 'textureAlpha');
+        this._attributeList.push('texture');
+
+        if (useTextureEnabling) {
+            this.define('textureEnable');
+            this._attributeList.push('textureEnable');
+        }
+
         this._uniformList.push('uTexture');
     }
 }

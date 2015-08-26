@@ -6,5 +6,9 @@ export default {
     basic: {
         vertex: fs.readFileSync(path.join(__dirname, '/basic.vert.glsl'), 'utf8'),
         fragment: fs.readFileSync(path.join(__dirname, '/basic.frag.glsl'), 'utf8')
+    },
+    complex: {
+        vertex: fs.readFileSync(path.join(__dirname, '/complex.vert.glsl'), 'utf8'),
+        fragment: fs.readFileSync(path.join(__dirname, '/complex.frag.glsl'), 'utf8')
     }
 };

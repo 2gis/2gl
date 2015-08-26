@@ -1,4 +1,4 @@
-import {basic as shader} from '../shaders';
+import {complex as shader} from '../shaders';
 import {vec3, mat3} from 'gl-matrix';
 import Program from './Program';
 import AmbientLight from '../lights/AmbientLight';
@@ -8,13 +8,9 @@ export default class ComplexMeshProgram extends Program {
     constructor() {
         super();
 
-        this._attributeList = ['position', 'color', 'normal', 'lightEnable'];
-        this._uniformList = ['uCamera', 'uPosition', 'uColorAlpha', 'uAmbientLightColor', 'uDirectionLightColors',
-            'uDirectionLightPositions', 'uNormalMatrix'];
+        this._attributeList = ['position', 'color', 'lightEnable'];
+        this._uniformList = ['uCamera', 'uPosition', 'uColorAlpha', 'uAmbientLightColor'];
         this._shader = shader;
-
-        this.define('light');
-        this.define('lightEnabling');
     }
 
     setTexture(texture) {
@@ -47,18 +43,20 @@ export default class ComplexMeshProgram extends Program {
         });
 
         this.define('directionLights', directionLightNumber);
+
+        if (directionLightNumber > 0) {
+            this._attributeList.push('normal');
+            this._uniformList.push('uDirectionLightColors', 'uDirectionLightPositions', 'uNormalMatrix');
+        }
     }
 
     _enableTexture() {
         this.define('texture');
-        this.define('textureEnabling');
         this._attributeList.push('texture', 'textureEnable');
         this._uniformList.push('uTexture');
     }
 
-    _bindUniforms(gl, scene, camera, mesh) {
-        super._bindUniforms(gl, scene, camera, mesh);
-
+    _bindMesh(gl, scene, camera, mesh) {
         if (this._texture) {
             this._texture.enable(gl, this.uniforms.uTexture);
         }
@@ -66,12 +64,6 @@ export default class ComplexMeshProgram extends Program {
         let lights = scene.getLights();
 
         if (lights.length) {
-            let normalMatrix = mat3.create();
-            mat3.fromMat4(normalMatrix, mesh.worldMatrix);
-            mat3.invert(normalMatrix, normalMatrix);
-            mat3.transpose(normalMatrix, normalMatrix);
-            gl.uniformMatrix3fv(this.uniforms.uNormalMatrix, false, new Float32Array(normalMatrix));
-
             let directionLightsColor = [];
             let directionLightsPosition = [];
 
@@ -92,9 +84,27 @@ export default class ComplexMeshProgram extends Program {
             });
 
             if (directionLightsColor.length && directionLightsPosition.length) {
-                gl.uniform3fv(this.uniforms.uDirectionLightColors, new Float32Array(directionLightsColor));
-                gl.uniform3fv(this.uniforms.uDirectionLightPositions, new Float32Array(directionLightsPosition));
+                let normalMatrix = mat3.create();
+                mat3.fromMat4(normalMatrix, mesh.worldMatrix);
+                mat3.invert(normalMatrix, normalMatrix);
+                mat3.transpose(normalMatrix, normalMatrix);
+                gl.uniformMatrix3fv(this.uniforms.uNormalMatrix, false, new Float32Array(normalMatrix));
+
+                mesh.geometry.getBuffer('normal').bind(gl, this.attributes.normal);
             }
+
+            gl.uniform3fv(this.uniforms.uDirectionLightColors, new Float32Array(directionLightsColor));
+            gl.uniform3fv(this.uniforms.uDirectionLightPositions, new Float32Array(directionLightsPosition));
         }
+
+        this._attributeList.forEach(name => {
+            if (name !== 'normal') {
+                mesh.geometry.getBuffer(name).bind(gl, this.attributes[name]);
+            }
+        });
+
+        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(mesh.worldMatrix));
+        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
+        gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
     }
 }

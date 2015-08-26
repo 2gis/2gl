@@ -20,8 +20,7 @@ export default class Program {
             gl.enableVertexAttribArray(this.attributes[name]);
         }
 
-        this._bindAttributes(gl, mesh);
-        this._bindUniforms(gl, scene, camera, mesh);
+        this._bindMesh(gl, scene, camera, mesh);
 
         return this;
     }
@@ -109,6 +108,11 @@ export default class Program {
         this._uniformList.forEach(name => {
             this.uniforms[name] = gl.getUniformLocation(this._shaderProgram, name);
         });
+    }
+
+    _bindMesh(gl, scene, camera, mesh) {
+        this._bindAttributes(gl, mesh);
+        this._bindUniforms(gl, scene, camera, mesh);
     }
 
     _bindAttributes(gl, mesh) {

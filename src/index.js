@@ -4,6 +4,7 @@ import PerspectiveCamera from './cameras/PerspectiveCamera';
 import OrthographicCamera from './cameras/OrthographicCamera';
 import Buffer from './Buffer';
 import Geometry from './Geometry';
+import BasicMeshProgram from './programs/BasicMeshProgram';
 import ComplexMeshProgram from './programs/ComplexMeshProgram';
 import Mesh from './Mesh';
 import Scene from './Scene';
@@ -26,6 +27,7 @@ let dgl = {
     Buffer,
     Geometry,
     Mesh,
+    BasicMeshProgram,
     ComplexMeshProgram,
     Scene,
     Texture,

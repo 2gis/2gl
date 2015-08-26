@@ -65,13 +65,14 @@ function getMesh() {
 
     var uv = [];
     var textureEnable = [];
+    var l = 0;
     for (var k = 0; k < vertices.length / 9; k++) {
         uv.push(0, 0, 0.5, 1, 1, 0);
-        textureEnable.push(1, 1, 1);
+        textureEnable.push(l % 2, l % 2, l % 2);
+        l++;
     }
     var uvBuffer = new dgl.Buffer(uv, 2);
     var textureEnableBuffer = new dgl.Buffer(textureEnable, 1);
-
 
     geometry
         .setBuffer('position', vertexBuffer)

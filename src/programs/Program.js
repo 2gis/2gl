@@ -6,11 +6,12 @@ export default class Program {
         this._uniformList = [];
         this._definitions = [];
         this._shader = null;
+        this.opacity = 1;
     }
 
-    enable(gl) {
+    enable(gl, scene, camera, mesh) {
         if (!this._shaderProgram) {
-            this._prepare(gl);
+            this._prepare(gl, scene);
         }
 
         gl.useProgram(this._shaderProgram);
@@ -18,6 +19,9 @@ export default class Program {
         for (let name in this.attributes) {
             gl.enableVertexAttribArray(this.attributes[name]);
         }
+
+        this._bindAttributes(gl, mesh);
+        this._bindUniforms(gl, scene, camera, mesh);
 
         return this;
     }
@@ -30,14 +34,6 @@ export default class Program {
         return this;
     }
 
-    getAttribute(name) {
-        return this.attributes[name];
-    }
-
-    getUniform(name) {
-        return this.uniforms[name];
-    }
-
     define(type, value) {
         if (definitions[type]) {
             this._definitions.push({type, value});
@@ -46,7 +42,17 @@ export default class Program {
         return this;
     }
 
-    _prepare(gl) {
+    setTexture(texture) {
+        this._texture = texture;
+
+        return this;
+    }
+
+    getTexture() {
+        return this._texture;
+    }
+
+    _prepare(gl, scene) {
         this._prepareShaders(gl);
         this._prepareAttributes(gl);
         this._prepareUniforms(gl);
@@ -103,5 +109,17 @@ export default class Program {
         this._uniformList.forEach(name => {
             this.uniforms[name] = gl.getUniformLocation(this._shaderProgram, name);
         });
+    }
+
+    _bindAttributes(gl, mesh) {
+        this._attributeList.forEach(name => {
+            mesh.geometry.getBuffer(name).bind(gl, this.attributes[name]);
+        });
+    }
+
+    _bindUniforms(gl, scene, camera, mesh) {
+        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(mesh.worldMatrix));
+        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
+        gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
     }
 }

@@ -51,7 +51,7 @@ function getMesh() {
         }
     }
 
-    var program = new dgl.MeshProgram();
+    var program = new dgl.ComplexMeshProgram();
     var geometry = new dgl.Geometry();
 
     var vertexBuffer = new dgl.Buffer(vertices, 3);
@@ -92,7 +92,7 @@ var mesh;
 img.onload = function() {
     texture = new dgl.Texture(img);
     mesh = getMesh();
-    mesh.setTexture(texture);
+    mesh.program.setTexture(texture);
     scene.add(mesh);
 };
 img.src = './demo/texture.png';

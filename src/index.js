@@ -6,7 +6,9 @@ import Buffer from './Buffer';
 import Geometry from './Geometry';
 import BasicMeshProgram from './programs/BasicMeshProgram';
 import ComplexMeshProgram from './programs/ComplexMeshProgram';
+import SpriteProgram from './programs/SpriteProgram';
 import Mesh from './Mesh';
+import Sprite from './Sprite';
 import Scene from './Scene';
 import Texture from './Texture';
 import AmbientLight from './lights/AmbientLight';
@@ -27,8 +29,10 @@ let dgl = {
     Buffer,
     Geometry,
     Mesh,
+    Sprite,
     BasicMeshProgram,
     ComplexMeshProgram,
+    SpriteProgram,
     Scene,
     Texture,
     AmbientLight,

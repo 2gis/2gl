@@ -4,7 +4,9 @@ export default class Object3D {
     constructor() {
         this.childs = [];
         this.parent = null;
+        this.opacity = 1;
 
+        this.scale = vec3.fromValues(1, 1, 1);
         this.position = vec3.create();
         this.quaternion = quat.create();
         this.localMatrix = mat4.create();
@@ -36,7 +38,7 @@ export default class Object3D {
     }
 
     updateLocalMatrix() {
-        mat4.fromRotationTranslation(this.localMatrix, this.quaternion, this.position);
+        mat4.fromRotationTranslationScale(this.localMatrix, this.quaternion, this.position, this.scale);
     }
 
     updateWorldMatrix() {

@@ -7,7 +7,6 @@ export default class Mesh extends Object3D {
 
         this.geometry = geometry;
         this.program = program;
-        this.opacity = 1;
     }
 
     render(gl, scene, camera) {

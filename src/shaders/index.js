@@ -10,5 +10,9 @@ export default {
     complex: {
         vertex: fs.readFileSync(path.join(__dirname, '/complex.vert.glsl'), 'utf8'),
         fragment: fs.readFileSync(path.join(__dirname, '/complex.frag.glsl'), 'utf8')
+    },
+    sprite: {
+        vertex: fs.readFileSync(path.join(__dirname, '/sprite.vert.glsl'), 'utf8'),
+        fragment: fs.readFileSync(path.join(__dirname, '/sprite.frag.glsl'), 'utf8')
     }
 };

@@ -16,7 +16,7 @@ void main(void) {
     #ifdef USE_TEXTURE
         if (vTextureEnable > 0.5) {
             vec4 textureColor = texture2D(uTexture, vec2(vTextureCoord.s, vTextureCoord.t));
-            color = vec4(textureColor.rgb * vColor.rgb, color.a);
+            color = vec4(textureColor.rgb * color.rgb, color.a);
         }
     #endif
 

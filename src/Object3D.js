@@ -33,8 +33,8 @@ export default class Object3D {
 
     raycast() {}
 
-    render(gl, scene, camera) {
-        this.childs.forEach(object => object.render(gl, scene, camera));
+    render(gl, scene, camera, renderTransparent) {
+        this.childs.forEach(object => object.render(gl, scene, camera, renderTransparent));
     }
 
     updateLocalMatrix() {

@@ -9,12 +9,16 @@ export default class Mesh extends Object3D {
         this.program = program;
     }
 
-    render(gl, scene, camera) {
-        this.program.enable(gl, scene, camera, this);
+    render(gl, scene, camera, renderTransparent) {
+        if ((this.program.opacity === 1) === !renderTransparent) {
+            this.program.enable(gl, scene, camera, this);
 
-        gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
+            gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
 
-        this.program.disable(gl);
+            this.program.disable(gl);
+        }
+
+        this.childs.forEach(object => object.render(gl, scene, camera, renderTransparent));
     }
 
     raycast(raycaster, intersects) {

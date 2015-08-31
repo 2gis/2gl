@@ -49,10 +49,6 @@ export default class Renderer {
         gl.cullFace(gl.BACK);
         gl.enable(gl.CULL_FACE);
 
-        gl.enable(gl.BLEND);
-        gl.blendEquation(gl.FUNC_ADD);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
         if (this.autoClear) {
             this.clear();
         }
@@ -60,7 +56,15 @@ export default class Renderer {
         camera.updateLocalMatrix();
         camera.updateWorldMatrix();
 
-        scene.render(gl, camera);
+        gl.disable(gl.BLEND);
+
+        scene.render(gl, camera, false);
+
+        gl.enable(gl.BLEND);
+        gl.blendEquation(gl.FUNC_ADD);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+        scene.render(gl, camera, true);
 
         return this;
     }

@@ -32,6 +32,8 @@ export default class Sprite extends Object3D {
     }
 
     render(gl, scene, camera, renderTransparent) {
+        if (!this.visible) { return; }
+
         if ((this.program.opacity === 1) === !renderTransparent) {
             this.program.enable(gl, scene, camera, this);
 

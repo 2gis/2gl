@@ -5,6 +5,7 @@ export default class Object3D {
         this.childs = [];
         this.parent = null;
         this.opacity = 1;
+        this.visible = true;
 
         this.scale = vec3.fromValues(1, 1, 1);
         this.position = vec3.create();
@@ -14,6 +15,10 @@ export default class Object3D {
     }
 
     add(object) {
+        if (object.parent) {
+            object.parent.remove(object);
+        }
+
         object.parent = this;
         this.childs.push(object);
 
@@ -34,6 +39,8 @@ export default class Object3D {
     raycast() {}
 
     render(gl, scene, camera, renderTransparent) {
+        if (!this.visible) { return; }
+
         this.childs.forEach(object => object.render(gl, scene, camera, renderTransparent));
     }
 

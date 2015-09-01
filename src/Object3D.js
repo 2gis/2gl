@@ -12,6 +12,8 @@ export default class Object3D {
         this.quaternion = quat.create();
         this.localMatrix = mat4.create();
         this.worldMatrix = mat4.create();
+
+        this.worldMatrixNeedsUpdate = false;
     }
 
     add(object) {
@@ -41,11 +43,17 @@ export default class Object3D {
     render(gl, scene, camera, renderTransparent) {
         if (!this.visible) { return; }
 
+        if (this.worldMatrixNeedsUpdate) {
+            this.updateWorldMatrix();
+        }
+
         this.children.forEach(object => object.render(gl, scene, camera, renderTransparent));
     }
 
     updateLocalMatrix() {
         mat4.fromRotationTranslationScale(this.localMatrix, this.quaternion, this.position, this.scale);
+
+        this.worldMatrixNeedsUpdate = true;
     }
 
     updateWorldMatrix() {
@@ -56,5 +64,7 @@ export default class Object3D {
         }
 
         this.children.forEach(child => child.updateWorldMatrix());
+
+        this.worldMatrixNeedsUpdate = false;
     }
 }

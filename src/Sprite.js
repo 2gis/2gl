@@ -35,6 +35,10 @@ export default class Sprite extends Object3D {
     render(gl, scene, camera, state) {
         if (!this.visible) { return; }
 
+        if (this.worldMatrixNeedsUpdate) {
+            this.updateWorldMatrix();
+        }
+
         if (state === Renderer.SpriteRendering) {
             this.program.enable(gl, scene, camera, this);
 

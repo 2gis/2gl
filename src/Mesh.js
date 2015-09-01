@@ -13,6 +13,10 @@ export default class Mesh extends Object3D {
     render(gl, scene, camera, state) {
         if (!this.visible) { return; }
 
+        if (this.worldMatrixNeedsUpdate) {
+            this.updateWorldMatrix();
+        }
+
         if ((this.program.opacity === 1 && state === Renderer.CommonRendering) ||
             (this.program.opacity !== 1 && state === Renderer.TransparentRendering)
         ) {

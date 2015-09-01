@@ -2,8 +2,8 @@ export default class Texture {
     constructor(src) {
         this._src = src;
 
-        this.minFilter = Texture.LinearFilter;
-        this.magFilter = Texture.LinearMipMapLinearFilter;
+        this.magFilter = Texture.LinearFilter;
+        this.minFilter = Texture.LinearMipMapLinearFilter;
 
         this.wrapS = Texture.ClampToEdgeWrapping;
         this.wrapT = Texture.ClampToEdgeWrapping;
@@ -33,8 +33,8 @@ export default class Texture {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, this._toGlParam(gl, this.wrapS));
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, this._toGlParam(gl, this.wrapT));
 
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, this._toGlParam(gl, this.minFilter));
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, this._toGlParam(gl, this.magFilter));
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, this._toGlParam(gl, this.minFilter));
 
         if (this.generateMipmaps &&
             this.minFilter !== Texture.NearestFilter &&

@@ -42,7 +42,7 @@ export default class Sprite extends Object3D {
             this.program.disable(gl);
         }
 
-        this.childs.forEach(object => object.render(gl, scene, camera, renderTransparent));
+        this.children.forEach(object => object.render(gl, scene, camera, renderTransparent));
     }
 
     raycast(raycaster, intersects) {}

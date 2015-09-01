@@ -64,10 +64,10 @@ export default class Raycaster {
         object.raycast(this, intersects);
 
         if (recursive) {
-            let childs = object.childs;
+            let children = object.children;
 
-            for (let i = 0; i < childs.length; i++) {
-                this._intersectObject(childs[i], intersects, true);
+            for (let i = 0; i < children.length; i++) {
+                this._intersectObject(children[i], intersects, true);
             }
         }
     }

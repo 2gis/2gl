@@ -2,7 +2,7 @@ import {vec3, mat4, quat} from 'gl-matrix';
 
 export default class Object3D {
     constructor() {
-        this.childs = [];
+        this.children = [];
         this.parent = null;
         this.opacity = 1;
         this.visible = true;
@@ -20,17 +20,17 @@ export default class Object3D {
         }
 
         object.parent = this;
-        this.childs.push(object);
+        this.children.push(object);
 
         return this;
     }
 
     remove(object) {
-        let index = this.childs.indexOf(object);
+        let index = this.children.indexOf(object);
 
         if (index != -1) {
             object.parent = null;
-            this.childs.splice(index, 1);
+            this.children.splice(index, 1);
         }
 
         return this;
@@ -41,7 +41,7 @@ export default class Object3D {
     render(gl, scene, camera, renderTransparent) {
         if (!this.visible) { return; }
 
-        this.childs.forEach(object => object.render(gl, scene, camera, renderTransparent));
+        this.children.forEach(object => object.render(gl, scene, camera, renderTransparent));
     }
 
     updateLocalMatrix() {
@@ -55,6 +55,6 @@ export default class Object3D {
             mat4.copy(this.worldMatrix, this.localMatrix);
         }
 
-        this.childs.forEach(child => child.updateWorldMatrix());
+        this.children.forEach(child => child.updateWorldMatrix());
     }
 }

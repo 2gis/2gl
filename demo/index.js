@@ -175,7 +175,7 @@ function onChange() {
     timeout = setTimeout(function() {
         scene.remove(mesh);
         mesh = getMesh();
-        mesh.setTexture(texture);
+        mesh.program.setTexture(texture);
         scene.add(mesh);
         stats.reset();
     }, 1000);

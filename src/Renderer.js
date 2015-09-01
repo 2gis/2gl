@@ -58,13 +58,18 @@ export default class Renderer {
 
         gl.disable(gl.BLEND);
 
-        scene.render(gl, camera, false);
+        scene.render(gl, camera, Renderer.CommonRendering);
 
         gl.enable(gl.BLEND);
         gl.blendEquation(gl.FUNC_ADD);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-        scene.render(gl, camera, true);
+        scene.render(gl, camera, Renderer.TransparentRendering);
+
+        gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
+        gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+        scene.render(gl, camera, Renderer.SpriteRendering);
 
         return this;
     }
@@ -84,3 +89,7 @@ export default class Renderer {
         this._gl = this._canvasElement.getContext('webgl', attributes);
     }
 }
+
+Renderer.CommonRendering = 1;
+Renderer.TransparentRendering = 2;
+Renderer.SpriteRendering = 3;

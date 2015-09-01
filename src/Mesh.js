@@ -1,4 +1,5 @@
 import Object3D from './Object3D';
+import Renderer from './Renderer';
 import {vec3, mat4} from 'gl-matrix';
 
 export default class Mesh extends Object3D {
@@ -9,10 +10,12 @@ export default class Mesh extends Object3D {
         this.program = program;
     }
 
-    render(gl, scene, camera, renderTransparent) {
+    render(gl, scene, camera, state) {
         if (!this.visible) { return; }
 
-        if ((this.program.opacity === 1) === !renderTransparent) {
+        if ((this.program.opacity === 1 && state === Renderer.CommonRendering) ||
+            (this.program.opacity !== 1 && state === Renderer.TransparentRendering)
+        ) {
             this.program.enable(gl, scene, camera, this);
 
             gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
@@ -20,7 +23,7 @@ export default class Mesh extends Object3D {
             this.program.disable(gl);
         }
 
-        this.children.forEach(object => object.render(gl, scene, camera, renderTransparent));
+        this.children.forEach(object => object.render(gl, scene, camera, state));
     }
 
     raycast(raycaster, intersects) {

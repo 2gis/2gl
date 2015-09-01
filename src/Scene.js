@@ -15,7 +15,7 @@ export default class Scene extends Object3D {
         return this._lights;
     }
 
-    render(gl, camera, renderTransparent) {
-        this.children.forEach(object => object.render(gl, this, camera, renderTransparent));
+    render(gl, camera, state) {
+        this.children.forEach(object => object.render(gl, this, camera, state));
     }
 }

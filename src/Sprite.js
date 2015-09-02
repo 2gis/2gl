@@ -4,32 +4,37 @@ import Renderer from './Renderer';
 import Buffer from './Buffer';
 import {vec3, mat4} from 'gl-matrix';
 
+let geometry = new Geometry();
+geometry
+    .setBuffer('position', new Buffer(new Float32Array([
+        -0.5, -0.5, 0,
+        0.5, -0.5, 0,
+        0.5, 0.5, 0,
+        -0.5, 0.5, 0
+    ]), 3))
+    .setBuffer('texture', new Buffer(new Float32Array([
+        0, 0,
+        1, 0,
+        1, 1,
+        0, 1
+    ]), 2))
+    .setBuffer('index', new Buffer(new Uint16Array([
+        1, 2, 0,
+        3, 0, 2
+    ]), 1));
+
+
+let indexBuffer = geometry.getBuffer('index');
+indexBuffer.type = Buffer.ElementArrayBuffer;
+
 export default class Sprite extends Object3D {
     constructor(program) {
         super();
 
-        this.geometry = new Geometry();
-        this.geometry
-            .setBuffer('position', new Buffer([
-                -0.5, -0.5, 0,
-                0.5, -0.5, 0,
-                0.5, 0.5, 0,
-
-                -0.5, -0.5, 0,
-                0.5, 0.5, 0,
-                -0.5, 0.5, 0
-            ], 3))
-            .setBuffer('texture', new Buffer([
-                0, 0,
-                1, 0,
-                1, 1,
-
-                0, 0,
-                1, 1,
-                0, 1
-            ], 2));
-
         this.program = program;
+
+        // TODO: remove this.geometry from sprites
+        this.geometry = geometry;
     }
 
     render(gl, scene, camera, state) {
@@ -42,7 +47,9 @@ export default class Sprite extends Object3D {
         if (state === Renderer.SpriteRendering) {
             this.program.enable(gl, scene, camera, this);
 
-            gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
+            indexBuffer.bind(gl);
+
+            gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
 
             this.program.disable(gl);
         }

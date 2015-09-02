@@ -1,8 +1,9 @@
 export default class Buffer {
     constructor(array, itemSize) {
-        this._array = new Float32Array(array);
+        this._array = array;
         this.itemSize = itemSize;
         this.length = array.length / itemSize;
+        this.type = Buffer.ArrayBuffer;
     }
 
     bind(gl, attribute) {
@@ -10,8 +11,12 @@ export default class Buffer {
             this._prepare(gl);
         }
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);
-        gl.vertexAttribPointer(attribute, this.itemSize, gl.FLOAT, false, 0, 0);
+        if (this.type === Buffer.ArrayBuffer) {
+            gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);
+            gl.vertexAttribPointer(attribute, this.itemSize, gl.FLOAT, false, 0, 0);
+        } else if (this.type === Buffer.ElementArrayBuffer) {
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._glBuffer);
+        }
 
         return this;
     }
@@ -42,7 +47,7 @@ export default class Buffer {
 
     concat(buffer) {
         let addArray = buffer.getArray();
-        let newArray = new Float32Array(this._array.length + addArray.length);
+        let newArray = new this._array.constructor(this._array.length + addArray.length);
         newArray.set(this._array, 0);
         newArray.set(addArray, this._array.length);
 
@@ -52,7 +57,15 @@ export default class Buffer {
 
     _prepare(gl) {
         this._glBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, this._array, gl.STATIC_DRAW);
+        gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
+        gl.bufferData(this._toGlParam(gl, this.type), this._array, gl.STATIC_DRAW);
+    }
+
+    _toGlParam(gl, param) {
+        if (param === Buffer.ArrayBuffer) { return gl.ARRAY_BUFFER; }
+        if (param === Buffer.ElementArrayBuffer) { return gl.ELEMENT_ARRAY_BUFFER; }
     }
 }
+
+Buffer.ArrayBuffer = 1;
+Buffer.ElementArrayBuffer = 2;

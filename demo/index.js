@@ -54,8 +54,8 @@ function getMesh() {
     var program = new dgl.ComplexMeshProgram();
     var geometry = new dgl.Geometry();
 
-    var vertexBuffer = new dgl.Buffer(vertices, 3);
-    var colorBuffer = new dgl.Buffer(colors, 4);
+    var vertexBuffer = new dgl.Buffer(new Float32Array(vertices), 3);
+    var colorBuffer = new dgl.Buffer(new Float32Array(colors), 4);
 
     var lightAlphaVertices = new Float32Array(vertices.length / 3);
     for (i = 0; i < lightAlphaVertices.length; i++) {
@@ -71,8 +71,8 @@ function getMesh() {
         textureEnable.push(l % 2, l % 2, l % 2);
         l++;
     }
-    var uvBuffer = new dgl.Buffer(uv, 2);
-    var textureEnableBuffer = new dgl.Buffer(textureEnable, 1);
+    var uvBuffer = new dgl.Buffer(new Float32Array(uv), 2);
+    var textureEnableBuffer = new dgl.Buffer(new Float32Array(textureEnable), 1);
 
     geometry
         .setBuffer('position', vertexBuffer)
@@ -95,6 +95,16 @@ img.onload = function() {
     mesh = getMesh();
     mesh.program.setTexture(texture);
     scene.add(mesh);
+
+    var sp = new dgl.SpriteProgram();
+    sp.setTexture(texture);
+
+    var s = new dgl.Sprite(sp);
+    s.scale[0] = 10;
+    s.scale[1] = 10;
+    s.updateLocalMatrix();
+
+    scene.add(s);
 };
 img.src = './demo/texture.png';
 

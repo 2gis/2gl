@@ -17,7 +17,7 @@ import Raycaster from './Raycaster';
 import Ray from './math/Ray';
 import Plane from './math/Plane';
 import Box from './math/Box';
-import math from './math/Math';
+import * as math from './math/Math';
 import Line3 from './math/Line3';
 import {vec3, mat3, mat4, quat, glMatrix} from 'gl-matrix';
 

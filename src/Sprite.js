@@ -2,7 +2,6 @@ import Object3D from './Object3D';
 import Geometry from './Geometry';
 import Renderer from './Renderer';
 import Buffer from './Buffer';
-import {vec3, mat4} from 'gl-matrix';
 
 let geometry = new Geometry();
 geometry

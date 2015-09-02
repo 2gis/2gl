@@ -64,10 +64,10 @@ export default class Renderer {
         gl.blendEquation(gl.FUNC_ADD);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-        scene.render(gl, camera, Renderer.TransparentRendering);
-
         gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
         gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+        scene.render(gl, camera, Renderer.TransparentRendering);
 
         scene.render(gl, camera, Renderer.SpriteRendering);
 

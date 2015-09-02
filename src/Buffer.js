@@ -4,9 +4,14 @@ export default class Buffer {
         this.itemSize = itemSize;
         this.length = array.length / itemSize;
         this.type = Buffer.ArrayBuffer;
+        this._preparedGlContext = null;
     }
 
     bind(gl, attribute) {
+        if (this._preparedGlContext !== gl) {
+            this._unprepare(this._preparedGlContext);
+        }
+
         if (!this._glBuffer) {
             this._prepare(gl);
         }
@@ -22,9 +27,7 @@ export default class Buffer {
     }
 
     remove(gl) {
-        if (this._glBuffer) {
-            gl.deleteBuffer(this._glBuffer);
-        }
+        this._unprepare(gl);
 
         return this;
     }
@@ -59,6 +62,16 @@ export default class Buffer {
         this._glBuffer = gl.createBuffer();
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
         gl.bufferData(this._toGlParam(gl, this.type), this._array, gl.STATIC_DRAW);
+        this._preparedGlContext = gl;
+    }
+
+    _unprepare(gl) {
+        if (!gl) { return; }
+
+        if (this._glBuffer) {
+            gl.deleteBuffer(this._glBuffer);
+        }
+        this._glBuffer = null;
     }
 
     _toGlParam(gl, param) {

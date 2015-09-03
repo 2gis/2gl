@@ -1,5 +1,7 @@
 import definitions from './definitions';
 
+let cachedPrograms = {};
+
 export default class Program {
     constructor() {
         this._attributeList = [];
@@ -57,31 +59,51 @@ export default class Program {
         this._prepareUniforms(gl);
     }
 
+    _getCachedProgramKey() {
+        return this.constructor.name + ':' + this._definitions.join(':');
+    }
+
+    _getCachedProgram() {
+        return cachedPrograms[this._getCachedProgramKey()];
+    }
+
     _prepareShaders(gl) {
-        this._fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(this._fragmentShader, this._addDefinitions(this._shader.fragment));
-        gl.compileShader(this._fragmentShader);
+        let cachedProgram = this._getCachedProgram();
+
+        if (cachedProgram && gl === cachedProgram.glContext) {
+            this._shaderProgram = cachedProgram.program;
+            return;
+        }
+
+        let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fragmentShader, this._addDefinitions(this._shader.fragment));
+        gl.compileShader(fragmentShader);
 
         if (!gl.getShaderParameter(this._fragmentShader, gl.COMPILE_STATUS)) {
             console.log(gl.getShaderInfoLog(this._fragmentShader));
         }
 
-        this._vertexShader = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(this._vertexShader, this._addDefinitions(this._shader.vertex));
-        gl.compileShader(this._vertexShader);
+        let vertexShader = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vertexShader, this._addDefinitions(this._shader.vertex));
+        gl.compileShader(vertexShader);
 
         if (!gl.getShaderParameter(this._vertexShader, gl.COMPILE_STATUS)) {
             console.log(gl.getShaderInfoLog(this._vertexShader));
         }
 
         this._shaderProgram = gl.createProgram();
-        gl.attachShader(this._shaderProgram, this._vertexShader);
-        gl.attachShader(this._shaderProgram, this._fragmentShader);
+        gl.attachShader(this._shaderProgram, vertexShader);
+        gl.attachShader(this._shaderProgram, fragmentShader);
         gl.linkProgram(this._shaderProgram);
 
         if (!gl.getProgramParameter(this._shaderProgram, gl.LINK_STATUS)) {
             console.log('Could not initialize shaders');
         }
+
+        cachedPrograms[this._getCachedProgramKey()] = {
+            glContext: gl,
+            program: this._shaderProgram
+        };
     }
 
     _addDefinitions(shader) {

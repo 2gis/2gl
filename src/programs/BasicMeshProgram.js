@@ -6,9 +6,10 @@ export default class BasicMeshProgram extends Program {
         super();
 
         this._attributeList = ['position'];
-        this._uniformList = ['uCamera', 'uPosition', 'uColor', 'uColorAlpha'];
+        this._uniformList = ['uCamera', 'uPosition', 'uColor', 'uColorAlpha', 'uEmissive'];
         this._shader = shader;
         this.color = [0, 0, 0, 0];
+        this.emissive = [0, 0, 0, 0];
     }
 
     _bindUniforms(gl, scene, camera, mesh) {
@@ -16,5 +17,6 @@ export default class BasicMeshProgram extends Program {
         gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
         gl.uniform4fv(this.uniforms.uColor, this.color);
+        gl.uniform4fv(this.uniforms.uEmissive, this.emissive);
     }
 }

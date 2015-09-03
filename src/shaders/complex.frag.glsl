@@ -9,6 +9,7 @@ precision mediump float;
 uniform float uColorAlpha;
 varying vec3 vLightWeighting;
 varying vec4 vColor;
+varying vec4 vEmissive;
 
 void main(void) {
     vec4 color = vec4(vColor.rgb, vColor.a * uColorAlpha);
@@ -20,7 +21,5 @@ void main(void) {
         }
     #endif
 
-    color = vec4(color.rgb * vLightWeighting, color.a);
-
-    gl_FragColor = color;
+    gl_FragColor = vec4(color.rgb * vLightWeighting, color.a) + vEmissive;
 }

@@ -8,7 +8,7 @@ export default class ComplexMeshProgram extends Program {
     constructor() {
         super();
 
-        this._attributeList = ['position', 'color', 'lightEnable'];
+        this._attributeList = ['position', 'color', 'lightEnable', 'emissive'];
         this._uniformList = ['uCamera', 'uPosition', 'uColorAlpha', 'uAmbientLightColor'];
         this._shader = shader;
     }

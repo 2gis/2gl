@@ -1,5 +1,6 @@
 attribute vec3 position;
 attribute vec4 color;
+attribute vec4 emissive;
 attribute float lightEnable;
 
 #ifdef USE_TEXTURE
@@ -21,11 +22,12 @@ uniform vec3 uAmbientLightColor;
 uniform mat4 uCamera;
 
 varying vec4 vColor;
+varying vec4 vEmissive;
 varying vec3 vLightWeighting;
 
 void main(void) {
-
     vColor = color;
+    vEmissive = emissive;
 
     #ifdef USE_TEXTURE
         vTextureCoord = texture;

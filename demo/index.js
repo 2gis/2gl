@@ -73,10 +73,12 @@ function getMesh() {
     }
     var uvBuffer = new dgl.Buffer(new Float32Array(uv), 2);
     var textureEnableBuffer = new dgl.Buffer(new Float32Array(textureEnable), 1);
+    var emissiveBuffer = new dgl.Buffer(new Float32Array(vertices.length / 3 * 4), 4);
 
     geometry
         .setBuffer('position', vertexBuffer)
         .setBuffer('color', colorBuffer)
+        .setBuffer('emissive', emissiveBuffer)
         .setBuffer('lightEnable', lightAlphaBuffer)
         .setBuffer('texture', uvBuffer)
         .setBuffer('textureEnable', textureEnableBuffer);

@@ -69,11 +69,7 @@ export default class ComplexMeshProgram extends Program {
 
             lights.forEach(light => {
                 if (light instanceof AmbientLight) {
-                    gl.uniform3f(this.uniforms.uAmbientLightColor,
-                        light.color[0],
-                        light.color[1],
-                        light.color[2]
-                    );
+                    gl.uniform3fv(this.uniforms.uAmbientLightColor, light.color);
                 } else if (light instanceof DirectionalLight) {
                     directionLightsColor = directionLightsColor.concat(light.color);
 

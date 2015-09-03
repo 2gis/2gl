@@ -8,11 +8,11 @@ precision mediump float;
 
 uniform float uColorAlpha;
 varying vec3 vLightWeighting;
-varying vec4 vColor;
-varying vec4 vEmissive;
+varying vec3 vColor;
+varying vec3 vEmissive;
 
 void main(void) {
-    vec4 color = vec4(vColor.rgb, vColor.a * uColorAlpha);
+    vec4 color = vec4(vColor.rgb, uColorAlpha);
 
     #ifdef USE_TEXTURE
         if (vTextureEnable > 0.5) {
@@ -21,5 +21,5 @@ void main(void) {
         }
     #endif
 
-    gl_FragColor = vec4(color.rgb * vLightWeighting, color.a) + vEmissive;
+    gl_FragColor = vec4(color.rgb * vLightWeighting + vEmissive, color.a);
 }

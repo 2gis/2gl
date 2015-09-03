@@ -12,8 +12,8 @@ var settings = {
     cameraOffset: 200
 };
 
-function getRandomRGBA() {
-    return [Math.random(), Math.random(), Math.random(), 1];
+function getRandomRGB() {
+    return [Math.random(), Math.random(), Math.random()];
 }
 
 function getTriangle(size) {
@@ -41,7 +41,7 @@ function getMesh() {
 
     for (var i = 0; i < settings.triangles; i++) {
         var tr = getTriangle(size);
-        var randomColor = getRandomRGBA();
+        var randomColor = getRandomRGB();
         var j;
 
         Array.prototype.push.apply(vertices, tr);
@@ -55,7 +55,7 @@ function getMesh() {
     var geometry = new dgl.Geometry();
 
     var vertexBuffer = new dgl.Buffer(new Float32Array(vertices), 3);
-    var colorBuffer = new dgl.Buffer(new Float32Array(colors), 4);
+    var colorBuffer = new dgl.Buffer(new Float32Array(colors), 3);
 
     var lightAlphaVertices = new Float32Array(vertices.length / 3);
     for (i = 0; i < lightAlphaVertices.length; i++) {
@@ -73,7 +73,7 @@ function getMesh() {
     }
     var uvBuffer = new dgl.Buffer(new Float32Array(uv), 2);
     var textureEnableBuffer = new dgl.Buffer(new Float32Array(textureEnable), 1);
-    var emissiveBuffer = new dgl.Buffer(new Float32Array(vertices.length / 3 * 4), 4);
+    var emissiveBuffer = new dgl.Buffer(new Float32Array(vertices.length ), 3);
 
     geometry
         .setBuffer('position', vertexBuffer)

@@ -79,16 +79,16 @@ export default class Program {
         gl.shaderSource(fragmentShader, this._addDefinitions(this._shader.fragment));
         gl.compileShader(fragmentShader);
 
-        if (!gl.getShaderParameter(this._fragmentShader, gl.COMPILE_STATUS)) {
-            console.log(gl.getShaderInfoLog(this._fragmentShader));
+        if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+            console.log(gl.getShaderInfoLog(fragmentShader));
         }
 
         let vertexShader = gl.createShader(gl.VERTEX_SHADER);
         gl.shaderSource(vertexShader, this._addDefinitions(this._shader.vertex));
         gl.compileShader(vertexShader);
 
-        if (!gl.getShaderParameter(this._vertexShader, gl.COMPILE_STATUS)) {
-            console.log(gl.getShaderInfoLog(this._vertexShader));
+        if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+            console.log(gl.getShaderInfoLog(vertexShader));
         }
 
         this._shaderProgram = gl.createProgram();

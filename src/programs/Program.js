@@ -11,7 +11,7 @@ export default class Program {
         this.opacity = 1;
     }
 
-    enable(gl, scene, camera, mesh) {
+    enable(gl, renderer, scene, camera, mesh) {
         if (!this._shaderProgram) {
             this._prepare(gl, scene);
         }
@@ -22,7 +22,7 @@ export default class Program {
             gl.enableVertexAttribArray(this.attributes[name]);
         }
 
-        this._bindMesh(gl, scene, camera, mesh);
+        this._bindMesh(gl, renderer, scene, camera, mesh);
 
         return this;
     }
@@ -132,9 +132,9 @@ export default class Program {
         });
     }
 
-    _bindMesh(gl, scene, camera, mesh) {
+    _bindMesh(gl, renderer, scene, camera, mesh) {
         this._bindAttributes(gl, mesh);
-        this._bindUniforms(gl, scene, camera, mesh);
+        this._bindUniforms(gl, renderer, scene, camera, mesh);
     }
 
     _bindAttributes(gl, mesh) {
@@ -143,7 +143,7 @@ export default class Program {
         });
     }
 
-    _bindUniforms(gl, scene, camera, mesh) {
+    _bindUniforms(gl, renderer, scene, camera, mesh) {
         gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(mesh.worldMatrix));
         gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);

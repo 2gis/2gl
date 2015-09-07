@@ -18,13 +18,22 @@ export default class Renderer {
     }
 
     setSize(width, height) {
-        this._canvasElement.width = width * this._pixelRatio;
-        this._canvasElement.height = height * this._pixelRatio;
+        this._size = [
+            width * this._pixelRatio,
+            height * this._pixelRatio
+        ];
+
+        this._canvasElement.width = this._size[0];
+        this._canvasElement.height = this._size[1];
         this._canvasElement.style.width = width + 'px';
         this._canvasElement.style.height = height + 'px';
-        this._gl.viewport(0, 0, width * this._pixelRatio, height * this._pixelRatio);
+        this._gl.viewport(0, 0, this._size[0], this._size[1]);
 
         return this;
+    }
+
+    getSize() {
+        return this._size;
     }
 
     clear() {
@@ -58,7 +67,7 @@ export default class Renderer {
 
         gl.disable(gl.BLEND);
 
-        scene.render(gl, camera, Renderer.CommonRendering);
+        scene.render(gl, this, camera, Renderer.CommonRendering);
 
         gl.enable(gl.BLEND);
         gl.blendEquation(gl.FUNC_ADD);
@@ -67,9 +76,11 @@ export default class Renderer {
         gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
         gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-        scene.render(gl, camera, Renderer.TransparentRendering);
+        scene.render(gl, this, camera, Renderer.TransparentRendering);
 
-        scene.render(gl, camera, Renderer.SpriteRendering);
+        gl.disable(gl.DEPTH_TEST);
+
+        scene.render(gl, this, camera, Renderer.SpriteRendering);
 
         return this;
     }

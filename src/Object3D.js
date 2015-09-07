@@ -40,14 +40,14 @@ export default class Object3D {
 
     raycast() {}
 
-    render(gl, scene, camera, renderTransparent) {
+    render(gl, renderer, scene, camera, state) {
         if (!this.visible) { return; }
 
         if (this.worldMatrixNeedsUpdate) {
             this.updateWorldMatrix();
         }
 
-        this.children.forEach(object => object.render(gl, scene, camera, renderTransparent));
+        this.children.forEach(object => object.render(gl, renderer, scene, camera, state));
     }
 
     updateLocalMatrix() {

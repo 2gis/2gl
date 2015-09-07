@@ -1,10 +1,12 @@
 attribute vec2 position;
 attribute vec2 texture;
 
-uniform mat4 uPosition;
+uniform vec3 uPosition;
 uniform mat4 uPCamera;
-uniform mat4 uWICamera;
 uniform vec2 uScale;
+uniform vec2 uHalfSize;
+uniform vec2 uOffset;
+uniform int uSmoothing;
 
 varying vec2 vTextureCoord;
 
@@ -12,10 +14,17 @@ void main(void) {
     vTextureCoord = texture;
 
     vec2 alignedPosition = position * uScale;
+    alignedPosition += uOffset;
+    alignedPosition /= uHalfSize;
 
-    vec4 finalPosition = uWICamera * uPosition * vec4(0.0, 0.0, 0.0, 1.0);
-    finalPosition.xy += alignedPosition.xy;
-    finalPosition = uPCamera * finalPosition;
+    vec4 ndcPosition = uPCamera * vec4(uPosition, 1.0);
+    ndcPosition.xyz = ndcPosition.xyz / ndcPosition.w;
+    ndcPosition.w = 1.0;
+    ndcPosition.xy += alignedPosition.xy;
 
-    gl_Position = finalPosition;
+    if (uSmoothing == 1) {
+        ndcPosition.xy = floor((ndcPosition.xy + 1.0) * uHalfSize.xy + 0.5) / uHalfSize.xy - 1.0;
+    }
+
+    gl_Position = ndcPosition;
 }

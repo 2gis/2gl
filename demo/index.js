@@ -6,10 +6,10 @@ document.body.appendChild(stats.element);
 
 var settings = {
     trianglesSize: 10,
-    triangles: 100000,
+    triangles: 200000,
     rotationCamera: true,
     rotationMesh: true,
-    cameraOffset: 200
+    cameraOffset: 50
 };
 
 function getRandomRGB() {
@@ -102,8 +102,10 @@ img.onload = function() {
     sp.setTexture(texture);
 
     var s = new dgl.Sprite(sp);
-    s.scale[0] = 10;
-    s.scale[1] = 10;
+    s.scale[0] = 50;
+    s.scale[1] = 50;
+    s.position[0] = 5;
+    s.position[1] = 5;
     s.updateLocalMatrix();
 
     scene.add(s);

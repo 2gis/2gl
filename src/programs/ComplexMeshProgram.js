@@ -56,7 +56,7 @@ export default class ComplexMeshProgram extends Program {
         this._uniformList.push('uTexture');
     }
 
-    _bindMesh(gl, scene, camera, mesh) {
+    _bindMesh(gl, renderer, scene, camera, mesh) {
         if (this._texture) {
             this._texture.enable(gl, this.uniforms.uTexture);
         }

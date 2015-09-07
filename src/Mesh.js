@@ -10,7 +10,7 @@ export default class Mesh extends Object3D {
         this.program = program;
     }
 
-    render(gl, scene, camera, state) {
+    render(gl, renderer, scene, camera, state) {
         if (!this.visible) { return; }
 
         if (this.worldMatrixNeedsUpdate) {
@@ -20,14 +20,14 @@ export default class Mesh extends Object3D {
         if ((this.program.opacity === 1 && state === Renderer.CommonRendering) ||
             (this.program.opacity !== 1 && state === Renderer.TransparentRendering)
         ) {
-            this.program.enable(gl, scene, camera, this);
+            this.program.enable(gl, renderer, scene, camera, this);
 
             gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
 
             this.program.disable(gl);
         }
 
-        this.children.forEach(object => object.render(gl, scene, camera, state));
+        this.children.forEach(object => object.render(gl, renderer, scene, camera, state));
     }
 
     raycast(raycaster, intersects) {

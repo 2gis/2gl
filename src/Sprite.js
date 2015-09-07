@@ -2,6 +2,7 @@ import Object3D from './Object3D';
 import Geometry from './Geometry';
 import Renderer from './Renderer';
 import Buffer from './Buffer';
+import {vec2} from 'gl-matrix';
 
 let geometry = new Geometry();
 geometry
@@ -34,9 +35,11 @@ export default class Sprite extends Object3D {
 
         // TODO: remove this.geometry from sprites
         this.geometry = geometry;
+
+        this.offset = vec2.create();
     }
 
-    render(gl, scene, camera, state) {
+    render(gl, renderer, scene, camera, state) {
         if (!this.visible) { return; }
 
         if (this.worldMatrixNeedsUpdate) {
@@ -44,7 +47,7 @@ export default class Sprite extends Object3D {
         }
 
         if (state === Renderer.SpriteRendering) {
-            this.program.enable(gl, scene, camera, this);
+            this.program.enable(gl, renderer, scene, camera, this, renderer);
 
             indexBuffer.bind(gl);
 
@@ -53,7 +56,7 @@ export default class Sprite extends Object3D {
             this.program.disable(gl);
         }
 
-        this.children.forEach(object => object.render(gl, scene, camera, state));
+        this.children.forEach(object => object.render(gl, renderer, scene, camera, state));
     }
 
     raycast(raycaster, intersects) {}

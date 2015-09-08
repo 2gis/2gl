@@ -16,9 +16,12 @@ export default class Texture {
             this._prepare(gl);
         }
 
-        gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, this._texture);
-        gl.uniform1i(uniform, 0);
+
+        if (uniform) {
+            gl.activeTexture(gl.TEXTURE0);
+            gl.uniform1i(uniform, 0);
+        }
 
         return this;
     }

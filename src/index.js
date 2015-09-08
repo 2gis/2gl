@@ -1,4 +1,4 @@
-import Renderer from './Renderer';
+import Renderer from './renderer/Renderer';
 import Object3D from './Object3D';
 import PerspectiveCamera from './cameras/PerspectiveCamera';
 import OrthographicCamera from './cameras/OrthographicCamera';

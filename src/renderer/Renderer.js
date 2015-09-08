@@ -1,3 +1,5 @@
+import SpriteRenderer from './SpriteRenderer';
+
 export default class Renderer {
     constructor(options) {
         this._container = typeof options.container === 'string' ?
@@ -7,6 +9,8 @@ export default class Renderer {
         this._antialias = options.antialias !== undefined ? options.antialias : true;
         this.autoClear = options.autoClear !== undefined ? options.autoClear : true;
         this.clearColor = options.clearColor || [1, 1, 1, 1];
+
+        this.spriteRenderer = new SpriteRenderer();
 
         this._initCanvas();
     }
@@ -77,6 +81,7 @@ export default class Renderer {
             camera,
             gl
         };
+        // TODO: make state immutable?
 
         scene.render(state);
 
@@ -91,11 +96,8 @@ export default class Renderer {
 
         scene.render(state);
 
-        gl.disable(gl.DEPTH_TEST);
-
         state.typeRendering = Renderer.SpriteRendering;
-
-        scene.render(state);
+        this.spriteRenderer.render(state);
 
         return this;
     }

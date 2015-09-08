@@ -1,5 +1,5 @@
 import Object3D from './Object3D';
-import Renderer from './Renderer';
+import Renderer from './renderer/Renderer';
 import {vec3, mat4} from 'gl-matrix';
 
 export default class Mesh extends Object3D {

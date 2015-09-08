@@ -11,8 +11,8 @@ export default class BasicMeshProgram extends Program {
         this.color = [0, 0, 0];
     }
 
-    _bindUniforms({gl, camera, mesh}) {
-        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(mesh.worldMatrix));
+    _bindUniforms({gl, camera, object}) {
+        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(object.worldMatrix));
         gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
         gl.uniform3fv(this.uniforms.uColor, this.color);

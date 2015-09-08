@@ -23,17 +23,17 @@ export default class ComplexMeshProgram extends Program {
         return this._texture;
     }
 
-    _prepare(gl, scene) {
-        this._enableLight(scene);
+    _prepare(state) {
+        this._enableLight(state);
 
         if (this._texture) {
             this._enableTexture();
         }
 
-        super._prepare(gl, scene);
+        super._prepare(state);
     }
 
-    _enableLight(scene) {
+    _enableLight({scene}) {
         let directionLightNumber = 0;
 
         scene.getLights().forEach(l => {
@@ -56,7 +56,7 @@ export default class ComplexMeshProgram extends Program {
         this._uniformList.push('uTexture');
     }
 
-    _bindMesh(gl, renderer, scene, camera, mesh) {
+    _bindMesh({gl, scene, camera, object}) {
         if (this._texture) {
             this._texture.enable(gl, this.uniforms.uTexture);
         }
@@ -81,12 +81,12 @@ export default class ComplexMeshProgram extends Program {
 
             if (directionLightsColor.length && directionLightsPosition.length) {
                 let normalMatrix = mat3.create();
-                mat3.fromMat4(normalMatrix, mesh.worldMatrix);
+                mat3.fromMat4(normalMatrix, object.worldMatrix);
                 mat3.invert(normalMatrix, normalMatrix);
                 mat3.transpose(normalMatrix, normalMatrix);
                 gl.uniformMatrix3fv(this.uniforms.uNormalMatrix, false, new Float32Array(normalMatrix));
 
-                mesh.geometry.getBuffer('normal').bind(gl, this.attributes.normal);
+                object.geometry.getBuffer('normal').bind(gl, this.attributes.normal);
             }
 
             gl.uniform3fv(this.uniforms.uDirectionLightColors, new Float32Array(directionLightsColor));
@@ -95,11 +95,11 @@ export default class ComplexMeshProgram extends Program {
 
         this._attributeList.forEach(name => {
             if (name !== 'normal') {
-                mesh.geometry.getBuffer(name).bind(gl, this.attributes[name]);
+                object.geometry.getBuffer(name).bind(gl, this.attributes[name]);
             }
         });
 
-        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(mesh.worldMatrix));
+        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(object.worldMatrix));
         gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
     }

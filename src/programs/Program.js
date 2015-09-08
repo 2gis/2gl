@@ -11,9 +11,11 @@ export default class Program {
         this.opacity = 1;
     }
 
-    enable(gl, renderer, scene, camera, mesh) {
+    enable(state) {
+        let gl = state.gl;
+
         if (!this._shaderProgram) {
-            this._prepare(gl, scene);
+            this._prepare(state);
         }
 
         gl.useProgram(this._shaderProgram);
@@ -22,7 +24,7 @@ export default class Program {
             gl.enableVertexAttribArray(this.attributes[name]);
         }
 
-        this._bindMesh(gl, renderer, scene, camera, mesh);
+        this._bindMesh(state);
 
         return this;
     }
@@ -43,20 +45,10 @@ export default class Program {
         return this;
     }
 
-    setTexture(texture) {
-        this._texture = texture;
-
-        return this;
-    }
-
-    getTexture() {
-        return this._texture;
-    }
-
-    _prepare(gl, scene) {
-        this._prepareShaders(gl);
-        this._prepareAttributes(gl);
-        this._prepareUniforms(gl);
+    _prepare(state) {
+        this._prepareShaders(state);
+        this._prepareAttributes(state);
+        this._prepareUniforms(state);
     }
 
     _getCachedProgramKey() {
@@ -67,7 +59,7 @@ export default class Program {
         return cachedPrograms[this._getCachedProgramKey()];
     }
 
-    _prepareShaders(gl) {
+    _prepareShaders({gl}) {
         let cachedProgram = this._getCachedProgram();
 
         if (cachedProgram && gl === cachedProgram.glContext) {
@@ -116,7 +108,7 @@ export default class Program {
         }).join('\n') + '\n' + shader;
     }
 
-    _prepareAttributes(gl) {
+    _prepareAttributes({gl}) {
         this.attributes = {};
 
         this._attributeList.forEach(name => {
@@ -124,7 +116,7 @@ export default class Program {
         });
     }
 
-    _prepareUniforms(gl) {
+    _prepareUniforms({gl}) {
         this.uniforms = {};
 
         this._uniformList.forEach(name => {
@@ -132,19 +124,19 @@ export default class Program {
         });
     }
 
-    _bindMesh(gl, renderer, scene, camera, mesh) {
-        this._bindAttributes(gl, mesh);
-        this._bindUniforms(gl, renderer, scene, camera, mesh);
+    _bindMesh(state) {
+        this._bindAttributes(state);
+        this._bindUniforms(state);
     }
 
-    _bindAttributes(gl, mesh) {
+    _bindAttributes({gl, object}) {
         this._attributeList.forEach(name => {
-            mesh.geometry.getBuffer(name).bind(gl, this.attributes[name]);
+            object.geometry.getBuffer(name).bind(gl, this.attributes[name]);
         });
     }
 
-    _bindUniforms(gl, renderer, scene, camera, mesh) {
-        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(mesh.worldMatrix));
+    _bindUniforms({object, camera}) {
+        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(object.worldMatrix));
         gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
     }

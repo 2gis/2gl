@@ -39,15 +39,19 @@ export default class Sprite extends Object3D {
         this.offset = vec2.create();
     }
 
-    render(gl, renderer, scene, camera, state) {
+    render(state) {
         if (!this.visible) { return; }
 
         if (this.worldMatrixNeedsUpdate) {
             this.updateWorldMatrix();
         }
 
-        if (state === Renderer.SpriteRendering) {
-            this.program.enable(gl, renderer, scene, camera, this, renderer);
+        if (state.typeRendering === Renderer.SpriteRendering) {
+            let gl = state.gl;
+
+            state.object = this;
+
+            this.program.enable(state);
 
             indexBuffer.bind(gl);
 
@@ -56,7 +60,7 @@ export default class Sprite extends Object3D {
             this.program.disable(gl);
         }
 
-        this.children.forEach(object => object.render(gl, renderer, scene, camera, state));
+        this.children.forEach(object => object.render(state));
     }
 
     raycast(raycaster, intersects) {}

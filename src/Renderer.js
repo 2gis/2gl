@@ -17,6 +17,10 @@ export default class Renderer {
         return this;
     }
 
+    getPixelRatio() {
+        return this._pixelRatio;
+    }
+
     setSize(width, height) {
         this._size = [
             width * this._pixelRatio,
@@ -67,7 +71,14 @@ export default class Renderer {
 
         gl.disable(gl.BLEND);
 
-        scene.render(gl, this, camera, Renderer.CommonRendering);
+        let state = {
+            typeRendering: Renderer.CommonRendering,
+            renderer: this,
+            camera,
+            gl
+        };
+
+        scene.render(state);
 
         gl.enable(gl.BLEND);
         gl.blendEquation(gl.FUNC_ADD);
@@ -76,11 +87,15 @@ export default class Renderer {
         gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
         gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-        scene.render(gl, this, camera, Renderer.TransparentRendering);
+        state.typeRendering = Renderer.TransparentRendering;
+
+        scene.render(state);
 
         gl.disable(gl.DEPTH_TEST);
 
-        scene.render(gl, this, camera, Renderer.SpriteRendering);
+        state.typeRendering = Renderer.SpriteRendering;
+
+        scene.render(state);
 
         return this;
     }

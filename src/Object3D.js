@@ -67,4 +67,12 @@ export default class Object3D {
 
         this.worldMatrixNeedsUpdate = false;
     }
+
+    traverse(callback) {
+        callback(this);
+
+        this.children.forEach(child => child.traverse(callback));
+
+        return this;
+    }
 }

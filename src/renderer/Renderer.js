@@ -117,7 +117,3 @@ export default class Renderer {
         this._gl = this._canvasElement.getContext('webgl', attributes);
     }
 }
-
-Renderer.CommonRendering = 1;
-Renderer.TransparentRendering = 2;
-Renderer.SpriteRendering = 3;

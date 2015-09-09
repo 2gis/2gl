@@ -28,7 +28,7 @@ export default class SpriteRenderer {
     }
 
     render(state, renderObjects) {
-        let {gl, scene, camera} = state;
+        let {gl, camera} = state;
 
         gl.disable(gl.DEPTH_TEST);
 

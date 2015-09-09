@@ -1,15 +1,29 @@
-export default class SpriteProgram {
+/**
+ * Программа для спрайтов. Она не наследуюется от {@link Program}
+ * и выполняет только связывание шейдера с униформами.
+ * Оставлена для единообразия синтаксиса.
+ */
+class SpriteProgram {
     constructor() {
         this.opacity = 1;
         this.smoothing = false;
+        this._texture = null;
     }
 
+    /**
+     * Устанавливает текстуру для спрайта
+     * @param {Texture} texture
+     */
     setTexture(texture) {
         this._texture = texture;
 
         return this;
     }
 
+    /**
+     * Возвращает текущую текстуру
+     * @returns {?Texture}
+     */
     getTexture() {
         return this._texture;
     }
@@ -31,3 +45,5 @@ export default class SpriteProgram {
 
     disable() {}
 }
+
+export default SpriteProgram;

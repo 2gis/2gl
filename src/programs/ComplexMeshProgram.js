@@ -4,21 +4,44 @@ import Program from './Program';
 import AmbientLight from '../lights/AmbientLight';
 import DirectionalLight from '../lights/DirectionalLight';
 
-export default class ComplexMeshProgram extends Program {
+/**
+ * Более сложная программа для меша.
+ * Геометрия меша использующего эту программу должна содержать буффер вершин,
+ * буффер цветов, буффер постоянного цвета, буффер lightEnable.
+ *
+ * Буффер lightEnable - буффер единичной размерности, определяет использовать ли свет
+ * для каждой из вершин. 0 - использовать, 1 - нет.
+ *
+ * Если программе задана текстура, то также должен быть доступен буффер texture и textureEnable.
+ * Буффер textureEnable - также буффер единичной размерности, аналогичен буфферу lightEnable,
+ * только для текстуры. Использовать или нет текстуру для каждой из вершин.
+ *
+ * @extends Program
+ */
+class ComplexMeshProgram extends Program {
     constructor() {
         super();
 
         this._attributeList = ['position', 'color', 'lightEnable', 'emissive'];
         this._uniformList = ['uCamera', 'uPosition', 'uColorAlpha', 'uAmbientLightColor'];
         this._shader = shader;
+        this._texture = null;
     }
 
+    /**
+     * Задаёт текстуру
+     * @param {Texture} texture
+     */
     setTexture(texture) {
         this._texture = texture;
 
         return this;
     }
 
+    /**
+     * Возвращает текущую текстуру
+     * @returns {?Texture}
+     */
     getTexture() {
         return this._texture;
     }
@@ -104,3 +127,5 @@ export default class ComplexMeshProgram extends Program {
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
     }
 }
+
+export default ComplexMeshProgram;

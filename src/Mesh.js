@@ -1,11 +1,28 @@
 import Object3D from './Object3D';
 import {vec3, mat4} from 'gl-matrix';
 
-export default class Mesh extends Object3D {
+/**
+ * Используется для отрисовки 3d объектов. Каждому мешу необходимо задать программу и геометрию.
+ * @extends {Object3D}
+ */
+class Mesh extends Object3D {
+    /**
+     * @param {Geometry} geometry Геометрия меша
+     * @param {Program} program Программа для отрисовки меша
+     */
     constructor(geometry, program) {
         super();
 
+        /**
+         * Геометрия меша
+         * @type {Geometry}
+         */
         this.geometry = geometry;
+
+        /**
+         * Программа для отрисовки меша
+         * @type {Program}
+         */
         this.program = program;
     }
 
@@ -64,6 +81,12 @@ export default class Mesh extends Object3D {
         return this;
     }
 
+    /**
+     * Вызывается на этапе рендеринга для определения, каким конкретно рендером объект будет рисоваться.
+     * Меши разделяются на прозрачные и нет.
+     *
+     * @param {TypedObjects} typedObjects
+     */
     typifyForRender(typedObjects) {
         if (!this.visible) { return this; }
 
@@ -79,3 +102,4 @@ export default class Mesh extends Object3D {
     }
 }
 
+export default Mesh;

@@ -1,21 +1,80 @@
 import {vec3, mat4, quat} from 'gl-matrix';
 
-export default class Object3D {
+/**
+ * Базовый класс для 3d объектов.
+ * @class Object3D
+ * */
+class Object3D {
     constructor() {
+        /**
+         * Каждый Object3D может включать в себя другие объекты.
+         * Позиция, поворот и масштаб детей будет зависеть от родителя.
+         * @type {Object3D[]}
+         */
         this.children = [];
+
+        /**
+         * Объект в котором данный Object3D включён в children
+         * @type {?Object3D}
+         */
         this.parent = null;
+
+        /**
+         * Будет ли объект отображаться на сцене. Если нет, то все children тоже не будут отображаться.
+         * @type {boolean}
+         */
         this.visible = true;
+
+        /**
+         * Определяет порядок отрисовки объектов с выключенным фильтров глубины.
+         * Работает примерно также как и z-index у dom элементов.
+         * Также этот порядок учитывается при отрисовки прозрачных мешей.
+         * @type {number}
+         */
         this.renderOrder = 0;
 
+        /**
+         * Масштаб объекта
+         * @type {vec3}
+         */
         this.scale = vec3.fromValues(1, 1, 1);
+
+        /**
+         * Позиция объекта в локальной системе координат относительно родителя
+         * @type {vec3}
+         */
         this.position = vec3.create();
+
+        /**
+         * Отвечает за поворот объекта
+         * @type {quat}
+         */
         this.quaternion = quat.create();
+
+        /**
+         * Матрица определяющая поворот, масштаб и позицию объекта в локальной системе координат
+         * относительно родителя.
+         * @type {mat4}
+         */
         this.localMatrix = mat4.create();
+
+        /**
+         * Матрица определяющая поворот, масштаб и позицию объекта в глобальной системе координат.
+         * @type {mat4}
+         */
         this.worldMatrix = mat4.create();
 
+        /**
+         * Если true, то worldMatrix будет обновлена перед рендерингом
+         * @type {boolean}
+         */
         this.worldMatrixNeedsUpdate = false;
     }
 
+    /**
+     * Добавляет дочерний объект
+     * @param {Object3D} object Дочерний объект
+     */
     add(object) {
         if (object.parent) {
             object.parent.remove(object);
@@ -27,6 +86,10 @@ export default class Object3D {
         return this;
     }
 
+    /**
+     * Убирает дочерний объект
+     * @param {Object3D} object Дочерний объект
+     */
     remove(object) {
         let index = this.children.indexOf(object);
 
@@ -38,11 +101,20 @@ export default class Object3D {
         return this;
     }
 
-    raycast() {
+    /**
+     * Проверяет пересекает ли raycaster данный объект. Вносит все пересечения в intersects.
+     * @param {Raycaster} raycaster
+     * @param {Intersect[]} intersects
+     */
+    raycast(raycaster, intersects) {
         return this;
     }
 
-    render() {
+    /**
+     * Вызывается рендером для подготовки и отрисовки объекта.
+     * @param {State} state Текущие состояние рендера
+     */
+    render(state) {
         if (!this.visible) { return; }
 
         if (this.worldMatrixNeedsUpdate) {
@@ -52,6 +124,10 @@ export default class Object3D {
         return this;
     }
 
+    /**
+     * Обновляет локальную матрицу объекта. Необходимо использовать каждый раз после изменения position, scale
+     * и quaternion.
+     * */
     updateLocalMatrix() {
         mat4.fromRotationTranslationScale(this.localMatrix, this.quaternion, this.position, this.scale);
 
@@ -60,6 +136,9 @@ export default class Object3D {
         return this;
     }
 
+    /**
+     * Обновляет глобальную матрицу объекта.
+     * */
     updateWorldMatrix() {
         if (this.parent) {
             mat4.mul(this.worldMatrix, this.parent.worldMatrix, this.localMatrix);
@@ -74,12 +153,19 @@ export default class Object3D {
         return this;
     }
 
+    /**
+     * Возвращает позицию объекта относительно глобальных координат.
+     */
     getWorldPosition() {
         let result = vec3.create();
         vec3.transformMat4(result, this.position, this.worldMatrix);
         return result;
     }
 
+    /**
+     * Вызывает переданный callback для себя и для каждого дочернего класса.
+     * @param {Function} callback
+     */
     traverse(callback) {
         callback(this);
 
@@ -88,6 +174,10 @@ export default class Object3D {
         return this;
     }
 
+    /**
+     * Работает также как и {@link Object3D#traverse}, но только для объектов с visible = true
+     * @param {Function} callback
+     */
     traverseVisible(callback) {
         if (!this.visible) { return this; }
 
@@ -98,6 +188,10 @@ export default class Object3D {
         return this;
     }
 
+    /**
+     * Вызывается на этапе рендеринга для определения, каким конкретно рендером объект будет рисоваться.
+     * @param {TypedObjects} typedObjects
+     */
     typifyForRender(typedObjects) {
         if (!this.visible) { return this; }
 
@@ -108,3 +202,5 @@ export default class Object3D {
         return this;
     }
 }
+
+export default Object3D;

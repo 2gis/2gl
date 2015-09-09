@@ -1,4 +1,8 @@
-export default class TransparentRenderer {
+/**
+ * Отдельный рендер, используется для отрисовки прозрачных объектов.
+ * @ignore
+ */
+class TransparentRenderer {
     constructor() {}
 
     render(state, renderObjects) {
@@ -41,3 +45,5 @@ export default class TransparentRenderer {
         }
     }
 }
+
+export default TransparentRenderer;

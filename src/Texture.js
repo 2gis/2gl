@@ -1,16 +1,54 @@
-export default class Texture {
+/**
+ * Текстуры используются для отрисовки картинок в WebGL
+ */
+class Texture {
+    /**
+     * @param {HTMLImageElement | HTMLCanvasElement} src В качестве картинки может быть
+     * либо элемент img, либо canvas
+     */
     constructor(src) {
         this._src = src;
 
+        /**
+         * Тип фильтра при отображении текстуры, размеры которой больше, чем размеры исходной картинки
+         * @type {TextureFilter}
+         */
         this.magFilter = Texture.LinearFilter;
+
+        /**
+         * Тип фильтра при отображении текстуры, размеры которой меньше, чем размеры исходной картинки
+         * @type {TextureFilter}
+         */
         this.minFilter = Texture.LinearMipMapLinearFilter;
 
+        /**
+         * Что делать, если ширина исходной картинки не равна степени 2.
+         * @type {TextureClamp}
+         */
         this.wrapS = Texture.ClampToEdgeWrapping;
+
+        /**
+         * Что делать, если высота исходной картинки не равна степени 2.
+         * @type {TextureClamp}
+         */
         this.wrapT = Texture.ClampToEdgeWrapping;
 
+        /**
+         * Генерировать ли mipmaps. Mipmaps могут использовать только, если размеры текстуры равны степени 2.
+         * Они значительно повышают качество и производительность отображения.
+         *
+         * @type {Boolean}
+         */
         this.generateMipmaps = true;
     }
 
+    /**
+     * Связывает WebGL и данные текстуры.
+     * При первом вызов происходит инициализация.
+     *
+     * @param {WebGLRenderingContext} gl
+     * @param {Number} uniform
+     */
     enable(gl, uniform) {
         if (!this._texture) {
             this._prepare(gl);
@@ -70,3 +108,15 @@ Texture.NearestMipMapLinearFilter = 3;
 Texture.LinearFilter = 4;
 Texture.LinearMipMapNearestFilter = 5;
 Texture.LinearMipMapLinearFilter = 6;
+
+export default Texture;
+
+/**
+ * @typedef {Texture.NearestFilter | Texture.NearestMipMapNearestFilter |
+ * Texture.NearestMipMapLinearFilter | Texture.LinearFilter |
+ * Texture.LinearMipMapNearestFilter | Texture.LinearMipMapLinearFilter} TextureFilter
+ */
+
+/**
+ * @typedef {Texture.ClampToEdgeWrapping} TextureClamp
+ */

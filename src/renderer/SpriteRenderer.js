@@ -2,7 +2,11 @@ import {sprite as shader} from '../shaders';
 import Geometry from '../Geometry';
 import Buffer from '../Buffer';
 
-export default class SpriteRenderer {
+/**
+ * Отдельный рендер, используется для отрисовки спрайтов.
+ * @ignore
+ */
+class SpriteRenderer {
     constructor() {
         this._shader = shader;
         this._geometry = new Geometry();
@@ -107,3 +111,5 @@ export default class SpriteRenderer {
         };
     }
 }
+
+export default SpriteRenderer;

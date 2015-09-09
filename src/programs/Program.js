@@ -2,15 +2,28 @@ import definitions from './definitions';
 
 let cachedPrograms = {};
 
-export default class Program {
+/**
+ * Базовый класс для программ.
+ * Программа инициализирует шейдеры, инициализирует и связывает данные с WebGL.
+ */
+class Program {
     constructor() {
         this._attributeList = [];
         this._uniformList = [];
         this._definitions = [];
         this._shader = null;
+
+        /**
+         * Прозрачность объекта отрисованного с помощью данной программы
+         * @type {Number}
+         */
         this.opacity = 1;
     }
 
+    /**
+     * Инициализирует программу. Связывает переменные шейдера с данными.
+     * @param {State} state
+     */
     enable(state) {
         let gl = state.gl;
 
@@ -29,6 +42,10 @@ export default class Program {
         return this;
     }
 
+    /**
+     * Отключает программу
+     * @param {WebGLRenderingContext} gl
+     */
     disable(gl) {
         for (let name in this.attributes) {
             gl.disableVertexAttribArray(this.attributes[name]);
@@ -37,6 +54,11 @@ export default class Program {
         return this;
     }
 
+    /**
+     * Добавляет definitions в код шейдеров. Все добавления должны быть сделаны до первой инициализации.
+     * @param {String} type
+     * @param {Number | String} value
+     */
     define(type, value) {
         if (definitions[type]) {
             this._definitions.push({type, value});
@@ -141,3 +163,5 @@ export default class Program {
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
     }
 }
+
+export default Program;

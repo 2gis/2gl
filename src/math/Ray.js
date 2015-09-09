@@ -1,21 +1,51 @@
 import {vec3} from 'gl-matrix';
 
-export default class Ray {
+/**
+ * Луч
+ */
+class Ray {
+    /**
+     * @param {vec3} origin Позиция начала луча
+     * @param {vec3} direction Направление луча
+     */
     constructor(origin, direction) {
+        /**
+         * Начало
+         * @type {vec3}
+         */
         this.origin = origin || vec3.create();
+
+        /**
+         * Направление
+         * @type {vec3}
+         */
         this.direction = direction || vec3.create();
     }
 
+    /**
+     * Возвращает склонированный луч
+     * @returns {Ray}
+     */
     clone() {
         return new Ray(vec3.clone(this.origin), vec3.clone(this.direction));
     }
 
+    /**
+     * Ищёт точку на луче с заданным множителем
+     * @param {Number} t Множитель
+     * @returns {vec3}
+     */
     at(t) {
         let result = vec3.create();
         vec3.scaleAndAdd(result, this.origin, this.direction, t);
         return result;
     }
 
+    /**
+     * Проверяет пересекает ли луч паралелепипед
+     * @param {Box} box
+     * @returns {?vec3} Точка пересечения или null
+     */
     intersectBox(box) {
         // from https://github.com/mrdoob/three.js/blob/master/src/math/Ray.js
 
@@ -71,6 +101,10 @@ export default class Ray {
         return this.at(tmin >= 0 ? tmin : tmax);
     }
 
+    /**
+     * Изменяет направление луча с помощью матрицы
+     * @param {mat4} matrix
+     */
     applyMatrix4(matrix) {
         vec3.add(this.direction, this.direction, this.origin);
         vec3.transformMat4(this.direction, this.direction, matrix);
@@ -81,6 +115,12 @@ export default class Ray {
         return this;
     }
 
+    /**
+     * Проверяет пересекает ли луч заданный треугольник
+     * @param {vec3[]} triangle
+     * @param {Boolean} backfaceCulling
+     * @returns {?vec3} Точка пересечения или null
+     */
     intersectTriangle(triangle, backfaceCulling) {
         // from https://github.com/mrdoob/three.js/blob/master/src/math/Ray.js
 
@@ -150,6 +190,11 @@ export default class Ray {
         return this.at(QdN / DdN);
     }
 
+    /**
+     * Ищет расстояние от луча до плоскости
+     * @param {Plane} plane
+     * @returns {?Number}
+     */
     distanceToPlane(plane) {
         let denominator = vec3.dot(plane.normal, this.direction);
 
@@ -169,6 +214,12 @@ export default class Ray {
         return t >= 0 ? t : null;
     }
 
+
+    /**
+     * Проверяет plane ли луч заданную плоскость
+     * @param {Plane} plane
+     * @returns {?vec3} Точка пересечения или null
+     */
     intersectPlane(plane) {
         let t = this.distanceToPlane(plane);
 
@@ -179,3 +230,5 @@ export default class Ray {
         return this.at(t);
     }
 }
+
+export default Ray;

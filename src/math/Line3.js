@@ -1,12 +1,26 @@
 import {vec3} from 'gl-matrix';
 import {clamp} from './Math.js';
 
-export default class Line3 {
+/**
+ * Класс для линий
+ */
+class Line3 {
+    /**
+     * @param {vec3} start Начало
+     * @param {vec3} end Конец
+     */
     constructor(start, end) {
         this.start = start || vec3.create();
         this.end = end || vec3.create();
     }
 
+    /**
+     * Возвращает параметр основанный на проекции ближайшей точки к линии.
+     * Если clampToLine = true, возвращает параметр между 0 и 1.
+     * @param {vec3} point
+     * @param {Boolean} clampToLine
+     * @returns {number}
+     */
     closestPointToPointParameter(point, clampToLine) {
         let startP = vec3.create();
         let startEnd = vec3.create();
@@ -26,6 +40,14 @@ export default class Line3 {
         return t;
     }
 
+    /**
+     * Возвращает ближайшую точку на прямой заданную линией. Если clampToLine = true, возвращает точку
+     * лежащую в пределах линии.
+     * @param {vec3} point
+     * @param {Boolean} clampToLine
+     * @param {?vec3} optionalTarget
+     * @returns {vec3}
+     */
     closestPointToPoint(point, clampToLine, optionalTarget) {
         let t = this.closestPointToPointParameter(point, clampToLine);
 
@@ -38,9 +60,16 @@ export default class Line3 {
 
     }
 
+    /**
+     * Returns the delta vector of the line segment, or the end vector minus the start vector.
+     * @param {?vec3} optionalTarget
+     * @returns {vec3}
+     */
     delta(optionalTarget) {
         let result = optionalTarget || vec3.create();
         vec3.sub(result, this.end, this.start);
         return result;
     }
 }
+
+export default Line3;

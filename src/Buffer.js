@@ -1,12 +1,50 @@
-export default class Buffer {
+/**
+ * Используется для подготовки данных для передачи в видеокарту
+ *
+ * @param {TypedArray} array Типизированный массив данных, например, координат вершин
+ * @param {Number} itemSize Размерность данных, например, 3 - для коодинат вершин
+ */
+class Buffer {
     constructor(array, itemSize) {
         this._array = array;
+
+        /**
+         * Размерность данных
+         * @type {Number}
+         */
         this.itemSize = itemSize;
+
+        /**
+         * Количество элементов в массиве данных
+         * @type {Number}
+         */
         this.length = array.length / itemSize;
+
+        /**
+         * Тип буффера. Буффер может использоваться для передачи массива данных,
+         * так и для передачи индексов элементов из данных.
+         * @type {Buffer.ArrayBuffer | Buffer.ElementArrayBuffer}
+         */
         this.type = Buffer.ArrayBuffer;
+
+        /**
+         * Инициализация буффера происходит в момент первого рендеринга.
+         * Текущий WebGl контекст сохраняется в этой переменной.
+         * Если конекст меняется, буффер необходимо инициализровать заного.
+         * @type {?WebGLRenderingContext}
+         * @ignore
+         */
         this._preparedGlContext = null;
     }
 
+    /**
+     * Связывает данные с контекстом WebGL.
+     * В случае Buffer.ElementArrayBuffer связывает массив индексов.
+     * Если используется первый раз, добавляет данные в контекст WebGL.
+     *
+     * @param {WebGLRenderingContext} gl
+     * @param {?Number} attribute Аттрибут для связывания данных с переменными в шейдере
+     */
     bind(gl, attribute) {
         if (this._preparedGlContext !== gl) {
             this._unprepare(this._preparedGlContext);
@@ -26,20 +64,38 @@ export default class Buffer {
         return this;
     }
 
+    /**
+     * Удаляет данные из конекста WebGL.
+     * @param {WebGLRenderingContext} gl
+     */
     remove(gl) {
         this._unprepare(gl);
 
         return this;
     }
 
+    /**
+     * Возвращает массив данных
+     * @returns {TypedArray}
+     */
     getArray() {
         return this._array;
     }
 
+    /**
+     * Возвращает элемент из массива данных
+     * @param {Number} index Номер элемента в массиве данных
+     * @returns {TypedArray}
+     */
     getElement(index) {
         return this._array.subarray(index * this.itemSize, (index + 1) * this.itemSize);
     }
 
+    /**
+     * Возвращает тройку элементов из массива данных
+     * @param {Number} index Индекс
+     * @returns {TypedArray[]}
+     */
     getTriangle(index) {
         return [
             this.getElement(index),
@@ -48,6 +104,11 @@ export default class Buffer {
         ];
     }
 
+    /**
+     * Конкатенирует данный буфер с другим.
+     * Осторожно, метод не проверяет одинаковой размерности данные или нет.
+     * @param {Buffer} buffer
+     */
     concat(buffer) {
         let addArray = buffer.getArray();
         let newArray = new this._array.constructor(this._array.length + addArray.length);
@@ -58,6 +119,11 @@ export default class Buffer {
         this.length = newArray.length / this.itemSize;
     }
 
+    /**
+     * Кладёт данные в видеокарту
+     * @param {WebGLRenderingContext} gl
+     * @ignore
+     */
     _prepare(gl) {
         this._glBuffer = gl.createBuffer();
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
@@ -65,6 +131,11 @@ export default class Buffer {
         this._preparedGlContext = gl;
     }
 
+    /**
+     * Удаляет данные из видеокарты
+     * @param {WebGLRenderingContext} gl
+     * @ignore
+     */
     _unprepare(gl) {
         if (!gl) { return; }
 
@@ -74,6 +145,12 @@ export default class Buffer {
         this._glBuffer = null;
     }
 
+    /**
+     * Преобразовывает параметры буффера в параметры WebGL
+     * @param {WebGLRenderingContext} gl
+     * @param {Buffer.ArrayBuffer | Buffer.ElementArrayBuffer} param
+     * @ignore
+     */
     _toGlParam(gl, param) {
         if (param === Buffer.ArrayBuffer) { return gl.ARRAY_BUFFER; }
         if (param === Buffer.ElementArrayBuffer) { return gl.ELEMENT_ARRAY_BUFFER; }
@@ -82,3 +159,5 @@ export default class Buffer {
 
 Buffer.ArrayBuffer = 1;
 Buffer.ElementArrayBuffer = 2;
+
+export default Buffer;

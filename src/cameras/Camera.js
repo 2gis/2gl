@@ -21,14 +21,8 @@ export default class Camera extends Object3D {
     }
 
     project(vector) {
-        let matrix = mat4.create();
-        let inverseMatrix = mat4.create();
         let result = vec3.create();
-
-        mat4.invert(inverseMatrix, this.worldMatrix);
-        mat4.mul(matrix, this.projectionMatrix, inverseMatrix);
-        vec3.transformMat4(result, vector, matrix);
-
+        vec3.transformMat4(result, vector, this.projectionInverseMatrix);
         return result;
     }
 

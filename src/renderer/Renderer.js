@@ -1,4 +1,5 @@
 import SpriteRenderer from './SpriteRenderer';
+import TransparentRenderer from './TransparentRenderer';
 
 export default class Renderer {
     constructor(options) {
@@ -9,8 +10,10 @@ export default class Renderer {
         this._antialias = options.antialias !== undefined ? options.antialias : true;
         this.autoClear = options.autoClear !== undefined ? options.autoClear : true;
         this.clearColor = options.clearColor || [1, 1, 1, 1];
+        this.sortObjects = true;
 
         this.spriteRenderer = new SpriteRenderer();
+        this.transparentRenderer = new TransparentRenderer();
 
         this._initCanvas();
     }
@@ -55,6 +58,13 @@ export default class Renderer {
 
     render(scene, camera) {
         let gl = this._gl;
+        let typedObjects = {
+            common: [],
+            transparent: [],
+            sprites: []
+        };
+
+        scene.typifyForRender(typedObjects);
 
         gl.clearDepth(1);
         gl.clearStencil(0);
@@ -76,28 +86,18 @@ export default class Renderer {
         gl.disable(gl.BLEND);
 
         let state = {
-            typeRendering: Renderer.CommonRendering,
             renderer: this,
+            scene,
             camera,
             gl
         };
         // TODO: make state immutable?
 
-        scene.render(state);
+        typedObjects.common.forEach(object => object.render(state));
 
-        gl.enable(gl.BLEND);
-        gl.blendEquation(gl.FUNC_ADD);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        this.transparentRenderer.render(state, typedObjects.transparent);
 
-        gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
-        gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-
-        state.typeRendering = Renderer.TransparentRendering;
-
-        scene.render(state);
-
-        state.typeRendering = Renderer.SpriteRendering;
-        this.spriteRenderer.render(state);
+        this.spriteRenderer.render(state, typedObjects.sprites);
 
         return this;
     }

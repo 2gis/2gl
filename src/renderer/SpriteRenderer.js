@@ -27,10 +27,17 @@ export default class SpriteRenderer {
         this._geometry.getBuffer('index').type = Buffer.ElementArrayBuffer;
     }
 
-    render(state) {
+    render(state, renderObjects) {
         let {gl, scene, camera} = state;
 
         gl.disable(gl.DEPTH_TEST);
+
+        gl.enable(gl.BLEND);
+        gl.blendEquation(gl.FUNC_ADD);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+        gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
+        gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
         if (!this._shaderProgram) {
             this._prepare(state);
@@ -53,7 +60,7 @@ export default class SpriteRenderer {
 
         state.uniforms = this._uniforms;
 
-        scene.render(state);
+        renderObjects.forEach(object => object.render(state));
 
         gl.disableVertexAttribArray(this._attributes.position);
         gl.disableVertexAttribArray(this._attributes.texture);

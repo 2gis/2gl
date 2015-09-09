@@ -1,5 +1,4 @@
 import Object3D from './Object3D';
-import Renderer from './renderer/Renderer';
 import {vec3, mat4} from 'gl-matrix';
 
 export default class Mesh extends Object3D {
@@ -13,24 +12,20 @@ export default class Mesh extends Object3D {
     render(state) {
         let gl = state.gl;
 
-        if (!this.visible) { return; }
+        if (!this.visible) { return this; }
 
         if (this.worldMatrixNeedsUpdate) {
             this.updateWorldMatrix();
         }
 
-        if ((this.program.opacity === 1 && state.typeRendering === Renderer.CommonRendering) ||
-            (this.program.opacity !== 1 && state.typeRendering === Renderer.TransparentRendering)
-        ) {
-            state.object = this;
-            this.program.enable(state);
+        state.object = this;
+        this.program.enable(state);
 
-            gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
+        gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
 
-            this.program.disable(gl);
-        }
+        this.program.disable(gl);
 
-        this.children.forEach(object => object.render(state));
+        return this;
     }
 
     raycast(raycaster, intersects) {
@@ -42,7 +37,7 @@ export default class Mesh extends Object3D {
 
         let boundingBox = this.geometry.getBoundingBox();
 
-        if (!ray.intersectBox(boundingBox)) { return; }
+        if (!ray.intersectBox(boundingBox)) { return this; }
 
         let positionBuffer = this.geometry.buffers.position;
 
@@ -65,6 +60,22 @@ export default class Mesh extends Object3D {
                 object: this
             });
         }
+
+        return this;
+    }
+
+    typifyForRender(typedObjects) {
+        if (!this.visible) { return this; }
+
+        if (this.program.opacity === 1) {
+            typedObjects.common.push(this);
+        } else {
+            typedObjects.transparent.push(this);
+        }
+
+        this.children.forEach(child => child.typifyForRender(typedObjects));
+
+        return this;
     }
 }
 

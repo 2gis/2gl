@@ -9,15 +9,11 @@ export default class Scene extends Object3D {
 
     addLight(light) {
         this._lights.push(light);
+
+        return this;
     }
 
     getLights() {
         return this._lights;
-    }
-
-    render(state) {
-        state.scene = this;
-
-        this.children.forEach(object => object.render(state));
     }
 }

@@ -1,5 +1,6 @@
 import {mat4} from 'gl-matrix';
 import Camera from './Camera';
+import {degToRad} from '../math/Math';
 
 export default class PerspectiveCamera extends Camera {
     constructor(fov, aspect, near, far) {
@@ -12,6 +13,6 @@ export default class PerspectiveCamera extends Camera {
     }
 
     updateProjectionMatrix() {
-        mat4.perspective(this.projectionMatrix, this.fov, this.aspect, this.near, this.far);
+        mat4.perspective(this.projectionMatrix, degToRad(this.fov), this.aspect, this.near, this.far);
     }
 }

@@ -2,15 +2,15 @@ import SpriteRenderer from './SpriteRenderer';
 import TransparentRenderer from './TransparentRenderer';
 
 /**
- * Общий рендер. Используется для инициализация WebGL конекста и отрисовки объектов.
- * Некоторые объекты могут использовать специфичный рендеры.
+ * Используется для инициализация WebGL контекста и отрисовки объектов.
+ * Для некоторых объектов может использовать специфичные рендеры.
  *
  * @param {Object} options
  * @param {HTMLElement} options.container Элемент в который будет добавлен canvas
  * @param {Number} [options.pixelRatio=1] Pixel ratio экрана
  * @param {Boolean} [options.antialias=true] Использовать ли антиалиасинг
  * @param {Boolean} [options.autoClear=true] Стирать ли прошлый кадр перед новый рендерингом
- * @param {Array} [options.clearColor=true] Цвет заливки в формате RGBA, где каждая компонента от 0 до 1
+ * @param {Array} [options.clearColor=true] Цвет заливки в формате RGBA
  * @param {Object} [options.sortObjects=true] Нужно ли сортировать прозрачные объекты по удаленности
  * или по renderOrder
  * */
@@ -29,7 +29,7 @@ class Renderer {
         this.autoClear = options.autoClear !== undefined ? options.autoClear : true;
 
         /**
-         * Цвет заливки в формате RGBA, где каждая компонента от 0 до 1
+         * Цвет заливки в формате RGBA
          * @type {Array}
          */
         this.clearColor = options.clearColor || [1, 1, 1, 1];
@@ -61,7 +61,7 @@ class Renderer {
     }
 
     /**
-     * Устанавливает viewport для WebGl
+     * Устанавливает размеры canvas и viewport для WebGL
      * @param {Number} width
      * @param {Number} height
      */

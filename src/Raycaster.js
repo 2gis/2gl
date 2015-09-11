@@ -54,7 +54,7 @@ class Raycaster {
     /**
      * Ищет точки пересечения луча с объектом
      * @param {Object3D} object
-     * @param {Boolean} [recursive=false] Проверять ли дочернии объекты
+     * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
      * @returns {Intersect[]}
      */
     intersectObject(object, recursive) {
@@ -70,7 +70,7 @@ class Raycaster {
     /**
      * Ищет точки пересечения луча с массивом объектов
      * @param {Object3D[]} objects
-     * @param {Boolean} [recursive=false] Проверять ли дочернии объекты
+     * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
      * @returns {Intersect[]}
      */
     intersectObjects(objects, recursive) {

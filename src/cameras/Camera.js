@@ -17,13 +17,13 @@ class Camera extends Object3D {
         this.up = vec3.fromValues(0, 1, 0);
 
         /**
-         * Проецкционная матрица
+         * Проекционная матрица
          * @type {mat4}
          */
         this.projectionMatrix = mat4.create();
 
         /**
-         * Так называемая матрица модель-вида использующаяся в шейдерах для получения конечного изображения
+         * Матрица модель-вида использующаяся в шейдерах для получения конечного изображения
          * @type {mat4}
          */
         this.projectionInverseMatrix = mat4.create();
@@ -37,7 +37,7 @@ class Camera extends Object3D {
 
     /**
      * Обновляет проекционную матрицу. Обычно это нужно после изменения параметров камеры.
-     * Метод испльзуется в наследуемых классах.
+     * Используется в наследуемых классах.
      */
     updateProjectionMatrix() {}
 
@@ -81,12 +81,12 @@ class Camera extends Object3D {
 
     /**
      * Поворачивает камеру так, чтобы центр экрана точно смотрел на указанную позицию
-     * @param {vec3} vector
+     * @param {vec3} position
      */
-    lookAt(vector) {
+    lookAt(position) {
         let matrix4 = mat4.create();
         let matrix3 = mat3.create();
-        mat4.lookAt(matrix4, this.position, vector, this.up);
+        mat4.lookAt(matrix4, this.position, position, this.up);
         mat4.transpose(matrix4, matrix4);
         mat3.fromMat4(matrix3, matrix4);
         quat.fromMat3(this.quaternion, matrix3);

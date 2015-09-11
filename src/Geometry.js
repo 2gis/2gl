@@ -9,7 +9,7 @@ import Box from './math/Box';
 class Geometry {
     constructor() {
         /**
-         * Словарь name - Buffer
+         * Словарь вида: название буфера - Buffer
          * @type {Object}
          */
         this.buffers = {};
@@ -23,8 +23,8 @@ class Geometry {
     }
 
     /**
-     * Сохраняет буффер в геометрию
-     * @param {String} name Название буффера
+     * Сохраняет буфер в геометрию
+     * @param {String} name Название буфера
      * @param {Buffer} buffer
      */
     setBuffer(name, buffer) {
@@ -34,8 +34,8 @@ class Geometry {
     }
 
     /**
-     * Возвращает буффер из геометрии
-     * @param {String} name Название буффера
+     * Возвращает буфер из геометрии
+     * @param {String} name Название буфера
      * @returns {Buffer}
      */
     getBuffer(name) {
@@ -43,7 +43,7 @@ class Geometry {
     }
 
     /**
-     * Вычисляет буффер нормалей на основе текущего буффера вершин
+     * Вычисляет буфер нормалей на основе буфера координат вершин (position)
      */
     computeNormals() {
         let positionBuffer = this.buffers.position;
@@ -84,7 +84,7 @@ class Geometry {
     }
 
     /**
-     * Вычисляет параллелепипед описывающий данную геометрию на основе буффера вершин
+     * Вычисляет параллелепипед описывающий данную геометрию на основе буфера координат вершин (position)
      * @returns {Box}
      */
     computeBoundingBox() {
@@ -100,7 +100,7 @@ class Geometry {
 
     /**
      * Соединяет данную геометрию с другой.
-     * Осторожно, геометрии должны быть подобны, т.е. содержать одинаковые буфферы.
+     * Осторожно, геометрии должны быть подобны, т.е. содержать одинаковые буферы.
      * @param {Geometry} geometry
      */
     concat(geometry) {

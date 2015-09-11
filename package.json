@@ -35,6 +35,6 @@
     "dev:demo": "watchify demo/index.js -o dist/demo.js -dv",
     "dev": "npm run dev:lib & npm run dev:demo",
     "lint": "eslint src; exit 0",
-    "doc": "./node_modules/.bin/jsdoc src/**/*.js -R README.md -t node_modules/minami -c jsdoc.json -d docs"
+    "doc": "./node_modules/.bin/jsdoc src -r -R README.md -t node_modules/minami -c jsdoc.json -d docs"
   }
 }

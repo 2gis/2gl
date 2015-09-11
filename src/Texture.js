@@ -1,9 +1,9 @@
 /**
- * Текстуры используются для отрисовки картинок в WebGL
+ * Текстуры используются для отрисовки изображений в WebGL
  */
 class Texture {
     /**
-     * @param {HTMLImageElement | HTMLCanvasElement} src В качестве картинки может быть
+     * @param {HTMLImageElement | HTMLCanvasElement} src В качестве изображения может быть
      * либо элемент img, либо canvas
      */
     constructor(src) {
@@ -34,8 +34,9 @@ class Texture {
         this.wrapT = Texture.ClampToEdgeWrapping;
 
         /**
-         * Генерировать ли mipmaps. Mipmaps могут использовать только, если размеры текстуры равны степени 2.
+         * Генерировать ли mipmaps.
          * Они значительно повышают качество и производительность отображения.
+         * Mipmaps могут использоваться только, если размеры текстуры равны степени 2.
          *
          * @type {Boolean}
          */

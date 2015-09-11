@@ -1,19 +1,20 @@
 import Object3D from '../Object3D';
 
 /**
- * Базовый класс для создания источника света
+ * Базовый класс для создания источника света.
+ * Сам по себе не используется.
  *
  * @extends Object3D
  */
 class Light extends Object3D {
     /**
-     * @param {Array} color Цвет в формате RGB, где каждая компонента от 0 до 1
+     * @param {Array} color Цвет в формате RGB
      */
     constructor(color) {
         super();
 
         /**
-         * Цвет в формате RGB, где каждая компонента от 0 до 1
+         * Цвет в формате RGB
          * @type {Array}
          */
         this.color = color;

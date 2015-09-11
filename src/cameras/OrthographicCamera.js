@@ -18,11 +18,40 @@ class OrthographicCamera extends Camera {
     constructor(left, right, top, bottom, near, far) {
         super();
 
+        /**
+         * Левая плоскость камеры
+         * @type {Number}
+         */
         this.left = left;
+
+        /**
+         * Правая плоскость камеры
+         * @type {Number}
+         */
         this.right = right;
+
+        /**
+         * Верхняя плоскость камеры
+         * @type {Number}
+         */
         this.top = top;
+
+        /**
+         * Нижняя плоскость камеры
+         * @type {Number}
+         */
         this.bottom = bottom;
+
+        /**
+         * Минимальное расстояние от камеры до объектов, которые будут отображаться
+         * @type {Number}
+         */
         this.near = near;
+
+        /**
+         * Максимальное расстояние от камеры до объектов, которые будут отображаться
+         * @type {Number}
+         */
         this.far = far;
     }
 

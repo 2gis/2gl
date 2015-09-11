@@ -9,7 +9,7 @@ import {degToRad} from '../math/Math';
  */
 class PerspectiveCamera extends Camera {
     /**
-     * @param {Number} fov Угл обзора камеры, задаётся в градусах
+     * @param {Number} fov Угл обзора камеры в градусах
      * @param {Number} aspect Соотношение сторон
      * @param {Number} near Минимальное расстояние от камеры до объектов, которые будут отображаться
      * @param {Number} far Максимальное расстояние от камеры до объектов, которые будут отображаться
@@ -17,9 +17,28 @@ class PerspectiveCamera extends Camera {
     constructor(fov, aspect, near, far) {
         super();
 
+        /**
+         * Угл обзора камеры в градусах
+         * @type {Number}
+         */
         this.fov = fov;
+
+        /**
+         * Соотношение сторон
+         * @type {Number}
+         */
         this.aspect = aspect;
+
+        /**
+         * Минимальное расстояние от камеры до объектов, которые будут отображаться
+         * @type {Number}
+         */
         this.near = near;
+
+        /**
+         * Максимальное расстояние от камеры до объектов, которые будут отображаться
+         * @type {Number}
+         */
         this.far = far;
     }
 

@@ -1,0 +1,26 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'test' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.40
+4 verbose run-script [ 'pretest', 'test', 'posttest' ]
+5 info pretest 2gl@0.0.10
+6 info test 2gl@0.0.10
+7 verbose unsafe-perm in lifecycle true
+8 info 2gl@0.0.10 Failed to exec test script
+9 error 2gl@0.0.10 test: `browserify ./test/Object3D.spec.js | testling -u`
+9 error Exit status 1
+10 error Failed at the 2gl@0.0.10 test script.
+10 error This is most likely a problem with the 2gl package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     browserify ./test/Object3D.spec.js | testling -u
+10 error You can get their info via:
+10 error     npm owner ls 2gl
+10 error There is likely additional logging output above.
+11 error System Linux 3.13.0-53-generic
+12 error command "/usr/local/bin/node" "/usr/local/bin/npm" "run" "test"
+13 error cwd /home/mstislav/Projects/expgl
+14 error node -v v0.10.40
+15 error npm -v 1.4.28
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

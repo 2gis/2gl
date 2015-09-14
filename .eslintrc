@@ -21,14 +21,14 @@
     "no-underscore-dangle": 0,
     "quotes": [2, "single", "avoid-escape"],
     "semi-spacing": 0,
+    "object-curly-spacing": [2, "never"],
+    "computed-property-spacing": [2, "never"],
+    "array-bracket-spacing": [2, "never"],
     "space-after-function-name": 0,
     "space-after-keywords": 2,
     "space-before-blocks": 2,
     "space-in-parens": 2,
     "space-unary-ops": 0
-  },
-  "globals": {
-    "four": true
   },
   "env": {
     "node": true,

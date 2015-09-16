@@ -91,11 +91,7 @@ class Mesh extends Object3D {
     typifyForRender(typedObjects) {
         if (!this.visible) { return this; }
 
-        if (this.program.opacity === 1) {
-            typedObjects.common.push(this);
-        } else {
-            typedObjects.transparent.push(this);
-        }
+        this.program.typifyForRender(typedObjects, this);
 
         this.children.forEach(child => child.typifyForRender(typedObjects));
 

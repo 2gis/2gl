@@ -58,7 +58,7 @@ class Sprite extends Object3D {
     typifyForRender(typedObjects) {
         if (!this.visible) { return this; }
 
-        typedObjects.sprites.push(this);
+        this.program.typifyForRender(typedObjects, this);
 
         this.children.forEach(child => child.typifyForRender(typedObjects));
 

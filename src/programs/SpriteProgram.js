@@ -44,6 +44,16 @@ class SpriteProgram {
     }
 
     disable() {}
+
+    /**
+     * Вызывается спрайтом, чтобы определить его к специфичному рендеру.
+     *
+     * @param {TypedObjects} typedObjects
+     * @param {Sprite} object
+     */
+    typifyForRender(typedObjects, object) {
+        typedObjects.sprites.push(object);
+    }
 }
 
 export default SpriteProgram;

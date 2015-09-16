@@ -67,6 +67,22 @@ class Program {
         return this;
     }
 
+    /**
+     * Вызывается объектом использующую данную программу,
+     * чтобы определить к какому типу рендера принадлежит объект.
+     * Самое простое разделение: на прозрачные и нет.
+     *
+     * @param {TypedObjects} typedObjects
+     * @param {Object3D} object
+     */
+    typifyForRender(typedObjects, object) {
+        if (this.opacity === 1) {
+            typedObjects.common.push(object);
+        } else {
+            typedObjects.transparent.push(object);
+        }
+    }
+
     _prepare(state) {
         this._prepareShaders(state);
         this._prepareAttributes(state);

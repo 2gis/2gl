@@ -124,7 +124,7 @@ class ComplexMeshProgram extends Program {
         });
 
         gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(object.worldMatrix));
-        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
+        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.modelViewMatrix));
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
     }
 }

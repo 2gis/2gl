@@ -24,7 +24,7 @@ class BasicMeshProgram extends Program {
 
     _bindUniforms({gl, camera, object}) {
         gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(object.worldMatrix));
-        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.projectionInverseMatrix));
+        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.modelViewMatrix));
         gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
         gl.uniform3fv(this.uniforms.uColor, this.color);
     }

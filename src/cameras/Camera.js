@@ -26,7 +26,7 @@ class Camera extends Object3D {
          * Матрица модель-вида использующаяся в шейдерах для получения конечного изображения
          * @type {mat4}
          */
-        this.projectionInverseMatrix = mat4.create();
+        this.modelViewMatrix = mat4.create();
 
         /**
          * Матрица, обратная к worldMatrix
@@ -48,7 +48,7 @@ class Camera extends Object3D {
         super.updateWorldMatrix();
 
         mat4.invert(this.worldInverseMatrix, this.worldMatrix);
-        mat4.multiply(this.projectionInverseMatrix, this.projectionMatrix, this.worldInverseMatrix);
+        mat4.multiply(this.modelViewMatrix, this.projectionMatrix, this.worldInverseMatrix);
     }
 
     /**
@@ -58,7 +58,7 @@ class Camera extends Object3D {
      */
     project(vector) {
         let result = vec3.create();
-        vec3.transformMat4(result, vector, this.projectionInverseMatrix);
+        vec3.transformMat4(result, vector, this.modelViewMatrix);
         return result;
     }
 

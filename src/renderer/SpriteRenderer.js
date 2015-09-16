@@ -55,7 +55,7 @@ class SpriteRenderer {
         this._geometry.getBuffer('position').bind(gl, this._attributes.position);
         this._geometry.getBuffer('texture').bind(gl, this._attributes.texture);
 
-        gl.uniformMatrix4fv(this._uniforms.uPCamera, false, new Float32Array(camera.projectionInverseMatrix));
+        gl.uniformMatrix4fv(this._uniforms.uPCamera, false, new Float32Array(camera.modelViewMatrix));
 
         this._geometry.getBuffer('index').bind(gl);
 

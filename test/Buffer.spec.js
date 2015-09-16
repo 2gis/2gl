@@ -99,7 +99,7 @@ describe('Buffer', () => {
         });
     });
 
-    describe.skip('#getTriangle', () => {
+    describe('#getTriangle', () => {
         it('should return second triangle', () => {
             let triangle = squareVertices.slice(9, 18);
             assert.deepEqual(triangle, flatten(buffer.getTriangle(1)));

@@ -60,7 +60,7 @@ class Mesh extends Object3D {
         let positionBuffer = this.geometry.buffers.position;
 
         for (let i = 0; i < positionBuffer.length; i += 3) {
-            let triangle = positionBuffer.getTriangle(i);
+            let triangle = positionBuffer.getTriangle(i / 3);
 
             let intersectionPoint = ray.intersectTriangle(triangle, false);
 

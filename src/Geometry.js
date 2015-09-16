@@ -54,7 +54,7 @@ class Geometry {
         let n = vec3.create();
 
         for (let i = 0; i < positionBuffer.length; i += 3) {
-            let triangle = positionBuffer.getTriangle(i);
+            let triangle = positionBuffer.getTriangle(i / 3);
 
             vec3.sub(ab, triangle[0], triangle[1]);
             vec3.sub(cb, triangle[2], triangle[1]);

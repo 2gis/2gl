@@ -100,6 +100,8 @@ class Buffer {
      * @returns {TypedArray[]}
      */
     getTriangle(index) {
+        index *= 3;
+
         return [
             this.getElement(index),
             this.getElement(index + 1),

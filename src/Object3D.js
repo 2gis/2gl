@@ -157,9 +157,7 @@ class Object3D {
      * Возвращает позицию объекта относительно глобальных координат.
      */
     getWorldPosition() {
-        let result = vec3.create();
-        vec3.transformMat4(result, this.position, this.worldMatrix);
-        return result;
+        return vec3.fromValues(this.worldMatrix[12], this.worldMatrix[13], this.worldMatrix[14]);
     }
 
     /**

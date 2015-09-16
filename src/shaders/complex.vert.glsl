@@ -1,7 +1,6 @@
 attribute vec3 position;
 attribute vec3 color;
 attribute vec3 emissive;
-attribute float lightEnable;
 
 #ifdef USE_TEXTURE
     attribute vec2 texture;
@@ -34,23 +33,19 @@ void main(void) {
         vTextureEnable = textureEnable;
     #endif
 
-    if (lightEnable > 0.5) {
-        vec3 vLightTemp = vec3(0.0);
+    vec3 vLightTemp = vec3(0.0);
 
-        #if DIR_LIGHT_NUM > 0
-            vec3 transformedNormal = uNormalMatrix * normal;
+    #if DIR_LIGHT_NUM > 0
+        vec3 transformedNormal = uNormalMatrix * normal;
 
-            for(int i = 0; i < DIR_LIGHT_NUM; i++) {
-                float dotProduct = dot(transformedNormal, uDirectionLightPositions[i]);
-                vec3 directionalLightWeighting = vec3(max(dotProduct, 0.0));
-                vLightTemp += uDirectionLightColors[i] * directionalLightWeighting;
-            }
-        #endif
+        for(int i = 0; i < DIR_LIGHT_NUM; i++) {
+            float dotProduct = dot(transformedNormal, uDirectionLightPositions[i]);
+            vec3 directionalLightWeighting = vec3(max(dotProduct, 0.0));
+            vLightTemp += uDirectionLightColors[i] * directionalLightWeighting;
+        }
+    #endif
 
-        vLightWeighting = uAmbientLightColor + vLightTemp;
-    } else {
-        vLightWeighting = vec3(1.0);
-    }
+    vLightWeighting = uAmbientLightColor + vLightTemp;
 
     gl_Position = uCamera * uPosition * vec4(position, 1.0);
 }

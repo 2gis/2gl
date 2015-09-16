@@ -61,7 +61,6 @@ function getMesh() {
     for (i = 0; i < lightAlphaVertices.length; i++) {
         lightAlphaVertices[i] = 1;
     }
-    var lightAlphaBuffer = new dgl.Buffer(lightAlphaVertices, 1);
 
     var uv = [];
     var textureEnable = [];
@@ -79,7 +78,6 @@ function getMesh() {
         .setBuffer('position', vertexBuffer)
         .setBuffer('color', colorBuffer)
         .setBuffer('emissive', emissiveBuffer)
-        .setBuffer('lightEnable', lightAlphaBuffer)
         .setBuffer('texture', uvBuffer)
         .setBuffer('textureEnable', textureEnableBuffer);
 

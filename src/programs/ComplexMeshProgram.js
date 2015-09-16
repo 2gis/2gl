@@ -11,12 +11,11 @@ import DirectionalLight from '../lights/DirectionalLight';
  * 1. position - координаты вершин
  * 2. color - диффузная составляющая цвета в RGB для каждой из вершин, на неё влияет освещение
  * 3. emissive - фоновая составляющая цвета в RGB, на неё не влияет освещение
- * 4. lightEnable - определяет влияет ли свет на цвет для каждой из вершин,
- * принимает два значаения: 0 - нет, 1 - да
  *
  * Если программе задана текстура, то также должен быть доступны буферы:
  * 5. texture - 2х мерные координаты сопоставляющие координаты грани к координатам текстуры
- * 6. textureEnable - аналогичен буферу lightEnable, но только для текстуры
+ * 6. textureEnable - будет ли использоваться текстура для данной вершины,
+ * принимает два значаения: 0 - нет, 1 - да
  *
  * @extends Program
  */
@@ -24,7 +23,7 @@ class ComplexMeshProgram extends Program {
     constructor() {
         super();
 
-        this._attributeList = ['position', 'color', 'lightEnable', 'emissive'];
+        this._attributeList = ['position', 'color', 'emissive'];
         this._uniformList = ['uCamera', 'uPosition', 'uColorAlpha', 'uAmbientLightColor'];
         this._shader = shader;
         this._texture = null;

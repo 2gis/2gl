@@ -42,6 +42,6 @@
     "lint": "eslint src; exit 0",
     "doc": "./node_modules/.bin/jsdoc src -r -R README.md -t node_modules/minami -c jsdoc.json -d docs",
     "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- test/**/*.spec.js",
-    "test:dev": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- -w test/**/*.spec.js"
+    "test:dev": "./node_modules/.bin/_mocha --compilers js:babel/register -w test/**/*.spec.js"
   }
 }

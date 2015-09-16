@@ -6,8 +6,10 @@ import Mesh from '../src/Mesh';
 import Geometry from '../src/Geometry';
 import Buffer from '../src/Buffer';
 import BasicMeshProgram from '../src/programs/BasicMeshProgram';
+import Raycaster from '../src/Raycaster';
+import {vec3} from 'gl-matrix';
 
-describe.skip('Mesh', () => {
+describe('Mesh', () => {
     let geometry, program, mesh;
 
     beforeEach(() => {
@@ -33,7 +35,7 @@ describe.skip('Mesh', () => {
         });
     });
 
-    describe('#render', () => {
+    describe.skip('#render', () => {
         it('should update world matrix', () => {
             let oldMatrix = slice(mesh.worldMatrix);
 
@@ -62,6 +64,65 @@ describe.skip('Mesh', () => {
             mesh.render();
 
             assert.deepEqual(oldMatrix, slice(mesh.worldMatrix));
+        });
+    });
+
+    describe('#raycast', () => {
+        let raycaster, intersects;
+
+        beforeEach(() => {
+            raycaster = new Raycaster(vec3.create(), vec3.fromValues(1, 0, 0));
+            intersects = [];
+        });
+
+        afterEach(() => {
+            raycaster = intersects = null;
+        });
+
+        it('should intersect ray in two places', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 0.25;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+
+            mesh.raycast(raycaster, intersects);
+
+            assert.equal(intersects.length, 2);
+        });
+
+        it('shouldn\'t intersect ray', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 10;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+
+            mesh.raycast(raycaster, intersects);
+
+            assert.equal(intersects.length, 0);
+        });
+
+        it('shouldn\t intersect far ray', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 0.25;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+            raycaster.far = 5;
+
+            mesh.raycast(raycaster, intersects);
+
+            assert.equal(intersects.length, 0);
+        });
+
+        it('shouldn\t intersect near ray', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 0.25;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+            raycaster.near = 15;
+
+            mesh.raycast(raycaster, intersects);
+
+            assert.equal(intersects.length, 0);
         });
     });
 });

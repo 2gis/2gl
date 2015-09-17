@@ -125,4 +125,46 @@ describe('Mesh', () => {
             assert.equal(intersects.length, 0);
         });
     });
+
+    describe('#typifyForRender', () => {
+        let typedObjects, spy;
+
+        beforeEach(() => {
+            spy = sinon.spy(program, 'typifyForRender');
+            typedObjects = {common: [], transparent: []};
+        });
+
+        afterEach(() => {
+            spy.restore();
+            typedObjects = spy = null;
+        });
+
+        it('should call typifyForRender method from mesh program', () => {
+            mesh.typifyForRender(typedObjects);
+            assert.ok(spy.calledOnce);
+        });
+
+        it('should call twice typifyForRender method from mesh and child program', () => {
+            let b = new Mesh(geometry, program);
+
+            mesh.add(b);
+            mesh.typifyForRender(typedObjects);
+            assert.ok(spy.calledTwice);
+        });
+
+        it('should not call if object invisible', () => {
+            mesh.visible = false;
+            mesh.typifyForRender(typedObjects);
+            assert.ok(!spy.called);
+        });
+
+        it('should call once from object and not call from invisible child', () => {
+            let b = new Mesh(geometry, program);
+            b.visible = false;
+
+            mesh.add(b);
+            mesh.typifyForRender(typedObjects);
+            assert.ok(spy.calledOnce);
+        });
+    });
 });

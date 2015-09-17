@@ -6,7 +6,7 @@ import {vec3} from 'gl-matrix';
 class Plane {
     /**
      * @param {vec3} normal Нормаль к плоскости
-     * @param {Number} [constant=0] Смещение плоскости вдоль нормали
+     * @param {Number} [constant=0] Отрицательное смещение плоскости вдоль нормали
      */
     constructor(normal, constant) {
         this.normal = normal || vec3.create();

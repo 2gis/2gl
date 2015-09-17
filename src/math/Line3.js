@@ -45,7 +45,7 @@ class Line3 {
      * лежащую в пределах линии.
      * @param {vec3} point
      * @param {Boolean} clampToLine
-     * @param {?vec3} optionalTarget
+     * @param {?vec3} optionalTarget Если указать параметр, то результат будет записан в него
      * @returns {vec3}
      */
     closestPointToPoint(point, clampToLine, optionalTarget) {
@@ -61,8 +61,8 @@ class Line3 {
     }
 
     /**
-     * Returns the delta vector of the line segment, or the end vector minus the start vector.
-     * @param {?vec3} optionalTarget
+     * Вычитает вектор начала линии из конца
+     * @param {?vec3} optionalTarget Если указать параметр, то результат будет записан в него
      * @returns {vec3}
      */
     delta(optionalTarget) {

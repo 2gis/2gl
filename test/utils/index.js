@@ -3,6 +3,8 @@ import GlContext from './GlContext';
 export {default as cubeVertices} from './cubeVertices';
 
 export function slice(typedArray) {
+    if (!typedArray) { return null; }
+
     return Array.prototype.slice.call(typedArray);
 }
 

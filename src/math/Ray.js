@@ -118,7 +118,7 @@ class Ray {
     /**
      * Проверяет пересекает ли луч заданный треугольник
      * @param {vec3[]} triangle
-     * @param {Boolean} backfaceCulling
+     * @param {Boolean} [backfaceCulling=false] Если true, то луч может пересечь только переднюю сторону треугольника
      * @returns {?vec3} Точка пересечения или null
      */
     intersectTriangle(triangle, backfaceCulling) {
@@ -191,7 +191,7 @@ class Ray {
     }
 
     /**
-     * Ищет расстояние от луча до плоскости
+     * Ищет расстояние от начала луча до плоскости
      * @param {Plane} plane
      * @returns {?Number}
      */

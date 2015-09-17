@@ -1,9 +1,9 @@
 import assert from 'assert';
-import {slice} from './utils';
+import {slice} from '../utils';
 
-import Camera from '../src/cameras/Camera';
+import Camera from '../../src/cameras/Camera';
 
-import PerspectiveCamera from '../src/cameras/PerspectiveCamera';
+import PerspectiveCamera from '../../src/cameras/PerspectiveCamera';
 
 describe('PerspectiveCamera', () => {
     let camera, fov, aspect, near, far;

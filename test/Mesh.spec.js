@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {slice, round, cubeVertices} from './utils';
+import {slice, cubeVertices} from './utils';
 import sinon from 'sinon';
 
 import Geometry from '../src/Geometry';

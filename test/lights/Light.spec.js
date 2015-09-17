@@ -1,6 +1,6 @@
 import assert from 'assert';
-import Light from '../src/lights/Light';
-import Object3D from '../src/Object3D';
+import Light from '../../src/lights/Light';
+import Object3D from '../../src/Object3D';
 
 describe('Light', () => {
     describe('#constructor', () => {

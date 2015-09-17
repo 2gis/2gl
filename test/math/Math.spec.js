@@ -1,5 +1,5 @@
 import assert from 'assert';
-import * as math from '../src/math/Math';
+import * as math from '../../src/math/Math';
 
 describe('Math', () => {
     describe('#clamp', () => {

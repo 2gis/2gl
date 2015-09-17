@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {slice, round, flatten, getNewGlContext} from './utils';
+import {slice, flatten, getNewGlContext} from './utils';
 import sinon from 'sinon';
 
 import Buffer from '../src/Buffer';

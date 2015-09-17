@@ -1,8 +1,8 @@
 import assert from 'assert';
-import {slice} from './utils';
+import {slice} from '../utils';
 import {vec3} from 'gl-matrix';
 
-import Plane from '../src/math/Plane';
+import Plane from '../../src/math/Plane';
 
 describe('Plane', () => {
     let plane, normal, constant;

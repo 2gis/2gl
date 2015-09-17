@@ -1,9 +1,9 @@
 import assert from 'assert';
-import {slice, round} from './utils';
+import {slice, round} from '../utils';
 
-import Camera from '../src/cameras/Camera';
+import Camera from '../../src/cameras/Camera';
 
-import OrthographicCamera from '../src/cameras/OrthographicCamera';
+import OrthographicCamera from '../../src/cameras/OrthographicCamera';
 
 describe('OrthographicCamera', () => {
     let camera, left, right, top, bottom, near, far;
@@ -57,7 +57,7 @@ describe('OrthographicCamera', () => {
             camera.updateLocalMatrix();
             camera.updateWorldMatrix();
             camera.updateProjectionMatrix();
-            assert.deepEqual(slice(camera.unproject([10, 25, 0])).map(c => round(c)), [100, 250, -490.05]);
+            assert.deepEqual(slice(camera.unproject([10, 25, 0])).map(c => round(c, 3)), [100, 250, -490.05]);
         });
     });
 });

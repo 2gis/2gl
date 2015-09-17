@@ -1,8 +1,8 @@
 import assert from 'assert';
-import {slice} from './utils';
+import {slice} from '../utils';
 import {vec3} from 'gl-matrix';
 
-import Box from '../src/math/Box';
+import Box from '../../src/math/Box';
 
 describe('Box', () => {
     let box, min, max;

@@ -1,9 +1,9 @@
 import assert from 'assert';
-import {slice} from './utils';
-import {vec3, mat4} from 'gl-matrix';
-import Object3D from '../src/Object3D';
+import {slice} from '../utils';
+import {mat4} from 'gl-matrix';
+import Object3D from '../../src/Object3D';
 
-import Camera from '../src/cameras/Camera';
+import Camera from '../../src/cameras/Camera';
 
 describe('Camera', () => {
     let camera;

@@ -39,9 +39,9 @@
     "dev:lib": "watchify src/index.js -s dgl -o dist/2gl.js -dv",
     "dev:demo": "watchify demo/index.js -o dist/demo.js -dv",
     "dev": "npm run dev:lib & npm run dev:demo",
-    "lint": "eslint src; exit 0",
+    "lint": "eslint src test; exit 0",
     "doc": "./node_modules/.bin/jsdoc src -r -R README.md -t node_modules/minami -c jsdoc.json -d docs",
-    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- test/**/*.spec.js",
-    "test:dev": "./node_modules/.bin/_mocha --compilers js:babel/register -w test/**/*.spec.js"
+    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- test/*.spec.js test/**/*.spec.js",
+    "test:dev": "./node_modules/.bin/_mocha --compilers js:babel/register -w test/*.spec.js test/**/*.spec.js"
   }
 }

@@ -1,10 +1,10 @@
 import assert from 'assert';
-import {slice, round} from './utils';
+import {slice, round} from '../utils';
 import {vec3, mat4} from 'gl-matrix';
-import Box from '../src/math/Box';
-import Plane from '../src/math/Plane';
+import Box from '../../src/math/Box';
+import Plane from '../../src/math/Plane';
 
-import Ray from '../src/math/Ray';
+import Ray from '../../src/math/Ray';
 
 describe('Ray', () => {
     let ray, origin, direction;

@@ -1,8 +1,8 @@
 import assert from 'assert';
-import {slice} from './utils';
+import {slice} from '../utils';
 import {vec3} from 'gl-matrix';
 
-import Line3 from '../src/math/Line3';
+import Line3 from '../../src/math/Line3';
 
 describe('Line3', () => {
     let line, start, end;

@@ -1,2 +1,5 @@
 // need to coverage all files
-import dgl from '../src';
+
+/* eslint-disable no-unused-vars */
+ import dgl from '../src';
+/* eslint-enable no-unused-vars */

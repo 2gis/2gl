@@ -86,16 +86,32 @@ describe('Object3D', () => {
         assert.ok(a.worldMatrixNeedsUpdate, 'worldMatrixNeedsUpdate == true after updateLocalMatrix');
     });
 
-    it('#updateWorldMatrix', () => {
-        let oldMatrix = slice(a.worldMatrix);
+    describe('#updateWorldMatrix', () => {
+        let oldMatrix;
 
-        a.updateWorldMatrix();
+        beforeEach(() => {
+            oldMatrix = slice(a.worldMatrix);
+        });
 
-        assert.deepEqual(oldMatrix, slice(a.worldMatrix), 'old world matrix should be equal new after update');
+        it('old world matrix should be equal new after update', () => {
+            let oldMatrix = slice(a.worldMatrix);
+            a.updateWorldMatrix();
+            assert.deepEqual(oldMatrix, slice(a.worldMatrix));
+        });
 
-        a.position[1] = 123;
-        a.updateWorldMatrix();
-        assert.deepEqual(oldMatrix, slice(a.worldMatrix), 'matrix not change after change position and update');
+        it('shouldn\'t change matrix after change position and update', () => {
+            let oldMatrix = slice(a.worldMatrix);
+            a.position[1] = 123;
+            a.updateWorldMatrix();
+            assert.deepEqual(oldMatrix, slice(a.worldMatrix));
+        });
+
+        it('should update if local matrix changed', () => {
+            a.position[1] = 123;
+            a.updateLocalMatrix();
+            a.updateWorldMatrix();
+            assert.notDeepEqual(oldMatrix, slice(a.worldMatrix));
+        });
     });
 
     describe('#render', () => {

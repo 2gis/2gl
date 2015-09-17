@@ -2,12 +2,14 @@ import assert from 'assert';
 import {slice, round, cubeVertices} from './utils';
 import sinon from 'sinon';
 
-import Mesh from '../src/Mesh';
 import Geometry from '../src/Geometry';
 import Buffer from '../src/Buffer';
 import BasicMeshProgram from '../src/programs/BasicMeshProgram';
 import Raycaster from '../src/Raycaster';
 import {vec3} from 'gl-matrix';
+import Object3D from '../src/Object3D';
+
+import Mesh from '../src/Mesh';
 
 describe('Mesh', () => {
     let geometry, program, mesh;
@@ -26,6 +28,10 @@ describe('Mesh', () => {
     });
 
     describe('#constructor', () => {
+        it('should inherited from Object3D', () => {
+            assert.ok(mesh instanceof Object3D);
+        });
+
         it('should be equal mesh.program and passed program as argument', () => {
             assert.equal(program, mesh.program);
         });

@@ -1,4 +1,6 @@
 import GlContext from './GlContext';
+import Camera from '../../src/cameras/Camera';
+import Scene from '../../src/Scene';
 
 export {default as cubeVertices} from './cubeVertices';
 
@@ -20,4 +22,12 @@ export function flatten(array) {
 
 export function getNewGlContext() {
     return new GlContext();
+}
+
+export function getRenderState() {
+    return {
+        gl: new GlContext(),
+        scene: new Scene(),
+        camera: new Camera()
+    };
 }

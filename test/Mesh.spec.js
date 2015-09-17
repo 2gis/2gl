@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {slice, cubeVertices} from './utils';
+import {slice, cubeVertices, getRenderState} from './utils';
 import sinon from 'sinon';
 
 import Geometry from '../src/Geometry';
@@ -41,13 +41,20 @@ describe('Mesh', () => {
         });
     });
 
-    describe.skip('#render', () => {
+    describe('#render', () => {
+        let state;
+
+        beforeEach(() => {
+            state = getRenderState();
+            state.object = mesh;
+        });
+
         it('should update world matrix', () => {
             let oldMatrix = slice(mesh.worldMatrix);
 
             mesh.position[1] = 123;
             mesh.updateLocalMatrix();
-            mesh.render();
+            mesh.render(state);
 
             assert.notDeepEqual(oldMatrix, slice(mesh.worldMatrix));
         });
@@ -58,7 +65,7 @@ describe('Mesh', () => {
             mesh.position[1] = 123;
             mesh.updateLocalMatrix();
             mesh.visible = false;
-            mesh.render();
+            mesh.render(state);
 
             assert.deepEqual(oldMatrix, slice(mesh.worldMatrix));
         });
@@ -67,7 +74,7 @@ describe('Mesh', () => {
             let oldMatrix = slice(mesh.worldMatrix);
 
             mesh.position[1] = 123;
-            mesh.render();
+            mesh.render(state);
 
             assert.deepEqual(oldMatrix, slice(mesh.worldMatrix));
         });

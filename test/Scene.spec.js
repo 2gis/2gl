@@ -1,5 +1,4 @@
 import assert from 'assert';
-import {slice, cubeVertices} from './utils';
 
 import Object3D from '../src/Object3D';
 import Light from '../src/lights/Light';

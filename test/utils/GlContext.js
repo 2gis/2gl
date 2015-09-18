@@ -10,6 +10,22 @@ function GlContext() {
     this.LINK_STATUS = 8;
 
     this.TRIANGLES = 9;
+
+    this.TEXTURE_2D = 10;
+    this.UNPACK_FLIP_Y_WEBGL = 11;
+    this.RGBA = 12;
+    this.UNSIGNED_BYTE = 13;
+    this.TEXTURE_WRAP_S = 14;
+    this.TEXTURE_WRAP_T = 15;
+    this.TEXTURE_MAG_FILTER = 16;
+    this.TEXTURE_MIN_FILTER = 17;
+    this.CLAMP_TO_EDGE = 18;
+    this.NEAREST = 19;
+    this.NEAREST_MIPMAP_NEAREST = 20;
+    this.NEAREST_MIPMAP_LINEAR = 21;
+    this.LINEAR = 22;
+    this.LINEAR_MIPMAP_NEAREST = 23;
+    this.LINEAR_MIPMAP_LINEAR = 24;
 }
 
 GlContext.prototype.createBuffer = function() {
@@ -54,8 +70,19 @@ GlContext.prototype.getUniformLocation = function() {
 
 GlContext.prototype.uniformMatrix4fv = function() {};
 GlContext.prototype.uniform1f = function() {};
+GlContext.prototype.uniform1i = function() {};
 GlContext.prototype.uniform3fv = function() {};
 
 GlContext.prototype.drawArrays = function() {};
+
+GlContext.prototype.createTexture = function() {
+    return {};
+};
+GlContext.prototype.bindTexture = function() {};
+GlContext.prototype.activeTexture = function() {};
+GlContext.prototype.pixelStorei = function() {};
+GlContext.prototype.texImage2D = function() {};
+GlContext.prototype.texParameteri = function() {};
+GlContext.prototype.generateMipmap = function() {};
 
 module.exports = GlContext;

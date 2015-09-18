@@ -3,8 +3,14 @@
 
 **[Документация](https://2gis.github.io/2gl/docs)**
 
-* Для работы с матрицами и векторами используется [glMatrix](http://glmatrix.net/)
+* Для работы с матрицами и векторами используется библиотека [glMatrix](http://glmatrix.net/)
 * Работа с геометрическими объектами, например, Plane, Line3, Ray, взята из [three.js](http://threejs.org/)
+
+На данный момент может работать с тремя типами объектов для отображения:
+
+1. [Basic mesh](https://2gis.github.io/2gl/docs/BasicMeshProgram.html) - меш, закрашивается вся в один цвет
+2. [Complex mesh](https://2gis.github.io/2gl/docs/ComplexMeshProgram.html) - меш, для которого можно устанавить: цвета для каждой из вершин, текстуру и определять для какой из вершин будет использоваться текстура, освещение
+3. [Sprite](https://2gis.github.io/2gl/docs/Sprite.html) - спрайт, к камере расположен всегда одной стороной, удалённость не влияет на размеры изображения
 
 #### Examples
 * [Basic mesh performance](https://2gis.github.io/2gl/examples/basicMeshPerformance)
@@ -14,7 +20,6 @@
 #### Development
 * `npm install`
 * `npm start`
-* open `index.html`
 
 #### Release
 * `npm run build`

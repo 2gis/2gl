@@ -78,6 +78,24 @@ describe('Mesh', () => {
 
             assert.deepEqual(oldMatrix, slice(mesh.worldMatrix));
         });
+
+        it('should call program enable', () => {
+            let spy = sinon.spy(program, 'enable');
+            mesh.render(state);
+            assert.ok(spy.calledOnce);
+        });
+
+        it('should call program disable', () => {
+            let spy = sinon.spy(program, 'disable');
+            mesh.render(state);
+            assert.ok(spy.calledOnce);
+        });
+
+        it('should call gl drawArrays', () => {
+            let spy = sinon.spy(state.gl, 'drawArrays');
+            mesh.render(state);
+            assert.ok(spy.calledOnce);
+        });
     });
 
     describe('#raycast', () => {

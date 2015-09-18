@@ -1,7 +1,6 @@
 import assert from 'assert';
 import {slice} from './utils';
 import {vec3} from 'gl-matrix';
-import Object3D from '../src/Object3D';
 import Ray from '../src/math/Ray';
 
 import Raycaster from '../src/Raycaster';

@@ -70,10 +70,15 @@ GlContext.prototype.getUniformLocation = function() {
 
 GlContext.prototype.uniformMatrix4fv = function() {};
 GlContext.prototype.uniform1f = function() {};
+GlContext.prototype.uniform2f = function() {};
+GlContext.prototype.uniform3f = function() {};
 GlContext.prototype.uniform1i = function() {};
+GlContext.prototype.uniform2i = function() {};
+GlContext.prototype.uniform3i = function() {};
 GlContext.prototype.uniform3fv = function() {};
 
 GlContext.prototype.drawArrays = function() {};
+GlContext.prototype.drawElements = function() {};
 
 GlContext.prototype.createTexture = function() {
     return {};

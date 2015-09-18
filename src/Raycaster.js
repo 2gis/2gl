@@ -109,6 +109,6 @@ export default Raycaster;
  *
  * @typedef {Object} Intersect
  * @property {Number} distance Расстояние от начала луча до точки пересечения
- * @property {vec2} point Координаты точки пересечения
+ * @property {vec3} point Координаты точки пересечения
  * @property {Object3D} object Объект с которым пересекся луч
  */

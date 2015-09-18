@@ -2,6 +2,8 @@ import {vec3} from 'gl-matrix';
 
 /**
  * Объект параллелепипеда
+ *
+ * Взято из [three.js](https://github.com/mrdoob/three.js/blob/master/src/math/Box3.js)
  */
 class Box {
     /**

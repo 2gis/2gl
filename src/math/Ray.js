@@ -2,6 +2,8 @@ import {vec3} from 'gl-matrix';
 
 /**
  * Луч
+ *
+ * Взято из [three.js](https://github.com/mrdoob/three.js/blob/master/src/math/Ray.js)
  */
 class Ray {
     /**
@@ -47,8 +49,6 @@ class Ray {
      * @returns {?vec3} Точка пересечения или null
      */
     intersectBox(box) {
-        // from https://github.com/mrdoob/three.js/blob/master/src/math/Ray.js
-
         let tmin, tmax, tymin, tymax, tzmin, tzmax;
 
         let invdirx = 1 / this.direction[0];
@@ -122,8 +122,6 @@ class Ray {
      * @returns {?vec3} Точка пересечения или null
      */
     intersectTriangle(triangle, backfaceCulling) {
-        // from https://github.com/mrdoob/three.js/blob/master/src/math/Ray.js
-
         // Compute the offset origin, edges, and normal.
         let edge1 = vec3.create();
         let edge2 = vec3.create();

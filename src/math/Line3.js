@@ -3,6 +3,8 @@ import {clamp} from './Math.js';
 
 /**
  * Класс для линий
+ *
+ * Взято из [three.js](https://github.com/mrdoob/three.js/blob/master/src/math/Line3.js)
  */
 class Line3 {
     /**

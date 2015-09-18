@@ -2,6 +2,8 @@ import {vec3} from 'gl-matrix';
 
 /**
  * Задаёт плоскость в трёхмерном пространстве
+ *
+ * Взято из [three.js](https://github.com/mrdoob/three.js/blob/master/src/math/Plane.js)
  */
 class Plane {
     /**

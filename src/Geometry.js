@@ -47,6 +47,9 @@ class Geometry {
      */
     computeNormals() {
         let positionBuffer = this.buffers.position;
+
+        if (!positionBuffer) { return this; }
+
         let normals = new Float32Array(positionBuffer.length * positionBuffer.itemSize);
 
         let ab = vec3.create();

@@ -38,7 +38,7 @@ class Renderer {
         this._spriteRenderer = new SpriteRenderer();
         this._transparentRenderer = new TransparentRenderer();
 
-        this._initCanvas();
+        this._initializeCanvas();
     }
 
     /**
@@ -61,9 +61,9 @@ class Renderer {
     }
 
     /**
-     * Устанавливает размеры canvas и viewport для WebGL
-     * @param {Number} width
-     * @param {Number} height
+     * Устанавливает размеры элементу canvas и viewport для WebGL
+     * @param {Number} width Ширина в пикселях
+     * @param {Number} height Высота в пикселях
      */
     setSize(width, height) {
         this._size = [
@@ -151,12 +151,8 @@ class Renderer {
         return this;
     }
 
-    _initCanvas() {
+    _initializeCanvas() {
         this._canvasElement = document.createElement('canvas');
-
-        this._canvasElement.width = window.innerWidth;
-        this._canvasElement.height = window.innerHeight;
-
         this._container.appendChild(this._canvasElement);
 
         let attributes = {

@@ -26,7 +26,31 @@ function GlContext() {
     this.LINEAR = 22;
     this.LINEAR_MIPMAP_NEAREST = 23;
     this.LINEAR_MIPMAP_LINEAR = 24;
+
+    this.COLOR_BUFFER_BIT = 25;
+    this.DEPTH_BUFFER_BIT = 26;
+    this.DEPTH_TEST = 27;
+    this.LEQUAL = 28;
+    this.CCW = 29;
+    this.BACK = 30;
+    this.CULL_FACE = 31;
+    this.BLEND = 32;
 }
+
+GlContext.prototype.viewport = function() {};
+GlContext.prototype.clearColor = function() {};
+GlContext.prototype.clear = function() {};
+GlContext.prototype.clearDepth = function() {};
+GlContext.prototype.clearStencil = function() {};
+GlContext.prototype.enable = function() {};
+GlContext.prototype.disable = function() {};
+GlContext.prototype.depthFunc = function() {};
+GlContext.prototype.frontFace = function() {};
+GlContext.prototype.cullFace = function() {};
+GlContext.prototype.blendEquation = function() {};
+GlContext.prototype.blendFunc = function() {};
+GlContext.prototype.blendEquationSeparate = function() {};
+GlContext.prototype.blendFuncSeparate = function() {};
 
 GlContext.prototype.createBuffer = function() {
     return {};

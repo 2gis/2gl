@@ -1,5 +1,5 @@
 import assert from 'assert';
-import GlContext from './utils/GlContext.js';
+import GlContext from './utils/GlContext';
 import sinon from 'sinon';
 
 import Texture from '../src/Texture';
@@ -10,10 +10,6 @@ describe('Texture', () => {
     beforeEach(() => {
         src = {};
         texture = new Texture(src);
-    });
-
-    describe('#constructor', () => {
-
     });
 
     describe('#enable', () => {

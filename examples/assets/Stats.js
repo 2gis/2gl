@@ -1,7 +1,7 @@
 function Stats() {
     this.element = document.createElement('div');
     this.element.style.position = 'absolute';
-    this.element.style.backgroundColor = '#ffffff';
+    this.element.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
     this.element.style.width = '150px';
 
     this.reset();
@@ -68,4 +68,10 @@ Stats.prototype.reset = function() {
     this._fpsTickNumbers = 1;
 };
 
-module.exports = window.Stats = Stats;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Stats;
+}
+
+if (window) {
+    window.Stats = Stats;
+}

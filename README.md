@@ -6,6 +6,10 @@
 * Для работы с матрицами и векторами используется [glMatrix](http://glmatrix.net/)
 * Работа с геометрическими объектами, например, Plane, Line3, Ray, взята из [three.js](http://threejs.org/)
 
+### Examples
+* [Basic mesh performance](https://2gis.github.io/2gl/examples/basicMeshPerformance)
+* [Complex mesh performance](https://2gis.github.io/2gl/examples/complexMeshPerformance)
+* [Sprite performance](https://2gis.github.io/2gl/examples/spritePerformance)
 
 ### Development
 * `npm install`

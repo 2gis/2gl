@@ -60,7 +60,7 @@ class Raycaster {
     intersectObject(object, recursive) {
         var intersects = [];
 
-        this._intersectObject(object, intersects, recursive);
+        object.raycast(this, intersects, recursive);
 
         intersects.sort(this._descSort);
 
@@ -76,9 +76,7 @@ class Raycaster {
     intersectObjects(objects, recursive) {
         let intersects = [];
 
-        for (let i = 0; i < objects.length; i++) {
-            this._intersectObject(objects[i], intersects, recursive);
-        }
+        objects.forEach(obj => obj.raycast(this, intersects, recursive));
 
         intersects.sort(this._descSort);
 
@@ -87,18 +85,6 @@ class Raycaster {
 
     _descSort(a, b) {
         return a.distance - b.distance;
-    }
-
-    _intersectObject(object, intersects, recursive) {
-        object.raycast(this, intersects);
-
-        if (recursive) {
-            let children = object.children;
-
-            for (let i = 0; i < children.length; i++) {
-                this._intersectObject(children[i], intersects, true);
-            }
-        }
     }
 }
 

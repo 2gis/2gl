@@ -68,8 +68,20 @@ describe('Object3D', () => {
         });
     });
 
-    it('#raycast', () => {
-        a.raycast(null, null);
+    describe('#raycast', () => {
+        it('shouldn\'t call raycast of child', () => {
+            a.add(b);
+            let spy = sinon.spy(b, 'raycast');
+            a.raycast(null, null);
+            assert.ok(!spy.called);
+        });
+
+        it('should call raycast of child if recursive is true', () => {
+            a.add(b);
+            let spy = sinon.spy(b, 'raycast');
+            a.raycast(null, null, true);
+            assert.ok(spy.calledOnce);
+        });
     });
 
     it('#updateLocalMatrix', () => {

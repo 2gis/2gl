@@ -105,8 +105,15 @@ class Object3D {
      * Проверяет пересекает ли {@link Raycaster} данный объект, вносит все пересечения в массив intersects.
      * @param {Raycaster} raycaster
      * @param {Intersect[]} intersects
+     * @param {Boolean} recursive Проверять ли пересечения с дочерними объектами
      */
-    raycast(raycaster, intersects) {
+    raycast(raycaster, intersects, recursive) {
+        // у Object3D пустой метод, проверяем только дочерние объекты
+
+        if (recursive) {
+            this.children.forEach(child => child.raycast(raycaster, intersects, recursive));
+        }
+
         return this;
     }
 

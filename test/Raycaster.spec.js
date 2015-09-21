@@ -97,15 +97,6 @@ describe('Raycaster', () => {
             assert.equal(intersects[0], object2Intersect1);
             assert.equal(intersects[1], object2Intersect2);
         });
-
-        it('should return children intersect too', () => {
-            object1.children = [object2];
-            let intersects = raycaster.intersectObject(object1, true);
-            assert.equal(intersects.length, 3);
-            assert.equal(intersects[0], object1Intersect);
-            assert.equal(intersects[1], object2Intersect1);
-            assert.equal(intersects[2], object2Intersect2);
-        });
     });
 
     describe('#intersectObjects', () => {
@@ -117,16 +108,6 @@ describe('Raycaster', () => {
 
         it('should return sorted by distance intersects', () => {
             let intersects = raycaster.intersectObjects([object1, object2, object3]);
-            assert.equal(intersects.length, 4);
-            assert.equal(intersects[0], object3Intersect);
-            assert.equal(intersects[1], object1Intersect);
-            assert.equal(intersects[2], object2Intersect1);
-            assert.equal(intersects[3], object2Intersect2);
-        });
-
-        it('should return children intersect too', () => {
-            object1.children = [object2];
-            let intersects = raycaster.intersectObjects([object1, object3], true);
             assert.equal(intersects.length, 4);
             assert.equal(intersects[0], object3Intersect);
             assert.equal(intersects[1], object1Intersect);

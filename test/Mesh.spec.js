@@ -155,6 +155,22 @@ describe('Mesh', () => {
 
             assert.equal(intersects.length, 0);
         });
+
+        it('shouldn\'t call raycast of child', () => {
+            let child = new Object3D();
+            mesh.add(child);
+            let spy = sinon.spy(child, 'raycast');
+            mesh.raycast(raycaster, intersects);
+            assert.ok(!spy.called);
+        });
+
+        it('should call raycast of child if recursive is true', () => {
+            let child = new Object3D();
+            mesh.add(child);
+            let spy = sinon.spy(child, 'raycast');
+            mesh.raycast(raycaster, intersects, true);
+            assert.ok(spy.calledOnce);
+        });
     });
 
     describe('#typifyForRender', () => {

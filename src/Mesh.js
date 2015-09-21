@@ -27,6 +27,10 @@ class Mesh extends Object3D {
         this.program = program;
     }
 
+    /**
+     * Вызывается рендером для подготовки и отрисовки объекта.
+     * @param {State} state Текущие состояние рендера
+     */
     render(state) {
         let gl = state.gl;
 
@@ -46,7 +50,15 @@ class Mesh extends Object3D {
         return this;
     }
 
-    raycast(raycaster, intersects) {
+    /**
+     * Проверяет пересекает ли {@link Raycaster} данный объект, вносит все пересечения в массив intersects.
+     * @param {Raycaster} raycaster
+     * @param {Intersect[]} intersects
+     * @param {Boolean} recursive Проверять ли пересечения с дочерними объектами
+     */
+    raycast(raycaster, intersects, recursive) {
+        // get from https://github.com/mrdoob/three.js/blob/master/src/objects/Mesh.js
+
         let inverseMatrix = mat4.create();
         mat4.invert(inverseMatrix, this.worldMatrix);
 
@@ -77,6 +89,10 @@ class Mesh extends Object3D {
                 point: intersectionPoint,
                 object: this
             });
+        }
+
+        if (recursive) {
+            this.children.forEach(child => child.raycast(raycaster, intersects, recursive));
         }
 
         return this;

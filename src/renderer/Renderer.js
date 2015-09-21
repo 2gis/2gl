@@ -159,7 +159,8 @@ class Renderer {
             antialias: this._antialias
         };
 
-        this._gl = this._canvasElement.getContext('webgl', attributes);
+        this._gl = this._canvasElement.getContext('webgl', attributes) ||
+            this._canvasElement.getContext('experimental-webgl', attributes);
     }
 }
 

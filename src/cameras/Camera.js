@@ -57,7 +57,7 @@ class Camera extends Object3D {
      * @returns {vec3}
      */
     project(vector) {
-        let result = vec3.create();
+        const result = vec3.create();
         vec3.transformMat4(result, vector, this.modelViewMatrix);
         return result;
     }
@@ -68,9 +68,9 @@ class Camera extends Object3D {
      * @returns {vec3}
      */
     unproject(vector) {
-        let matrix = mat4.create();
-        let inverseMatrix = mat4.create();
-        let result = vec3.create();
+        const matrix = mat4.create();
+        const inverseMatrix = mat4.create();
+        const result = vec3.create();
 
         mat4.invert(inverseMatrix, this.projectionMatrix);
         mat4.mul(matrix, this.worldMatrix, inverseMatrix);
@@ -84,8 +84,8 @@ class Camera extends Object3D {
      * @param {vec3} position
      */
     lookAt(position) {
-        let matrix4 = mat4.create();
-        let matrix3 = mat3.create();
+        const matrix4 = mat4.create();
+        const matrix3 = mat3.create();
         mat4.lookAt(matrix4, this.position, position, this.up);
         mat4.transpose(matrix4, matrix4);
         mat3.fromMat4(matrix3, matrix4);

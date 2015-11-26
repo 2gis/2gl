@@ -6,7 +6,7 @@ class TransparentRenderer {
     constructor() {}
 
     render(state, renderObjects) {
-        let gl = state.gl;
+        const gl = state.gl;
 
         gl.enable(gl.BLEND);
         gl.blendEquation(gl.FUNC_ADD);
@@ -23,7 +23,7 @@ class TransparentRenderer {
     }
 
     _sortObjects({camera}, renderObjects) {
-        let preparedObjects = renderObjects.map(object => {
+        const preparedObjects = renderObjects.map(object => {
             return {
                 object,
                 z: camera.project(object.getWorldPosition())[2]

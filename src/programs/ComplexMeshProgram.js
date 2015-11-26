@@ -85,7 +85,7 @@ class ComplexMeshProgram extends Program {
             this._texture.enable(gl, this.uniforms.uTexture);
         }
 
-        let lights = scene.getLights();
+        const lights = scene.getLights();
 
         if (lights.length) {
             let directionLightsColor = [];
@@ -97,14 +97,14 @@ class ComplexMeshProgram extends Program {
                 } else if (light instanceof DirectionalLight) {
                     directionLightsColor = directionLightsColor.concat(light.color);
 
-                    let reverted = vec3.create();
+                    const reverted = vec3.create();
                     vec3.scale(reverted, light.position, -1);
                     directionLightsPosition = directionLightsPosition.concat(Array.prototype.slice.call(reverted));
                 }
             });
 
             if (directionLightsColor.length && directionLightsPosition.length) {
-                let normalMatrix = mat3.create();
+                const normalMatrix = mat3.create();
                 mat3.fromMat4(normalMatrix, object.worldMatrix);
                 mat3.invert(normalMatrix, normalMatrix);
                 mat3.transpose(normalMatrix, normalMatrix);

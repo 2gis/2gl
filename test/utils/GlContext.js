@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 function GlContext() {
     this.ARRAY_BUFFER = 1;
     this.ELEMENT_ARRAY_BUFFER = 2;
@@ -115,3 +116,4 @@ GlContext.prototype.texParameteri = function() {};
 GlContext.prototype.generateMipmap = function() {};
 
 module.exports = GlContext;
+/* eslint-enable no-var */

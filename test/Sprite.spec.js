@@ -46,11 +46,11 @@ describe('Sprite', () => {
             };
             state.renderer = {
                 getSize: () => [100, 50]
-            }
+            };
         });
 
         it('should call updateWorldMatrix', () => {
-            let spy = sinon.spy(sprite, 'updateLocalMatrix');
+            const spy = sinon.spy(sprite, 'updateLocalMatrix');
 
             sprite.position[1] = 123;
             sprite.updateLocalMatrix();
@@ -60,7 +60,7 @@ describe('Sprite', () => {
         });
 
         it('shouldn\'t update world matrix if object is invisible', () => {
-            let oldMatrix = slice(sprite.worldMatrix);
+            const oldMatrix = slice(sprite.worldMatrix);
 
             sprite.position[1] = 123;
             sprite.updateLocalMatrix();
@@ -71,7 +71,7 @@ describe('Sprite', () => {
         });
 
         it('shouldn\'t update world matrix if worldMatrixNeedsUpdate property is false', () => {
-            let oldMatrix = slice(sprite.worldMatrix);
+            const oldMatrix = slice(sprite.worldMatrix);
 
             sprite.position[1] = 123;
             sprite.render(state);
@@ -80,13 +80,13 @@ describe('Sprite', () => {
         });
 
         it('should call program enable', () => {
-            let spy = sinon.spy(program, 'enable');
+            const spy = sinon.spy(program, 'enable');
             sprite.render(state);
             assert.ok(spy.calledOnce);
         });
 
         it('should call program disable', () => {
-            let spy = sinon.spy(program, 'disable');
+            const spy = sinon.spy(program, 'disable');
             sprite.render(state);
             assert.ok(spy.calledOnce);
         });
@@ -111,7 +111,7 @@ describe('Sprite', () => {
         });
 
         it('should call twice typifyForRender method from sprite and child program', () => {
-            let b = new Sprite(program);
+            const b = new Sprite(program);
 
             sprite.add(b);
             sprite.typifyForRender(typedObjects);
@@ -125,7 +125,7 @@ describe('Sprite', () => {
         });
 
         it('should call once from object and not call from invisible child', () => {
-            let b = new Sprite(program);
+            const b = new Sprite(program);
             b.visible = false;
 
             sprite.add(b);

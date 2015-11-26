@@ -31,7 +31,7 @@ describe('PerspectiveCamera', () => {
 
     describe('#updateProjectionMatrix', () => {
         it('should update projection matrix', () => {
-            let oldMatrix = slice(camera.projectionMatrix);
+            const oldMatrix = slice(camera.projectionMatrix);
             camera.updateProjectionMatrix();
             assert.notDeepEqual(slice(camera.projectionMatrix), oldMatrix);
         });

@@ -26,7 +26,7 @@ describe('ComplexMeshProgram', () => {
         });
 
         it('should return same texture', () => {
-            let texture = {};
+            const texture = {};
             program.setTexture(texture);
             assert.equal(program.getTexture(), texture);
         });

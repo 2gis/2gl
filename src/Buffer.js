@@ -115,8 +115,8 @@ class Buffer {
      * @param {Buffer} buffer
      */
     concat(buffer) {
-        let addArray = buffer.getArray();
-        let newArray = new this._array.constructor(this._array.length + addArray.length);
+        const addArray = buffer.getArray();
+        const newArray = new this._array.constructor(this._array.length + addArray.length);
         newArray.set(this._array, 0);
         newArray.set(addArray, this._array.length);
 

@@ -29,7 +29,7 @@ describe('Box', () => {
 
     describe('#containsPoint', () => {
         it('should contain [0, 0, 0]', () => {
-            let point = vec3.fromValues(0, 0, 0);
+            const point = vec3.fromValues(0, 0, 0);
             assert.ok(box.containsPoint(point));
         });
 
@@ -49,20 +49,20 @@ describe('Box', () => {
 
     describe('#expandByPoint', () => {
         it('should expand max bound', () => {
-            let point = vec3.fromValues(2, 2, 2);
+            const point = vec3.fromValues(2, 2, 2);
             box.expandByPoint(point);
             assert.deepEqual(slice(point), slice(box.max));
         });
 
         it('should expand min bound', () => {
-            let point = vec3.fromValues(-2, -2, -2);
+            const point = vec3.fromValues(-2, -2, -2);
             box.expandByPoint(point);
             assert.deepEqual(slice(point), slice(box.min));
         });
 
         it('shouldn\'t expand', () => {
-            let point = vec3.fromValues(0, 0, 0);
-            let oldBounds = {
+            const point = vec3.fromValues(0, 0, 0);
+            const oldBounds = {
                 max: slice(box.max),
                 min: slice(box.min)
             };

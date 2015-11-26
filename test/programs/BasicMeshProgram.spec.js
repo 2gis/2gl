@@ -43,32 +43,32 @@ describe('BasicMeshProgram', () => {
         });
 
         it('should create two shaders', () => {
-            let spy = sinon.spy(state.gl, 'createShader');
+            const spy = sinon.spy(state.gl, 'createShader');
             program.enable(state);
             assert.ok(spy.calledTwice);
         });
 
         it('should create program', () => {
-            let spy = sinon.spy(state.gl, 'createProgram');
+            const spy = sinon.spy(state.gl, 'createProgram');
             program.enable(state);
             assert.ok(spy.calledOnce);
         });
 
         it('should use program', () => {
-            let spy = sinon.spy(state.gl, 'useProgram');
+            const spy = sinon.spy(state.gl, 'useProgram');
             program.enable(state);
             assert.ok(spy.calledOnce);
         });
 
         it('shouldn\'t create shaders after first call', () => {
-            let spy = sinon.spy(state.gl, 'createShader');
+            const spy = sinon.spy(state.gl, 'createShader');
             program.enable(state);
             program.enable(state);
             assert.ok(spy.calledTwice);
         });
 
         it('shouldn\'t create program after first call', () => {
-            let spy = sinon.spy(state.gl, 'createProgram');
+            const spy = sinon.spy(state.gl, 'createProgram');
             program.enable(state);
             program.enable(state);
             assert.ok(spy.calledOnce);
@@ -77,12 +77,12 @@ describe('BasicMeshProgram', () => {
 
     describe('#disable', () => {
         it('should call disableVertexAttribArray once', () => {
-            let state = getRenderState();
+            const state = getRenderState();
             state.object = mesh;
 
             program.enable(state);
 
-            let spy = sinon.spy(state.gl, 'disableVertexAttribArray');
+            const spy = sinon.spy(state.gl, 'disableVertexAttribArray');
             program.disable(state.gl);
 
             assert.ok(spy.calledOnce);

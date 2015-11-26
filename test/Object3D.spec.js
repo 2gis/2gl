@@ -20,7 +20,7 @@ describe('Object3D', () => {
     it('#constructor', () => {
         assert.equal(typeof Object3D, 'function', 'Object3D is a class');
 
-        let a = new Object3D();
+        const a = new Object3D();
 
         assert.ok(a instanceof Object3D, 'a is instance of Object3D');
 
@@ -71,21 +71,21 @@ describe('Object3D', () => {
     describe('#raycast', () => {
         it('shouldn\'t call raycast of child', () => {
             a.add(b);
-            let spy = sinon.spy(b, 'raycast');
+            const spy = sinon.spy(b, 'raycast');
             a.raycast(null, null);
             assert.ok(!spy.called);
         });
 
         it('should call raycast of child if recursive is true', () => {
             a.add(b);
-            let spy = sinon.spy(b, 'raycast');
+            const spy = sinon.spy(b, 'raycast');
             a.raycast(null, null, true);
             assert.ok(spy.calledOnce);
         });
     });
 
     it('#updateLocalMatrix', () => {
-        let oldMatrix = slice(a.localMatrix);
+        const oldMatrix = slice(a.localMatrix);
 
         a.updateLocalMatrix();
 
@@ -106,13 +106,13 @@ describe('Object3D', () => {
         });
 
         it('old world matrix should be equal new after update', () => {
-            let oldMatrix = slice(a.worldMatrix);
+            const oldMatrix = slice(a.worldMatrix);
             a.updateWorldMatrix();
             assert.deepEqual(oldMatrix, slice(a.worldMatrix));
         });
 
         it('shouldn\'t change matrix after change position and update', () => {
-            let oldMatrix = slice(a.worldMatrix);
+            const oldMatrix = slice(a.worldMatrix);
             a.position[1] = 123;
             a.updateWorldMatrix();
             assert.deepEqual(oldMatrix, slice(a.worldMatrix));
@@ -128,7 +128,7 @@ describe('Object3D', () => {
 
     describe('#render', () => {
         it('should update world matrix', () => {
-            let oldMatrix = slice(a.worldMatrix);
+            const oldMatrix = slice(a.worldMatrix);
 
             a.position[1] = 123;
             a.updateLocalMatrix();
@@ -138,7 +138,7 @@ describe('Object3D', () => {
         });
 
         it('shouldn\'t update world matrix if object is invisible', () => {
-            let oldMatrix = slice(a.worldMatrix);
+            const oldMatrix = slice(a.worldMatrix);
 
             a.position[1] = 123;
             a.updateLocalMatrix();
@@ -149,7 +149,7 @@ describe('Object3D', () => {
         });
 
         it('shouldn\'t update world matrix if worldMatrixNeedsUpdate property is false', () => {
-            let oldMatrix = slice(a.worldMatrix);
+            const oldMatrix = slice(a.worldMatrix);
 
             a.position[1] = 123;
             a.render();
@@ -175,7 +175,7 @@ describe('Object3D', () => {
     });
 
     it('#traverse', () => {
-        let spy = sinon.spy();
+        const spy = sinon.spy();
 
         a.add(b);
         a.traverse(spy);

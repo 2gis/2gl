@@ -1,6 +1,8 @@
 // brfs module has error with import then using require
+/* eslint-disable no-var */
 var fs = require('fs');
 var path = require('path');
+/* eslint-enable no-var */
 
 export default {
     basic: {

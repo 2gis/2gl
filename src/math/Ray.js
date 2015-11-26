@@ -38,7 +38,7 @@ class Ray {
      * @returns {vec3}
      */
     at(t) {
-        let result = vec3.create();
+        const result = vec3.create();
         vec3.scaleAndAdd(result, this.origin, this.direction, t);
         return result;
     }
@@ -51,11 +51,11 @@ class Ray {
     intersectBox(box) {
         let tmin, tmax, tymin, tymax, tzmin, tzmax;
 
-        let invdirx = 1 / this.direction[0];
-        let invdiry = 1 / this.direction[1];
-        let invdirz = 1 / this.direction[2];
+        const invdirx = 1 / this.direction[0];
+        const invdiry = 1 / this.direction[1];
+        const invdirz = 1 / this.direction[2];
 
-        let origin = this.origin;
+        const origin = this.origin;
 
         if (invdirx >= 0) {
             tmin = (box.min[0] - origin[0]) * invdirx;
@@ -123,9 +123,9 @@ class Ray {
      */
     intersectTriangle(triangle, backfaceCulling) {
         // Compute the offset origin, edges, and normal.
-        let edge1 = vec3.create();
-        let edge2 = vec3.create();
-        let normal = vec3.create();
+        const edge1 = vec3.create();
+        const edge2 = vec3.create();
+        const normal = vec3.create();
 
         vec3.sub(edge1, triangle[1], triangle[0]);
         vec3.sub(edge2, triangle[2], triangle[0]);
@@ -136,35 +136,35 @@ class Ray {
         //   |Dot(D,N)| * b1 = sign(Dot(D, N)) * Dot(D, Cross(Q, E2))
         //   |Dot(D,N)| * b2 = sign(Dot(D, N)) * Dot(D, Cross(E1, Q))
         //   |Dot(D,N)| * t = -sign(Dot(D, N)) * Dot(Q, N)
-        var DdN = vec3.dot(this.direction, normal);
-        var sign;
+        let DdN = vec3.dot(this.direction, normal);
+        let sign;
 
         if (DdN > 0) {
             if (backfaceCulling) { return null; }
             sign = 1;
         } else if (DdN < 0) {
-            sign = - 1;
-            DdN = - DdN;
+            sign = -1;
+            DdN = -DdN;
         } else {
             return null;
         }
 
-        let diff = vec3.create();
+        const diff = vec3.create();
         vec3.sub(diff, this.origin, triangle[0]);
 
-        let cde2 = vec3.create();
+        const cde2 = vec3.create();
         vec3.cross(cde2, diff, edge2);
 
-        let DdQxE2 = sign * vec3.dot(this.direction, cde2);
+        const DdQxE2 = sign * vec3.dot(this.direction, cde2);
 
         // b1 < 0, no intersection
         if (DdQxE2 < 0) {
             return null;
         }
 
-        let cde1 = vec3.create();
+        const cde1 = vec3.create();
         vec3.cross(cde1, edge1, diff);
-        let DdE1xQ = sign * vec3.dot(this.direction, cde1);
+        const DdE1xQ = sign * vec3.dot(this.direction, cde1);
 
         // b2 < 0, no intersection
         if (DdE1xQ < 0) {
@@ -177,7 +177,7 @@ class Ray {
         }
 
         // Line intersects triangle, check if ray does.
-        let QdN = - sign * vec3.dot(diff, normal);
+        const QdN = -sign * vec3.dot(diff, normal);
 
         // t < 0, no intersection
         if (QdN < 0) {
@@ -194,11 +194,11 @@ class Ray {
      * @returns {?Number}
      */
     distanceToPlane(plane) {
-        let denominator = vec3.dot(plane.normal, this.direction);
+        const denominator = vec3.dot(plane.normal, this.direction);
 
-        if (denominator == 0) {
+        if (denominator === 0) {
             // line is coplanar, return origin
-            if (plane.distanceToPoint(this.origin) == 0) {
+            if (plane.distanceToPoint(this.origin) === 0) {
                 return 0;
             }
 
@@ -206,12 +206,11 @@ class Ray {
             return null;
         }
 
-        let t = -(vec3.dot(this.origin, plane.normal) + plane.constant) / denominator;
+        const t = -(vec3.dot(this.origin, plane.normal) + plane.constant) / denominator;
 
         // Return if the ray never intersects the plane
         return t >= 0 ? t : null;
     }
-
 
     /**
      * Проверяет пересекает ли луч заданную плоскость
@@ -219,7 +218,7 @@ class Ray {
      * @returns {?vec3} Точка пересечения или null
      */
     intersectPlane(plane) {
-        let t = this.distanceToPlane(plane);
+        const t = this.distanceToPlane(plane);
 
         if (t === null) {
             return null;

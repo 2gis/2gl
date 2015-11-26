@@ -37,7 +37,7 @@
     "start": "npm run dev",
     "build": "browserify src/index.js -s dgl | uglifyjs -mc --screw-ie8 > dist/2gl.js",
     "dev": "watchify src/index.js -s dgl -o dist/2gl.js -dv",
-    "lint": "eslint src test; exit 0",
+    "lint": "eslint src test",
     "doc": "./node_modules/.bin/jsdoc src -r -R README.md -t node_modules/minami -c jsdoc.json -d docs",
     "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- test/*.spec.js test/**/*.spec.js",
     "test:dev": "./node_modules/.bin/_mocha --compilers js:babel/register -w test/*.spec.js test/**/*.spec.js"

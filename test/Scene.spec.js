@@ -24,7 +24,7 @@ describe('Scene', () => {
         });
 
         it('should add and return light', () => {
-            let light = new Light();
+            const light = new Light();
             scene.addLight(light);
             assert.equal(scene.getLights().length, 1);
             assert.equal(scene.getLights()[0], light);

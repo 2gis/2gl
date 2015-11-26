@@ -32,7 +32,7 @@ class Mesh extends Object3D {
      * @param {State} state Текущие состояние рендера
      */
     render(state) {
-        let gl = state.gl;
+        const gl = state.gl;
 
         if (!this.visible) { return this; }
 
@@ -59,28 +59,28 @@ class Mesh extends Object3D {
     raycast(raycaster, intersects, recursive) {
         // get from https://github.com/mrdoob/three.js/blob/master/src/objects/Mesh.js
 
-        let inverseMatrix = mat4.create();
+        const inverseMatrix = mat4.create();
         mat4.invert(inverseMatrix, this.worldMatrix);
 
-        let ray = raycaster.ray.clone();
+        const ray = raycaster.ray.clone();
         ray.applyMatrix4(inverseMatrix);
 
-        let boundingBox = this.geometry.getBoundingBox();
+        const boundingBox = this.geometry.getBoundingBox();
 
         if (!ray.intersectBox(boundingBox)) { return this; }
 
-        let positionBuffer = this.geometry.buffers.position;
+        const positionBuffer = this.geometry.buffers.position;
 
         for (let i = 0; i < positionBuffer.length; i += 3) {
-            let triangle = positionBuffer.getTriangle(i / 3);
+            const triangle = positionBuffer.getTriangle(i / 3);
 
-            let intersectionPoint = ray.intersectTriangle(triangle, false);
+            const intersectionPoint = ray.intersectTriangle(triangle, false);
 
             if (!intersectionPoint) { continue; }
 
             vec3.transformMat4(intersectionPoint, intersectionPoint, this.worldMatrix);
 
-            let distance = vec3.dist(raycaster.ray.origin, intersectionPoint);
+            const distance = vec3.dist(raycaster.ray.origin, intersectionPoint);
 
             if (distance < raycaster.precision || distance < raycaster.near || distance > raycaster.far) { continue; }
 

@@ -31,7 +31,7 @@ describe('SpriteProgram', () => {
         });
 
         it('should return same texture', () => {
-            let texture = {};
+            const texture = {};
             program.setTexture(texture);
             assert.equal(program.getTexture(), texture);
         });
@@ -39,8 +39,8 @@ describe('SpriteProgram', () => {
 
     describe('#typifyForRender', () => {
         it('should identify as sprite', () => {
-            let object = new Sprite();
-            let typedObjects = {sprites: []};
+            const object = new Sprite();
+            const typedObjects = {sprites: []};
 
             program.typifyForRender(typedObjects, object);
             assert.equal(typedObjects.sprites[0], object);

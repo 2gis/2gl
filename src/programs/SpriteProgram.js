@@ -32,7 +32,7 @@ class SpriteProgram {
         gl.uniform1f(uniforms.uColorAlpha, this.opacity);
         gl.uniform1i(uniforms.uSmoothing, Number(this.smoothing));
 
-        let size = renderer.getSize();
+        const size = renderer.getSize();
         gl.uniform2f(uniforms.uHalfSize, size[0] / 2, size[1] / 2);
         gl.uniform2f(uniforms.uOffset, object.offset[0], object.offset[1]);
         gl.uniform2f(uniforms.uScale, object.scale[0], object.scale[1]);

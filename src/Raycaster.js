@@ -39,12 +39,12 @@ class Raycaster {
             this.ray.direction = direction;
 
         } else if (camera instanceof OrthographicCamera) {
-            let origin = vec3.fromValues(coordinates[0], coordinates[1], -1);
+            const origin = vec3.fromValues(coordinates[0], coordinates[1], -1);
             this.ray.origin = camera.unproject(origin);
 
             this.ray.direction = vec3.fromValues(0, 0, -1);
 
-            let matrix3 = mat3.create();
+            const matrix3 = mat3.create();
             mat3.fromMat4(matrix3, camera.worldMatrix);
             vec3.transformMat3(this.ray.direction, this.ray.direction, matrix3);
             vec3.normalize(this.ray.direction, this.ray.direction);
@@ -58,7 +58,7 @@ class Raycaster {
      * @returns {Intersect[]}
      */
     intersectObject(object, recursive) {
-        var intersects = [];
+        const intersects = [];
 
         object.raycast(this, intersects, recursive);
 
@@ -74,7 +74,7 @@ class Raycaster {
      * @returns {Intersect[]}
      */
     intersectObjects(objects, recursive) {
-        let intersects = [];
+        const intersects = [];
 
         objects.forEach(obj => obj.raycast(this, intersects, recursive));
 

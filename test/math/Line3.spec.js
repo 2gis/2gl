@@ -29,24 +29,24 @@ describe('Line3', () => {
 
     describe('#closestPointToPoint', () => {
         it('should return closest point on line', () => {
-            let point = line.closestPointToPoint([2, 1, 0]);
+            const point = line.closestPointToPoint([2, 1, 0]);
             assert.deepEqual(slice(point), [2, 0, 0]);
         });
 
         it('should return closest point on line segment', () => {
-            let point = line.closestPointToPoint([2, 1, 0], true);
+            const point = line.closestPointToPoint([2, 1, 0], true);
             assert.deepEqual(slice(point), [1, 0, 0]);
         });
     });
 
     describe('#closestPointToPointParameter', () => {
         it('should return closest point on line', () => {
-            let parameter = line.closestPointToPointParameter([2, 1, 0]);
+            const parameter = line.closestPointToPointParameter([2, 1, 0]);
             assert.equal(parameter, 2);
         });
 
         it('should return closest point on line segment', () => {
-            let parameter = line.closestPointToPointParameter([2, 1, 0], true);
+            const parameter = line.closestPointToPointParameter([2, 1, 0], true);
             assert.equal(parameter, 1);
         });
     });

@@ -32,7 +32,7 @@ class SpriteRenderer {
     }
 
     render(state, renderObjects) {
-        let {gl, camera} = state;
+        const {gl, camera} = state;
 
         gl.disable(gl.DEPTH_TEST);
 
@@ -77,11 +77,11 @@ class SpriteRenderer {
     }
 
     _prepareShaders({gl}) {
-        let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+        const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
         gl.shaderSource(fragmentShader, this._shader.fragment);
         gl.compileShader(fragmentShader);
 
-        let vertexShader = gl.createShader(gl.VERTEX_SHADER);
+        const vertexShader = gl.createShader(gl.VERTEX_SHADER);
         gl.shaderSource(vertexShader, this._shader.vertex);
         gl.compileShader(vertexShader);
 

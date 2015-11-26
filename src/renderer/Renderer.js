@@ -51,7 +51,6 @@ class Renderer {
         return this;
     }
 
-
     /**
      * Возвращает текущий pixel ratio
      * @returns {Number}
@@ -92,7 +91,7 @@ class Renderer {
      * Очищает текущий кадр и заливает цветом указанным в clearColor
      */
     clear() {
-        let gl = this._gl;
+        const gl = this._gl;
 
         gl.clearColor.apply(gl, this.clearColor);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -106,8 +105,8 @@ class Renderer {
      * @param {Camera} camera Камера
      */
     render(scene, camera) {
-        let gl = this._gl;
-        let typedObjects = {
+        const gl = this._gl;
+        const typedObjects = {
             common: [],
             transparent: [],
             sprites: []
@@ -134,7 +133,7 @@ class Renderer {
 
         gl.disable(gl.BLEND);
 
-        let state = {
+        const state = {
             renderer: this,
             scene,
             camera,
@@ -155,7 +154,7 @@ class Renderer {
         this._canvasElement = document.createElement('canvas');
         this._container.appendChild(this._canvasElement);
 
-        let attributes = {
+        const attributes = {
             antialias: this._antialias
         };
 

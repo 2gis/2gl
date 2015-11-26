@@ -31,32 +31,32 @@ describe('Program', () => {
         });
 
         it('should create two shaders', () => {
-            let spy = sinon.spy(state.gl, 'createShader');
+            const spy = sinon.spy(state.gl, 'createShader');
             program.enable(state);
             assert.ok(spy.calledTwice);
         });
 
         it('should create program', () => {
-            let spy = sinon.spy(state.gl, 'createProgram');
+            const spy = sinon.spy(state.gl, 'createProgram');
             program.enable(state);
             assert.ok(spy.calledOnce);
         });
 
         it('should use program', () => {
-            let spy = sinon.spy(state.gl, 'useProgram');
+            const spy = sinon.spy(state.gl, 'useProgram');
             program.enable(state);
             assert.ok(spy.calledOnce);
         });
 
         it('shouldn\'t create shaders after first call', () => {
-            let spy = sinon.spy(state.gl, 'createShader');
+            const spy = sinon.spy(state.gl, 'createShader');
             program.enable(state);
             program.enable(state);
             assert.ok(spy.calledTwice);
         });
 
         it('shouldn\'t create program after first call', () => {
-            let spy = sinon.spy(state.gl, 'createProgram');
+            const spy = sinon.spy(state.gl, 'createProgram');
             program.enable(state);
             program.enable(state);
             assert.ok(spy.calledOnce);

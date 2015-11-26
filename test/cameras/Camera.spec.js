@@ -22,17 +22,17 @@ describe('Camera', () => {
         });
 
         it('should have default projectionMatrix', () => {
-            let matrix = mat4.create();
+            const matrix = mat4.create();
             assert.deepEqual(slice(camera.projectionMatrix), slice(matrix));
         });
 
         it('should have default modelViewMatrix', () => {
-            let matrix = mat4.create();
+            const matrix = mat4.create();
             assert.deepEqual(slice(camera.modelViewMatrix), slice(matrix));
         });
 
         it('should have default worldInverseMatrix', () => {
-            let matrix = mat4.create();
+            const matrix = mat4.create();
             assert.deepEqual(slice(camera.worldInverseMatrix), slice(matrix));
         });
     });
@@ -40,7 +40,7 @@ describe('Camera', () => {
     describe('#updateProjectionMatrix', () => {
         it('should never did', () => {
             camera.updateProjectionMatrix();
-        })
+        });
     });
 
     describe('#updateWorldMatrix', () => {

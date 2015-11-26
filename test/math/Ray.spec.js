@@ -61,19 +61,19 @@ describe('Ray', () => {
 
     describe('#intersectBox', () => {
         it('should intersect', () => {
-            let box = new Box([2, -2, -2], [4, 2, 2]);
+            const box = new Box([2, -2, -2], [4, 2, 2]);
 
             assert.deepEqual(slice(ray.intersectBox(box)), [2, 0, 0]);
         });
 
         it('shouldn\'t intersect', () => {
-            let box = new Box([2, -2, 1], [4, 2, 2]);
+            const box = new Box([2, -2, 1], [4, 2, 2]);
 
             assert.equal(slice(ray.intersectBox(box)), null);
         });
 
         it('shouldn\'t intersect behind box', () => {
-            let box = new Box([-4, -2, -2], [-2, 2, 2]);
+            const box = new Box([-4, -2, -2], [-2, 2, 2]);
 
             assert.equal(slice(ray.intersectBox(box)), null);
         });
@@ -81,7 +81,7 @@ describe('Ray', () => {
 
     describe('#applyMatrix4', () => {
         it('should change direction', () => {
-            let matrix = mat4.create();
+            const matrix = mat4.create();
             mat4.rotateZ(matrix, matrix, Math.PI);
             ray.applyMatrix4(matrix);
 
@@ -91,46 +91,46 @@ describe('Ray', () => {
 
     describe('#distanceToPlane', () => {
         it('should return 0', () => {
-            let plane = new Plane([1, 0, 0]);
+            const plane = new Plane([1, 0, 0]);
             assert.equal(ray.distanceToPlane(plane), 0);
         });
 
         it('should return null if ray don\'t intersect plane', () => {
-            let plane = new Plane([0, 1, 0], -0.5);
+            const plane = new Plane([0, 1, 0], -0.5);
             assert.equal(ray.distanceToPlane(plane), null);
         });
     });
 
     describe('#intersectTriangle', () => {
         it('should intersect triangle', () => {
-            let triangle = [[2, 1, -1], [2, -1, -1], [2, 0, 1]];
+            const triangle = [[2, 1, -1], [2, -1, -1], [2, 0, 1]];
             assert.deepEqual(slice(ray.intersectTriangle(triangle)), [2, 0, 0]);
         });
 
         it('shouldn\'t intersect behind triangle', () => {
-            let triangle = [[-2, 1, -1], [-2, -1, -1], [-2, 0, 1]];
+            const triangle = [[-2, 1, -1], [-2, -1, -1], [-2, 0, 1]];
             assert.equal(slice(ray.intersectTriangle(triangle)), null);
         });
 
         it('shouldn\'t intersect triangle on backface', () => {
-            let triangle = [[2, 1, -1], [2, 0, 1], [2, -1, -1]];
+            const triangle = [[2, 1, -1], [2, 0, 1], [2, -1, -1]];
             assert.equal(slice(ray.intersectTriangle(triangle, true)), null);
         });
 
         it('shouldn\'t intersect triangle', () => {
-            let triangle = [[2, 1, -5], [2, 0, -3], [2, -1, -5]];
+            const triangle = [[2, 1, -5], [2, 0, -3], [2, -1, -5]];
             assert.equal(slice(ray.intersectTriangle(triangle)), null);
         });
     });
 
     describe('#intersectPlane', () => {
         it('should intersect', () => {
-            let plane = new Plane([1, 0, 0], -3);
+            const plane = new Plane([1, 0, 0], -3);
             assert.deepEqual(slice(ray.intersectPlane(plane)), [3, 0, 0]);
         });
 
         it('shouldn\'t intersect', () => {
-            let plane = new Plane([0, 1, 0], -0.5);
+            const plane = new Plane([0, 1, 0], -0.5);
             assert.equal(slice(ray.intersectPlane(plane)), null);
         });
     });

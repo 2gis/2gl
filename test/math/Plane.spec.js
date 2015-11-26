@@ -41,12 +41,12 @@ describe('Plane', () => {
 
     describe('#distanceToPoint', () => {
         it('should return 0', () => {
-            let distance = plane.distanceToPoint([5, 0, 0]);
+            const distance = plane.distanceToPoint([5, 0, 0]);
             assert.equal(distance, 0);
         });
 
         it('should return 1', () => {
-            let distance = plane.distanceToPoint([6, 1, 2]);
+            const distance = plane.distanceToPoint([6, 1, 2]);
             assert.equal(distance, 1);
         });
     });

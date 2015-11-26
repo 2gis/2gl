@@ -16,7 +16,15 @@
  * @returns {Number}
  */
 export function clamp(x, a, b) {
-    return (x < a) ? a : ((x > b) ? b : x);
+    if (x < a) {
+        return a;
+    }
+
+    if (x > b) {
+        return b;
+    }
+
+    return x;
 }
 
 /**

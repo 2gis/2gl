@@ -5,7 +5,7 @@ import {vec2} from 'gl-matrix';
  * Используется для отрисовки спрайтов. Спрайты всегда рисуются лицевой стороной
  * и их размеры не зависят от положения. Т.е. координаты спрайта проецируются в плоскость экрана,
  * и уже на ней отрисовываются.
- * 
+ *
  * @extends {Object3D}
  */
 class Sprite extends Object3D {
@@ -35,7 +35,7 @@ class Sprite extends Object3D {
             this.updateWorldMatrix();
         }
 
-        let gl = state.gl;
+        const gl = state.gl;
 
         state.object = this;
 

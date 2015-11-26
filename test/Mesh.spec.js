@@ -50,7 +50,7 @@ describe('Mesh', () => {
         });
 
         it('should update world matrix', () => {
-            let oldMatrix = slice(mesh.worldMatrix);
+            const oldMatrix = slice(mesh.worldMatrix);
 
             mesh.position[1] = 123;
             mesh.updateLocalMatrix();
@@ -60,7 +60,7 @@ describe('Mesh', () => {
         });
 
         it('shouldn\'t update world matrix if object is invisible', () => {
-            let oldMatrix = slice(mesh.worldMatrix);
+            const oldMatrix = slice(mesh.worldMatrix);
 
             mesh.position[1] = 123;
             mesh.updateLocalMatrix();
@@ -71,7 +71,7 @@ describe('Mesh', () => {
         });
 
         it('shouldn\'t update world matrix if worldMatrixNeedsUpdate property is false', () => {
-            let oldMatrix = slice(mesh.worldMatrix);
+            const oldMatrix = slice(mesh.worldMatrix);
 
             mesh.position[1] = 123;
             mesh.render(state);
@@ -80,19 +80,19 @@ describe('Mesh', () => {
         });
 
         it('should call program enable', () => {
-            let spy = sinon.spy(program, 'enable');
+            const spy = sinon.spy(program, 'enable');
             mesh.render(state);
             assert.ok(spy.calledOnce);
         });
 
         it('should call program disable', () => {
-            let spy = sinon.spy(program, 'disable');
+            const spy = sinon.spy(program, 'disable');
             mesh.render(state);
             assert.ok(spy.calledOnce);
         });
 
         it('should call gl drawArrays', () => {
-            let spy = sinon.spy(state.gl, 'drawArrays');
+            const spy = sinon.spy(state.gl, 'drawArrays');
             mesh.render(state);
             assert.ok(spy.calledOnce);
         });
@@ -157,17 +157,17 @@ describe('Mesh', () => {
         });
 
         it('shouldn\'t call raycast of child', () => {
-            let child = new Object3D();
+            const child = new Object3D();
             mesh.add(child);
-            let spy = sinon.spy(child, 'raycast');
+            const spy = sinon.spy(child, 'raycast');
             mesh.raycast(raycaster, intersects);
             assert.ok(!spy.called);
         });
 
         it('should call raycast of child if recursive is true', () => {
-            let child = new Object3D();
+            const child = new Object3D();
             mesh.add(child);
-            let spy = sinon.spy(child, 'raycast');
+            const spy = sinon.spy(child, 'raycast');
             mesh.raycast(raycaster, intersects, true);
             assert.ok(spy.calledOnce);
         });
@@ -192,7 +192,7 @@ describe('Mesh', () => {
         });
 
         it('should call twice typifyForRender method from mesh and child program', () => {
-            let b = new Mesh(geometry, program);
+            const b = new Mesh(geometry, program);
 
             mesh.add(b);
             mesh.typifyForRender(typedObjects);
@@ -206,7 +206,7 @@ describe('Mesh', () => {
         });
 
         it('should call once from object and not call from invisible child', () => {
-            let b = new Mesh(geometry, program);
+            const b = new Mesh(geometry, program);
             b.visible = false;
 
             mesh.add(b);

@@ -36,18 +36,18 @@ describe('Geometry', () => {
 
     describe('#computeNormals', () => {
         it('should compute triangle normal', () => {
-            let triangle = [
+            const triangle = [
                 0, 1, 0,
                 0, -1, 0,
                 0, 0, 1
             ];
 
-            let buffer = new Buffer(new Float32Array(triangle), 3);
+            const buffer = new Buffer(new Float32Array(triangle), 3);
 
             geometry.setBuffer('position', buffer);
             geometry.computeNormals();
 
-            let normals = slice(geometry.getBuffer('normal').getArray());
+            const normals = slice(geometry.getBuffer('normal').getArray());
 
             assert.deepEqual(normals, [
                 1, 0, 0,
@@ -65,7 +65,7 @@ describe('Geometry', () => {
 
     describe('#computeBoundingBox and #getBoundingBox', () => {
         it('should return unit box by default', () => {
-            let defaultBox = new Box();
+            const defaultBox = new Box();
             assert.deepEqual(slice(geometry.getBoundingBox().min), slice(defaultBox.min));
             assert.deepEqual(slice(geometry.getBoundingBox().max), slice(defaultBox.max));
         });
@@ -82,7 +82,7 @@ describe('Geometry', () => {
         it('should default compute box', () => {
             geometry.computeBoundingBox();
 
-            let defaultBox = new Box();
+            const defaultBox = new Box();
 
             assert.deepEqual(slice(geometry.getBoundingBox().min), slice(defaultBox.min));
             assert.deepEqual(slice(geometry.getBoundingBox().max), slice(defaultBox.max));
@@ -93,13 +93,13 @@ describe('Geometry', () => {
         it('should concat geometries', () => {
             geometry.setBuffer('position', buffer);
 
-            let anotherGeometry = new Geometry();
-            let triangleVertices = [
+            const anotherGeometry = new Geometry();
+            const triangleVertices = [
                 0, 1, 0,
                 0, -1, 0,
                 0, 0, 1
             ];
-            let anotherBuffer = new Buffer(new Float32Array(triangleVertices), 3);
+            const anotherBuffer = new Buffer(new Float32Array(triangleVertices), 3);
             anotherGeometry.setBuffer('position', anotherBuffer);
 
             geometry.concat(anotherGeometry);

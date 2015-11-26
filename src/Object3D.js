@@ -91,9 +91,9 @@ class Object3D {
      * @param {Object3D} object Дочерний объект
      */
     remove(object) {
-        let index = this.children.indexOf(object);
+        const index = this.children.indexOf(object);
 
-        if (index != -1) {
+        if (index !== -1) {
             object.parent = null;
             this.children.splice(index, 1);
         }
@@ -122,7 +122,7 @@ class Object3D {
      * @param {State} state Текущие состояние рендера
      */
     render(state) {
-        if (!this.visible) { return; }
+        if (!this.visible) { return this; }
 
         if (this.worldMatrixNeedsUpdate) {
             this.updateWorldMatrix();

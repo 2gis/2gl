@@ -46,18 +46,18 @@ class Geometry {
      * Вычисляет буфер нормалей на основе буфера координат вершин (position)
      */
     computeNormals() {
-        let positionBuffer = this.buffers.position;
+        const positionBuffer = this.buffers.position;
 
         if (!positionBuffer) { return this; }
 
-        let normals = new Float32Array(positionBuffer.length * positionBuffer.itemSize);
+        const normals = new Float32Array(positionBuffer.length * positionBuffer.itemSize);
 
-        let ab = vec3.create();
-        let cb = vec3.create();
-        let n = vec3.create();
+        const ab = vec3.create();
+        const cb = vec3.create();
+        const n = vec3.create();
 
         for (let i = 0; i < positionBuffer.length; i += 3) {
-            let triangle = positionBuffer.getTriangle(i / 3);
+            const triangle = positionBuffer.getTriangle(i / 3);
 
             vec3.sub(ab, triangle[0], triangle[1]);
             vec3.sub(cb, triangle[2], triangle[1]);
@@ -91,8 +91,8 @@ class Geometry {
      * @returns {Box}
      */
     computeBoundingBox() {
-        let boundingBox = this._boundingBox = new Box();
-        let positionBuffer = this.buffers.position;
+        const boundingBox = this._boundingBox = new Box();
+        const positionBuffer = this.buffers.position;
 
         if (positionBuffer) {
             for (let i = 0; i < positionBuffer.length; i++) {
@@ -107,7 +107,7 @@ class Geometry {
      * @param {Geometry} geometry
      */
     concat(geometry) {
-        for (let type in this.buffers) {
+        for (const type in this.buffers) {
             this.buffers[type].concat(geometry.buffers[type]);
         }
     }

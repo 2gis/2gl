@@ -24,14 +24,14 @@ class Line3 {
      * @returns {number}
      */
     closestPointToPointParameter(point, clampToLine) {
-        let startP = vec3.create();
-        let startEnd = vec3.create();
+        const startP = vec3.create();
+        const startEnd = vec3.create();
 
         vec3.sub(startP, point, this.start);
         vec3.sub(startEnd, this.end, this.start);
 
-        let startEnd2 = vec3.dot(startEnd, startEnd);
-        let startEndStartP = vec3.dot(startEnd, startP);
+        const startEnd2 = vec3.dot(startEnd, startEnd);
+        const startEndStartP = vec3.dot(startEnd, startP);
 
         let t = startEndStartP / startEnd2;
 
@@ -51,7 +51,7 @@ class Line3 {
      * @returns {vec3}
      */
     closestPointToPoint(point, clampToLine, optionalTarget) {
-        let t = this.closestPointToPointParameter(point, clampToLine);
+        const t = this.closestPointToPointParameter(point, clampToLine);
 
         let result = optionalTarget || vec3.create();
         result = this.delta(result);
@@ -68,7 +68,7 @@ class Line3 {
      * @returns {vec3}
      */
     delta(optionalTarget) {
-        let result = optionalTarget || vec3.create();
+        const result = optionalTarget || vec3.create();
         vec3.sub(result, this.end, this.start);
         return result;
     }

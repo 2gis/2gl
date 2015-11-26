@@ -1,6 +1,6 @@
 import definitions from './definitions';
 
-let cachedPrograms = {};
+const cachedPrograms = {};
 
 /**
  * Базовый класс для программ.
@@ -25,7 +25,7 @@ class Program {
      * @param {State} state
      */
     enable(state) {
-        let gl = state.gl;
+        const gl = state.gl;
 
         if (!this._shaderProgram) {
             this._prepare(state);
@@ -33,7 +33,7 @@ class Program {
 
         gl.useProgram(this._shaderProgram);
 
-        for (let name in this.attributes) {
+        for (const name in this.attributes) {
             gl.enableVertexAttribArray(this.attributes[name]);
         }
 
@@ -47,7 +47,7 @@ class Program {
      * @param {WebGLRenderingContext} gl
      */
     disable(gl) {
-        for (let name in this.attributes) {
+        for (const name in this.attributes) {
             gl.disableVertexAttribArray(this.attributes[name]);
         }
 
@@ -98,14 +98,14 @@ class Program {
     }
 
     _prepareShaders({gl}) {
-        let cachedProgram = this._getCachedProgram();
+        const cachedProgram = this._getCachedProgram();
 
         if (cachedProgram && gl === cachedProgram.glContext) {
             this._shaderProgram = cachedProgram.program;
             return;
         }
 
-        let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+        const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
         gl.shaderSource(fragmentShader, this._addDefinitions(this._shader.fragment));
         gl.compileShader(fragmentShader);
 
@@ -113,7 +113,7 @@ class Program {
             console.log(gl.getShaderInfoLog(fragmentShader));
         }
 
-        let vertexShader = gl.createShader(gl.VERTEX_SHADER);
+        const vertexShader = gl.createShader(gl.VERTEX_SHADER);
         gl.shaderSource(vertexShader, this._addDefinitions(this._shader.vertex));
         gl.compileShader(vertexShader);
 

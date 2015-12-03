@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="MobileOptimized" content="1000"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>2gl - Debug Sprite Texture Border</title>
+</head>
+<body>
+    <h3>Description:</h3>
+    <p>Вокруг спрайта с текстурой не должно быть такой черной обводки</p>
+    <h3>Bad example:</h3>
+    <img src="../assets/coffee_bad_border.png" alt="">
+    <h3>2gl example:</h3>
+    <div id="container"></div>
+
+    <script src="../../dist/2gl.js"></script>
+    <script>
+        var scene = new dgl.Scene();
+        var container = document.querySelector('#container');
+
+        var camera = new dgl.PerspectiveCamera(45, 1, 1, 100000);
+        camera.position[2] = 125;
+        camera.updateProjectionMatrix();
+
+        var renderer = new dgl.Renderer({
+            container: container
+        });
+
+        renderer.setSize(300, 300);
+        renderer.clearColor = [0.94, 0.94, 0.94, 1];
+
+        var spriteProgram = new dgl.SpriteProgram();
+        var sprite;
+
+        function addSprite() {
+            sprite = new dgl.Sprite(spriteProgram);
+            sprite.position[0] = 0;
+            sprite.position[1] = 0;
+            sprite.scale[0] = 150;
+            sprite.scale[1] = 150;
+            sprite.updateLocalMatrix();
+            sprite.updateWorldMatrix();
+            scene.add(sprite);
+        }
+
+        var img = document.createElement('img');
+        img.onload = function() {
+            var texture = new dgl.Texture(img);
+            spriteProgram.setTexture(texture);
+            addSprite();
+            renderer.render(scene, camera);
+        };
+        img.src = '../assets/coffee.svg';
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 /* eslint-enable no-var */
 
-export default {
+module.exports = {
     basic: {
         vertex: fs.readFileSync(path.join(__dirname, '/basic.vert.glsl'), 'utf8'),
         fragment: fs.readFileSync(path.join(__dirname, '/basic.frag.glsl'), 'utf8')

@@ -19,7 +19,7 @@ import Plane from './math/Plane';
 import Box from './math/Box';
 import * as math from './math/Math';
 import Line3 from './math/Line3';
-import {vec3, mat3, mat4, quat, glMatrix} from 'gl-matrix';
+import {vec3, mat3, vec2, mat4, quat, glMatrix} from 'gl-matrix';
 
 // with Float32Array we have errors with raycast
 glMatrix.ARRAY_TYPE = (typeof Float64Array !== 'undefined') ? Float64Array : Array;
@@ -48,6 +48,7 @@ const dgl = {
     Math: math,
     vec3,
     mat3,
+    vec2,
     mat4,
     quat
 };

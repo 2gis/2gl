@@ -4,6 +4,7 @@ import sinon from 'sinon';
 
 import SpriteProgram from '../src/programs/SpriteProgram';
 import Object3D from '../src/Object3D';
+import Texture from '../src/Texture';
 
 import Sprite from '../src/Sprite';
 
@@ -79,14 +80,32 @@ describe('Sprite', () => {
             assert.deepEqual(oldMatrix, slice(sprite.worldMatrix));
         });
 
-        it('should call program enable', () => {
+        it('should\'t call program enable without texture', () => {
             const spy = sinon.spy(program, 'enable');
+            sprite.render(state);
+            assert.ok(!spy.called);
+        });
+
+        it('should\'t call program disable without texture', () => {
+            const spy = sinon.spy(program, 'disable');
+            sprite.render(state);
+            assert.ok(!spy.called);
+        });
+
+        it('should call program enable with texture', () => {
+            const spy = sinon.spy(program, 'enable');
+            const texture = new Texture({});
+            sprite.program.setTexture(texture);
+
             sprite.render(state);
             assert.ok(spy.calledOnce);
         });
 
-        it('should call program disable', () => {
+        it('should call program disable with texture', () => {
             const spy = sinon.spy(program, 'disable');
+            const texture = new Texture({});
+            sprite.program.setTexture(texture);
+
             sprite.render(state);
             assert.ok(spy.calledOnce);
         });

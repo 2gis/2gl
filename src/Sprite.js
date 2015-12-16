@@ -29,7 +29,8 @@ class Sprite extends Object3D {
     }
 
     render(state) {
-        if (!this.visible) { return this; }
+        // Если cпрайт невидим или у программы спрайта не установлена текстура, то не рендерим его
+        if (!this.visible || !this.program.getTexture()) { return this; }
 
         if (this.worldMatrixNeedsUpdate) {
             this.updateWorldMatrix();

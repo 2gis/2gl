@@ -21,7 +21,7 @@ describe('SpriteProgram', () => {
         });
 
         it('should have smoothing field', () => {
-            assert.equal(program.smoothing, false);
+            assert.equal(program.smoothing, 0);
         });
     });
 

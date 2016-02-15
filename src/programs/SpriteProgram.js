@@ -6,7 +6,7 @@
 class SpriteProgram {
     constructor() {
         this.opacity = 1;
-        this.smoothing = false;
+        this.smoothing = 0;
         this._texture = null;
     }
 
@@ -30,7 +30,7 @@ class SpriteProgram {
 
     enable({gl, object, uniforms, renderer}) {
         gl.uniform1f(uniforms.uColorAlpha, this.opacity);
-        gl.uniform1i(uniforms.uSmoothing, Number(this.smoothing));
+        gl.uniform1f(uniforms.uSmoothing, this.smoothing);
 
         const size = renderer.getSize();
         gl.uniform2f(uniforms.uHalfSize, size[0] / 2, size[1] / 2);

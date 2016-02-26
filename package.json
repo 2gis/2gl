@@ -1,24 +1,25 @@
 {
   "name": "2gl",
-  "version": "0.0.16",
+  "version": "0.0.22",
   "description": "WebGL library for 2GIS projects",
   "repository": {
     "type": "git",
     "url": "git@github.com:2gis/2gl.git"
   },
-  "main": "src/index.js",
+  "main": "index.js",
+  "license" : "SEE LICENSE IN FILE",
   "dependencies": {
-    "babel-preset-es2015": "^6.3.13",
-    "babelify": "^7.2.0",
-    "brfs": "^1.4.1",
-    "browserify": "^12.0.1",
-    "gl-matrix": "^2.3.1",
-    "uglify-js": "^2.6.1"
+    "gl-matrix": "^2.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.3.15",
-    "babel-eslint": "^5.0.0-beta4",
+    "babel-eslint": "^5.0.0",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "chokidar-cli": "^1.2.0",
     "coveralls": "^2.11.4",
     "dat-gui": "^0.5.0",
     "eslint": "^1.10.3",
@@ -27,22 +28,28 @@
     "minami": "git://github.com/Trufi/minami.git",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2",
+    "uglify-js": "^2.6.1",
     "watchify": "^3.6.1"
   },
   "browserify": {
     "transform": [
-      "babelify",
-      "brfs"
+      "babelify"
     ]
   },
   "scripts": {
-    "postinstall": "mkdir -p dist && npm run build",
     "start": "npm run dev",
-    "build": "browserify src/index.js -s dgl | uglifyjs -mc --screw-ie8 > dist/2gl.js",
-    "dev": "watchify src/index.js -s dgl -o dist/2gl.js -dv",
+    "build": "npm run build:shaders && npm run build:dist",
+    "build:shaders": "node buildShaders.js",
+    "build:dist": "mkdir -p dist && browserify src/index.js -s dgl | uglifyjs -m -c --screw-ie8 > dist/2gl.js",
+    "build:es5": "babel src --out-dir=.",
+    "dev": "npm run dev:dist & npm run dev:shaders",
+    "dev:dist": "mkdir -p dist && watchify src/index.js -s dgl -o dist/2gl.js -dv",
+    "dev:shaders": "chokidar 'src/**/*.glsl' -c 'npm run build:shaders'",
+    "dev:es5": "babel --watch src --out-dir=.",
     "lint": "eslint src test",
     "doc": "./node_modules/.bin/jsdoc src -r -R README.md -t node_modules/minami -c jsdoc.json -d docs",
-    "test": "./node_modules/babel-cli/bin/babel-node.js ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- test/*.spec.js test/**/*.spec.js",
-    "test:dev": "./node_modules/.bin/_mocha --compilers js:babel-register -w test/*.spec.js test/**/*.spec.js"
+    "test": "npm run build:shaders && ./node_modules/babel-cli/bin/babel-node.js ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- test/*.spec.js test/**/*.spec.js",
+    "test:dev": "./node_modules/.bin/_mocha --compilers js:babel-register -w test/*.spec.js test/**/*.spec.js",
+    "pub": "npm run build && npm run build:es5 && npm publish && git clean -d -f"
   }
 }

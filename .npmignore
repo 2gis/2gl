@@ -1,0 +1,14 @@
+.idea
+node_modules
+npm-debug.log
+coverage
+docs
+examples
+src
+test
+.babelrc
+.eslintrc
+.travis.yml
+jsdoc.json
+buildShaders.js
+.npmignore

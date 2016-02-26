@@ -49,7 +49,7 @@
     "lint": "eslint src test",
     "doc": "./node_modules/.bin/jsdoc src -r -R README.md -t node_modules/minami -c jsdoc.json -d docs",
     "test": "npm run build:shaders && ./node_modules/babel-cli/bin/babel-node.js ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- test/*.spec.js test/**/*.spec.js",
-    "test:dev": "./node_modules/.bin/_mocha --compilers js:babel-register -w test/*.spec.js test/**/*.spec.js",
+    "test:dev": "npm run build:shaders && ./node_modules/.bin/_mocha --compilers js:babel-register -w test/*.spec.js test/**/*.spec.js",
     "pub": "npm run build && npm run build:es5 && npm publish && git clean -d -f"
   }
 }

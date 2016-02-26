@@ -50,4 +50,31 @@ describe('Plane', () => {
             assert.equal(distance, 1);
         });
     });
+
+    describe('#setComponents', () => {
+        let newNormal, newConstant;
+
+        before(() => {
+            newNormal = [0, 1, 2];
+            newConstant = 15;
+        });
+
+        after(() => {
+            newNormal = newConstant = null;
+        });
+
+        it('should return self', () => {
+            assert.equal(plane.setComponents(...newNormal, newConstant), plane);
+        });
+
+        it('should change planes\'s normal', () => {
+            plane.setComponents(...newNormal, newConstant);
+            assert.deepEqual(plane.normal, newNormal);
+        });
+
+        it('should change plane\'s constant', () => {
+            plane.setComponents(...newNormal, newConstant);
+            assert.equal(plane.constant, newConstant);
+        });
+    });
 });

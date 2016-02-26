@@ -23,6 +23,19 @@ class Plane {
     distanceToPoint(point) {
         return vec3.dot(this.normal, point) + this.constant;
     }
+
+    /**
+     * Устанавливает значения нормали и смешение плоскости
+     * @param {Number} x
+     * @param {Number} y
+     * @param {Number} z
+     * @param {Number} w
+     */
+    setComponents(x, y, z, w) {
+        vec3.set(this.normal, x, y, z);
+        this.constant = w;
+        return this;
+    }
 }
 
 export default Plane;

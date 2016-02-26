@@ -1,13 +1,13 @@
 {
   "name": "2gl",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "WebGL library for 2GIS projects",
   "repository": {
     "type": "git",
     "url": "git@github.com:2gis/2gl.git"
   },
   "main": "index.js",
-  "license" : "SEE LICENSE IN FILE",
+  "license": "SEE LICENSE IN FILE",
   "dependencies": {
     "gl-matrix": "^2.3.1"
   },

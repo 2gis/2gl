@@ -16,33 +16,27 @@ class TransparentRenderer {
         gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
         if (state.renderer.sortObjects) {
-            renderObjects = this._sortObjects(state, renderObjects);
+            this._sortObjects(state, renderObjects);
         }
 
         renderObjects.forEach(object => object.render(state));
     }
 
     _sortObjects({camera}, renderObjects) {
-        const preparedObjects = renderObjects.map(object => {
-            return {
-                object,
-                z: camera.project(object.getWorldPosition())[2]
-            };
-        });
+        const sorter = this._reversePainterSortStable.bind(this, camera);
 
-        preparedObjects.sort(this._reversePainterSortStable);
-
-        return preparedObjects.map(object => object.object);
+        renderObjects.sort(sorter);
     }
 
-    _reversePainterSortStable(a, b) {
-        if (a.object.renderOrder !== b.object.renderOrder) {
-            return a.object.renderOrder - b.object.renderOrder;
+    _reversePainterSortStable(camera, a, b) {
+        if (a.renderOrder !== b.renderOrder) {
+            return a.renderOrder - b.renderOrder;
         }
 
-        if (a.z !== b.z) {
-            return b.z - a.z;
-        }
+        const aZ = camera.project(a.getWorldPosition())[2];
+        const bZ = camera.project(b.getWorldPosition())[2];
+
+        return bZ - aZ;
     }
 }
 

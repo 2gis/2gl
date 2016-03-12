@@ -144,7 +144,7 @@ class Renderer {
         const renderObjects = typedObjects.common;
 
         if (state.renderer.sortObjects) {
-            this._sortObjects(state, renderObjects);
+            renderObjects.sort(this._renderOrderSort);
         }
 
         renderObjects.forEach(object => object.render(state));
@@ -168,21 +168,8 @@ class Renderer {
             this._canvasElement.getContext('experimental-webgl', attributes);
     }
 
-    _sortObjects({camera}, renderObjects) {
-        const sorter = this._painterSortStable.bind(this, camera);
-
-        renderObjects.sort(sorter);
-    }
-
-    _painterSortStable(camera, a, b) {
-        if (a.renderOrder !== b.renderOrder) {
-            return a.renderOrder - b.renderOrder;
-        }
-
-        const aZ = camera.project(a.getWorldPosition())[2];
-        const bZ = camera.project(b.getWorldPosition())[2];
-
-        return aZ - bZ;
+    _renderOrderSort(a, b) {
+        return a.renderOrder - b.renderOrder;
     }
 }
 

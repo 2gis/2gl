@@ -22,4 +22,5 @@
 * `npm start`
 
 #### Release
-* `npm run build`
+* `npm version patch` - поднять патч версию
+* `npm run pub` - собрать проект, отправить в npm, вернуть в исходное состояние

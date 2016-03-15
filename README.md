@@ -17,6 +17,9 @@
 * [Complex mesh performance](https://2gis.github.io/2gl/examples/complexMeshPerformance)
 * [Sprite performance](https://2gis.github.io/2gl/examples/spritePerformance)
 
+#### Установка
+* `npm install 2gl`
+
 #### Development
 * `npm install`
 * `npm start`

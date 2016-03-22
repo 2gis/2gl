@@ -16,8 +16,10 @@ import TransparentRenderer from './TransparentRenderer';
  * */
 class Renderer {
     constructor(options) {
-        this._container = typeof options.container === 'string' ?
-            document.getElementById(options.container) : options.container;
+        // this._container = typeof options.container === 'string' ?
+        //     document.getElementById(options.container) : options.container;
+
+        this._gl = options.context;
 
         this._pixelRatio = options.pixelRatio || 1;
         this._antialias = options.antialias !== undefined ? options.antialias : true;
@@ -38,7 +40,7 @@ class Renderer {
         this._spriteRenderer = new SpriteRenderer();
         this._transparentRenderer = new TransparentRenderer();
 
-        this._initializeCanvas();
+        // this._initializeCanvas();
     }
 
     /**
@@ -70,11 +72,11 @@ class Renderer {
             height * this._pixelRatio
         ];
 
-        this._canvasElement.width = this._size[0];
-        this._canvasElement.height = this._size[1];
-        this._canvasElement.style.width = width + 'px';
-        this._canvasElement.style.height = height + 'px';
-        this._gl.viewport(0, 0, this._size[0], this._size[1]);
+        // this._canvasElement.width = this._size[0];
+        // this._canvasElement.height = this._size[1];
+        // this._canvasElement.style.width = width + 'px';
+        // this._canvasElement.style.height = height + 'px';
+        // this._gl.viewport(0, 0, this._size[0], this._size[1]);
 
         return this;
     }

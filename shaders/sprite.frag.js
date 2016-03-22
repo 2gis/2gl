@@ -1,0 +1,4 @@
+"use strict";
+
+module.exports = "\nprecision mediump float;\n\nuniform float uColorAlpha;\nuniform sampler2D uTexture;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void) {\n    vec4 textureColor = texture2D(uTexture, vec2(vTextureCoord.s, vTextureCoord.t));\n\n    gl_FragColor = textureColor * uColorAlpha;\n}\n";
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9zaGFkZXJzL3Nwcml0ZS5mcmFnLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsT0FBTyxPQUFQIiwiZmlsZSI6InNwcml0ZS5mcmFnLmpzIiwic291cmNlc0NvbnRlbnQiOlsibW9kdWxlLmV4cG9ydHMgPSBgXG5wcmVjaXNpb24gbWVkaXVtcCBmbG9hdDtcblxudW5pZm9ybSBmbG9hdCB1Q29sb3JBbHBoYTtcbnVuaWZvcm0gc2FtcGxlcjJEIHVUZXh0dXJlO1xuXG52YXJ5aW5nIHZlYzIgdlRleHR1cmVDb29yZDtcblxudm9pZCBtYWluKHZvaWQpIHtcbiAgICB2ZWM0IHRleHR1cmVDb2xvciA9IHRleHR1cmUyRCh1VGV4dHVyZSwgdmVjMih2VGV4dHVyZUNvb3JkLnMsIHZUZXh0dXJlQ29vcmQudCkpO1xuXG4gICAgZ2xfRnJhZ0NvbG9yID0gdGV4dHVyZUNvbG9yICogdUNvbG9yQWxwaGE7XG59XG5gOyJdfQ==

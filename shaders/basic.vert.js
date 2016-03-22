@@ -1,0 +1,4 @@
+"use strict";
+
+module.exports = "\nattribute vec3 position;\n\nuniform mat4 uPosition;\nuniform mat4 uCamera;\nuniform vec3 uColor;\nuniform vec3 uEmissive;\n\nvarying vec3 vColor;\n\nvoid main(void) {\n    vColor = uColor;\n\n    gl_Position = uCamera * uPosition * vec4(position, 1.0);\n}\n";
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9zaGFkZXJzL2Jhc2ljLnZlcnQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxPQUFPLE9BQVAiLCJmaWxlIjoiYmFzaWMudmVydC5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gYFxuYXR0cmlidXRlIHZlYzMgcG9zaXRpb247XG5cbnVuaWZvcm0gbWF0NCB1UG9zaXRpb247XG51bmlmb3JtIG1hdDQgdUNhbWVyYTtcbnVuaWZvcm0gdmVjMyB1Q29sb3I7XG51bmlmb3JtIHZlYzMgdUVtaXNzaXZlO1xuXG52YXJ5aW5nIHZlYzMgdkNvbG9yO1xuXG52b2lkIG1haW4odm9pZCkge1xuICAgIHZDb2xvciA9IHVDb2xvcjtcblxuICAgIGdsX1Bvc2l0aW9uID0gdUNhbWVyYSAqIHVQb3NpdGlvbiAqIHZlYzQocG9zaXRpb24sIDEuMCk7XG59XG5gOyJdfQ==

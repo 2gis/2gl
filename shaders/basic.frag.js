@@ -1,0 +1,4 @@
+"use strict";
+
+module.exports = "\nprecision mediump float;\n\nuniform float uColorAlpha;\nvarying vec3 vColor;\n\nvoid main(void) {\n    gl_FragColor = vec4(vColor.rgb, uColorAlpha);\n}\n";
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9zaGFkZXJzL2Jhc2ljLmZyYWcuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxPQUFPLE9BQVAiLCJmaWxlIjoiYmFzaWMuZnJhZy5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gYFxucHJlY2lzaW9uIG1lZGl1bXAgZmxvYXQ7XG5cbnVuaWZvcm0gZmxvYXQgdUNvbG9yQWxwaGE7XG52YXJ5aW5nIHZlYzMgdkNvbG9yO1xuXG52b2lkIG1haW4odm9pZCkge1xuICAgIGdsX0ZyYWdDb2xvciA9IHZlYzQodkNvbG9yLnJnYiwgdUNvbG9yQWxwaGEpO1xufVxuYDsiXX0=

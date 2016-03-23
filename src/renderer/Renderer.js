@@ -1,4 +1,5 @@
 import SpriteRenderer from './SpriteRenderer';
+import MultiSpriteRenderer from './MultiSpriteRenderer';
 import TransparentRenderer from './TransparentRenderer';
 
 /**
@@ -36,6 +37,7 @@ class Renderer {
         this.sortObjects = true;
 
         this._spriteRenderer = new SpriteRenderer();
+        this._multiSpriteRenderer = new MultiSpriteRenderer(this);
         this._transparentRenderer = new TransparentRenderer();
 
         this._initializeCanvas();
@@ -109,7 +111,8 @@ class Renderer {
         const typedObjects = {
             common: [],
             transparent: [],
-            sprites: []
+            sprites: [],
+            multiSprites: []
         };
 
         scene.typifyForRender(typedObjects);
@@ -152,6 +155,8 @@ class Renderer {
         this._transparentRenderer.render(state, typedObjects.transparent);
 
         this._spriteRenderer.render(state, typedObjects.sprites);
+
+        this._multiSpriteRenderer.render(state, typedObjects.multiSprites);
 
         return this;
     }

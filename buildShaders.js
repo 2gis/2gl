@@ -77,5 +77,5 @@ function callback(resolve, reject) {
 }
 
 function convertGLSL(code) {
-    return 'module.exports = `\n' + code + '`;';
+    return 'module.exports = `\n' + code + '`;\n';
 }

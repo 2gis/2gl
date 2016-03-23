@@ -28,9 +28,15 @@ class Buffer {
         this.type = Buffer.ArrayBuffer;
 
         /**
+         * Указывает, как часто данные буфера будут изменяться.
+         * @type {Buffer.StaticDraw | Buffer.DynamicDraw}
+         */
+        this.drawType = Buffer.StaticDraw;
+
+        /**
          * Инициализация буфера происходит в момент первого рендеринга.
          * Текущий WebGl контекст сохраняется в этой переменной.
-         * Если конекст меняется, буфер необходимо инициализровать заного.
+         * Если конекст меняется, буфер необходимо инициализировать заново.
          * @type {?WebGLRenderingContext}
          * @ignore
          */
@@ -125,6 +131,17 @@ class Buffer {
     }
 
     /**
+     * Заменяет часть буфера новыми данными и отправляет их в видеокарту
+     * @param {WebGLRenderingContext} gl
+     * @param {Number} index Индекс, с которого начать замену
+     * @data {TypedArray} data Новые данные
+     */
+    subData(gl, index, data) {
+        gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
+        gl.bufferSubData(this._toGlParam(gl, this.type), index * this.itemSize, data);
+    }
+
+    /**
      * Кладёт данные в видеокарту
      * @param {WebGLRenderingContext} gl
      * @ignore
@@ -132,7 +149,7 @@ class Buffer {
     _prepare(gl) {
         this._glBuffer = gl.createBuffer();
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
-        gl.bufferData(this._toGlParam(gl, this.type), this._array, gl.STATIC_DRAW);
+        gl.bufferData(this._toGlParam(gl, this.type), this._array, this._toGlParam(gl, this.drawType));
         this._preparedGlContext = gl;
     }
 
@@ -159,10 +176,15 @@ class Buffer {
     _toGlParam(gl, param) {
         if (param === Buffer.ArrayBuffer) { return gl.ARRAY_BUFFER; }
         if (param === Buffer.ElementArrayBuffer) { return gl.ELEMENT_ARRAY_BUFFER; }
+        if (param === Buffer.StaticDraw) { return gl.STATIC_DRAW; }
+        if (param === Buffer.DynamicDraw) { return gl.DYNAMIC_DRAW; }
     }
 }
 
 Buffer.ArrayBuffer = 1;
 Buffer.ElementArrayBuffer = 2;
+
+Buffer.StaticDraw = 10;
+Buffer.DynamicDraw = 11;
 
 export default Buffer;

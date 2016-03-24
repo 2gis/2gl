@@ -59,6 +59,7 @@ GlContext.prototype.createBuffer = function() {
 
 GlContext.prototype.bindBuffer = function() {};
 GlContext.prototype.bufferData = function() {};
+GlContext.prototype.bufferSubData = function() {};
 GlContext.prototype.vertexAttribPointer = function() {};
 GlContext.prototype.deleteBuffer = function() {};
 

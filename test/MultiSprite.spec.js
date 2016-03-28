@@ -34,12 +34,12 @@ describe('MultiSprite', () => {
                 {position: [1, 2]}
             ], program);
 
-            assert.ok(multiSprite._geometry.getBuffer('position'));
+            assert.ok(multiSprite._geometry.getBuffer('disposition'));
             assert.ok(multiSprite._geometry.getBuffer('texture'));
-            assert.ok(multiSprite._geometry.getBuffer('uPosition'));
-            assert.ok(multiSprite._geometry.getBuffer('uScale'));
-            assert.ok(multiSprite._geometry.getBuffer('uOffset'));
-            assert.ok(multiSprite._geometry.getBuffer('uColorAlpha'));
+            assert.ok(multiSprite._geometry.getBuffer('position'));
+            assert.ok(multiSprite._geometry.getBuffer('scale'));
+            assert.ok(multiSprite._geometry.getBuffer('offset'));
+            assert.ok(multiSprite._geometry.getBuffer('colorAlpha'));
         });
     });
 
@@ -51,10 +51,10 @@ describe('MultiSprite', () => {
             state.object = multiSprite;
             state.attributes = {
                 texture: 1,
-                uColorAlpha: 2,
-                uOffset: 3,
-                uScale: 4,
-                uPosition: 5
+                colorAlpha: 2,
+                offset: 3,
+                scale: 4,
+                position: 5
             };
             state.uniforms = {
                 uSmoothing: 3,
@@ -174,7 +174,7 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setOpacity(0, 0.5);
 
-                assert.deepEqual(multiSprite._data.uColorAlpha.array, [
+                assert.deepEqual(multiSprite._data.colorAlpha.array, [
                     0.5, 0.5, 0.5, 0.5, 0.5, 0.5
                 ]);
             });
@@ -184,7 +184,7 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setPosition(0, [5, 7]);
 
-                assert.deepEqual(multiSprite._data.uPosition.array, [
+                assert.deepEqual(multiSprite._data.position.array, [
                     5, 7, 0,
                     5, 7, 0,
                     5, 7, 0,
@@ -199,7 +199,7 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setElevation(0, 5);
 
-                assert.deepEqual(multiSprite._data.uPosition.array, [
+                assert.deepEqual(multiSprite._data.position.array, [
                     1, 2, 5,
                     1, 2, 5,
                     1, 2, 5,
@@ -214,7 +214,7 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setSize(0, [5, 7]);
 
-                assert.deepEqual(multiSprite._data.uScale.array, [
+                assert.deepEqual(multiSprite._data.scale.array, [
                     5, 7,
                     5, 7,
                     5, 7,
@@ -229,7 +229,7 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setOffset(0, [5, 7]);
 
-                assert.deepEqual(multiSprite._data.uOffset.array, [
+                assert.deepEqual(multiSprite._data.offset.array, [
                     5, 7,
                     5, 7,
                     5, 7,

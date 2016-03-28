@@ -25,12 +25,12 @@ class MultiSpriteRenderer {
 
         gl.useProgram(this._shaderProgram);
 
-        gl.enableVertexAttribArray(this._attributes.position);
+        gl.enableVertexAttribArray(this._attributes.disposition);
         gl.enableVertexAttribArray(this._attributes.texture);
-        gl.enableVertexAttribArray(this._attributes.uPosition);
-        gl.enableVertexAttribArray(this._attributes.uColorAlpha);
-        gl.enableVertexAttribArray(this._attributes.uScale);
-        gl.enableVertexAttribArray(this._attributes.uOffset);
+        gl.enableVertexAttribArray(this._attributes.position);
+        gl.enableVertexAttribArray(this._attributes.colorAlpha);
+        gl.enableVertexAttribArray(this._attributes.scale);
+        gl.enableVertexAttribArray(this._attributes.offset);
 
         state.attributes = this._attributes;
         state.uniforms = this._uniforms;
@@ -45,12 +45,12 @@ class MultiSpriteRenderer {
 
         renderObjects.forEach(object => object.render(state));
 
-        gl.disableVertexAttribArray(this._attributes.position);
+        gl.disableVertexAttribArray(this._attributes.disposition);
         gl.disableVertexAttribArray(this._attributes.texture);
-        gl.disableVertexAttribArray(this._attributes.uPosition);
-        gl.disableVertexAttribArray(this._attributes.uColorAlpha);
-        gl.disableVertexAttribArray(this._attributes.uScale);
-        gl.disableVertexAttribArray(this._attributes.uOffset);
+        gl.disableVertexAttribArray(this._attributes.position);
+        gl.disableVertexAttribArray(this._attributes.colorAlpha);
+        gl.disableVertexAttribArray(this._attributes.scale);
+        gl.disableVertexAttribArray(this._attributes.offset);
 
         return this;
     }
@@ -78,12 +78,12 @@ class MultiSpriteRenderer {
 
     _prepareAttributes({gl}) {
         this._attributes = {
-            position: gl.getAttribLocation(this._shaderProgram, 'position'),
+            disposition: gl.getAttribLocation(this._shaderProgram, 'disposition'),
             texture: gl.getAttribLocation(this._shaderProgram, 'texture'),
-            uPosition: gl.getAttribLocation(this._shaderProgram, 'uPosition'),
-            uColorAlpha: gl.getAttribLocation(this._shaderProgram, 'uColorAlpha'),
-            uScale: gl.getAttribLocation(this._shaderProgram, 'uScale'),
-            uOffset: gl.getAttribLocation(this._shaderProgram, 'uOffset')
+            position: gl.getAttribLocation(this._shaderProgram, 'position'),
+            colorAlpha: gl.getAttribLocation(this._shaderProgram, 'colorAlpha'),
+            scale: gl.getAttribLocation(this._shaderProgram, 'scale'),
+            offset: gl.getAttribLocation(this._shaderProgram, 'offset')
         };
     }
 

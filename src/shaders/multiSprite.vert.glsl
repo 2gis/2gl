@@ -1,10 +1,10 @@
-attribute vec2 position;
+attribute vec2 disposition;
 attribute vec2 texture;
 
-attribute vec3 uPosition;
-attribute vec2 uScale;
-attribute vec2 uOffset;
-attribute float uColorAlpha;
+attribute vec3 position;
+attribute vec2 scale;
+attribute vec2 offset;
+attribute float colorAlpha;
 
 uniform float uSmoothing;
 uniform mat4 uPCamera;
@@ -15,13 +15,13 @@ varying float vColorAlpha;
 
 void main(void) {
     vTextureCoord = texture;
-    vColorAlpha = uColorAlpha;
+    vColorAlpha = colorAlpha;
 
-    vec2 alignedPosition = position * uScale;
-    alignedPosition += uOffset;
+    vec2 alignedPosition = disposition * scale;
+    alignedPosition += offset;
     alignedPosition /= uHalfSize;
 
-    vec4 ndcPosition = uPCamera * vec4(uPosition, 1.0);
+    vec4 ndcPosition = uPCamera * vec4(position, 1.0);
     ndcPosition.xyz = ndcPosition.xyz / ndcPosition.w;
     ndcPosition.w = 1.0;
     ndcPosition.xy += alignedPosition.xy;

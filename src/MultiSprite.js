@@ -34,7 +34,7 @@ class MultiSprite extends Object3D {
      * @param {Number} value       Новое значение opacity
      */
     setOpacity(spriteIndex, value) {
-        const arr = this._data.uColorAlpha.array;
+        const arr = this._data.colorAlpha.array;
         const start = spriteIndex * 6;
 
         arr[start] = value;
@@ -44,7 +44,7 @@ class MultiSprite extends Object3D {
         arr[start + 4] = value;
         arr[start + 5] = value;
 
-        this._data.uColorAlpha.dirty = true;
+        this._data.colorAlpha.dirty = true;
 
         return this;
     }
@@ -56,7 +56,7 @@ class MultiSprite extends Object3D {
      * @param {vec2}   value       Новое значение позиции
      */
     setPosition(spriteIndex, value) {
-        const arr = this._data.uPosition.array;
+        const arr = this._data.position.array;
         const start = spriteIndex * 18;
 
         arr[start] = value[0]; arr[start + 1] = value[1];
@@ -66,7 +66,7 @@ class MultiSprite extends Object3D {
         arr[start + 12] = value[0]; arr[start + 13] = value[1];
         arr[start + 15] = value[0]; arr[start + 16] = value[1];
 
-        this._data.uPosition.dirty = true;
+        this._data.position.dirty = true;
 
         return this;
     }
@@ -78,7 +78,7 @@ class MultiSprite extends Object3D {
      * @param {Number} value       Новое значение высоты
      */
     setElevation(spriteIndex, value) {
-        const arr = this._data.uPosition.array;
+        const arr = this._data.position.array;
         const start = spriteIndex * 18;
 
         arr[start + 2] = value;
@@ -88,7 +88,7 @@ class MultiSprite extends Object3D {
         arr[start + 14] = value;
         arr[start + 17] = value;
 
-        this._data.uPosition.dirty = true;
+        this._data.position.dirty = true;
 
         return this;
     }
@@ -100,7 +100,7 @@ class MultiSprite extends Object3D {
      * @param {vec2}   value       Новое значение размера
      */
     setSize(spriteIndex, value) {
-        const arr = this._data.uScale.array;
+        const arr = this._data.scale.array;
         const start = spriteIndex * 12;
 
         arr[start] = value[0]; arr[start + 1] = value[1];
@@ -110,7 +110,7 @@ class MultiSprite extends Object3D {
         arr[start + 8] = value[0]; arr[start + 9] = value[1];
         arr[start + 10] = value[0]; arr[start + 11] = value[1];
 
-        this._data.uScale.dirty = true;
+        this._data.scale.dirty = true;
 
         return this;
     }
@@ -122,7 +122,7 @@ class MultiSprite extends Object3D {
      * @param {vec2}   value       Новое значение смещения
      */
     setOffset(spriteIndex, value) {
-        const arr = this._data.uOffset.array;
+        const arr = this._data.offset.array;
         const start = spriteIndex * 12;
 
         arr[start] = value[0]; arr[start + 1] = value[1];
@@ -132,7 +132,7 @@ class MultiSprite extends Object3D {
         arr[start + 8] = value[0]; arr[start + 9] = value[1];
         arr[start + 10] = value[0]; arr[start + 11] = value[1];
 
-        this._data.uOffset.dirty = true;
+        this._data.offset.dirty = true;
 
         return this;
     }
@@ -163,11 +163,11 @@ class MultiSprite extends Object3D {
         const {gl, attributes} = state;
 
         this._geometry.getBuffer('texture').bind(gl, attributes.texture);
-        this._geometry.getBuffer('uPosition').bind(gl, attributes.uPosition);
-        this._geometry.getBuffer('uColorAlpha').bind(gl, attributes.uColorAlpha);
-        this._geometry.getBuffer('uScale').bind(gl, attributes.uScale);
-        this._geometry.getBuffer('uOffset').bind(gl, attributes.uOffset);
         this._geometry.getBuffer('position').bind(gl, attributes.position);
+        this._geometry.getBuffer('colorAlpha').bind(gl, attributes.colorAlpha);
+        this._geometry.getBuffer('scale').bind(gl, attributes.scale);
+        this._geometry.getBuffer('offset').bind(gl, attributes.offset);
+        this._geometry.getBuffer('disposition').bind(gl, attributes.disposition);
 
         for (const key in this._data) {
             if (this._data[key].dirty) {
@@ -177,7 +177,7 @@ class MultiSprite extends Object3D {
         }
 
         this.program.enable(state);
-        gl.drawArrays(gl.TRIANGLES, 0, this._geometry.getBuffer('position').length);
+        gl.drawArrays(gl.TRIANGLES, 0, this._geometry.getBuffer('disposition').length);
         this.program.disable();
 
         return this;
@@ -203,7 +203,7 @@ class MultiSprite extends Object3D {
     _initArrays(sprites) {
         const spriteCount = sprites.length;
 
-        const elementPosition = [
+        const elementDisposition = [
             0.5, -0.5, 0,
             0.5, 0.5, 0,
             -0.5, -0.5, 0,
@@ -213,27 +213,27 @@ class MultiSprite extends Object3D {
             0.5, 0.5, 0
         ];
 
-        const positionArray = new Float32Array(spriteCount * 18);
+        const dispositionArray = new Float32Array(spriteCount * 18);
         const textureArray = new Float32Array(spriteCount * 12);
 
-        const uPositionArray = new Float32Array(spriteCount * 18);
-        const uScaleArray = new Float32Array(spriteCount * 12);
-        const uOffsetArray = new Float32Array(spriteCount * 12);
-        const uColorAlphaArray = new Float32Array(spriteCount * 6);
+        const positionArray = new Float32Array(spriteCount * 18);
+        const scaleArray = new Float32Array(spriteCount * 12);
+        const offsetArray = new Float32Array(spriteCount * 12);
+        const colorAlphaArray = new Float32Array(spriteCount * 6);
 
         this._data = {
-            position: {array: positionArray, dirty: false},
+            disposition: {array: dispositionArray, dirty: false},
             texture: {array: textureArray, dirty: false},
-            uPosition: {array: uPositionArray, dirty: false},
-            uScale: {array: uScaleArray, dirty: false},
-            uOffset: {array: uOffsetArray, dirty: false},
-            uColorAlpha: {array: uColorAlphaArray, dirty: false}
+            position: {array: positionArray, dirty: false},
+            scale: {array: scaleArray, dirty: false},
+            offset: {array: offsetArray, dirty: false},
+            colorAlpha: {array: colorAlphaArray, dirty: false}
         };
 
         for (let i = 0; i < spriteCount; i++) {
             const sprite = sprites[i];
 
-            positionArray.set(elementPosition, i * 18);
+            dispositionArray.set(elementDisposition, i * 18);
 
             this.setUV(i, sprite.uv || [0, 0, 1, 1]);
             this.setSize(i, sprite.size || [0, 0]);
@@ -250,28 +250,28 @@ class MultiSprite extends Object3D {
         const textureBuffer = new Buffer(this._data.texture.array, 2);
         textureBuffer.drawType = Buffer.DynamicDraw;
 
-        const uPositionBuffer = new Buffer(this._data.uPosition.array, 3);
-        uPositionBuffer.drawType = Buffer.DynamicDraw;
-
-        const uScaleBuffer = new Buffer(this._data.uScale.array, 2);
-        uScaleBuffer.drawType = Buffer.DynamicDraw;
-
-        const uOffsetBuffer = new Buffer(this._data.uOffset.array, 2);
-        uOffsetBuffer.drawType = Buffer.DynamicDraw;
-
-        const uColorAlphaBuffer = new Buffer(this._data.uColorAlpha.array, 1);
-        uColorAlphaBuffer.drawType = Buffer.DynamicDraw;
-
         const positionBuffer = new Buffer(this._data.position.array, 3);
+        positionBuffer.drawType = Buffer.DynamicDraw;
+
+        const scaleBuffer = new Buffer(this._data.scale.array, 2);
+        scaleBuffer.drawType = Buffer.DynamicDraw;
+
+        const offsetBuffer = new Buffer(this._data.offset.array, 2);
+        offsetBuffer.drawType = Buffer.DynamicDraw;
+
+        const colorAlphaBuffer = new Buffer(this._data.colorAlpha.array, 1);
+        colorAlphaBuffer.drawType = Buffer.DynamicDraw;
+
+        const dispositionBuffer = new Buffer(this._data.disposition.array, 3);
 
         this._geometry
-            .setBuffer('position', positionBuffer)
+            .setBuffer('disposition', dispositionBuffer)
             .setBuffer('texture', textureBuffer)
 
-            .setBuffer('uPosition', uPositionBuffer)
-            .setBuffer('uScale', uScaleBuffer)
-            .setBuffer('uOffset', uOffsetBuffer)
-            .setBuffer('uColorAlpha', uColorAlphaBuffer);
+            .setBuffer('position', positionBuffer)
+            .setBuffer('scale', scaleBuffer)
+            .setBuffer('offset', offsetBuffer)
+            .setBuffer('colorAlpha', colorAlphaBuffer);
     }
 }
 

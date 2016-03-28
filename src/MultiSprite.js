@@ -11,7 +11,7 @@ import Buffer from './Buffer';
  */
 class MultiSprite extends Object3D {
     /**
-     * @param {Array} sprites Описание спрайтов, входящих в мультиспрайт
+     * @param {SpriteDescriptor[]} sprites Описание спрайтов, входящих в мультиспрайт
      * @param {SpriteProgram} program
      */
     constructor(sprites, program) {
@@ -53,7 +53,7 @@ class MultiSprite extends Object3D {
      * Устанавливает спрайту позицию
      *
      * @param {Number} spriteIndex Индекс спрайта
-     * @param {Number} value       Новое значение позиции
+     * @param {vec2}   value       Новое значение позиции
      */
     setPosition(spriteIndex, value) {
         const arr = this._data.uPosition.array;
@@ -67,6 +67,8 @@ class MultiSprite extends Object3D {
         arr[start + 15] = value[0]; arr[start + 16] = value[1];
 
         this._data.uPosition.dirty = true;
+
+        return this;
     }
 
     /**
@@ -95,7 +97,7 @@ class MultiSprite extends Object3D {
      * Устанавливает спрайту размер
      *
      * @param {Number} spriteIndex Индекс спрайта
-     * @param {Array} value        Новое значение размера
+     * @param {vec2}   value       Новое значение размера
      */
     setSize(spriteIndex, value) {
         const arr = this._data.uScale.array;
@@ -117,7 +119,7 @@ class MultiSprite extends Object3D {
      * Устанавливает спрайту cмещение
      *
      * @param {Number} spriteIndex Индекс спрайта
-     * @param {Array} value        Новое значение смещения
+     * @param {vec2}   value       Новое значение смещения
      */
     setOffset(spriteIndex, value) {
         const arr = this._data.uOffset.array;
@@ -139,7 +141,7 @@ class MultiSprite extends Object3D {
      * Устанавливает спрайту новые UV-координаты
      *
      * @param {Number} spriteIndex Индекс спрайта
-     * @param {Array} value        Новое значение координат
+     * @param {Array}  bound       Новое значение координат
      */
     setUV(spriteIndex, bound) {
         const arr = this._data.texture.array;
@@ -153,6 +155,8 @@ class MultiSprite extends Object3D {
         arr[start + 10] = bound[2]; arr[start + 11] = 1 - bound[1];
 
         this._data.texture.dirty = true;
+
+        return this;
     }
 
     render(state) {
@@ -272,3 +276,16 @@ class MultiSprite extends Object3D {
 }
 
 export default MultiSprite;
+
+/**
+ * Описание спрайта. Массив таких объектов передаётся в конструктор класса
+ * MultiSprite
+ *
+ * @typedef {Object} SpriteDescriptor
+ * @property {vec2} position Координаты спрайта в плоскости XY
+ * @property {vec2} size Размер спрайта в пикселях
+ * @property {vec2} offset Смещение спрайта в пикселях в плоскости экрана
+ * @property {Number} elevation Высота спрайта по оси Z
+ * @property {Number} opacity Опасити спрайта
+ * @property {Array} uv Координаты текстуры спрайта
+ */

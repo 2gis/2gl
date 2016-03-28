@@ -134,11 +134,13 @@ class Buffer {
      * Заменяет часть буфера новыми данными и отправляет их в видеокарту
      * @param {WebGLRenderingContext} gl
      * @param {Number} index Индекс, с которого начать замену
-     * @data {TypedArray} data Новые данные
+     * @param {TypedArray} data Новые данные
      */
     subData(gl, index, data) {
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
         gl.bufferSubData(this._toGlParam(gl, this.type), index * this.itemSize, data);
+
+        return this;
     }
 
     /**

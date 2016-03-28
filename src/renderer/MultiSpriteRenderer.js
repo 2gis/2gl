@@ -51,6 +51,8 @@ class MultiSpriteRenderer {
         gl.disableVertexAttribArray(this._attributes.uColorAlpha);
         gl.disableVertexAttribArray(this._attributes.uScale);
         gl.disableVertexAttribArray(this._attributes.uOffset);
+
+        return this;
     }
 
     _prepare(state) {

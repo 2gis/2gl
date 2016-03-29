@@ -4,38 +4,24 @@ import sinon from 'sinon';
 
 import Scene from '../../src/Scene';
 import Camera from '../../src/cameras/Camera';
+import FrameBuffer from '../../src/FrameBuffer';
 
 import Renderer from '../../src/renderer/Renderer';
 
 describe('Renderer', () => {
-    let renderer, options, initializeCanvas, gl,
-        scene, camera;
+    let renderer, options, gl, scene, camera;
 
     beforeEach(() => {
-        options = {
-            container: {},
-            pixelRatio: 2
-        };
-
-        initializeCanvas = Renderer.prototype._initializeCanvas;
-
         gl = new GlContext();
 
-        // mock for non-browser context
-        Renderer.prototype._initializeCanvas = function() {
-            this._canvasElement = {
-                style: {}
-            };
-            this._gl = gl;
+        options = {
+            pixelRatio: 2,
+            gl
         };
 
         renderer = new Renderer(options);
         scene = new Scene();
         camera = new Camera();
-    });
-
-    after(() => {
-        Renderer.prototype._initializeCanvas = initializeCanvas;
     });
 
     describe('#constructor', () => {
@@ -54,7 +40,7 @@ describe('Renderer', () => {
         });
 
         it('should set pixel ratio 1 by default', () => {
-            renderer = new Renderer({container: {}});
+            renderer = new Renderer();
             assert.equal(renderer.getPixelRatio(), 1);
         });
     });
@@ -67,26 +53,67 @@ describe('Renderer', () => {
     });
 
     describe('#setSize', () => {
-        it('should change canvas size with pixel ration 2', () => {
-            renderer.setSize(100, 50);
+        describe('with canvas element', () => {
+            beforeEach(() => {
+                renderer._canvasElement = {
+                    style: {}
+                };
+            });
 
-            assert.equal(renderer._canvasElement.width, 200);
-            assert.equal(renderer._canvasElement.height, 100);
+            it('should change canvas size with pixel ration 2', () => {
+                renderer.setSize(100, 50);
+
+                assert.equal(renderer._canvasElement.width, 200);
+                assert.equal(renderer._canvasElement.height, 100);
+            });
+
+            it('should change canvas style without pixel ration 2', () => {
+                renderer.setSize(100, 50);
+
+                assert.equal(renderer._canvasElement.style.width, '100px');
+                assert.equal(renderer._canvasElement.style.height, '50px');
+            });
+
+            it('should call gl viewport with pixel ration 2', () => {
+                const spy = sinon.spy(gl, 'viewport');
+
+                renderer.setSize(100, 50);
+
+                assert.ok(spy.calledOnce);
+                assert.ok(spy.calledWith(0, 0, 200, 100));
+            });
         });
 
-        it('should change canvas style without pixel ration 2', () => {
-            renderer.setSize(100, 50);
+        describe('without canvas element', () => {
+            it('should call gl viewport with pixel ration 2', () => {
+                const spy = sinon.spy(gl, 'viewport');
 
-            assert.equal(renderer._canvasElement.style.width, '100px');
-            assert.equal(renderer._canvasElement.style.height, '50px');
+                renderer.setSize(100, 50);
+
+                assert.ok(spy.calledOnce);
+                assert.ok(spy.calledWith(0, 0, 200, 100));
+            });
+        });
+    });
+
+    describe('#setViewport', () => {
+        it('should call gl viewport', () => {
+            const spy = sinon.spy(gl, 'viewport');
+
+            renderer.setViewport(100, 50);
+
+            assert.ok(spy.calledOnce);
+            assert.ok(spy.calledWith(0, 0, 100, 50));
         });
 
-        it('should call gl viewport with pixel ration 2', () => {
+        it('should restore viewport from setSize with empty arguments', () => {
             const spy = sinon.spy(gl, 'viewport');
 
             renderer.setSize(100, 50);
+            renderer.setViewport(11, 22);
+            renderer.setViewport();
 
-            assert.ok(spy.calledOnce);
+            assert.ok(spy.calledThrice);
             assert.ok(spy.calledWith(0, 0, 200, 100));
         });
     });
@@ -97,6 +124,52 @@ describe('Renderer', () => {
 
             renderer.setSize(size[0], size[1]);
             assert.deepEqual(renderer.getSize(), size.map(c => c * 2));
+        });
+    });
+
+    describe('#setFrameBuffer', () => {
+        it('should setFrameBuffer', () => {
+            const frameBuffer = new FrameBuffer();
+            renderer.setFrameBuffer(frameBuffer);
+            assert.equal(renderer._frameBuffer, frameBuffer);
+        });
+    });
+
+    describe('#readPixels', () => {
+        let array;
+
+        beforeEach(() => {
+            array = new Uint8Array(2 * 3 * 4);
+        });
+
+        it('should call gl readPixels', () => {
+            const spy = sinon.spy(gl, 'readPixels');
+            renderer.readPixels(1, 0, 2, 3, array);
+            assert.ok(spy.calledOnce);
+        });
+
+        it('should call gl readPixels with same arguments', () => {
+            const spy = sinon.spy(gl, 'readPixels');
+            renderer.readPixels(1, 0, 2, 3, array);
+            assert.ok(spy.calledWith(1, 0, 2, 3));
+        });
+
+        it('should bind frame buffer', () => {
+            const frameBuffer = new FrameBuffer();
+            renderer.setFrameBuffer(frameBuffer);
+            const spy = sinon.spy(frameBuffer, 'bind');
+            renderer.readPixels(1, 0, 2, 3, array);
+
+            assert.ok(spy.calledOnce);
+        });
+
+        it('should unbind frame buffer', () => {
+            const frameBuffer = new FrameBuffer();
+            renderer.setFrameBuffer(frameBuffer);
+            const spy = sinon.spy(frameBuffer, 'unbind');
+            renderer.readPixels(1, 0, 2, 3, array);
+
+            assert.ok(spy.calledOnce);
         });
     });
 
@@ -133,6 +206,24 @@ describe('Renderer', () => {
         it('should call camera updateWorldMatrix method', () => {
             const spy = sinon.spy(camera, 'updateWorldMatrix');
             renderer.render(scene, camera);
+            assert.ok(spy.calledOnce);
+        });
+
+        it('should bind frame buffer', () => {
+            const frameBuffer = new FrameBuffer();
+            renderer.setFrameBuffer(frameBuffer);
+            const spy = sinon.spy(frameBuffer, 'bind');
+            renderer.render(scene, camera);
+
+            assert.ok(spy.calledOnce);
+        });
+
+        it('should unbind frame buffer', () => {
+            const frameBuffer = new FrameBuffer();
+            renderer.setFrameBuffer(frameBuffer);
+            const spy = sinon.spy(frameBuffer, 'unbind');
+            renderer.render(scene, camera);
+
             assert.ok(spy.calledOnce);
         });
     });

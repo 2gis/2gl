@@ -17,11 +17,23 @@ import TransparentRenderer from './TransparentRenderer';
  * */
 class Renderer {
     constructor(options) {
-        this._container = typeof options.container === 'string' ?
-            document.getElementById(options.container) : options.container;
+        options = options || {};
+
+        if (options.canvas) {
+            this._canvasElement = typeof options.canvas === 'string' ?
+                document.getElementById(options.canvas) : options.canvas;
+
+            const attributes = {
+                antialias: options.antialias !== undefined ? options.antialias : true
+            };
+
+            this._gl = this._canvasElement.getContext('webgl', attributes) ||
+                this._canvasElement.getContext('experimental-webgl', attributes);
+        } else {
+            this._gl = options.gl;
+        }
 
         this._pixelRatio = options.pixelRatio || 1;
-        this._antialias = options.antialias !== undefined ? options.antialias : true;
 
         /**
          * Определяет стирать ли прошлый кадр перед новый рендерингом
@@ -39,8 +51,6 @@ class Renderer {
         this._spriteRenderer = new SpriteRenderer();
         this._multiSpriteRenderer = new MultiSpriteRenderer(this);
         this._transparentRenderer = new TransparentRenderer();
-
-        this._initializeCanvas();
     }
 
     /**
@@ -72,11 +82,30 @@ class Renderer {
             height * this._pixelRatio
         ];
 
-        this._canvasElement.width = this._size[0];
-        this._canvasElement.height = this._size[1];
-        this._canvasElement.style.width = width + 'px';
-        this._canvasElement.style.height = height + 'px';
-        this._gl.viewport(0, 0, this._size[0], this._size[1]);
+        if (this._canvasElement) {
+            this._canvasElement.width = this._size[0];
+            this._canvasElement.height = this._size[1];
+            this._canvasElement.style.width = width + 'px';
+            this._canvasElement.style.height = height + 'px';
+        }
+
+        this.setViewport();
+
+        return this;
+    }
+
+    /**
+     * Устанавливает viewport для WebGL
+     * Если размеры не указаны, то выставляет размеры указанные в функции {@link Renderer#setSize}
+     * @param {?Number} width Ширина в пикселях
+     * @param {?Number} height Высота в пикселях
+     */
+    setViewport(width, height) {
+        if (width !== undefined && height !== undefined) {
+            this._gl.viewport(0, 0, width, height);
+        } else {
+            this._gl.viewport(0, 0, this._size[0], this._size[1]);
+        }
 
         return this;
     }
@@ -87,6 +116,37 @@ class Renderer {
      */
     getSize() {
         return this._size;
+    }
+
+    /**
+     * Устанавливает FrameBuffer
+     * @param {FrameBuffer} width Ширина в пикселях
+     */
+    setFrameBuffer(frameBuffer) {
+        this._frameBuffer = frameBuffer;
+        return this;
+    }
+
+    /**
+     * Считывает указанную область пикселей в массив
+     * @param {Number} x Координаты начала области
+     * @param {Number} y Координаты начала области
+     * @param {Number} width Ширина области
+     * @param {Number} height Высота области
+     * @param {TypedArray} array Массив для записи данных
+     */
+    readPixels(x, y, width, height, array) {
+        const gl = this._gl;
+
+        if (this._frameBuffer) {
+            this._frameBuffer.bind(gl);
+            gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, array);
+            this._frameBuffer.unbind(gl);
+        } else {
+            gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, array);
+        }
+
+        return this;
     }
 
     /**
@@ -116,6 +176,10 @@ class Renderer {
         };
 
         scene.typifyForRender(typedObjects);
+
+        if (this._frameBuffer) {
+            this._frameBuffer.bind(gl);
+        }
 
         gl.clearDepth(1);
         gl.clearStencil(0);
@@ -158,19 +222,11 @@ class Renderer {
 
         this._multiSpriteRenderer.render(state, typedObjects.multiSprites);
 
+        if (this._frameBuffer) {
+            this._frameBuffer.unbind(gl);
+        }
+
         return this;
-    }
-
-    _initializeCanvas() {
-        this._canvasElement = document.createElement('canvas');
-        this._container.appendChild(this._canvasElement);
-
-        const attributes = {
-            antialias: this._antialias
-        };
-
-        this._gl = this._canvasElement.getContext('webgl', attributes) ||
-            this._canvasElement.getContext('experimental-webgl', attributes);
     }
 
     _renderOrderSort(a, b) {

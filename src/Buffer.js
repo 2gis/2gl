@@ -34,9 +34,22 @@ class Buffer {
         this.drawType = Buffer.StaticDraw;
 
         /**
+         * Тип данных в буффере: float, int, short и т.д.
+         * @type {Buffer.Float | Buffer.UnsignedByte}
+         */
+        this.dataType = Buffer.Float;
+
+        /**
+         * Используется для целочисленных типов. Если выставлен в true, то
+         * значения имеющие тип BYTE от -128 до 128 будут переведены от -1.0 до 1.0.
+         * @type {Boolean}
+         */
+        this.normalized = false;
+
+        /**
          * Инициализация буфера происходит в момент первого рендеринга.
          * Текущий WebGl контекст сохраняется в этой переменной.
-         * Если конекст меняется, буфер необходимо инициализировать заново.
+         * Если контекст меняется, буфер необходимо инициализировать заново.
          * @type {?WebGLRenderingContext}
          * @ignore
          */
@@ -65,7 +78,7 @@ class Buffer {
 
         if (this.type === Buffer.ArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);
-            gl.vertexAttribPointer(attribute, this.itemSize, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer(attribute, this.itemSize, this._toGlParam(gl, this.dataType), this.normalized, 0, 0);
         } else if (this.type === Buffer.ElementArrayBuffer) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._glBuffer);
         }
@@ -128,6 +141,8 @@ class Buffer {
 
         this._array = newArray;
         this.length = newArray.length / this.itemSize;
+
+        return this;
     }
 
     /**
@@ -180,6 +195,8 @@ class Buffer {
         if (param === Buffer.ElementArrayBuffer) { return gl.ELEMENT_ARRAY_BUFFER; }
         if (param === Buffer.StaticDraw) { return gl.STATIC_DRAW; }
         if (param === Buffer.DynamicDraw) { return gl.DYNAMIC_DRAW; }
+        if (param === Buffer.Float) { return gl.FLOAT; }
+        if (param === Buffer.UnsignedByte) { return gl.UNSIGNED_BYTE; }
     }
 }
 
@@ -188,5 +205,8 @@ Buffer.ElementArrayBuffer = 2;
 
 Buffer.StaticDraw = 10;
 Buffer.DynamicDraw = 11;
+
+Buffer.Float = 20;
+Buffer.UnsignedByte = 21;
 
 export default Buffer;

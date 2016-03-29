@@ -13,19 +13,18 @@
     <h3>Bad example:</h3>
     <img src="../assets/coffee_bad_border.png" alt="">
     <h3>2gl example:</h3>
-    <div id="container"></div>
+    <canvas id="canvas"></canvas>
 
     <script src="../../dist/2gl.js"></script>
     <script>
         var scene = new dgl.Scene();
-        var container = document.querySelector('#container');
 
         var camera = new dgl.PerspectiveCamera(45, 1, 1, 100000);
         camera.position[2] = 125;
         camera.updateProjectionMatrix();
 
         var renderer = new dgl.Renderer({
-            container: container
+            canvas: 'canvas'
         });
 
         renderer.setSize(300, 300);

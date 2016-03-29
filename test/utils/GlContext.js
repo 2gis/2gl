@@ -36,6 +36,17 @@ function GlContext() {
     this.BACK = 30;
     this.CULL_FACE = 31;
     this.BLEND = 32;
+
+    this.FRAMEBUFFER = 33;
+    this.RENDERBUFFER = 34;
+    this.DEPTH_COMPONENT16 = 35;
+    this.COLOR_ATTACHMENT0 = 36;
+    this.DEPTH_ATTACHMENT = 37;
+    this.FRAMEBUFFER_COMPLETE = 38;
+    this.FRAMEBUFFER_UNSUPPORTED = 39;
+    this.FRAMEBUFFER_INCOMPLETE_ATTACHMENT = 40;
+    this.FRAMEBUFFER_INCOMPLETE_DIMENSIONS = 41;
+    this.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT = 42;
 }
 
 GlContext.prototype.viewport = function() {};
@@ -52,6 +63,7 @@ GlContext.prototype.blendEquation = function() {};
 GlContext.prototype.blendFunc = function() {};
 GlContext.prototype.blendEquationSeparate = function() {};
 GlContext.prototype.blendFuncSeparate = function() {};
+GlContext.prototype.readPixels = function() {};
 
 GlContext.prototype.createBuffer = function() {
     return {};
@@ -62,6 +74,21 @@ GlContext.prototype.bufferData = function() {};
 GlContext.prototype.bufferSubData = function() {};
 GlContext.prototype.vertexAttribPointer = function() {};
 GlContext.prototype.deleteBuffer = function() {};
+
+GlContext.prototype.createFramebuffer = function() {
+    return {};
+};
+GlContext.prototype.bindFramebuffer = function() {};
+GlContext.prototype.framebufferTexture2D = function() {};
+GlContext.prototype.createRenderbuffer = function() {
+    return {};
+};
+GlContext.prototype.bindRenderbuffer = function() {};
+GlContext.prototype.renderbufferStorage = function() {};
+GlContext.prototype.framebufferRenderbuffer = function() {};
+GlContext.prototype.checkFramebufferStatus = function() {
+    return this.FRAMEBUFFER_COMPLETE;
+};
 
 GlContext.prototype.useProgram = function() {};
 GlContext.prototype.enableVertexAttribArray = function() {};

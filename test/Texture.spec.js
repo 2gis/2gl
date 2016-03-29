@@ -77,5 +77,23 @@ describe('Texture', () => {
             texture.enable(gl);
             assert.ok(!spy.called);
         });
+
+        it('should call gl texImage2D', () => {
+            const spy = sinon.spy(gl, 'texImage2D');
+            texture.enable(gl);
+            assert.ok(spy.calledOnce);
+            assert.equal(spy.args[0].length, 6);
+        });
+
+        it('should call gl texImage2D with size', () => {
+            texture.size = [16, 25];
+            const spy = sinon.spy(gl, 'texImage2D');
+            texture.enable(gl);
+            assert.ok(spy.calledOnce);
+            const args = spy.args[0];
+            assert.equal(args.length, 9);
+            assert.equal(args[3], 16);
+            assert.equal(args[4], 25);
+        });
     });
 });

@@ -101,6 +101,10 @@ describe('Renderer', () => {
     });
 
     describe('#render', () => {
+        beforeEach(() => {
+            renderer.setSize([800, 600]);
+        });
+
         it('should call scene typifyForRender', () => {
             const spy = sinon.spy(scene, 'typifyForRender');
             renderer.render(scene, camera);

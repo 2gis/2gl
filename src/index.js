@@ -7,8 +7,10 @@ import Geometry from './Geometry';
 import BasicMeshProgram from './programs/BasicMeshProgram';
 import ComplexMeshProgram from './programs/ComplexMeshProgram';
 import SpriteProgram from './programs/SpriteProgram';
+import MultiSpriteProgram from './programs/MultiSpriteProgram';
 import Mesh from './Mesh';
 import Sprite from './Sprite';
+import MultiSprite from './MultiSprite';
 import Scene from './Scene';
 import Texture from './Texture';
 import AmbientLight from './lights/AmbientLight';
@@ -34,9 +36,11 @@ const dgl = {
     Geometry,
     Mesh,
     Sprite,
+    MultiSprite,
     BasicMeshProgram,
     ComplexMeshProgram,
     SpriteProgram,
+    MultiSpriteProgram,
     Scene,
     Texture,
     AmbientLight,

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="MobileOptimized" content="1000"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>2gl - MultiSprite Performance</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .link {
+            display: block;
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-size: 20px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<a class="link" href="https://github.com/2gis/2gl">github.com/2gis/2gl</a>
+
+<script src="../dist/2gl.js"></script>
+<script src="./assets/datgui.js"></script>
+<script src="./assets/Stats.js"></script>
+
+<script>
+    var stats = new Stats();
+    document.body.appendChild(stats.element);
+
+    var settings = {
+        sprites: 5000,
+        rotateCamera: true,
+        changeScale: true,
+        changeOffset: true,
+        changeOpacity: true,
+        cameraOffset: 25
+    };
+
+    var scene = new dgl.Scene();
+    var texture;
+    var multiSprite;
+
+    function addSprites() {
+        var max = 30;
+
+        settings.sprites = Math.round(settings.sprites);
+
+        var spriteProgram = new dgl.MultiSpriteProgram();
+        spriteProgram.setTexture(texture);
+
+        var conf = [];
+
+        for (var i = 0; i < settings.sprites; i++) {
+            conf.push({
+                position: [
+                    (Math.random() - 0.5) * max,
+                    (Math.random() - 0.5) * max
+                ],
+                size: [50, 50]
+            });
+        }
+
+        multiSprite = new dgl.MultiSprite(conf, spriteProgram);
+        multiSprite.updateLocalMatrix();
+        multiSprite.updateWorldMatrix();
+
+        scene.add(multiSprite);
+    }
+
+    function changeSprites() {
+        if (!multiSprite) {
+            return;
+        }
+
+        const time = Date.now() / 1000;
+        const sin = Math.abs(Math.sin(time));
+        const cos = Math.abs(Math.cos(time));
+
+        for (var i = 0; i < settings.sprites; i++) {
+            if (settings.changeOpacity) {
+                multiSprite.setOpacity(i, cos);
+            }
+
+            if (settings.changeScale) {
+                multiSprite.setSize(i, [sin * 50, sin * 50]);
+            }
+
+            if (settings.changeOffset) {
+                multiSprite.setOffset(i, [sin  * 50, cos * 50]);
+            }
+        }
+    }
+
+    var img = document.createElement('img');
+    img.onload = function() {
+        texture = new dgl.Texture(img);
+        addSprites();
+    };
+    img.src = './assets/texture.png';
+
+    var camera = new dgl.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
+    camera.position[2] = settings.cameraOffset;
+    camera.updateProjectionMatrix();
+
+    var renderer = new dgl.Renderer({
+        container: document.body,
+        antialias: true
+    });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.clearColor = [0.94, 0.94, 0.94, 1];
+
+    window.addEventListener('resize', function() {
+        stats.reset();
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function rotateCamera(dt) {
+        if (!settings.rotateCamera) { return; }
+
+        dgl.quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
+    }
+
+    var lastUpdateTime = Date.now();
+
+    function render() {
+        requestAnimationFrame(render);
+
+        var dt = Date.now() - lastUpdateTime;
+
+        stats.start();
+        changeSprites();
+        rotateCamera(dt);
+        renderer.render(scene, camera);
+        stats.end();
+
+        lastUpdateTime = Date.now();
+    }
+
+    render();
+    stats.reset();
+
+    // dat gui settings
+    var gui = new dat.GUI();
+    var guiSprites = gui.add(settings, 'sprites', 1, 100000);
+    var timeout;
+
+    function onChange() {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            scene.remove(multiSprite);
+            addSprites();
+            stats.reset();
+        }, 1000);
+    }
+
+    guiSprites.onChange(onChange);
+
+    gui.add(settings, 'rotateCamera');
+    gui.add(settings, 'changeScale');
+    gui.add(settings, 'changeOpacity');
+    gui.add(settings, 'changeOffset');
+
+    var guiCameraOffset = gui.add(settings, 'cameraOffset', 1, 100);
+    guiCameraOffset.onChange(function(value) {
+        camera.position[2] = value;
+        stats.reset();
+    });
+</script>
+</body>
+</html>

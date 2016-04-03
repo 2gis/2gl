@@ -7,7 +7,8 @@ import TransparentRenderer from './TransparentRenderer';
  * Для некоторых объектов может использовать специфичные рендеры.
  *
  * @param {Object} options
- * @param {HTMLElement} options.container Элемент в который будет добавлен canvas
+ * @param {HTMLElement} [options.canvas] Элемент canvas
+ * @param {WebGLRenderingContext} [options.gl] Если элемент canvas не указан, то можно напрямую передать WebGL контекст
  * @param {Number} [options.pixelRatio=1] Pixel ratio экрана
  * @param {Boolean} [options.antialias=true] Использовать ли антиалиасинг
  * @param {Boolean} [options.autoClear=true] Стирать ли прошлый кадр перед новый рендерингом
@@ -97,8 +98,8 @@ class Renderer {
     /**
      * Устанавливает viewport для WebGL
      * Если размеры не указаны, то выставляет размеры указанные в функции {@link Renderer#setSize}
-     * @param {?Number} width Ширина в пикселях
-     * @param {?Number} height Высота в пикселях
+     * @param {Number} [width] Ширина в пикселях
+     * @param {Number} [height] Высота в пикселях
      */
     setViewport(width, height) {
         if (width !== undefined && height !== undefined) {
@@ -120,7 +121,7 @@ class Renderer {
 
     /**
      * Устанавливает FrameBuffer
-     * @param {FrameBuffer} width Ширина в пикселях
+     * @param {?FrameBuffer} frameBuffer
      */
     setFrameBuffer(frameBuffer) {
         this._frameBuffer = frameBuffer;

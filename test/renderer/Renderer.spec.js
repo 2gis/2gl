@@ -1,5 +1,6 @@
 import assert from 'assert';
 import GlContext from '../utils/GlContext';
+import * as mockBrowser from '../utils/mockBrowser';
 import sinon from 'sinon';
 
 import Scene from '../../src/Scene';
@@ -12,6 +13,8 @@ describe('Renderer', () => {
     let renderer, options, gl, scene, camera;
 
     beforeEach(() => {
+        mockBrowser.use();
+
         gl = new GlContext();
 
         options = {
@@ -22,6 +25,10 @@ describe('Renderer', () => {
         renderer = new Renderer(options);
         scene = new Scene();
         camera = new Camera();
+    });
+
+    afterEach(() => {
+        mockBrowser.restore();
     });
 
     describe('#constructor', () => {
@@ -43,10 +50,73 @@ describe('Renderer', () => {
             renderer = new Renderer();
             assert.equal(renderer.getPixelRatio(), 1);
         });
+
+        it('should get context from canvas', () => {
+            const canvas = {
+                getContext: sinon.stub().returns({})
+            };
+            renderer = new Renderer({canvas});
+            assert.equal(canvas, renderer._canvasElement);
+            assert.ok(canvas.getContext.calledOnce);
+        });
+
+        it('should search canvas by id', () => {
+            const id = 'canvasId';
+            const spy = sinon.spy(document, 'getElementById');
+            renderer = new Renderer({
+                canvas: id
+            });
+
+            assert.ok(spy.calledOnce);
+            assert.ok(spy.calledWith(id));
+        });
+
+        it('should call canvas context with antialias by default', () => {
+            const canvas = {
+                getContext: sinon.stub().returns({})
+            };
+            renderer = new Renderer({canvas});
+            const args = canvas.getContext.args[0];
+
+            assert.ok(args[1].antialias);
+        });
+
+        it('should call canvas context without antialias', () => {
+            const canvas = {
+                getContext: sinon.stub().returns({})
+            };
+            renderer = new Renderer({
+                canvas: canvas,
+                antialias: false
+            });
+            const args = canvas.getContext.args[0];
+
+            assert.ok(!args[1].antialias);
+        });
+
+        it('should call webgl context first', () => {
+            const canvas = {
+                getContext: sinon.stub().returns()
+            };
+            renderer = new Renderer({canvas});
+            const args = canvas.getContext.args[0];
+
+            assert.equal(args[0], 'webgl');
+        });
+
+        it('should call experimental webgl context second', () => {
+            const canvas = {
+                getContext: sinon.stub().returns()
+            };
+            renderer = new Renderer({canvas});
+
+            assert.equal(canvas.getContext.args[0][0], 'webgl');
+            assert.equal(canvas.getContext.args[1][0], 'experimental-webgl');
+        });
     });
 
-    describe('#setPixelRation', () => {
-        it('should change pixel ration', () => {
+    describe('#setPixelRatio', () => {
+        it('should change pixel ratio', () => {
             renderer.setPixelRatio(1);
             assert.equal(renderer.getPixelRatio(), 1);
         });
@@ -60,21 +130,21 @@ describe('Renderer', () => {
                 };
             });
 
-            it('should change canvas size with pixel ration 2', () => {
+            it('should change canvas size with pixel ratio 2', () => {
                 renderer.setSize(100, 50);
 
                 assert.equal(renderer._canvasElement.width, 200);
                 assert.equal(renderer._canvasElement.height, 100);
             });
 
-            it('should change canvas style without pixel ration 2', () => {
+            it('should change canvas style without pixel ratio 2', () => {
                 renderer.setSize(100, 50);
 
                 assert.equal(renderer._canvasElement.style.width, '100px');
                 assert.equal(renderer._canvasElement.style.height, '50px');
             });
 
-            it('should call gl viewport with pixel ration 2', () => {
+            it('should call gl viewport with pixel ratio 2', () => {
                 const spy = sinon.spy(gl, 'viewport');
 
                 renderer.setSize(100, 50);
@@ -85,7 +155,7 @@ describe('Renderer', () => {
         });
 
         describe('without canvas element', () => {
-            it('should call gl viewport with pixel ration 2', () => {
+            it('should call gl viewport with pixel ratio 2', () => {
                 const spy = sinon.spy(gl, 'viewport');
 
                 renderer.setSize(100, 50);

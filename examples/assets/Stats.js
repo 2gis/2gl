@@ -1,6 +1,7 @@
 function Stats() {
     this.element = document.createElement('div');
     this.element.style.position = 'absolute';
+    this.element.style.top = 0;
     this.element.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
     this.element.style.width = '150px';
 

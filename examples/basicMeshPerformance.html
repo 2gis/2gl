@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-<div id="container"></div>
+<canvas id="canvas"></canvas>
 <a class="link" href="https://github.com/2gis/2gl">github.com/2gis/2gl</a>
 
 <script src="../dist/2gl.js"></script>
@@ -96,7 +96,7 @@
     camera.updateProjectionMatrix();
 
     var renderer = new dgl.Renderer({
-        container: document.body
+        canvas: 'canvas'
     });
 
     renderer.setSize(window.innerWidth, window.innerHeight);

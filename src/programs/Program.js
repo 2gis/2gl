@@ -90,7 +90,13 @@ class Program {
     }
 
     _getCachedProgramKey() {
-        return this.constructor.name + ':' + this._definitions.join(':');
+        let key = this.constructor.name;
+
+        this._definitions.forEach(def => {
+            key += ':' + def.type + ':' + (def.value || '');
+        });
+
+        return key;
     }
 
     _getCachedProgram() {

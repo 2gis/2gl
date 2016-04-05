@@ -84,6 +84,36 @@ describe('Buffer', () => {
 
             assert.ok(spy.calledOnce);
         });
+
+        it('should init buffer with float type', () => {
+            const spy = sinon.spy(gl, 'vertexAttribPointer');
+            buffer.bind(gl, 1);
+            const args = spy.args[0];
+            assert.equal(args[2], gl.FLOAT);
+        });
+
+        it('should init buffer with unsigned byte type', () => {
+            buffer.dataType = Buffer.UnsignedByte;
+            const spy = sinon.spy(gl, 'vertexAttribPointer');
+            buffer.bind(gl, 1);
+            const args = spy.args[0];
+            assert.equal(args[2], gl.UNSIGNED_BYTE);
+        });
+
+        it('should init with normalized = false', () => {
+            const spy = sinon.spy(gl, 'vertexAttribPointer');
+            buffer.bind(gl, 1);
+            const args = spy.args[0];
+            assert.equal(args[3], false);
+        });
+
+        it('should init with normalized = true', () => {
+            buffer.normalized = true;
+            const spy = sinon.spy(gl, 'vertexAttribPointer');
+            buffer.bind(gl, 1);
+            const args = spy.args[0];
+            assert.equal(args[3], true);
+        });
     });
 
     describe('#getArray', () => {

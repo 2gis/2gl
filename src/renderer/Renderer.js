@@ -120,11 +120,11 @@ class Renderer {
     }
 
     /**
-     * Устанавливает FrameBuffer
-     * @param {?FrameBuffer} frameBuffer
+     * Устанавливает RenderTarget
+     * @param {?RenderTarget} renderTarget
      */
-    setFrameBuffer(frameBuffer) {
-        this._frameBuffer = frameBuffer;
+    setRenderTarget(renderTarget) {
+        this._renderTarget = renderTarget;
         return this;
     }
 
@@ -139,10 +139,10 @@ class Renderer {
     readPixels(x, y, width, height, array) {
         const gl = this._gl;
 
-        if (this._frameBuffer) {
-            this._frameBuffer.bind(gl);
+        if (this._renderTarget) {
+            this._renderTarget.bind(gl);
             gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, array);
-            this._frameBuffer.unbind(gl);
+            this._renderTarget.unbind(gl);
         } else {
             gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, array);
         }
@@ -178,8 +178,8 @@ class Renderer {
 
         scene.typifyForRender(typedObjects);
 
-        if (this._frameBuffer) {
-            this._frameBuffer.bind(gl);
+        if (this._renderTarget) {
+            this._renderTarget.bind(gl);
         }
 
         gl.clearDepth(1);
@@ -223,8 +223,8 @@ class Renderer {
 
         this._multiSpriteRenderer.render(state, typedObjects.multiSprites);
 
-        if (this._frameBuffer) {
-            this._frameBuffer.unbind(gl);
+        if (this._renderTarget) {
+            this._renderTarget.unbind(gl);
         }
 
         return this;

@@ -5,17 +5,21 @@ import sinon from 'sinon';
 
 import Scene from '../../src/Scene';
 import Camera from '../../src/cameras/Camera';
-import FrameBuffer from '../../src/FrameBuffer';
+import RenderTarget from '../../src/RenderTarget';
 
 import Renderer from '../../src/renderer/Renderer';
 
 describe('Renderer', () => {
-    let renderer, options, gl, scene, camera;
+    let renderer, options, gl, scene, camera, renderTarget;
 
     beforeEach(() => {
         mockBrowser.use();
 
         gl = new GlContext();
+
+        renderTarget = new RenderTarget({
+            size: [32, 64]
+        });
 
         options = {
             pixelRatio: 2,
@@ -197,11 +201,10 @@ describe('Renderer', () => {
         });
     });
 
-    describe('#setFrameBuffer', () => {
-        it('should setFrameBuffer', () => {
-            const frameBuffer = new FrameBuffer();
-            renderer.setFrameBuffer(frameBuffer);
-            assert.equal(renderer._frameBuffer, frameBuffer);
+    describe('#setRenderTarget', () => {
+        it('should setRenderTarget', () => {
+            renderer.setRenderTarget(renderTarget);
+            assert.equal(renderer._renderTarget, renderTarget);
         });
     });
 
@@ -225,18 +228,16 @@ describe('Renderer', () => {
         });
 
         it('should bind frame buffer', () => {
-            const frameBuffer = new FrameBuffer();
-            renderer.setFrameBuffer(frameBuffer);
-            const spy = sinon.spy(frameBuffer, 'bind');
+            renderer.setRenderTarget(renderTarget);
+            const spy = sinon.spy(renderTarget, 'bind');
             renderer.readPixels(1, 0, 2, 3, array);
 
             assert.ok(spy.calledOnce);
         });
 
         it('should unbind frame buffer', () => {
-            const frameBuffer = new FrameBuffer();
-            renderer.setFrameBuffer(frameBuffer);
-            const spy = sinon.spy(frameBuffer, 'unbind');
+            renderer.setRenderTarget(renderTarget);
+            const spy = sinon.spy(renderTarget, 'unbind');
             renderer.readPixels(1, 0, 2, 3, array);
 
             assert.ok(spy.calledOnce);
@@ -280,18 +281,16 @@ describe('Renderer', () => {
         });
 
         it('should bind frame buffer', () => {
-            const frameBuffer = new FrameBuffer();
-            renderer.setFrameBuffer(frameBuffer);
-            const spy = sinon.spy(frameBuffer, 'bind');
+            renderer.setRenderTarget(renderTarget);
+            const spy = sinon.spy(renderTarget, 'bind');
             renderer.render(scene, camera);
 
             assert.ok(spy.calledOnce);
         });
 
         it('should unbind frame buffer', () => {
-            const frameBuffer = new FrameBuffer();
-            renderer.setFrameBuffer(frameBuffer);
-            const spy = sinon.spy(frameBuffer, 'unbind');
+            renderer.setRenderTarget(renderTarget);
+            const spy = sinon.spy(renderTarget, 'unbind');
             renderer.render(scene, camera);
 
             assert.ok(spy.calledOnce);

@@ -79,11 +79,13 @@ GlContext.prototype.createFramebuffer = function() {
     return {};
 };
 GlContext.prototype.bindFramebuffer = function() {};
+GlContext.prototype.deleteFramebuffer = function() {};
 GlContext.prototype.framebufferTexture2D = function() {};
 GlContext.prototype.createRenderbuffer = function() {
     return {};
 };
 GlContext.prototype.bindRenderbuffer = function() {};
+GlContext.prototype.deleteRenderbuffer = function() {};
 GlContext.prototype.renderbufferStorage = function() {};
 GlContext.prototype.framebufferRenderbuffer = function() {};
 GlContext.prototype.checkFramebufferStatus = function() {
@@ -137,6 +139,7 @@ GlContext.prototype.createTexture = function() {
     return {};
 };
 GlContext.prototype.bindTexture = function() {};
+GlContext.prototype.deleteTexture = function() {};
 GlContext.prototype.activeTexture = function() {};
 GlContext.prototype.pixelStorei = function() {};
 GlContext.prototype.texImage2D = function() {};

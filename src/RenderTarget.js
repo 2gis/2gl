@@ -2,19 +2,31 @@ import Texture from './Texture';
 
 /**
  * Используется для создания фреймбуфера, куда можно отрендерить кадр.
+ *
+ * @param {Object} options
+ * @param {vec2} [options.size] Размер фреймбуфера
  */
-class FrameBuffer {
-    constructor() {}
+class RenderTarget {
+    constructor(options = {}) {
+        this._size = options.size;
+    }
 
     /**
-     * Связывает фреймбуфер с контекстом WebGL
+     * Связывает компоненты с контекстом WebGL
      * @param {WebGLRenderingContext} gl
      */
     bind(gl) {
+        if (this._sizeChanged) {
+            this._unprepare(gl);
+            this._sizeChanged = false;
+        }
+
         if (!this._frameBuffer) {
             this._prepare(gl);
         }
+
         gl.bindFramebuffer(gl.FRAMEBUFFER, this._frameBuffer);
+
         return this;
     }
 
@@ -28,14 +40,33 @@ class FrameBuffer {
     }
 
     /**
-     * Подготавливает фреймбуфер: инициализирует текстуры и рендербуфер
+     * Удаляет фреймбуфер из видеокарты
+     * @param {WebGLRenderingContext} gl
+     */
+    remove(gl) {
+        this._unprepare(gl);
+        return this;
+    }
+
+    /**
+     * Устанавливает размер фреймбуферу
+     * @param {vec2} size
+     */
+    setSize(size) {
+        this._size = size;
+        this._sizeChanged = true;
+        return this;
+    }
+
+    /**
+     * Инициализирует фреймбуфер, текстуры и рендербуфер
      * @param {WebGLRenderingContext} gl
      * @ignore
      */
     _prepare(gl) {
         this._texture = new Texture();
         this._texture.generateMipmaps = false;
-        this._texture.size = [1, 1];
+        this._texture.size = this._size;
 
         this._texture._prepare(gl);
 
@@ -44,7 +75,7 @@ class FrameBuffer {
 
         this._renderBuffer = gl.createRenderbuffer();
         gl.bindRenderbuffer(gl.RENDERBUFFER, this._renderBuffer);
-        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, 1, 1);
+        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this._size[0], this._size[1]);
 
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this._texture._texture, 0);
         gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, this._renderBuffer);
@@ -53,6 +84,20 @@ class FrameBuffer {
 
         gl.bindRenderbuffer(gl.RENDERBUFFER, null);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    }
+
+    /**
+     * Удаляет данные из видеокарты
+     * @param {WebGLRenderingContext} gl
+     * @ignore
+     */
+    _unprepare(gl) {
+        if (this._frameBuffer) {
+            this._texture.remove(gl);
+            gl.deleteFramebuffer(this._frameBuffer);
+            gl.deleteRenderbuffer(this._renderBuffer);
+            this._frameBuffer = null;
+        }
     }
 
     /**
@@ -79,4 +124,4 @@ class FrameBuffer {
     }
 }
 
-export default FrameBuffer;
+export default RenderTarget;

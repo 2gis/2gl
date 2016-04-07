@@ -1,3 +1,4 @@
+import ShaderProgram from '../ShaderProgram';
 import {sprite as shader} from '../shaders';
 import Geometry from '../Geometry';
 import Buffer from '../Buffer';
@@ -29,10 +30,32 @@ class SpriteRenderer {
             ]), 1));
 
         this._geometry.getBuffer('index').type = Buffer.ElementArrayBuffer;
+
+        this._shaderProgram = new ShaderProgram({
+            vertex: shader.vertex,
+            fragment: shader.fragment,
+            uniforms: [
+                {name: 'uPCamera', type: 'mat4'},
+                {name: 'uPosition', type: '3f'},
+                {name: 'uColorAlpha', type: '1f'},
+                {name: 'uScale', type: '2f'},
+                {name: 'uTexture', type: '1i'},
+                {name: 'uHalfSize', type: '2f'},
+                {name: 'uOffset', type: '2f'},
+                {name: 'uSmoothing', type: '1f'}
+            ],
+            attributes: [
+                {name: 'position'},
+                {name: 'texture'},
+                {name: 'index', index: true}
+            ]
+        });
     }
 
     render(state, renderObjects) {
         const {gl, camera} = state;
+
+        state.shaderProgram = this._shaderProgram;
 
         gl.disable(gl.DEPTH_TEST);
 
@@ -40,72 +63,24 @@ class SpriteRenderer {
         gl.blendEquation(gl.FUNC_ADD);
         gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-        if (!this._shaderProgram) {
-            this._prepare(state);
-        }
-
-        gl.useProgram(this._shaderProgram);
-
-        gl.enableVertexAttribArray(this._attributes.position);
-        gl.enableVertexAttribArray(this._attributes.texture);
-
-        this._geometry.getBuffer('position').bind(gl, this._attributes.position);
-        this._geometry.getBuffer('texture').bind(gl, this._attributes.texture);
-
-        gl.uniformMatrix4fv(this._uniforms.uPCamera, false, new Float32Array(camera.modelViewMatrix));
-
-        this._geometry.getBuffer('index').bind(gl);
+        this._shaderProgram
+            .enable(gl)
+            .bind(gl, {
+                uPCamera: new Float32Array(camera.modelViewMatrix),
+                uTexture: 0
+            }, {
+                position: this._geometry.getBuffer('position'),
+                texture: this._geometry.getBuffer('texture'),
+                index: this._geometry.getBuffer('index')
+            });
 
         gl.activeTexture(gl.TEXTURE0);
-        gl.uniform1i(this._uniforms.uTexture, 0);
-
-        state.uniforms = this._uniforms;
 
         renderObjects.forEach(object => object.render(state));
 
-        gl.disableVertexAttribArray(this._attributes.position);
-        gl.disableVertexAttribArray(this._attributes.texture);
-    }
+        this._shaderProgram.disable(gl);
 
-    _prepare(state) {
-        this._prepareShaders(state);
-        this._prepareAttributes(state);
-        this._prepareUniforms(state);
-    }
-
-    _prepareShaders({gl}) {
-        const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(fragmentShader, this._shader.fragment);
-        gl.compileShader(fragmentShader);
-
-        const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(vertexShader, this._shader.vertex);
-        gl.compileShader(vertexShader);
-
-        this._shaderProgram = gl.createProgram();
-        gl.attachShader(this._shaderProgram, vertexShader);
-        gl.attachShader(this._shaderProgram, fragmentShader);
-        gl.linkProgram(this._shaderProgram);
-    }
-
-    _prepareAttributes({gl}) {
-        this._attributes = {
-            position: gl.getAttribLocation(this._shaderProgram, 'position'),
-            texture: gl.getAttribLocation(this._shaderProgram, 'texture')
-        };
-    }
-
-    _prepareUniforms({gl}) {
-        this._uniforms = {
-            uPCamera: gl.getUniformLocation(this._shaderProgram, 'uPCamera'),
-            uPosition: gl.getUniformLocation(this._shaderProgram, 'uPosition'),
-            uColorAlpha: gl.getUniformLocation(this._shaderProgram, 'uColorAlpha'),
-            uTexture: gl.getUniformLocation(this._shaderProgram, 'uTexture'),
-            uScale: gl.getUniformLocation(this._shaderProgram, 'uScale'),
-            uHalfSize: gl.getUniformLocation(this._shaderProgram, 'uHalfSize'),
-            uOffset: gl.getUniformLocation(this._shaderProgram, 'uOffset'),
-            uSmoothing: gl.getUniformLocation(this._shaderProgram, 'uSmoothing')
-        };
+        return this;
     }
 }
 

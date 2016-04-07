@@ -23,8 +23,14 @@ class ComplexMeshProgram extends Program {
     constructor() {
         super();
 
-        this._attributeList = ['position', 'color', 'emissive'];
-        this._uniformList = ['uCamera', 'uPosition', 'uColorAlpha', 'uAmbientLightColor'];
+        this._attributes = [{name: 'position'}, {name: 'color'}, {name: 'emissive'}];
+        this._uniforms = [
+            {name: 'uColorAlpha', type: '1f'},
+            {name: 'uCamera', type: 'mat4'},
+            {name: 'uPosition', type: 'mat4'},
+            {name: 'uAmbientLightColor', type: '3fv'}
+        ];
+
         this._shader = shader;
         this._texture = null;
     }
@@ -69,20 +75,28 @@ class ComplexMeshProgram extends Program {
         this.define('directionLights', directionLightNumber);
 
         if (directionLightNumber > 0) {
-            this._attributeList.push('normal');
-            this._uniformList.push('uDirectionLightColors', 'uDirectionLightPositions', 'uNormalMatrix');
+            this._attributes.push({name: 'normal'});
+            this._uniforms.push(
+                {name: 'uDirectionLightColors', type: '3fv'},
+                {name: 'uDirectionLightPositions', type: '3fv'},
+                {name: 'uNormalMatrix', type: 'mat3'}
+            );
         }
     }
 
     _enableTexture() {
         this.define('texture');
-        this._attributeList.push('texture', 'textureEnable');
-        this._uniformList.push('uTexture');
+        this._attributes.push({name: 'texture'}, {name: 'textureEnable'});
+        this._uniforms.push({name: 'uTexture', type: '1i'});
     }
 
-    _bindMesh({gl, scene, camera, object}) {
+    _shaderProgramBind({gl, scene, camera, object}) {
+        const uniforms = {};
+        const attributes = {};
+
         if (this._texture) {
-            this._texture.enable(gl, this.uniforms.uTexture);
+            this._texture.enable(gl, true);
+            uniforms.uTexture = 0;
         }
 
         const lights = scene.getLights();
@@ -93,7 +107,7 @@ class ComplexMeshProgram extends Program {
 
             lights.forEach(light => {
                 if (light instanceof AmbientLight) {
-                    gl.uniform3fv(this.uniforms.uAmbientLightColor, light.color);
+                    uniforms.uAmbientLightColor = light.color;
                 } else if (light instanceof DirectionalLight) {
                     directionLightsColor = directionLightsColor.concat(light.color);
 
@@ -108,24 +122,25 @@ class ComplexMeshProgram extends Program {
                 mat3.fromMat4(normalMatrix, object.worldMatrix);
                 mat3.invert(normalMatrix, normalMatrix);
                 mat3.transpose(normalMatrix, normalMatrix);
-                gl.uniformMatrix3fv(this.uniforms.uNormalMatrix, false, new Float32Array(normalMatrix));
-
-                object.geometry.getBuffer('normal').bind(gl, this.attributes.normal);
+                uniforms.uNormalMatrix = new Float32Array(normalMatrix);
+                attributes.normal = object.geometry.getBuffer('normal');
             }
 
-            gl.uniform3fv(this.uniforms.uDirectionLightColors, new Float32Array(directionLightsColor));
-            gl.uniform3fv(this.uniforms.uDirectionLightPositions, new Float32Array(directionLightsPosition));
+            uniforms.uDirectionLightColors = new Float32Array(directionLightsColor);
+            uniforms.uDirectionLightPositions = new Float32Array(directionLightsPosition);
         }
 
-        this._attributeList.forEach(name => {
-            if (name !== 'normal') {
-                object.geometry.getBuffer(name).bind(gl, this.attributes[name]);
+        this._attributes.forEach(obj => {
+            if (obj.name !== 'normal') {
+                attributes[obj.name] = object.geometry.getBuffer(obj.name);
             }
         });
 
-        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(object.worldMatrix));
-        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.modelViewMatrix));
-        gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
+        uniforms.uPosition = new Float32Array(object.worldMatrix);
+        uniforms.uCamera = new Float32Array(camera.modelViewMatrix);
+        uniforms.uColorAlpha = this.opacity;
+
+        this._shaderProgram.bind(gl, uniforms, attributes);
     }
 }
 

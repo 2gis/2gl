@@ -50,16 +50,15 @@ class Texture {
      * @param {WebGLRenderingContext} gl
      * @param {Number} uniform
      */
-    enable(gl, uniform) {
+    enable(gl, isActivate) {
         if (!this._texture) {
             this._prepare(gl);
         }
 
         gl.bindTexture(gl.TEXTURE_2D, this._texture);
 
-        if (uniform) {
+        if (isActivate) {
             gl.activeTexture(gl.TEXTURE0);
-            gl.uniform1i(uniform, 0);
         }
 
         return this;

@@ -4,6 +4,7 @@ import PerspectiveCamera from './cameras/PerspectiveCamera';
 import OrthographicCamera from './cameras/OrthographicCamera';
 import Buffer from './Buffer';
 import Geometry from './Geometry';
+import ShaderProgram from './ShaderProgram';
 import BasicMeshProgram from './programs/BasicMeshProgram';
 import ComplexMeshProgram from './programs/ComplexMeshProgram';
 import SpriteProgram from './programs/SpriteProgram';
@@ -38,6 +39,7 @@ const dgl = {
     Mesh,
     Sprite,
     MultiSprite,
+    ShaderProgram,
     BasicMeshProgram,
     ComplexMeshProgram,
     SpriteProgram,

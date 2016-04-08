@@ -16,7 +16,7 @@ import Texture from './Texture';
 import AmbientLight from './lights/AmbientLight';
 import DirectionalLight from './lights/DirectionalLight';
 import Raycaster from './Raycaster';
-import FrameBuffer from './FrameBuffer';
+import RenderTarget from './RenderTarget';
 import Ray from './math/Ray';
 import Plane from './math/Plane';
 import Box from './math/Box';
@@ -47,7 +47,7 @@ const dgl = {
     AmbientLight,
     DirectionalLight,
     Raycaster,
-    FrameBuffer,
+    RenderTarget,
     Ray,
     Plane,
     Frustum,

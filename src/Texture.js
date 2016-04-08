@@ -3,11 +3,11 @@
  */
 class Texture {
     /**
-     * @param {HTMLImageElement | HTMLCanvasElement} src В качестве изображения может быть
+     * @param {HTMLImageElement | HTMLCanvasElement} [src=null] В качестве изображения может быть
      * либо элемент img, либо canvas
      */
     constructor(src) {
-        this._src = src;
+        this._src = src || null;
 
         /**
          * Тип фильтра при отображении текстуры, размеры которой больше, чем размеры исходной картинки
@@ -65,6 +65,20 @@ class Texture {
         return this;
     }
 
+
+    /**
+     * Удаляет текстуру из видеокарты
+     *
+     * @param {WebGLRenderingContext} gl
+     */
+    remove(gl) {
+        if (this._texture) {
+            gl.deleteTexture(this._texture);
+        }
+
+        return this;
+    }
+
     _prepare(gl) {
         this._texture = gl.createTexture();
 
@@ -74,7 +88,7 @@ class Texture {
 
         if (this.size) {
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.size[0], this.size[1], 0, gl.RGBA, gl.UNSIGNED_BYTE,
-                null);
+                this._src);
         } else {
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this._src);
         }

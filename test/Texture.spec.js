@@ -5,20 +5,15 @@ import sinon from 'sinon';
 import Texture from '../src/Texture';
 
 describe('Texture', () => {
-    let texture, src;
+    let texture, src, gl;
 
     beforeEach(() => {
         src = {};
         texture = new Texture(src);
+            gl = new GlContext();
     });
 
     describe('#enable', () => {
-        let gl;
-
-        beforeEach(() => {
-            gl = new GlContext();
-        });
-
         it('should initialize texture in first call', () => {
             const spy = sinon.spy(gl, 'createTexture');
             texture.enable(gl, 1);
@@ -94,6 +89,20 @@ describe('Texture', () => {
             assert.equal(args.length, 9);
             assert.equal(args[3], 16);
             assert.equal(args[4], 25);
+        });
+    });
+
+    describe('#remove', () => {
+        it('shouldn\'t call deleteTexture', () => {
+            const spy = sinon.spy(gl, 'deleteTexture');
+            texture.remove(gl);
+            assert.ok(!spy.called);
+        });
+
+        it('should call deleteTexture after enable', () => {
+            const spy = sinon.spy(gl, 'deleteTexture');
+            texture.enable(gl).remove(gl);
+            assert.ok(spy.calledOnce);
         });
     });
 });

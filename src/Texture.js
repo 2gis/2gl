@@ -48,16 +48,16 @@ class Texture {
      * При первом вызов происходит инициализация.
      *
      * @param {WebGLRenderingContext} gl
-     * @param {Number} uniform
+     * @param {Boolean} activate Нужно ли делать текстуру активной в контексте WebGL
      */
-    enable(gl, isActivate) {
+    enable(gl, activate) {
         if (!this._texture) {
             this._prepare(gl);
         }
 
         gl.bindTexture(gl.TEXTURE_2D, this._texture);
 
-        if (isActivate) {
+        if (activate) {
             gl.activeTexture(gl.TEXTURE0);
         }
 

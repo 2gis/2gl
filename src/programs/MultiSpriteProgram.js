@@ -27,8 +27,10 @@ class MultiSpriteProgram {
         return this._texture;
     }
 
-    enable({gl, object, uniforms, renderer}) {
-        gl.uniform1f(uniforms.uSmoothing, this.smoothing);
+    enable({gl, shaderProgram}) {
+        shaderProgram.bind(gl, {
+            uSmoothing: this.smoothing
+        });
 
         if (this._texture) {
             this._texture.enable(gl);

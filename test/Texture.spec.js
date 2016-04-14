@@ -67,7 +67,7 @@ describe('Texture', () => {
             assert.ok(spy.calledTwice);
         });
 
-        it('shouldn\'t activate texture if not put uniform', () => {
+        it('shouldn\'t activate texture if not put active', () => {
             const spy = sinon.spy(gl, 'activeTexture');
             texture.enable(gl);
             assert.ok(!spy.called);

@@ -11,8 +11,14 @@ class BasicMeshProgram extends Program {
     constructor() {
         super();
 
-        this._attributeList = ['position'];
-        this._uniformList = ['uCamera', 'uPosition', 'uColor', 'uColorAlpha'];
+        this._attributes = [{name: 'position'}];
+        this._uniforms = [
+            {name: 'uColorAlpha', type: '1f'},
+            {name: 'uCamera', type: 'mat4'},
+            {name: 'uPosition', type: 'mat4'},
+            {name: 'uColor', type: '3fv'}
+        ];
+
         this._shader = shader;
 
         /**
@@ -22,11 +28,20 @@ class BasicMeshProgram extends Program {
         this.color = [0, 0, 0];
     }
 
-    _bindUniforms({gl, camera, object}) {
-        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(object.worldMatrix));
-        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.modelViewMatrix));
-        gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
-        gl.uniform3fv(this.uniforms.uColor, this.color);
+    _shaderProgramBind({gl, object, camera}) {
+        const attributes = {};
+        this._attributes.forEach(obj => {
+            attributes[obj.name] = object.geometry.getBuffer(obj.name);
+        });
+
+        const uniforms = {
+            uColorAlpha: this.opacity,
+            uPosition: new Float32Array(object.worldMatrix),
+            uCamera: new Float32Array(camera.modelViewMatrix),
+            uColor: this.color
+        };
+
+        this._shaderProgram.bind(gl, uniforms, attributes);
     }
 }
 

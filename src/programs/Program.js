@@ -1,4 +1,5 @@
 import definitions from './definitions';
+import ShaderProgram from '../ShaderProgram';
 
 const cachedPrograms = {};
 
@@ -8,8 +9,12 @@ const cachedPrograms = {};
  */
 class Program {
     constructor() {
-        this._attributeList = [];
-        this._uniformList = [];
+        this._attributes = [];
+        this._uniforms = [{
+            name: 'uColorAlpha',
+            type: '1f'
+        }];
+
         this._definitions = [];
         this._shader = null;
 
@@ -25,19 +30,13 @@ class Program {
      * @param {State} state
      */
     enable(state) {
-        const gl = state.gl;
-
         if (!this._shaderProgram) {
             this._prepare(state);
         }
 
-        gl.useProgram(this._shaderProgram);
+        this._shaderProgram.enable(state.gl);
 
-        for (const name in this.attributes) {
-            gl.enableVertexAttribArray(this.attributes[name]);
-        }
-
-        this._bindMesh(state);
+        this._shaderProgramBind(state);
 
         return this;
     }
@@ -47,10 +46,9 @@ class Program {
      * @param {WebGLRenderingContext} gl
      */
     disable(gl) {
-        for (const name in this.attributes) {
-            gl.disableVertexAttribArray(this.attributes[name]);
+        if (this._shaderProgram) {
+            this._shaderProgram.disable(gl);
         }
-
         return this;
     }
 
@@ -61,7 +59,7 @@ class Program {
      */
     define(type, value) {
         if (definitions[type]) {
-            this._definitions.push({type, value});
+            this._definitions.push({type: definitions[type], value: value});
         }
 
         return this;
@@ -83,12 +81,6 @@ class Program {
         }
     }
 
-    _prepare(state) {
-        this._prepareShaders(state);
-        this._prepareAttributes(state);
-        this._prepareUniforms(state);
-    }
-
     _getCachedProgramKey() {
         let key = this.constructor.name;
 
@@ -103,7 +95,7 @@ class Program {
         return cachedPrograms[this._getCachedProgramKey()];
     }
 
-    _prepareShaders({gl}) {
+    _prepare(gl) {
         const cachedProgram = this._getCachedProgram();
 
         if (cachedProgram && gl === cachedProgram.glContext) {
@@ -111,30 +103,13 @@ class Program {
             return;
         }
 
-        const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(fragmentShader, this._addDefinitions(this._shader.fragment));
-        gl.compileShader(fragmentShader);
-
-        if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
-            console.log(gl.getShaderInfoLog(fragmentShader));
-        }
-
-        const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(vertexShader, this._addDefinitions(this._shader.vertex));
-        gl.compileShader(vertexShader);
-
-        if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
-            console.log(gl.getShaderInfoLog(vertexShader));
-        }
-
-        this._shaderProgram = gl.createProgram();
-        gl.attachShader(this._shaderProgram, vertexShader);
-        gl.attachShader(this._shaderProgram, fragmentShader);
-        gl.linkProgram(this._shaderProgram);
-
-        if (!gl.getProgramParameter(this._shaderProgram, gl.LINK_STATUS)) {
-            console.log('Could not initialize shaders');
-        }
+        this._shaderProgram = new ShaderProgram({
+            vertex: this._shader.vertex,
+            fragment: this._shader.fragment,
+            uniforms: this._uniforms,
+            attributes: this._attributes,
+            definitions: this._definitions
+        });
 
         cachedPrograms[this._getCachedProgramKey()] = {
             glContext: gl,
@@ -142,47 +117,17 @@ class Program {
         };
     }
 
-    _addDefinitions(shader) {
-        return this._definitions.map(def => {
-            if (def.value !== undefined) {
-                return '#define ' + definitions[def.type] + ' ' + def.value;
-            } else {
-                return '#define ' + definitions[def.type];
-            }
-        }).join('\n') + '\n' + shader;
-    }
-
-    _prepareAttributes({gl}) {
-        this.attributes = {};
-
-        this._attributeList.forEach(name => {
-            this.attributes[name] = gl.getAttribLocation(this._shaderProgram, name);
+    _shaderProgramBind({gl, object}) {
+        const attributes = {};
+        this._attributes.forEach(obj => {
+            attributes[obj.name] = object.geometry.getBuffer(obj.name);
         });
-    }
 
-    _prepareUniforms({gl}) {
-        this.uniforms = {};
+        const uniforms = {
+            uColorAlpha: this.opacity
+        };
 
-        this._uniformList.forEach(name => {
-            this.uniforms[name] = gl.getUniformLocation(this._shaderProgram, name);
-        });
-    }
-
-    _bindMesh(state) {
-        this._bindAttributes(state);
-        this._bindUniforms(state);
-    }
-
-    _bindAttributes({gl, object}) {
-        this._attributeList.forEach(name => {
-            object.geometry.getBuffer(name).bind(gl, this.attributes[name]);
-        });
-    }
-
-    _bindUniforms({gl, object, camera}) {
-        gl.uniformMatrix4fv(this.uniforms.uPosition, false, new Float32Array(object.worldMatrix));
-        gl.uniformMatrix4fv(this.uniforms.uCamera, false, new Float32Array(camera.modelViewMatrix));
-        gl.uniform1f(this.uniforms.uColorAlpha, this.opacity);
+        this._shaderProgram.bind(gl, uniforms, attributes);
     }
 }
 

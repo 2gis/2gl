@@ -123,14 +123,25 @@ GlContext.prototype.getUniformLocation = function() {
     return uniformCount++;
 };
 
+GlContext.prototype.uniformMatrix2fv = function() {};
+GlContext.prototype.uniformMatrix3fv = function() {};
 GlContext.prototype.uniformMatrix4fv = function() {};
 GlContext.prototype.uniform1f = function() {};
 GlContext.prototype.uniform2f = function() {};
 GlContext.prototype.uniform3f = function() {};
+GlContext.prototype.uniform4f = function() {};
 GlContext.prototype.uniform1i = function() {};
 GlContext.prototype.uniform2i = function() {};
 GlContext.prototype.uniform3i = function() {};
+GlContext.prototype.uniform4i = function() {};
+GlContext.prototype.uniform1fv = function() {};
+GlContext.prototype.uniform2fv = function() {};
 GlContext.prototype.uniform3fv = function() {};
+GlContext.prototype.uniform4fv = function() {};
+GlContext.prototype.uniform1iv = function() {};
+GlContext.prototype.uniform2iv = function() {};
+GlContext.prototype.uniform3iv = function() {};
+GlContext.prototype.uniform4iv = function() {};
 
 GlContext.prototype.drawArrays = function() {};
 GlContext.prototype.drawElements = function() {};

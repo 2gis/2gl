@@ -3,6 +3,7 @@ import {slice, getRenderState} from './utils';
 import sinon from 'sinon';
 
 import MultiSpriteProgram from '../src/programs/MultiSpriteProgram';
+import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
 
@@ -49,17 +50,22 @@ describe('MultiSprite', () => {
         beforeEach(() => {
             state = getRenderState();
             state.object = multiSprite;
-            state.attributes = {
-                texture: 1,
-                colorAlpha: 2,
-                offset: 3,
-                scale: 4,
-                position: 5
-            };
-            state.uniforms = {
-                uSmoothing: 3,
-                uHalfSize: 4
-            };
+            state.shaderProgram = new ShaderProgram({
+                uniforms: [
+                    {name: 'uPCamera', type: 'mat4'},
+                    {name: 'uHalfSize', type: '2f'},
+                    {name: 'uTexture', type: '1i'},
+                    {name: 'uSmoothing', type: '1f'}
+                ],
+                attributes: [
+                    {name: 'disposition'},
+                    {name: 'texture'},
+                    {name: 'position'},
+                    {name: 'colorAlpha'},
+                    {name: 'scale'},
+                    {name: 'offset'}
+                ]
+            });
             state.renderer = {
                 getSize: () => [100, 50]
             };

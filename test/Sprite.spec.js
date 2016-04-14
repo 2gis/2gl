@@ -3,6 +3,7 @@ import {slice, getRenderState} from './utils';
 import sinon from 'sinon';
 
 import SpriteProgram from '../src/programs/SpriteProgram';
+import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
 
@@ -37,14 +38,23 @@ describe('Sprite', () => {
         beforeEach(() => {
             state = getRenderState();
             state.object = sprite;
-            state.uniforms = {
-                uColorAlpha: 1,
-                uSmoothing: 2,
-                uHalfSize: 3,
-                uOffset: 4,
-                uScale: 5,
-                uPosition: 6
-            };
+            state.shaderProgram = new ShaderProgram({
+                uniforms: [
+                    {name: 'uPCamera', type: 'mat4'},
+                    {name: 'uPosition', type: '3f'},
+                    {name: 'uColorAlpha', type: '1f'},
+                    {name: 'uScale', type: '2f'},
+                    {name: 'uTexture', type: '1i'},
+                    {name: 'uHalfSize', type: '2f'},
+                    {name: 'uOffset', type: '2f'},
+                    {name: 'uSmoothing', type: '1f'}
+                ],
+                attributes: [
+                    {name: 'position'},
+                    {name: 'texture'},
+                    {name: 'index', index: true}
+                ]
+            });
             state.renderer = {
                 getSize: () => [100, 50]
             };

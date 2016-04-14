@@ -160,14 +160,17 @@ class MultiSprite extends Object3D {
     }
 
     render(state) {
-        const {gl, attributes} = state;
+        const {gl, shaderProgram} = state;
+        const geometry = this._geometry;
 
-        this._geometry.getBuffer('texture').bind(gl, attributes.texture);
-        this._geometry.getBuffer('position').bind(gl, attributes.position);
-        this._geometry.getBuffer('colorAlpha').bind(gl, attributes.colorAlpha);
-        this._geometry.getBuffer('scale').bind(gl, attributes.scale);
-        this._geometry.getBuffer('offset').bind(gl, attributes.offset);
-        this._geometry.getBuffer('disposition').bind(gl, attributes.disposition);
+        shaderProgram.bind(gl, null, {
+            texture: geometry.getBuffer('texture'),
+            position: geometry.getBuffer('position'),
+            colorAlpha: geometry.getBuffer('colorAlpha'),
+            scale: geometry.getBuffer('scale'),
+            offset: geometry.getBuffer('offset'),
+            disposition: geometry.getBuffer('disposition')
+        });
 
         for (const key in this._data) {
             if (this._data[key].dirty) {

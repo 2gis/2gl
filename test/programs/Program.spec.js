@@ -1,12 +1,11 @@
 import assert from 'assert';
-import sinon from 'sinon';
 import {getRenderState} from '../utils';
 import Object3D from '../../src/Object3D';
 
 import Program from '../../src/programs/Program';
 
 describe('Program', () => {
-    let program;
+    let program, state;
 
     beforeEach(() => {
         program = new Program();
@@ -14,6 +13,7 @@ describe('Program', () => {
             fragment: '',
             vertex: ''
         };
+        state = getRenderState();
     });
 
     describe('#constructor', () => {
@@ -23,49 +23,14 @@ describe('Program', () => {
     });
 
     describe('#enable', () => {
-        let state;
-
-        beforeEach(() => {
-            state = getRenderState();
-            state.object = new Object3D();
-        });
-
-        it('should create two shaders', () => {
-            const spy = sinon.spy(state.gl, 'createShader');
+        it('should exist', () => {
             program.enable(state);
-            assert.ok(spy.calledTwice);
-        });
-
-        it('should create program', () => {
-            const spy = sinon.spy(state.gl, 'createProgram');
-            program.enable(state);
-            assert.ok(spy.calledOnce);
-        });
-
-        it('should use program', () => {
-            const spy = sinon.spy(state.gl, 'useProgram');
-            program.enable(state);
-            assert.ok(spy.calledOnce);
-        });
-
-        it('shouldn\'t create shaders after first call', () => {
-            const spy = sinon.spy(state.gl, 'createShader');
-            program.enable(state);
-            program.enable(state);
-            assert.ok(spy.calledTwice);
-        });
-
-        it('shouldn\'t create program after first call', () => {
-            const spy = sinon.spy(state.gl, 'createProgram');
-            program.enable(state);
-            program.enable(state);
-            assert.ok(spy.calledOnce);
         });
     });
 
     describe('#disable', () => {
-        it('should never do', () => {
-            program.disable();
+        it('should exist', () => {
+            program.disable(state.gl);
         });
     });
 

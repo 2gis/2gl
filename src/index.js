@@ -5,10 +5,10 @@ import OrthographicCamera from './cameras/OrthographicCamera';
 import Buffer from './Buffer';
 import Geometry from './Geometry';
 import ShaderProgram from './ShaderProgram';
-import BasicMeshProgram from './programs/BasicMeshProgram';
-import ComplexMeshProgram from './programs/ComplexMeshProgram';
-import SpriteProgram from './programs/SpriteProgram';
-import MultiSpriteProgram from './programs/MultiSpriteProgram';
+import BasicMeshMaterial from './materials/BasicMeshMaterial';
+import ComplexMeshMaterial from './materials/ComplexMeshMaterial';
+import SpriteMaterial from './materials/SpriteMaterial';
+import MultiSpriteMaterial from './materials/MultiSpriteMaterial';
 import Mesh from './Mesh';
 import Sprite from './Sprite';
 import MultiSprite from './MultiSprite';
@@ -40,10 +40,10 @@ const dgl = {
     Sprite,
     MultiSprite,
     ShaderProgram,
-    BasicMeshProgram,
-    ComplexMeshProgram,
-    SpriteProgram,
-    MultiSpriteProgram,
+    BasicMeshMaterial,
+    ComplexMeshMaterial,
+    SpriteMaterial,
+    MultiSpriteMaterial,
     Scene,
     Texture,
     AmbientLight,

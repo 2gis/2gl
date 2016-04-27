@@ -1,0 +1,34 @@
+import assert from 'assert';
+import Material from '../../src/materials/Material';
+
+import ComplexMeshMaterial from '../../src/materials/ComplexMeshMaterial';
+
+describe('ComplexMeshMaterial', () => {
+    let material;
+
+    beforeEach(() => {
+        material = new ComplexMeshMaterial();
+    });
+
+    describe('#constructor', () => {
+        it('should inherited from Material', () => {
+            assert.ok(material instanceof Material);
+        });
+
+        it('should have opacity field', () => {
+            assert.equal(material.opacity, 1);
+        });
+    });
+
+    describe('#setTexture and #getTexture', () => {
+        it('should return null', () => {
+            assert.equal(material.getTexture(), null);
+        });
+
+        it('should return same texture', () => {
+            const texture = {};
+            material.setTexture(texture);
+            assert.equal(material.getTexture(), texture);
+        });
+    });
+});

@@ -1,13 +1,13 @@
 import {basic as shader} from '../shaders';
-import Program from './Program';
+import Material from './Material';
 
 /**
- * Простая программа для {@link Mesh}. Раскрашивает весь объект в один заданный цвет.
- * {@link Geometry} меша использующего эту программу должна содержать буфер вершин.
+ * Простой материал для {@link Mesh}. Раскрашивает весь объект в один заданный цвет.
+ * {@link Geometry} меша использующего этот материал должна содержать буфер вершин.
  *
- * @extends Program
+ * @extends Material
  */
-class BasicMeshProgram extends Program {
+class BasicMeshMaterial extends Material {
     constructor() {
         super();
 
@@ -45,4 +45,4 @@ class BasicMeshProgram extends Program {
     }
 }
 
-export default BasicMeshProgram;
+export default BasicMeshMaterial;

@@ -43,7 +43,7 @@
     };
 
     var scene = new dgl.Scene();
-    var spriteProgram = new dgl.SpriteProgram();
+    var spriteMaterial = new dgl.SpriteMaterial();
     var texture;
     var object;
 
@@ -54,7 +54,7 @@
         settings.sprites = Math.round(settings.sprites);
 
         for (var i = 0; i < settings.sprites; i++) {
-            var s = new dgl.Sprite(spriteProgram);
+            var s = new dgl.Sprite(spriteMaterial);
             s.position[0] = (Math.random() - 0.5) * max;
             s.position[1] = (Math.random() - 0.5) * max;
             s.scale[0] = 50;
@@ -70,7 +70,7 @@
     var img = document.createElement('img');
     img.onload = function() {
         texture = new dgl.Texture(img);
-        spriteProgram.setTexture(texture);
+        spriteMaterial.setTexture(texture);
         addSprites();
     };
     img.src = './assets/texture.png';

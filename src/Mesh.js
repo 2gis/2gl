@@ -9,9 +9,9 @@ import {vec3, mat4} from 'gl-matrix';
 class Mesh extends Object3D {
     /**
      * @param {Geometry} geometry Геометрия меша
-     * @param {Program} program Программа для отрисовки меша
+     * @param {Material} material Программа для отрисовки меша
      */
-    constructor(geometry, program) {
+    constructor(geometry, material) {
         super();
 
         /**
@@ -22,9 +22,9 @@ class Mesh extends Object3D {
 
         /**
          * Программа для отрисовки меша
-         * @type {Program}
+         * @type {Material}
          */
-        this.program = program;
+        this.material = material;
     }
 
     /**
@@ -41,11 +41,11 @@ class Mesh extends Object3D {
         }
 
         state.object = this;
-        this.program.enable(state);
+        this.material.enable(state);
 
         gl.drawArrays(gl.TRIANGLES, 0, this.geometry.getBuffer('position').length);
 
-        this.program.disable(gl);
+        this.material.disable(gl);
 
         return this;
     }
@@ -107,7 +107,7 @@ class Mesh extends Object3D {
     typifyForRender(typedObjects) {
         if (!this.visible) { return this; }
 
-        this.program.typifyForRender(typedObjects, this);
+        this.material.typifyForRender(typedObjects, this);
 
         this.children.forEach(child => child.typifyForRender(typedObjects));
 

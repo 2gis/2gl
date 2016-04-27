@@ -10,16 +10,16 @@ import {vec2} from 'gl-matrix';
  */
 class Sprite extends Object3D {
     /**
-     * @param {SpriteProgram} program
+     * @param {SpriteMaterial} material
      */
-    constructor(program) {
+    constructor(material) {
         super();
 
         /**
          * Программа отрисовки спрайта
-         * @type {SpriteProgram}
+         * @type {SpriteMaterial}
          */
-        this.program = program;
+        this.material = material;
 
         /**
          * Смещение спрайта в плоскости экрана
@@ -30,7 +30,7 @@ class Sprite extends Object3D {
 
     render(state) {
         // Если cпрайт невидим или у программы спрайта не установлена текстура, то не рендерим его
-        if (!this.visible || !this.program.getTexture()) { return this; }
+        if (!this.visible || !this.material.getTexture()) { return this; }
 
         if (this.worldMatrixNeedsUpdate) {
             this.updateWorldMatrix();
@@ -40,12 +40,12 @@ class Sprite extends Object3D {
 
         state.object = this;
 
-        this.program.enable(state);
+        this.material.enable(state);
 
         // draw for indices
         gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
 
-        this.program.disable(state.gl);
+        this.material.disable(state.gl);
 
         return this;
     }
@@ -59,7 +59,7 @@ class Sprite extends Object3D {
     typifyForRender(typedObjects) {
         if (!this.visible) { return this; }
 
-        this.program.typifyForRender(typedObjects, this);
+        this.material.typifyForRender(typedObjects, this);
 
         this.children.forEach(child => child.typifyForRender(typedObjects));
 

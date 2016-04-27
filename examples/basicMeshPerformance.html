@@ -74,8 +74,8 @@
             Array.prototype.push.apply(vertices, getTriangle(size));
         }
 
-        var program = new dgl.BasicMeshProgram();
-        program.color = getRandomRGB();
+        var material = new dgl.BasicMeshMaterial();
+        material.color = getRandomRGB();
 
         var geometry = new dgl.Geometry();
 
@@ -83,7 +83,7 @@
 
         geometry.setBuffer('position', vertexBuffer);
 
-        return new dgl.Mesh(geometry, program);
+        return new dgl.Mesh(geometry, material);
     }
 
     var mesh = getMesh();

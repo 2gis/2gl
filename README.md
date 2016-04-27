@@ -8,8 +8,8 @@
 
 На данный момент может работать со следующими типами объектов для отображения:
 
-1. [Basic mesh](https://2gis.github.io/2gl/docs/BasicMeshProgram.html) - меш, закрашивается в один цвет
-2. [Complex mesh](https://2gis.github.io/2gl/docs/ComplexMeshProgram.html) - меш, для которого можно устанавить: цвета для каждой из вершин, освещение, текстуру и определять для какой из вершин будет использоваться текстура
+1. [Basic mesh](https://2gis.github.io/2gl/docs/BasicMeshMaterial.html) - меш, закрашивается в один цвет
+2. [Complex mesh](https://2gis.github.io/2gl/docs/ComplexMeshMaterial.html) - меш, для которого можно устанавить: цвета для каждой из вершин, освещение, текстуру и определять для какой из вершин будет использоваться текстура
 3. [Sprite](https://2gis.github.io/2gl/docs/Sprite.html) - спрайт, к камере расположен всегда одной гранью, удалённость не влияет на размеры изображения
 4. [MultiSprite](https://2gis.github.io/2gl/docs/MultiSprite.html) - мультиспрайт представляет собой множество спрайтов, которые рисуются в один draw call
 

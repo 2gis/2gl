@@ -12,16 +12,16 @@ import Buffer from './Buffer';
 class MultiSprite extends Object3D {
     /**
      * @param {SpriteDescriptor[]} sprites Описание спрайтов, входящих в мультиспрайт
-     * @param {SpriteProgram} program
+     * @param {SpriteMaterial} material
      */
-    constructor(sprites, program) {
+    constructor(sprites, material) {
         super();
 
         /**
          * Программа отрисовки спрайта
-         * @type {SpriteProgram}
+         * @type {SpriteMaterial}
          */
-        this.program = program;
+        this.material = material;
 
         this._initArrays(sprites);
         this._initGeometry();
@@ -179,9 +179,9 @@ class MultiSprite extends Object3D {
             }
         }
 
-        this.program.enable(state);
+        this.material.enable(state);
         gl.drawArrays(gl.TRIANGLES, 0, this._geometry.getBuffer('disposition').length);
-        this.program.disable();
+        this.material.disable();
 
         return this;
     }
@@ -194,9 +194,9 @@ class MultiSprite extends Object3D {
      */
     typifyForRender(typedObjects) {
         // Если cпрайт невидим или у программы спрайта не установлена текстура, то не рендерим его
-        if (!this.visible || !this.program.getTexture()) { return this; }
+        if (!this.visible || !this.material.getTexture()) { return this; }
 
-        this.program.typifyForRender(typedObjects, this);
+        this.material.typifyForRender(typedObjects, this);
 
         this.children.forEach(child => child.typifyForRender(typedObjects));
 

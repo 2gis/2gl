@@ -1,25 +1,25 @@
 import {complex as shader} from '../shaders';
 import {vec3, mat3} from 'gl-matrix';
-import Program from './Program';
+import Material from './Material';
 import AmbientLight from '../lights/AmbientLight';
 import DirectionalLight from '../lights/DirectionalLight';
 
 /**
- * Более сложная программа для {@link Mesh}.
+ * Более сложный материал для {@link Mesh}.
  *
- * {@link Geometry} меша использующего эту программу должна содержать следующие буферы:
+ * {@link Geometry} меша использующего этот материал должна содержать следующие буферы:
  * 1. position - координаты вершин
  * 2. color - диффузная составляющая цвета в RGB для каждой из вершин, на неё влияет освещение
  * 3. emissive - фоновая составляющая цвета в RGB, на неё не влияет освещение
  *
- * Если программе задана текстура, то также должен быть доступны буферы:
+ * Если материалу задана текстура, то также должен быть доступны буферы:
  * 5. texture - 2х мерные координаты сопоставляющие координаты грани к координатам текстуры
  * 6. textureEnable - будет ли использоваться текстура для данной вершины,
  * принимает два значаения: 0 - нет, 1 - да
  *
- * @extends Program
+ * @extends Material
  */
-class ComplexMeshProgram extends Program {
+class ComplexMeshMaterial extends Material {
     constructor() {
         super();
 
@@ -36,7 +36,7 @@ class ComplexMeshProgram extends Program {
     }
 
     /**
-     * Задаёт текстуру программе
+     * Задаёт текстуру материалу
      * @param {Texture} texture
      */
     setTexture(texture) {
@@ -144,4 +144,4 @@ class ComplexMeshProgram extends Program {
     }
 }
 
-export default ComplexMeshProgram;
+export default ComplexMeshMaterial;

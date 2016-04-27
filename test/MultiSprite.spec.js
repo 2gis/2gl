@@ -2,7 +2,7 @@ import assert from 'assert';
 import {slice, getRenderState} from './utils';
 import sinon from 'sinon';
 
-import MultiSpriteProgram from '../src/programs/MultiSpriteProgram';
+import MultiSpriteMaterial from '../src/materials/MultiSpriteMaterial';
 import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
@@ -10,15 +10,15 @@ import Texture from '../src/Texture';
 import MultiSprite from '../src/MultiSprite';
 
 describe('MultiSprite', () => {
-    let program, multiSprite;
+    let material, multiSprite;
 
     beforeEach(() => {
-        program = new MultiSpriteProgram();
-        multiSprite = new MultiSprite([], program);
+        material = new MultiSpriteMaterial();
+        multiSprite = new MultiSprite([], material);
     });
 
     afterEach(() => {
-        program = null;
+        material = null;
     });
 
     describe('#constructor', () => {
@@ -26,14 +26,14 @@ describe('MultiSprite', () => {
             assert.ok(multiSprite instanceof Object3D);
         });
 
-        it('should assign program param to program property', () => {
-            assert.equal(program, multiSprite.program);
+        it('should assign material param to material property', () => {
+            assert.equal(material, multiSprite.material);
         });
 
         it('should create all needed buffers', () => {
             multiSprite = new MultiSprite([
                 {position: [1, 2]}
-            ], program);
+            ], material);
 
             assert.ok(multiSprite._geometry.getBuffer('disposition'));
             assert.ok(multiSprite._geometry.getBuffer('texture'));
@@ -101,19 +101,19 @@ describe('MultiSprite', () => {
             assert.deepEqual(oldMatrix, slice(multiSprite.worldMatrix));
         });
 
-        it('should call program enable with texture', () => {
-            const spy = sinon.spy(program, 'enable');
+        it('should call material enable with texture', () => {
+            const spy = sinon.spy(material, 'enable');
             const texture = new Texture({});
-            multiSprite.program.setTexture(texture);
+            multiSprite.material.setTexture(texture);
 
             multiSprite.render(state);
             assert.ok(spy.calledOnce);
         });
 
-        it('should call program disable with texture', () => {
-            const spy = sinon.spy(program, 'disable');
+        it('should call material disable with texture', () => {
+            const spy = sinon.spy(material, 'disable');
             const texture = new Texture({});
-            multiSprite.program.setTexture(texture);
+            multiSprite.material.setTexture(texture);
 
             multiSprite.render(state);
             assert.ok(spy.calledOnce);
@@ -124,7 +124,7 @@ describe('MultiSprite', () => {
         let typedObjects, spy;
 
         beforeEach(() => {
-            spy = sinon.spy(program, 'typifyForRender');
+            spy = sinon.spy(material, 'typifyForRender');
             typedObjects = {multiSprites: []};
         });
 
@@ -133,18 +133,18 @@ describe('MultiSprite', () => {
             typedObjects = spy = null;
         });
 
-        it('should call typifyForRender method from multiSprite program', () => {
+        it('should call typifyForRender method from multiSprite material', () => {
             const texture = new Texture({});
-            multiSprite.program.setTexture(texture);
+            multiSprite.material.setTexture(texture);
 
             multiSprite.typifyForRender(typedObjects);
             assert.ok(spy.calledOnce);
         });
 
-        it('should call twice typifyForRender method from multiSprite and child program', () => {
+        it('should call twice typifyForRender method from multiSprite and child material', () => {
             const texture = new Texture({});
-            program.setTexture(texture);
-            const b = new MultiSprite([], program);
+            material.setTexture(texture);
+            const b = new MultiSprite([], material);
 
             multiSprite.add(b);
             multiSprite.typifyForRender(typedObjects);
@@ -159,8 +159,8 @@ describe('MultiSprite', () => {
 
         it('should call once from object and not call from invisible child', () => {
             const texture = new Texture({});
-            program.setTexture(texture);
-            const b = new MultiSprite([], program);
+            material.setTexture(texture);
+            const b = new MultiSprite([], material);
             b.visible = false;
 
             multiSprite.add(b);
@@ -173,7 +173,7 @@ describe('MultiSprite', () => {
         beforeEach(() => {
             multiSprite = new MultiSprite([
                 {position: [1, 2]}
-            ], program);
+            ], material);
         });
 
         describe('#setOpacity', () => {

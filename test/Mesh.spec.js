@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import Geometry from '../src/Geometry';
 import Buffer from '../src/Buffer';
-import BasicMeshProgram from '../src/programs/BasicMeshProgram';
+import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
 import Raycaster from '../src/Raycaster';
 import {vec3} from 'gl-matrix';
 import Object3D from '../src/Object3D';
@@ -12,19 +12,19 @@ import Object3D from '../src/Object3D';
 import Mesh from '../src/Mesh';
 
 describe('Mesh', () => {
-    let geometry, program, mesh;
+    let geometry, material, mesh;
 
     beforeEach(() => {
-        program = new BasicMeshProgram();
+        material = new BasicMeshMaterial();
 
         geometry = new Geometry();
         geometry.setBuffer('position', new Buffer(new Float32Array(cubeVertices), 3));
 
-        mesh = new Mesh(geometry, program);
+        mesh = new Mesh(geometry, material);
     });
 
     afterEach(() => {
-        program = geometry = null;
+        material = geometry = null;
     });
 
     describe('#constructor', () => {
@@ -32,8 +32,8 @@ describe('Mesh', () => {
             assert.ok(mesh instanceof Object3D);
         });
 
-        it('should be equal mesh.program and passed program as argument', () => {
-            assert.equal(program, mesh.program);
+        it('should be equal mesh.material and passed material as argument', () => {
+            assert.equal(material, mesh.material);
         });
 
         it('should be equal mesh.geometry and passed geometry as argument', () => {
@@ -79,14 +79,14 @@ describe('Mesh', () => {
             assert.deepEqual(oldMatrix, slice(mesh.worldMatrix));
         });
 
-        it('should call program enable', () => {
-            const spy = sinon.spy(program, 'enable');
+        it('should call material enable', () => {
+            const spy = sinon.spy(material, 'enable');
             mesh.render(state);
             assert.ok(spy.calledOnce);
         });
 
-        it('should call program disable', () => {
-            const spy = sinon.spy(program, 'disable');
+        it('should call material disable', () => {
+            const spy = sinon.spy(material, 'disable');
             mesh.render(state);
             assert.ok(spy.calledOnce);
         });
@@ -177,7 +177,7 @@ describe('Mesh', () => {
         let typedObjects, spy;
 
         beforeEach(() => {
-            spy = sinon.spy(program, 'typifyForRender');
+            spy = sinon.spy(material, 'typifyForRender');
             typedObjects = {common: [], transparent: []};
         });
 
@@ -186,13 +186,13 @@ describe('Mesh', () => {
             typedObjects = spy = null;
         });
 
-        it('should call typifyForRender method from mesh program', () => {
+        it('should call typifyForRender method from mesh material', () => {
             mesh.typifyForRender(typedObjects);
             assert.ok(spy.calledOnce);
         });
 
-        it('should call twice typifyForRender method from mesh and child program', () => {
-            const b = new Mesh(geometry, program);
+        it('should call twice typifyForRender method from mesh and child material', () => {
+            const b = new Mesh(geometry, material);
 
             mesh.add(b);
             mesh.typifyForRender(typedObjects);
@@ -206,7 +206,7 @@ describe('Mesh', () => {
         });
 
         it('should call once from object and not call from invisible child', () => {
-            const b = new Mesh(geometry, program);
+            const b = new Mesh(geometry, material);
             b.visible = false;
 
             mesh.add(b);

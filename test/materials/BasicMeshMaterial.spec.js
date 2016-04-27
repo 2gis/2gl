@@ -1,50 +1,50 @@
 import assert from 'assert';
 import {getRenderState, cubeVertices} from '../utils';
 import Mesh from '../../src/Mesh';
-import Program from '../../src/programs/Program';
+import Material from '../../src/materials/Material';
 import Geometry from '../../src/Geometry';
 import Buffer from '../../src/Buffer';
 
-import BasicMeshProgram from '../../src/programs/BasicMeshProgram';
+import BasicMeshMaterial from '../../src/materials/BasicMeshMaterial';
 
-describe('BasicMeshProgram', () => {
-    let program, geometry, mesh, state;
+describe('BasicMeshMaterial', () => {
+    let material, geometry, mesh, state;
 
     beforeEach(() => {
         state = getRenderState();
-        program = new BasicMeshProgram();
+        material = new BasicMeshMaterial();
 
         geometry = new Geometry();
         geometry.setBuffer('position', new Buffer(new Float32Array(cubeVertices), 3));
 
-        mesh = new Mesh(geometry, program);
+        mesh = new Mesh(geometry, material);
 
         state.object = mesh;
     });
 
     describe('#constructor', () => {
-        it('should inherited from Program', () => {
-            assert.ok(program instanceof Program);
+        it('should inherited from Material', () => {
+            assert.ok(material instanceof Material);
         });
 
         it('should have opacity field', () => {
-            assert.equal(program.opacity, 1);
+            assert.equal(material.opacity, 1);
         });
 
         it('should have color field', () => {
-            assert.deepEqual(program.color, [0, 0, 0]);
+            assert.deepEqual(material.color, [0, 0, 0]);
         });
     });
 
     describe('#enable', () => {
         it('should exist', () => {
-            program.enable(state);
+            material.enable(state);
         });
     });
 
     describe('#disable', () => {
         it('should exist', () => {
-            program.disable(state.gl);
+            material.disable(state.gl);
         });
     });
 });

@@ -30,11 +30,11 @@
         renderer.setSize(300, 300);
         renderer.clearColor = [0.94, 0.94, 0.94, 1];
 
-        var spriteProgram = new dgl.SpriteProgram();
+        var spriteMaterial = new dgl.SpriteMaterial();
         var sprite;
 
         function addSprite() {
-            sprite = new dgl.Sprite(spriteProgram);
+            sprite = new dgl.Sprite(spriteMaterial);
             sprite.position[0] = 0;
             sprite.position[1] = 0;
             sprite.scale[0] = 150;
@@ -47,7 +47,7 @@
         var img = document.createElement('img');
         img.onload = function() {
             var texture = new dgl.Texture(img);
-            spriteProgram.setTexture(texture);
+            spriteMaterial.setTexture(texture);
             addSprite();
             renderer.render(scene, camera);
         };

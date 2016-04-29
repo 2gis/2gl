@@ -5,8 +5,6 @@ import sinon from 'sinon';
 import Geometry from '../src/Geometry';
 import Buffer from '../src/Buffer';
 import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
-import Raycaster from '../src/Raycaster';
-import {vec3} from 'gl-matrix';
 import Object3D from '../src/Object3D';
 import enums from '../src/enums';
 
@@ -99,81 +97,6 @@ describe('Mesh', () => {
         it('should call gl drawArrays', () => {
             const spy = sinon.spy(state.gl, 'drawArrays');
             mesh.render(state);
-            assert.ok(spy.calledOnce);
-        });
-    });
-
-    describe('#raycast', () => {
-        let raycaster, intersects;
-
-        beforeEach(() => {
-            raycaster = new Raycaster(vec3.create(), vec3.fromValues(1, 0, 0));
-            intersects = [];
-        });
-
-        afterEach(() => {
-            raycaster = intersects = null;
-        });
-
-        it('should intersect ray in two places', () => {
-            mesh.position[0] = 10;
-            mesh.position[1] = 0.25;
-            mesh.updateLocalMatrix();
-            mesh.updateWorldMatrix();
-
-            mesh.raycast(raycaster, intersects);
-
-            assert.equal(intersects.length, 2);
-        });
-
-        it('shouldn\'t intersect ray', () => {
-            mesh.position[0] = 10;
-            mesh.position[1] = 10;
-            mesh.updateLocalMatrix();
-            mesh.updateWorldMatrix();
-
-            mesh.raycast(raycaster, intersects);
-
-            assert.equal(intersects.length, 0);
-        });
-
-        it('shouldn\t intersect far ray', () => {
-            mesh.position[0] = 10;
-            mesh.position[1] = 0.25;
-            mesh.updateLocalMatrix();
-            mesh.updateWorldMatrix();
-            raycaster.far = 5;
-
-            mesh.raycast(raycaster, intersects);
-
-            assert.equal(intersects.length, 0);
-        });
-
-        it('shouldn\t intersect near ray', () => {
-            mesh.position[0] = 10;
-            mesh.position[1] = 0.25;
-            mesh.updateLocalMatrix();
-            mesh.updateWorldMatrix();
-            raycaster.near = 15;
-
-            mesh.raycast(raycaster, intersects);
-
-            assert.equal(intersects.length, 0);
-        });
-
-        it('shouldn\'t call raycast of child', () => {
-            const child = new Object3D();
-            mesh.add(child);
-            const spy = sinon.spy(child, 'raycast');
-            mesh.raycast(raycaster, intersects);
-            assert.ok(!spy.called);
-        });
-
-        it('should call raycast of child if recursive is true', () => {
-            const child = new Object3D();
-            mesh.add(child);
-            const spy = sinon.spy(child, 'raycast');
-            mesh.raycast(raycaster, intersects, true);
             assert.ok(spy.calledOnce);
         });
     });

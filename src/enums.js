@@ -12,5 +12,6 @@ export default {
 
     MESH: 9,
     SPRITE: 10,
-    MULTI_SPRITE: 11
+    MULTI_SPRITE: 11,
+    OBJECT_3D: 12
 };

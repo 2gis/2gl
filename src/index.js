@@ -11,7 +11,6 @@ import ShaderProgram from './ShaderProgram';
 import Mesh from './Mesh';
 import Scene from './Scene';
 import Texture from './Texture';
-import Raycaster from './Raycaster';
 import * as math from './math/Math';
 import {vec3, mat3, vec2, mat4, quat, glMatrix} from 'gl-matrix';
 
@@ -28,7 +27,6 @@ const dgl = {
     ShaderProgram,
     Scene,
     Texture,
-    Raycaster,
     Math: math,
     vec3,
     mat3,

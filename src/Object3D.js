@@ -1,4 +1,5 @@
 import {vec3, mat4, quat} from 'gl-matrix';
+import enums from './enums';
 
 /**
  * Базовый класс для 3D объектов.
@@ -69,6 +70,12 @@ class Object3D {
          * @type {boolean}
          */
         this.worldMatrixNeedsUpdate = false;
+
+        /**
+         * Используется для обозначения типа объекта
+         * @type {Number}
+         */
+        this.type = enums.OBJECT_3D;
     }
 
     /**
@@ -96,22 +103,6 @@ class Object3D {
         if (index !== -1) {
             object.parent = null;
             this.children.splice(index, 1);
-        }
-
-        return this;
-    }
-
-    /**
-     * Проверяет пересекает ли {@link Raycaster} данный объект, вносит все пересечения в массив intersects.
-     * @param {Raycaster} raycaster
-     * @param {Intersect[]} intersects
-     * @param {Boolean} recursive Проверять ли пересечения с дочерними объектами
-     */
-    raycast(raycaster, intersects, recursive) {
-        // у Object3D пустой метод, проверяем только дочерние объекты
-
-        if (recursive) {
-            this.children.forEach(child => child.raycast(raycaster, intersects, recursive));
         }
 
         return this;

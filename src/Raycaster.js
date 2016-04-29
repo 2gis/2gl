@@ -1,4 +1,4 @@
-import {vec3, mat3} from 'gl-matrix';
+import {vec3, mat3, mat4} from 'gl-matrix';
 import Ray from './math/Ray';
 import enums from './enums';
 
@@ -18,6 +18,14 @@ class Raycaster {
         this.ray = new Ray(origin, direction);
         this.near = near || 0;
         this.far = far || Infinity;
+
+        /**
+         * Список методов проверки пересечений для разных типов объектов
+         * @type {Object}
+         */
+        this.intersectMethodsByType = {
+            [enums.MESH]: 'intersectMesh'
+        };
     }
 
     /**
@@ -54,12 +62,19 @@ class Raycaster {
      * Ищет точки пересечения луча с объектом
      * @param {Object3D} object
      * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
      * @returns {Intersect[]}
      */
-    intersectObject(object, recursive) {
-        const intersects = [];
+    intersectObject(object, recursive, intersects) {
+        intersects = intersects || [];
 
-        object.raycast(this, intersects, recursive);
+        const intersectMethod = this.intersectMethodsByType[object.type];
+
+        if (intersectMethod && this[intersectMethod]) {
+            this[intersectMethod](object, recursive, intersects);
+        } else if (recursive) {
+            this.intersectObjects(object.children, recursive, intersects);
+        }
 
         intersects.sort(this._descSort);
 
@@ -70,14 +85,64 @@ class Raycaster {
      * Ищет точки пересечения луча с массивом объектов
      * @param {Object3D[]} objects
      * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
      * @returns {Intersect[]}
      */
-    intersectObjects(objects, recursive) {
-        const intersects = [];
+    intersectObjects(objects, recursive, intersects) {
+        intersects = intersects || [];
 
-        objects.forEach(obj => obj.raycast(this, intersects, recursive));
+        objects.forEach(obj => this.intersectObject(obj, recursive, intersects));
 
-        intersects.sort(this._descSort);
+        return intersects;
+    }
+
+    /**
+     * Ищет точки пересечения луча с {@link Mesh}
+     * @param {Mesh} mesh
+     * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
+     * @returns {Intersect[]}
+     */
+    intersectMesh(mesh, recursive, intersects) {
+        intersects = intersects || [];
+
+        // get from https://github.com/mrdoob/three.js/blob/master/src/objects/Mesh.js
+
+        const inverseMatrix = mat4.create();
+        mat4.invert(inverseMatrix, mesh.worldMatrix);
+
+        const ray = this.ray.clone();
+        ray.applyMatrix4(inverseMatrix);
+
+        const boundingBox = mesh.geometry.getBoundingBox();
+
+        if (!ray.intersectBox(boundingBox)) { return mesh; }
+
+        const positionBuffer = mesh.geometry.buffers.position;
+
+        for (let i = 0; i < positionBuffer.length; i += 3) {
+            const triangle = positionBuffer.getTriangle(i / 3);
+
+            const intersectionPoint = ray.intersectTriangle(triangle, false);
+
+            if (!intersectionPoint) { continue; }
+
+            vec3.transformMat4(intersectionPoint, intersectionPoint, mesh.worldMatrix);
+
+            const distance = vec3.dist(this.ray.origin, intersectionPoint);
+
+            if (distance < this.precision || distance < this.near || distance > this.far) { continue; }
+
+            intersects.push({
+                distance: distance,
+                point: intersectionPoint,
+                object: mesh
+            });
+        }
+
+        if (recursive) {
+            this.intersectObjects(mesh.children, recursive, intersects);
+        }
 
         return intersects;
     }

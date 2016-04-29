@@ -46,16 +46,6 @@ class MultiSpriteMaterial {
     }
 
     disable() {}
-
-    /**
-     * Вызывается спрайтом, чтобы определить его к специфичному рендеру.
-     *
-     * @param {TypedObjects} typedObjects
-     * @param {Sprite} object
-     */
-    typifyForRender(typedObjects, object) {
-        typedObjects.multiSprites.push(object);
-    }
 }
 
 export default MultiSpriteMaterial;

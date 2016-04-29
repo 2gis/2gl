@@ -125,46 +125,4 @@ describe('Sprite', () => {
             assert.ok(spy.calledOnce);
         });
     });
-
-    describe('#typifyForRender', () => {
-        let typedObjects, spy;
-
-        beforeEach(() => {
-            spy = sinon.spy(material, 'typifyForRender');
-            typedObjects = {sprites: []};
-        });
-
-        afterEach(() => {
-            spy.restore();
-            typedObjects = spy = null;
-        });
-
-        it('should call typifyForRender method from sprite material', () => {
-            sprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledOnce);
-        });
-
-        it('should call twice typifyForRender method from sprite and child material', () => {
-            const b = new Sprite(material);
-
-            sprite.add(b);
-            sprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledTwice);
-        });
-
-        it('should not call if object invisible', () => {
-            sprite.visible = false;
-            sprite.typifyForRender(typedObjects);
-            assert.ok(!spy.called);
-        });
-
-        it('should call once from object and not call from invisible child', () => {
-            const b = new Sprite(material);
-            b.visible = false;
-
-            sprite.add(b);
-            sprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledOnce);
-        });
-    });
 });

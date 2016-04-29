@@ -125,55 +125,6 @@ describe('MultiSprite', () => {
         });
     });
 
-    describe('#typifyForRender', () => {
-        let typedObjects, spy;
-
-        beforeEach(() => {
-            spy = sinon.spy(material, 'typifyForRender');
-            typedObjects = {multiSprites: []};
-        });
-
-        afterEach(() => {
-            spy.restore();
-            typedObjects = spy = null;
-        });
-
-        it('should call typifyForRender method from multiSprite material', () => {
-            const texture = new Texture({});
-            multiSprite.material.setTexture(texture);
-
-            multiSprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledOnce);
-        });
-
-        it('should call twice typifyForRender method from multiSprite and child material', () => {
-            const texture = new Texture({});
-            material.setTexture(texture);
-            const b = new MultiSprite([], material);
-
-            multiSprite.add(b);
-            multiSprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledTwice);
-        });
-
-        it('should not call if object invisible', () => {
-            multiSprite.visible = false;
-            multiSprite.typifyForRender(typedObjects);
-            assert.ok(!spy.called);
-        });
-
-        it('should call once from object and not call from invisible child', () => {
-            const texture = new Texture({});
-            material.setTexture(texture);
-            const b = new MultiSprite([], material);
-            b.visible = false;
-
-            multiSprite.add(b);
-            multiSprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledOnce);
-        });
-    });
-
     describe('setters', () => {
         beforeEach(() => {
             multiSprite = new MultiSprite([

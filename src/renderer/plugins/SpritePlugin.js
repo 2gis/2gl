@@ -1,15 +1,19 @@
-import fragmentShader from '../shaders/sprite.frag.js';
-import vertexShader from '../shaders/sprite.vert.js';
-import ShaderProgram from '../ShaderProgram';
-import Geometry from '../Geometry';
-import Buffer from '../Buffer';
+import fragmentShader from '../../shaders/sprite.frag.js';
+import vertexShader from '../../shaders/sprite.vert.js';
+import ShaderProgram from '../../ShaderProgram';
+import RendererPlugin from '../RendererPlugin';
+import Geometry from '../../Geometry';
+import Renderer from '../Renderer';
+import Buffer from '../../Buffer';
+import enums from '../../enums';
 
 /**
- * Отдельный рендер, используется для отрисовки спрайтов.
- * @ignore
+ *  Плагин для рендера {@Sprite} объектов, добавляется автоматически при их использовании.
  */
-class SpriteRenderer {
+class SpritePlugin extends RendererPlugin {
     constructor() {
+        super();
+
         this._geometry = new Geometry();
         this._geometry
             .setBuffer('position', new Buffer(new Float32Array([
@@ -50,9 +54,15 @@ class SpriteRenderer {
                 {name: 'index', index: true}
             ]
         });
+
+        this.type = enums.SPRITE_RENDERER;
     }
 
-    render(state, renderObjects) {
+    /**
+     * Рисует сцену с помощью этого плагина
+     * @param {State} state
+     */
+    render(state) {
         const {gl, camera} = state;
 
         state.shaderProgram = this._shaderProgram;
@@ -76,7 +86,8 @@ class SpriteRenderer {
 
         gl.activeTexture(gl.TEXTURE0);
 
-        renderObjects.forEach(object => object.render(state));
+        this._objects.forEach(object => object.render(state));
+        this._objects = [];
 
         this._shaderProgram.disable(gl);
 
@@ -84,4 +95,6 @@ class SpriteRenderer {
     }
 }
 
-export default SpriteRenderer;
+Renderer.addPlugin(20, SpritePlugin);
+
+export default SpritePlugin;

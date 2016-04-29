@@ -206,40 +206,4 @@ describe('Object3D', () => {
             assert.ok(spy.calledOnce);
         });
     });
-
-    describe('#typifyForRender', () => {
-        let typedObjects;
-
-        beforeEach(() => {
-            typedObjects = {common: []};
-        });
-
-        afterEach(() => {
-            typedObjects = null;
-        });
-
-        it('should identify to common', () => {
-            a.typifyForRender(typedObjects);
-            assert.equal(typedObjects.common.length, 1);
-        });
-
-        it('should children identify to common', () => {
-            a.add(b);
-            a.typifyForRender(typedObjects);
-            assert.equal(typedObjects.common.length, 2);
-        });
-
-        it('should not call if object invisible', () => {
-            a.visible = false;
-            a.typifyForRender(typedObjects);
-            assert.equal(typedObjects.common.length, 0);
-        });
-
-        it('should call once if object one child invisible', () => {
-            a.add(b);
-            b.visible = false;
-            a.typifyForRender(typedObjects);
-            assert.equal(typedObjects.common.length, 1);
-        });
-    });
 });

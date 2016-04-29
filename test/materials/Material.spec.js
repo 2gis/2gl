@@ -1,6 +1,9 @@
 import assert from 'assert';
+import sinon from 'sinon';
 import {getRenderState} from '../utils';
 import Object3D from '../../src/Object3D';
+import Renderer from '../../src/renderer/Renderer';
+import enums from '../../src/enums';
 
 import Material from '../../src/materials/Material';
 
@@ -35,24 +38,28 @@ describe('Material', () => {
     });
 
     describe('#typifyForRender', () => {
-        let object, typedObjects;
+        let object, renderer;
 
         beforeEach(() => {
             object = new Object3D();
-            typedObjects = {common: [], transparent: []};
+            renderer = new Renderer();
         });
 
         it('should identify as common', () => {
-            material.typifyForRender(typedObjects, object);
-            assert.equal(typedObjects.common[0], object);
-            assert.equal(typedObjects.transparent.length, 0);
+            const spy1 = sinon.spy(renderer._pluginsByType[enums.COMMON_RENDERER], 'addObject');
+            const spy2 = sinon.spy(renderer._pluginsByType[enums.TRANSPARENT_RENDERER], 'addObject');
+            material.typifyForRender(renderer._pluginsByType, object);
+            assert.ok(spy1.called);
+            assert.ok(!spy2.called);
         });
 
         it('should identify as transparent', () => {
+            const spy1 = sinon.spy(renderer._pluginsByType[enums.COMMON_RENDERER], 'addObject');
+            const spy2 = sinon.spy(renderer._pluginsByType[enums.TRANSPARENT_RENDERER], 'addObject');
             material.opacity = 0.5;
-            material.typifyForRender(typedObjects, object);
-            assert.equal(typedObjects.transparent[0], object);
-            assert.equal(typedObjects.common.length, 0);
+            material.typifyForRender(renderer._pluginsByType, object);
+            assert.ok(!spy1.called);
+            assert.ok(spy2.called);
         });
     });
 });

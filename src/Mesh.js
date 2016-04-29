@@ -60,14 +60,14 @@ class Mesh extends Object3D {
      * Вызывается на этапе рендеринга, чтобы определить к какому типу рендера принадлежит объект.
      * Меши разделяются на прозрачные и нет.
      *
-     * @param {TypedObjects} typedObjects
+     * @param {Object} renderPlugins
      */
-    typifyForRender(typedObjects) {
+    typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        this.material.typifyForRender(typedObjects, this);
+        this.material.typifyForRender(renderPlugins, this);
 
-        this.children.forEach(child => child.typifyForRender(typedObjects));
+        this.children.forEach(child => child.typifyForRender(renderPlugins));
 
         return this;
     }

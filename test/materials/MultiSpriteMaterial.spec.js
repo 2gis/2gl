@@ -1,6 +1,5 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
-import MultiSprite from '../../src/MultiSprite';
 import enums from '../../src/enums';
 
 import MultiSpriteMaterial from '../../src/materials/MultiSpriteMaterial';
@@ -35,16 +34,6 @@ describe('MultiSpriteMaterial', () => {
             const texture = {};
             material.setTexture(texture);
             assert.equal(material.getTexture(), texture);
-        });
-    });
-
-    describe('#typifyForRender', () => {
-        it('should identify as multiSprite', () => {
-            const object = new MultiSprite([], material);
-            const typedObjects = {multiSprites: []};
-
-            material.typifyForRender(typedObjects, object);
-            assert.equal(typedObjects.multiSprites[0], object);
         });
     });
 });

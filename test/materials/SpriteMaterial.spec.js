@@ -1,6 +1,5 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
-import Sprite from '../../src/Sprite';
 import enums from '../../src/enums';
 
 import SpriteMaterial from '../../src/materials/SpriteMaterial';
@@ -39,16 +38,6 @@ describe('SpriteMaterial', () => {
             const texture = {};
             material.setTexture(texture);
             assert.equal(material.getTexture(), texture);
-        });
-    });
-
-    describe('#typifyForRender', () => {
-        it('should identify as sprite', () => {
-            const object = new Sprite();
-            const typedObjects = {sprites: []};
-
-            material.typifyForRender(typedObjects, object);
-            assert.equal(typedObjects.sprites[0], object);
         });
     });
 });

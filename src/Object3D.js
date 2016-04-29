@@ -1,5 +1,6 @@
 import {vec3, mat4, quat} from 'gl-matrix';
 import enums from './enums';
+import './renderer/plugins/CommonPlugin';
 
 /**
  * Базовый класс для 3D объектов.
@@ -186,14 +187,14 @@ class Object3D {
 
     /**
      * Вызывается на этапе рендеринга, чтобы определить к какому типу рендера принадлежит объект.
-     * @param {TypedObjects} typedObjects
+     * @param {Object} renderPlugins
      */
-    typifyForRender(typedObjects) {
+    typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        typedObjects.common.push(this);
+        renderPlugins[enums.COMMON_RENDERER].addObject(this);
 
-        this.children.forEach(child => child.typifyForRender(typedObjects));
+        this.children.forEach(child => child.typifyForRender(renderPlugins));
 
         return this;
     }

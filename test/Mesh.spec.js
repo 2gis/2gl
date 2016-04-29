@@ -7,6 +7,7 @@ import Buffer from '../src/Buffer';
 import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
 import Object3D from '../src/Object3D';
 import enums from '../src/enums';
+import Renderer from '../src/renderer/Renderer';
 
 import Mesh from '../src/Mesh';
 
@@ -102,34 +103,33 @@ describe('Mesh', () => {
     });
 
     describe('#typifyForRender', () => {
-        let typedObjects, spy;
+        let renderer, spy;
 
         beforeEach(() => {
             spy = sinon.spy(material, 'typifyForRender');
-            typedObjects = {common: [], transparent: []};
+            renderer = new Renderer();
         });
 
         afterEach(() => {
             spy.restore();
-            typedObjects = spy = null;
+            renderer = spy = null;
         });
 
         it('should call typifyForRender method from mesh material', () => {
-            mesh.typifyForRender(typedObjects);
+            mesh.typifyForRender(renderer._pluginsByType);
             assert.ok(spy.calledOnce);
         });
 
         it('should call twice typifyForRender method from mesh and child material', () => {
             const b = new Mesh(geometry, material);
-
             mesh.add(b);
-            mesh.typifyForRender(typedObjects);
+            mesh.typifyForRender(renderer._pluginsByType);
             assert.ok(spy.calledTwice);
         });
 
         it('should not call if object invisible', () => {
             mesh.visible = false;
-            mesh.typifyForRender(typedObjects);
+            mesh.typifyForRender(renderer._pluginsByType);
             assert.ok(!spy.called);
         });
 
@@ -138,7 +138,7 @@ describe('Mesh', () => {
             b.visible = false;
 
             mesh.add(b);
-            mesh.typifyForRender(typedObjects);
+            mesh.typifyForRender(renderer._pluginsByType);
             assert.ok(spy.calledOnce);
         });
     });

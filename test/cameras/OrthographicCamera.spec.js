@@ -2,6 +2,7 @@ import assert from 'assert';
 import {slice, round} from '../utils';
 
 import Camera from '../../src/cameras/Camera';
+import enums from '../../src/enums';
 
 import OrthographicCamera from '../../src/cameras/OrthographicCamera';
 
@@ -30,6 +31,10 @@ describe('OrthographicCamera', () => {
             assert.equal(bottom, camera.bottom);
             assert.equal(near, camera.near);
             assert.equal(far, camera.far);
+        });
+
+        it('should have right type', () => {
+            assert.equal(enums.ORTHOGRAPHIC_CAMERA, camera.type);
         });
     });
 

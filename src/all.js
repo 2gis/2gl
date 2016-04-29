@@ -1,10 +1,11 @@
 /**
- * Модуль подключает только основные компоненты 2gl
+ * Модуль подключает все компоненты 2gl для того, чтобы их можно было собрать в один бандл в dist
  */
 
-import enums from './enums';
 import Renderer from './renderer/Renderer';
 import Object3D from './Object3D';
+import PerspectiveCamera from './cameras/PerspectiveCamera';
+import OrthographicCamera from './cameras/OrthographicCamera';
 import Buffer from './Buffer';
 import Geometry from './Geometry';
 import ShaderProgram from './ShaderProgram';
@@ -33,9 +34,10 @@ import {vec3, mat3, vec2, mat4, quat, glMatrix} from 'gl-matrix';
 glMatrix.ARRAY_TYPE = (typeof Float64Array !== 'undefined') ? Float64Array : Array;
 
 const dgl = {
-    enums,
     Renderer,
     Object3D,
+    PerspectiveCamera,
+    OrthographicCamera,
     Buffer,
     Geometry,
     Mesh,

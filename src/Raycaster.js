@@ -1,7 +1,6 @@
 import {vec3, mat3} from 'gl-matrix';
 import Ray from './math/Ray';
-import OrthographicCamera from './cameras/OrthographicCamera';
-import PerspectiveCamera from './cameras/PerspectiveCamera';
+import enums from './enums';
 
 /**
  * Позволяет легко определять пересечения луча с объектами.
@@ -29,7 +28,7 @@ class Raycaster {
      * @param {Camera} camera
      */
     setFromCamera(coordinates, camera) {
-        if (camera instanceof PerspectiveCamera) {
+        if (camera.type === enums.PERSPECTIVE_CAMERA) {
             this.ray.origin = vec3.clone(camera.position);
 
             let direction = vec3.fromValues(coordinates[0], coordinates[1], 0.5);
@@ -38,7 +37,7 @@ class Raycaster {
             vec3.normalize(direction, direction);
             this.ray.direction = direction;
 
-        } else if (camera instanceof OrthographicCamera) {
+        } else if (camera.type === enums.ORTHOGRAPHIC_CAMERA) {
             const origin = vec3.fromValues(coordinates[0], coordinates[1], -1);
             this.ray.origin = camera.unproject(origin);
 

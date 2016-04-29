@@ -1,5 +1,6 @@
+import fragmentShader from '../shaders/sprite.frag.js';
+import vertexShader from '../shaders/sprite.vert.js';
 import ShaderProgram from '../ShaderProgram';
-import {sprite as shader} from '../shaders';
 import Geometry from '../Geometry';
 import Buffer from '../Buffer';
 
@@ -9,7 +10,6 @@ import Buffer from '../Buffer';
  */
 class SpriteRenderer {
     constructor() {
-        this._shader = shader;
         this._geometry = new Geometry();
         this._geometry
             .setBuffer('position', new Buffer(new Float32Array([
@@ -32,8 +32,8 @@ class SpriteRenderer {
         this._geometry.getBuffer('index').type = Buffer.ElementArrayBuffer;
 
         this._shaderProgram = new ShaderProgram({
-            vertex: shader.vertex,
-            fragment: shader.fragment,
+            vertex: vertexShader,
+            fragment: fragmentShader,
             uniforms: [
                 {name: 'uPCamera', type: 'mat4'},
                 {name: 'uPosition', type: '3f'},

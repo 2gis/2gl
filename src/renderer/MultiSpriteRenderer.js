@@ -1,4 +1,5 @@
-import {multiSprite as shader} from '../shaders';
+import fragmentShader from '../shaders/multiSprite.frag.js';
+import vertexShader from '../shaders/multiSprite.vert.js';
 import ShaderProgram from '../ShaderProgram';
 
 /**
@@ -8,11 +9,10 @@ import ShaderProgram from '../ShaderProgram';
 class MultiSpriteRenderer {
     constructor(renderer) {
         this._renderer = renderer;
-        this._shader = shader;
 
         this._shaderProgram = new ShaderProgram({
-            vertex: shader.vertex,
-            fragment: shader.fragment,
+            vertex: vertexShader,
+            fragment: fragmentShader,
             uniforms: [
                 {name: 'uPCamera', type: 'mat4'},
                 {name: 'uHalfSize', type: '2f'},

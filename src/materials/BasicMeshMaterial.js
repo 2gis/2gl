@@ -1,6 +1,12 @@
-import {basic as shader} from '../shaders';
+import fragmentShader from '../shaders/basic.frag.js';
+import vertexShader from '../shaders/basic.vert.js';
 import Material from './Material';
 import enums from '../enums';
+
+const shader = {
+    fragment: fragmentShader,
+    vertex: vertexShader
+};
 
 /**
  * Простой материал для {@link Mesh}. Раскрашивает весь объект в один заданный цвет.

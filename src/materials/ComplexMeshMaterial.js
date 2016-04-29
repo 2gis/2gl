@@ -1,7 +1,13 @@
-import {complex as shader} from '../shaders';
+import fragmentShader from '../shaders/complex.frag.js';
+import vertexShader from '../shaders/complex.vert.js';
 import {vec3, mat3} from 'gl-matrix';
 import Material from './Material';
 import enums from '../enums';
+
+const shader = {
+    fragment: fragmentShader,
+    vertex: vertexShader
+};
 
 /**
  * Более сложный материал для {@link Mesh}.

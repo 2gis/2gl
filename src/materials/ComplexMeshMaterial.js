@@ -1,8 +1,7 @@
 import {complex as shader} from '../shaders';
 import {vec3, mat3} from 'gl-matrix';
 import Material from './Material';
-import AmbientLight from '../lights/AmbientLight';
-import DirectionalLight from '../lights/DirectionalLight';
+import enums from '../enums';
 
 /**
  * Более сложный материал для {@link Mesh}.
@@ -67,7 +66,7 @@ class ComplexMeshMaterial extends Material {
         let directionLightNumber = 0;
 
         scene.getLights().forEach(l => {
-            if (l instanceof DirectionalLight) {
+            if (l.type === enums.DIRECTIONAL_LIGHT) {
                 directionLightNumber++;
             }
         });
@@ -106,9 +105,9 @@ class ComplexMeshMaterial extends Material {
             let directionLightsPosition = [];
 
             lights.forEach(light => {
-                if (light instanceof AmbientLight) {
+                if (light.type === enums.AMBIENT_LIGHT) {
                     uniforms.uAmbientLightColor = light.color;
-                } else if (light instanceof DirectionalLight) {
+                } else if (light.type === enums.DIRECTIONAL_LIGHT) {
                     directionLightsColor = directionLightsColor.concat(light.color);
 
                     const reverted = vec3.create();

@@ -1,3 +1,4 @@
+import enums from '../enums';
 import Light from './Light';
 
 /**
@@ -9,6 +10,12 @@ import Light from './Light';
 class DirectionalLight extends Light {
     constructor(color) {
         super(color);
+
+        /**
+         * Используется для обозначения типа света
+         * @type {Number}
+         */
+        this.type = enums.DIRECTIONAL_LIGHT;
     }
 }
 

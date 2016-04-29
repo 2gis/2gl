@@ -1,3 +1,4 @@
+import enums from '../enums';
 import Light from './Light';
 
 /**
@@ -8,6 +9,12 @@ import Light from './Light';
 class AmbientLight extends Light {
     constructor(color) {
         super(color);
+
+        /**
+         * Используется для обозначения типа света
+         * @type {Number}
+         */
+        this.type = enums.AMBIENT_LIGHT;
     }
 }
 

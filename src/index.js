@@ -17,8 +17,6 @@ import Sprite from './Sprite';
 import MultiSprite from './MultiSprite';
 import Scene from './Scene';
 import Texture from './Texture';
-import AmbientLight from './lights/AmbientLight';
-import DirectionalLight from './lights/DirectionalLight';
 import Raycaster from './Raycaster';
 import RenderTarget from './RenderTarget';
 import Ray from './math/Ray';
@@ -48,8 +46,6 @@ const dgl = {
     MultiSpriteMaterial,
     Scene,
     Texture,
-    AmbientLight,
-    DirectionalLight,
     Raycaster,
     RenderTarget,
     Ray,

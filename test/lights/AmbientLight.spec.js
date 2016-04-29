@@ -1,4 +1,5 @@
 import assert from 'assert';
+import enums from '../../src/enums';
 import Light from '../../src/lights/Light';
 import AmbientLight from '../../src/lights/AmbientLight';
 
@@ -14,6 +15,12 @@ describe('AmbientLight', () => {
             const color = [0.1, 0.5, 0.7];
             const light = new AmbientLight(color);
             assert.deepEqual(light.color, color);
+        });
+
+        it('should have right type', () => {
+            const color = [0.1, 0.5, 0.7];
+            const light = new AmbientLight(color);
+            assert.equal(enums.AMBIENT_LIGHT, light.type);
         });
     });
 });

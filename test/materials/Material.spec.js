@@ -2,14 +2,14 @@ import assert from 'assert';
 import {getRenderState} from '../utils';
 import Object3D from '../../src/Object3D';
 
-import Program from '../../src/programs/Program';
+import Material from '../../src/materials/Material';
 
-describe('Program', () => {
-    let program, state;
+describe('Material', () => {
+    let material, state;
 
     beforeEach(() => {
-        program = new Program();
-        program._shader = {
+        material = new Material();
+        material._shader = {
             fragment: '',
             vertex: ''
         };
@@ -18,19 +18,19 @@ describe('Program', () => {
 
     describe('#constructor', () => {
         it('should have opacity field', () => {
-            assert.equal(program.opacity, 1);
+            assert.equal(material.opacity, 1);
         });
     });
 
     describe('#enable', () => {
         it('should exist', () => {
-            program.enable(state);
+            material.enable(state);
         });
     });
 
     describe('#disable', () => {
         it('should exist', () => {
-            program.disable(state.gl);
+            material.disable(state.gl);
         });
     });
 
@@ -43,14 +43,14 @@ describe('Program', () => {
         });
 
         it('should identify as common', () => {
-            program.typifyForRender(typedObjects, object);
+            material.typifyForRender(typedObjects, object);
             assert.equal(typedObjects.common[0], object);
             assert.equal(typedObjects.transparent.length, 0);
         });
 
         it('should identify as transparent', () => {
-            program.opacity = 0.5;
-            program.typifyForRender(typedObjects, object);
+            material.opacity = 0.5;
+            material.typifyForRender(typedObjects, object);
             assert.equal(typedObjects.transparent[0], object);
             assert.equal(typedObjects.common.length, 0);
         });

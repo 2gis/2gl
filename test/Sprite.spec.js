@@ -2,7 +2,7 @@ import assert from 'assert';
 import {slice, getRenderState} from './utils';
 import sinon from 'sinon';
 
-import SpriteProgram from '../src/programs/SpriteProgram';
+import SpriteMaterial from '../src/materials/SpriteMaterial';
 import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
@@ -10,16 +10,16 @@ import Texture from '../src/Texture';
 import Sprite from '../src/Sprite';
 
 describe('Sprite', () => {
-    let program, sprite;
+    let material, sprite;
 
     beforeEach(() => {
-        program = new SpriteProgram();
+        material = new SpriteMaterial();
 
-        sprite = new Sprite(program);
+        sprite = new Sprite(material);
     });
 
     afterEach(() => {
-        program = null;
+        material = null;
     });
 
     describe('#constructor', () => {
@@ -27,8 +27,8 @@ describe('Sprite', () => {
             assert.ok(sprite instanceof Object3D);
         });
 
-        it('should be equal sprite.program and passed program as argument', () => {
-            assert.equal(program, sprite.program);
+        it('should be equal sprite.material and passed material as argument', () => {
+            assert.equal(material, sprite.material);
         });
     });
 
@@ -90,31 +90,31 @@ describe('Sprite', () => {
             assert.deepEqual(oldMatrix, slice(sprite.worldMatrix));
         });
 
-        it('should\'t call program enable without texture', () => {
-            const spy = sinon.spy(program, 'enable');
+        it('should\'t call material enable without texture', () => {
+            const spy = sinon.spy(material, 'enable');
             sprite.render(state);
             assert.ok(!spy.called);
         });
 
-        it('should\'t call program disable without texture', () => {
-            const spy = sinon.spy(program, 'disable');
+        it('should\'t call material disable without texture', () => {
+            const spy = sinon.spy(material, 'disable');
             sprite.render(state);
             assert.ok(!spy.called);
         });
 
-        it('should call program enable with texture', () => {
-            const spy = sinon.spy(program, 'enable');
+        it('should call material enable with texture', () => {
+            const spy = sinon.spy(material, 'enable');
             const texture = new Texture({});
-            sprite.program.setTexture(texture);
+            sprite.material.setTexture(texture);
 
             sprite.render(state);
             assert.ok(spy.calledOnce);
         });
 
-        it('should call program disable with texture', () => {
-            const spy = sinon.spy(program, 'disable');
+        it('should call material disable with texture', () => {
+            const spy = sinon.spy(material, 'disable');
             const texture = new Texture({});
-            sprite.program.setTexture(texture);
+            sprite.material.setTexture(texture);
 
             sprite.render(state);
             assert.ok(spy.calledOnce);
@@ -125,7 +125,7 @@ describe('Sprite', () => {
         let typedObjects, spy;
 
         beforeEach(() => {
-            spy = sinon.spy(program, 'typifyForRender');
+            spy = sinon.spy(material, 'typifyForRender');
             typedObjects = {sprites: []};
         });
 
@@ -134,13 +134,13 @@ describe('Sprite', () => {
             typedObjects = spy = null;
         });
 
-        it('should call typifyForRender method from sprite program', () => {
+        it('should call typifyForRender method from sprite material', () => {
             sprite.typifyForRender(typedObjects);
             assert.ok(spy.calledOnce);
         });
 
-        it('should call twice typifyForRender method from sprite and child program', () => {
-            const b = new Sprite(program);
+        it('should call twice typifyForRender method from sprite and child material', () => {
+            const b = new Sprite(material);
 
             sprite.add(b);
             sprite.typifyForRender(typedObjects);
@@ -154,7 +154,7 @@ describe('Sprite', () => {
         });
 
         it('should call once from object and not call from invisible child', () => {
-            const b = new Sprite(program);
+            const b = new Sprite(material);
             b.visible = false;
 
             sprite.add(b);

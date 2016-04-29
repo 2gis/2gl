@@ -1,39 +1,39 @@
 import assert from 'assert';
-import Program from '../../src/programs/Program';
+import Material from '../../src/materials/Material';
 import Sprite from '../../src/Sprite';
 
-import SpriteProgram from '../../src/programs/SpriteProgram';
+import SpriteMaterial from '../../src/materials/SpriteMaterial';
 
-describe('SpriteProgram', () => {
-    let program;
+describe('SpriteMaterial', () => {
+    let material;
 
     beforeEach(() => {
-        program = new SpriteProgram();
+        material = new SpriteMaterial();
     });
 
     describe('#constructor', () => {
-        it('shouldn\'t inherited from Program', () => {
-            assert.ok(!(program instanceof Program));
+        it('shouldn\'t inherited from Material', () => {
+            assert.ok(!(material instanceof Material));
         });
 
         it('should have opacity field', () => {
-            assert.equal(program.opacity, 1);
+            assert.equal(material.opacity, 1);
         });
 
         it('should have smoothing field', () => {
-            assert.equal(program.smoothing, 0);
+            assert.equal(material.smoothing, 0);
         });
     });
 
     describe('#setTexture and #getTexture', () => {
         it('should return null', () => {
-            assert.equal(program.getTexture(), null);
+            assert.equal(material.getTexture(), null);
         });
 
         it('should return same texture', () => {
             const texture = {};
-            program.setTexture(texture);
-            assert.equal(program.getTexture(), texture);
+            material.setTexture(texture);
+            assert.equal(material.getTexture(), texture);
         });
     });
 
@@ -42,7 +42,7 @@ describe('SpriteProgram', () => {
             const object = new Sprite();
             const typedObjects = {sprites: []};
 
-            program.typifyForRender(typedObjects, object);
+            material.typifyForRender(typedObjects, object);
             assert.equal(typedObjects.sprites[0], object);
         });
     });

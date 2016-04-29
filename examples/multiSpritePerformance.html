@@ -54,8 +54,8 @@
 
         settings.sprites = Math.round(settings.sprites);
 
-        var spriteProgram = new dgl.MultiSpriteProgram();
-        spriteProgram.setTexture(texture);
+        var spriteMaterial = new dgl.MultiSpriteMaterial();
+        spriteMaterial.setTexture(texture);
 
         var conf = [];
 
@@ -69,7 +69,7 @@
             });
         }
 
-        multiSprite = new dgl.MultiSprite(conf, spriteProgram);
+        multiSprite = new dgl.MultiSprite(conf, spriteMaterial);
         multiSprite.updateLocalMatrix();
         multiSprite.updateWorldMatrix();
 

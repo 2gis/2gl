@@ -1,11 +1,12 @@
 /**
- * Программа для мультиспрайтов. Она не наследуюется от {@link Program}
+ * Материал для спрайтов. Она не наследуются от {@link Material}
  * и выполняет только связывание шейдера с униформами.
  * Оставлена для единообразия синтаксиса.
  */
-class MultiSpriteProgram {
+class SpriteMaterial {
     constructor() {
-        this.smoothing = 1;
+        this.opacity = 1;
+        this.smoothing = 0;
         this._texture = null;
     }
 
@@ -27,9 +28,16 @@ class MultiSpriteProgram {
         return this._texture;
     }
 
-    enable({gl, shaderProgram}) {
+    enable({gl, object, shaderProgram, renderer}) {
+        const size = renderer.getSize();
+
         shaderProgram.bind(gl, {
-            uSmoothing: this.smoothing
+            uColorAlpha: this.opacity,
+            uSmoothing: this.smoothing,
+            uHalfSize: [size[0] / 2, size[1] / 2],
+            uOffset: object.offset,
+            uScale: object.scale,
+            uPosition: [object.worldMatrix[12], object.worldMatrix[13], object.worldMatrix[14]]
         });
 
         if (this._texture) {
@@ -46,8 +54,8 @@ class MultiSpriteProgram {
      * @param {Sprite} object
      */
     typifyForRender(typedObjects, object) {
-        typedObjects.multiSprites.push(object);
+        typedObjects.sprites.push(object);
     }
 }
 
-export default MultiSpriteProgram;
+export default SpriteMaterial;

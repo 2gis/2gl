@@ -83,7 +83,7 @@
             }
         }
 
-        var program = new dgl.ComplexMeshProgram();
+        var material = new dgl.ComplexMeshMaterial();
         var geometry = new dgl.Geometry();
 
         var vertexBuffer = new dgl.Buffer(new Float32Array(vertices), 3);
@@ -110,7 +110,7 @@
 
         geometry.computeNormals();
 
-        return new dgl.Mesh(geometry, program);
+        return new dgl.Mesh(geometry, material);
     }
 
     var img = document.createElement('img');
@@ -120,7 +120,7 @@
     img.onload = function() {
         texture = new dgl.Texture(img);
         mesh = getMesh();
-        mesh.program.setTexture(texture);
+        mesh.material.setTexture(texture);
         scene.add(mesh);
     };
     img.src = './assets/texture.png';
@@ -203,7 +203,7 @@
         timeout = setTimeout(function() {
             scene.remove(mesh);
             mesh = getMesh();
-            mesh.program.setTexture(texture);
+            mesh.material.setTexture(texture);
             scene.add(mesh);
             stats.reset();
         }, 1000);

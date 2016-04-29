@@ -1,3 +1,5 @@
+import enums from '../enums';
+
 /**
  * Материал для мультиспрайтов. Она не наследуются от {@link Material}
  * и выполняет только связывание шейдера с униформами.
@@ -7,6 +9,12 @@ class MultiSpriteMaterial {
     constructor() {
         this.smoothing = 1;
         this._texture = null;
+
+        /**
+         * Используется для обозначения типа материала
+         * @type {Number}
+         */
+        this.type = enums.MULTI_SPRITE_MATERIAL;
     }
 
     /**

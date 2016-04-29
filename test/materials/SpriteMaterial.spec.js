@@ -1,6 +1,7 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
 import Sprite from '../../src/Sprite';
+import enums from '../../src/enums';
 
 import SpriteMaterial from '../../src/materials/SpriteMaterial';
 
@@ -22,6 +23,10 @@ describe('SpriteMaterial', () => {
 
         it('should have smoothing field', () => {
             assert.equal(material.smoothing, 0);
+        });
+
+        it('should have right type', () => {
+            assert.equal(enums.SPRITE_MATERIAL, material.type);
         });
     });
 

@@ -1,5 +1,6 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
+import enums from '../../src/enums';
 
 import ComplexMeshMaterial from '../../src/materials/ComplexMeshMaterial';
 
@@ -17,6 +18,10 @@ describe('ComplexMeshMaterial', () => {
 
         it('should have opacity field', () => {
             assert.equal(material.opacity, 1);
+        });
+
+        it('should have right type', () => {
+            assert.equal(enums.COMPLEX_MESH_MATERIAL, material.type);
         });
     });
 

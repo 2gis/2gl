@@ -8,6 +8,7 @@ import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
 import Raycaster from '../src/Raycaster';
 import {vec3} from 'gl-matrix';
 import Object3D from '../src/Object3D';
+import enums from '../src/enums';
 
 import Mesh from '../src/Mesh';
 
@@ -38,6 +39,10 @@ describe('Mesh', () => {
 
         it('should be equal mesh.geometry and passed geometry as argument', () => {
             assert.equal(geometry, mesh.geometry);
+        });
+
+        it('should have right type', () => {
+            assert.equal(enums.MESH, mesh.type);
         });
     });
 

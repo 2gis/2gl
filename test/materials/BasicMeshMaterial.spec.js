@@ -4,6 +4,7 @@ import Mesh from '../../src/Mesh';
 import Material from '../../src/materials/Material';
 import Geometry from '../../src/Geometry';
 import Buffer from '../../src/Buffer';
+import enums from '../../src/enums';
 
 import BasicMeshMaterial from '../../src/materials/BasicMeshMaterial';
 
@@ -33,6 +34,10 @@ describe('BasicMeshMaterial', () => {
 
         it('should have color field', () => {
             assert.deepEqual(material.color, [0, 0, 0]);
+        });
+
+        it('should have right type', () => {
+            assert.equal(enums.BASIC_MESH_MATERIAL, material.type);
         });
     });
 

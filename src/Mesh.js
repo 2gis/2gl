@@ -1,5 +1,6 @@
 import Object3D from './Object3D';
 import {vec3, mat4} from 'gl-matrix';
+import enums from './enums';
 
 /**
  * Используется для отрисовки 3D объектов. Каждому мешу необходимо задать программу и геометрию.
@@ -25,6 +26,12 @@ class Mesh extends Object3D {
          * @type {Material}
          */
         this.material = material;
+
+        /**
+         * Используется для обозначения типа объекта
+         * @type {Number}
+         */
+        this.type = enums.MESH;
     }
 
     /**

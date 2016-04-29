@@ -1,6 +1,7 @@
 import Object3D from './Object3D';
 import Geometry from './Geometry';
 import Buffer from './Buffer';
+import enums from './enums';
 
 /**
  * Используется для отрисовки мультиспрайтов. Мультиспрайт представляет собой множество
@@ -22,6 +23,12 @@ class MultiSprite extends Object3D {
          * @type {SpriteMaterial}
          */
         this.material = material;
+
+        /**
+         * Используется для обозначения типа объекта
+         * @type {Number}
+         */
+        this.type = enums.MULTI_SPRITE;
 
         this._initArrays(sprites);
         this._initGeometry();

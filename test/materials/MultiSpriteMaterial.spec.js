@@ -1,6 +1,7 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
 import MultiSprite from '../../src/MultiSprite';
+import enums from '../../src/enums';
 
 import MultiSpriteMaterial from '../../src/materials/MultiSpriteMaterial';
 
@@ -18,6 +19,10 @@ describe('MultiSpriteMaterial', () => {
 
         it('should have smoothing field', () => {
             assert.equal(material.smoothing, 1);
+        });
+
+        it('should have right type', () => {
+            assert.equal(enums.MULTI_SPRITE_MATERIAL, material.type);
         });
     });
 

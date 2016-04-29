@@ -6,6 +6,7 @@ import MultiSpriteMaterial from '../src/materials/MultiSpriteMaterial';
 import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
+import enums from '../src/enums';
 
 import MultiSprite from '../src/MultiSprite';
 
@@ -41,6 +42,10 @@ describe('MultiSprite', () => {
             assert.ok(multiSprite._geometry.getBuffer('scale'));
             assert.ok(multiSprite._geometry.getBuffer('offset'));
             assert.ok(multiSprite._geometry.getBuffer('colorAlpha'));
+        });
+
+        it('should have right type', () => {
+            assert.equal(enums.MULTI_SPRITE, multiSprite.type);
         });
     });
 

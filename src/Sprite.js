@@ -1,5 +1,6 @@
 import Object3D from './Object3D';
 import {vec2} from 'gl-matrix';
+import enums from './enums';
 
 /**
  * Используется для отрисовки спрайтов. Спрайты всегда рисуются лицевой стороной
@@ -26,6 +27,12 @@ class Sprite extends Object3D {
          * @type {vec2}
          */
         this.offset = vec2.create();
+
+        /**
+         * Используется для обозначения типа объекта
+         * @type {Number}
+         */
+        this.type = enums.SPRITE;
     }
 
     render(state) {

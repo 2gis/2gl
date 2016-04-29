@@ -1,5 +1,6 @@
 import {basic as shader} from '../shaders';
 import Material from './Material';
+import enums from '../enums';
 
 /**
  * Простой материал для {@link Mesh}. Раскрашивает весь объект в один заданный цвет.
@@ -26,6 +27,12 @@ class BasicMeshMaterial extends Material {
          * @type {Number[]}
          */
         this.color = [0, 0, 0];
+
+        /**
+         * Используется для обозначения типа материала
+         * @type {Number}
+         */
+        this.type = enums.BASIC_MESH_MATERIAL;
     }
 
     _shaderProgramBind({gl, object, camera}) {

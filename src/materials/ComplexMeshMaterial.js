@@ -32,6 +32,12 @@ class ComplexMeshMaterial extends Material {
 
         this._shader = shader;
         this._texture = null;
+
+        /**
+         * Используется для обозначения типа материала
+         * @type {Number}
+         */
+        this.type = enums.COMPLEX_MESH_MATERIAL;
     }
 
     /**

@@ -1,3 +1,7 @@
+/*
+ * Содержит разные константы.
+ * Например, ORTHOGRAPHIC_CAMERA - помогает определить тип камеры без того, чтобы реквайрить весь модуль.
+ */
 export default {
     ORTHOGRAPHIC_CAMERA: 1,
     PERSPECTIVE_CAMERA: 2,

@@ -218,10 +218,10 @@ class Renderer {
         Renderer.plugins.sort((a, b) => b.order < a.order);
     }
 
-  /**
-   * Удаляет {@link RendererPlugin} из рендера.
-   * @param {Plugin} Plugin Класс плагина
-   */
+    /**
+     * Удаляет {@link RendererPlugin} из рендера.
+     * @param {Plugin} Plugin Класс плагина
+     */
     static removePlugin(Plugin) {
         Renderer.plugins.some((el, i) => {
             if (el.Plugin === Plugin) {

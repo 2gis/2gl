@@ -1,7 +1,7 @@
 import fragmentShader from '../shaders/basic.frag.js';
 import vertexShader from '../shaders/basic.vert.js';
 import Material from './Material';
-import enums from '../enums';
+import libConstants from '../libConstants';
 
 const shader = {
     fragment: fragmentShader,
@@ -38,7 +38,7 @@ class BasicMeshMaterial extends Material {
          * Используется для обозначения типа материала
          * @type {Number}
          */
-        this.type = enums.BASIC_MESH_MATERIAL;
+        this.type = libConstants.BASIC_MESH_MATERIAL;
     }
 
     _shaderProgramBind({gl, object, camera}) {

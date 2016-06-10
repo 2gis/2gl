@@ -6,7 +6,7 @@ import SpriteMaterial from '../src/materials/SpriteMaterial';
 import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
-import enums from '../src/enums';
+import libConstants from '../src/libConstants';
 
 import Sprite from '../src/Sprite';
 
@@ -33,7 +33,7 @@ describe('Sprite', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(enums.SPRITE, sprite.type);
+            assert.equal(libConstants.SPRITE, sprite.type);
         });
     });
 

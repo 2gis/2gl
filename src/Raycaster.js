@@ -1,6 +1,6 @@
 import {vec3, mat3, mat4} from 'gl-matrix';
 import Ray from './math/Ray';
-import enums from './enums';
+import libConstants from './libConstants';
 
 /**
  * Позволяет легко определять пересечения луча с объектами.
@@ -24,7 +24,7 @@ class Raycaster {
          * @type {Object}
          */
         this.intersectMethodsByType = {
-            [enums.MESH]: 'intersectMesh'
+            [libConstants.MESH]: 'intersectMesh'
         };
     }
 
@@ -36,7 +36,7 @@ class Raycaster {
      * @param {Camera} camera
      */
     setFromCamera(coordinates, camera) {
-        if (camera.type === enums.PERSPECTIVE_CAMERA) {
+        if (camera.type === libConstants.PERSPECTIVE_CAMERA) {
             this.ray.origin = vec3.clone(camera.position);
 
             let direction = vec3.fromValues(coordinates[0], coordinates[1], 0.5);
@@ -45,7 +45,7 @@ class Raycaster {
             vec3.normalize(direction, direction);
             this.ray.direction = direction;
 
-        } else if (camera.type === enums.ORTHOGRAPHIC_CAMERA) {
+        } else if (camera.type === libConstants.ORTHOGRAPHIC_CAMERA) {
             const origin = vec3.fromValues(coordinates[0], coordinates[1], -1);
             this.ray.origin = camera.unproject(origin);
 

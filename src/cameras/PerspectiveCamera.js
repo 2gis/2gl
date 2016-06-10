@@ -1,7 +1,7 @@
 import {mat4} from 'gl-matrix';
 import Camera from './Camera';
 import {degToRad} from '../math/Math';
-import enums from '../enums';
+import libConstants from '../libConstants';
 
 /**
  * Задаёт перспективную камеру
@@ -46,7 +46,7 @@ class PerspectiveCamera extends Camera {
          * Используется для обозначения типа камеры
          * @type {Number}
          */
-        this.type = enums.PERSPECTIVE_CAMERA;
+        this.type = libConstants.PERSPECTIVE_CAMERA;
     }
 
     updateProjectionMatrix() {

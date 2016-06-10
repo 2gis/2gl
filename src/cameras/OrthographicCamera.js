@@ -1,6 +1,6 @@
 import {mat4} from 'gl-matrix';
 import Camera from './Camera';
-import enums from '../enums';
+import libConstants from '../libConstants';
 
 /**
  * Задаёт орфографическую камеру
@@ -59,7 +59,7 @@ class OrthographicCamera extends Camera {
          * Используется для обозначения типа камеры
          * @type {Number}
          */
-        this.type = enums.ORTHOGRAPHIC_CAMERA;
+        this.type = libConstants.ORTHOGRAPHIC_CAMERA;
     }
 
     updateProjectionMatrix() {

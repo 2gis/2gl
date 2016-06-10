@@ -1,4 +1,4 @@
-import enums from '../enums';
+import libConstants from '../libConstants';
 import Light from './Light';
 
 /**
@@ -14,7 +14,7 @@ class AmbientLight extends Light {
          * Используется для обозначения типа света
          * @type {Number}
          */
-        this.type = enums.AMBIENT_LIGHT;
+        this.type = libConstants.AMBIENT_LIGHT;
     }
 }
 

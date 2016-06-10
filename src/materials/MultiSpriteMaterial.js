@@ -1,4 +1,4 @@
-import enums from '../enums';
+import libConstants from '../libConstants';
 
 /**
  * Материал для мультиспрайтов. Она не наследуются от {@link Material}
@@ -14,7 +14,7 @@ class MultiSpriteMaterial {
          * Используется для обозначения типа материала
          * @type {Number}
          */
-        this.type = enums.MULTI_SPRITE_MATERIAL;
+        this.type = libConstants.MULTI_SPRITE_MATERIAL;
     }
 
     /**

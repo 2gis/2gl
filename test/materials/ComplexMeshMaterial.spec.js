@@ -1,6 +1,6 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
-import enums from '../../src/enums';
+import libConstants from '../../src/libConstants';
 
 import ComplexMeshMaterial from '../../src/materials/ComplexMeshMaterial';
 
@@ -21,7 +21,7 @@ describe('ComplexMeshMaterial', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(enums.COMPLEX_MESH_MATERIAL, material.type);
+            assert.equal(libConstants.COMPLEX_MESH_MATERIAL, material.type);
         });
     });
 

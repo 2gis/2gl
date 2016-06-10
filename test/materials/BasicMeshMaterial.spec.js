@@ -4,7 +4,7 @@ import Mesh from '../../src/Mesh';
 import Material from '../../src/materials/Material';
 import Geometry from '../../src/Geometry';
 import Buffer from '../../src/Buffer';
-import enums from '../../src/enums';
+import libConstants from '../../src/libConstants';
 
 import BasicMeshMaterial from '../../src/materials/BasicMeshMaterial';
 
@@ -37,7 +37,7 @@ describe('BasicMeshMaterial', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(enums.BASIC_MESH_MATERIAL, material.type);
+            assert.equal(libConstants.BASIC_MESH_MATERIAL, material.type);
         });
     });
 

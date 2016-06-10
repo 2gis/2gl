@@ -1,4 +1,4 @@
-import enums from '../enums';
+import libConstants from '../libConstants';
 
 /**
  * Материал для спрайтов. Она не наследуются от {@link Material}
@@ -15,7 +15,7 @@ class SpriteMaterial {
          * Используется для обозначения типа материала
          * @type {Number}
          */
-        this.type = enums.SPRITE_MATERIAL;
+        this.type = libConstants.SPRITE_MATERIAL;
     }
 
     /**

@@ -2,7 +2,7 @@ import assert from 'assert';
 import {slice, round} from '../utils';
 
 import Camera from '../../src/cameras/Camera';
-import enums from '../../src/enums';
+import libConstants from '../../src/libConstants';
 
 import OrthographicCamera from '../../src/cameras/OrthographicCamera';
 
@@ -34,7 +34,7 @@ describe('OrthographicCamera', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(enums.ORTHOGRAPHIC_CAMERA, camera.type);
+            assert.equal(libConstants.ORTHOGRAPHIC_CAMERA, camera.type);
         });
     });
 

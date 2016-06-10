@@ -1,4 +1,4 @@
-import enums from '../enums';
+import libConstants from '../libConstants';
 import Light from './Light';
 
 /**
@@ -15,7 +15,7 @@ class DirectionalLight extends Light {
          * Используется для обозначения типа света
          * @type {Number}
          */
-        this.type = enums.DIRECTIONAL_LIGHT;
+        this.type = libConstants.DIRECTIONAL_LIGHT;
     }
 }
 

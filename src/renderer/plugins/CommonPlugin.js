@@ -1,6 +1,6 @@
 import RendererPlugin from '../RendererPlugin';
 import Renderer from '../Renderer';
-import enums from '../../enums';
+import libConstants from '../../libConstants';
 
 /**
  * Плагин для рендера простых объектов.
@@ -15,7 +15,7 @@ class CommonPlugin extends RendererPlugin {
          * Используется для обозначения типа плагина
          * @type {Number}
          */
-        this.type = enums.COMMON_RENDERER;
+        this.type = libConstants.COMMON_RENDERER;
     }
 
     /**

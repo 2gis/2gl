@@ -1,6 +1,6 @@
 import Object3D from './Object3D';
 import {vec2} from 'gl-matrix';
-import enums from './enums';
+import libConstants from './libConstants';
 import './renderer/plugins/SpritePlugin';
 
 /**
@@ -33,7 +33,7 @@ class Sprite extends Object3D {
          * Используется для обозначения типа объекта
          * @type {Number}
          */
-        this.type = enums.SPRITE;
+        this.type = libConstants.SPRITE;
     }
 
     render(state) {
@@ -67,7 +67,7 @@ class Sprite extends Object3D {
     typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        renderPlugins[enums.SPRITE_RENDERER].addObject(this);
+        renderPlugins[libConstants.SPRITE_RENDERER].addObject(this);
 
         this.children.forEach(child => child.typifyForRender(renderPlugins));
 

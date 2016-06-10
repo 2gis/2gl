@@ -1,6 +1,6 @@
 import RendererPlugin from '../RendererPlugin';
 import Renderer from '../Renderer';
-import enums from '../../enums';
+import libConstants from '../../libConstants';
 
 /**
  * Плагин для рендера прозрачных объектов.
@@ -11,7 +11,7 @@ class TransparentPlugin extends RendererPlugin {
     constructor() {
         super();
 
-        this.type = enums.TRANSPARENT_RENDERER;
+        this.type = libConstants.TRANSPARENT_RENDERER;
     }
 
     /**

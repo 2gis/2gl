@@ -1,5 +1,5 @@
 import assert from 'assert';
-import enums from '../../src/enums';
+import libConstants from '../../src/libConstants';
 import Light from '../../src/lights/Light';
 import DirectionalLight from '../../src/lights/DirectionalLight';
 
@@ -20,7 +20,7 @@ describe('AmbientLight', () => {
         it('should have right type', () => {
             const color = [0.1, 0.5, 0.7];
             const light = new DirectionalLight(color);
-            assert.equal(enums.DIRECTIONAL_LIGHT, light.type);
+            assert.equal(libConstants.DIRECTIONAL_LIGHT, light.type);
         });
     });
 });

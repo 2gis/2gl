@@ -1,7 +1,7 @@
 import Object3D from './Object3D';
 import Geometry from './Geometry';
 import Buffer from './Buffer';
-import enums from './enums';
+import libConstants from './libConstants';
 import './renderer/plugins/MultiSpritePlugin';
 
 /**
@@ -29,7 +29,7 @@ class MultiSprite extends Object3D {
          * Используется для обозначения типа объекта
          * @type {Number}
          */
-        this.type = enums.MULTI_SPRITE;
+        this.type = libConstants.MULTI_SPRITE;
 
         this._initArrays(sprites);
         this._initGeometry();
@@ -204,7 +204,7 @@ class MultiSprite extends Object3D {
         // Если cпрайт невидим или у программы спрайта не установлена текстура, то не рендерим его
         if (!this.visible || !this.material.getTexture()) { return this; }
 
-        renderPlugins[enums.MULTI_SPRITE_RENDERER].addObject(this);
+        renderPlugins[libConstants.MULTI_SPRITE_RENDERER].addObject(this);
 
         this.children.forEach(child => child.typifyForRender(renderPlugins));
 

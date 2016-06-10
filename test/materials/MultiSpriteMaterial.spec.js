@@ -1,6 +1,6 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
-import enums from '../../src/enums';
+import libConstants from '../../src/libConstants';
 
 import MultiSpriteMaterial from '../../src/materials/MultiSpriteMaterial';
 
@@ -21,7 +21,7 @@ describe('MultiSpriteMaterial', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(enums.MULTI_SPRITE_MATERIAL, material.type);
+            assert.equal(libConstants.MULTI_SPRITE_MATERIAL, material.type);
         });
     });
 

@@ -1,5 +1,5 @@
 import {vec3, mat4, quat} from 'gl-matrix';
-import enums from './enums';
+import libConstants from './libConstants';
 import './renderer/plugins/CommonPlugin';
 
 /**
@@ -76,7 +76,7 @@ class Object3D {
          * Используется для обозначения типа объекта
          * @type {Number}
          */
-        this.type = enums.OBJECT_3D;
+        this.type = libConstants.OBJECT_3D;
     }
 
     /**
@@ -192,7 +192,7 @@ class Object3D {
     typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        renderPlugins[enums.COMMON_RENDERER].addObject(this);
+        renderPlugins[libConstants.COMMON_RENDERER].addObject(this);
 
         this.children.forEach(child => child.typifyForRender(renderPlugins));
 

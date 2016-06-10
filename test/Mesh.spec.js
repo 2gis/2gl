@@ -6,7 +6,7 @@ import Geometry from '../src/Geometry';
 import Buffer from '../src/Buffer';
 import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
 import Object3D from '../src/Object3D';
-import enums from '../src/enums';
+import libConstants from '../src/libConstants';
 import Renderer from '../src/renderer/Renderer';
 
 import Mesh from '../src/Mesh';
@@ -41,7 +41,7 @@ describe('Mesh', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(enums.MESH, mesh.type);
+            assert.equal(libConstants.MESH, mesh.type);
         });
     });
 

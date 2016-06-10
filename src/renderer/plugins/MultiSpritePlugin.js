@@ -3,7 +3,7 @@ import vertexShader from '../../shaders/multiSprite.vert.js';
 import ShaderProgram from '../../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
 import Renderer from '../Renderer';
-import enums from '../../enums';
+import libConstants from '../../libConstants';
 
 /**
  *  Плагин для рендера {@MultiSprite} объектов, добавляется автоматически при их использовании.
@@ -33,7 +33,7 @@ class MultiSpritePlugin extends RendererPlugin {
             ]
         });
 
-        this.type = enums.MULTI_SPRITE_RENDERER;
+        this.type = libConstants.MULTI_SPRITE_RENDERER;
     }
 
     /**

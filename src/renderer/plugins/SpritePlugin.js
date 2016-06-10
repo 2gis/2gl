@@ -5,7 +5,7 @@ import RendererPlugin from '../RendererPlugin';
 import Geometry from '../../Geometry';
 import Renderer from '../Renderer';
 import Buffer from '../../Buffer';
-import enums from '../../enums';
+import libConstants from '../../libConstants';
 
 /**
  *  Плагин для рендера {@Sprite} объектов, добавляется автоматически при их использовании.
@@ -55,7 +55,7 @@ class SpritePlugin extends RendererPlugin {
             ]
         });
 
-        this.type = enums.SPRITE_RENDERER;
+        this.type = libConstants.SPRITE_RENDERER;
     }
 
     /**

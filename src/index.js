@@ -2,7 +2,7 @@
  * Модуль подключает только основные компоненты 2gl
  */
 
-import enums from './enums';
+import libConstants from './libConstants';
 import Renderer from './renderer/Renderer';
 import Object3D from './Object3D';
 import Buffer from './Buffer';
@@ -18,7 +18,7 @@ import {vec3, mat3, vec2, mat4, quat, glMatrix} from 'gl-matrix';
 glMatrix.ARRAY_TYPE = (typeof Float64Array !== 'undefined') ? Float64Array : Array;
 
 const dgl = {
-    enums,
+    libConstants,
     Renderer,
     Object3D,
     Buffer,

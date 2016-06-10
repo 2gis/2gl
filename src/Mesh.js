@@ -1,5 +1,5 @@
 import Object3D from './Object3D';
-import enums from './enums';
+import libConstants from './libConstants';
 
 /**
  * Используется для отрисовки 3D объектов. Каждому мешу необходимо задать программу и геометрию.
@@ -30,7 +30,7 @@ class Mesh extends Object3D {
          * Используется для обозначения типа объекта
          * @type {Number}
          */
-        this.type = enums.MESH;
+        this.type = libConstants.MESH;
     }
 
     /**

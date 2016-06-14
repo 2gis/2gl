@@ -1,11 +1,11 @@
-import fragmentShader from '../../shaders/sprite.frag.js';
-import vertexShader from '../../shaders/sprite.vert.js';
-import ShaderProgram from '../../ShaderProgram';
+import fragmentShader from '../shaders/sprite.frag.js';
+import vertexShader from '../shaders/sprite.vert.js';
+import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
-import Geometry from '../../Geometry';
+import Geometry from '../Geometry';
 import Renderer from '../Renderer';
-import Buffer from '../../Buffer';
-import libConstants from '../../libConstants';
+import Buffer from '../Buffer';
+import libConstants from '../libConstants';
 
 /**
  *  Плагин для рендера {@Sprite} объектов, добавляется автоматически при их использовании.

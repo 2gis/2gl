@@ -2,7 +2,7 @@ import assert from 'assert';
 import sinon from 'sinon';
 import {getRenderState} from '../utils';
 import Object3D from '../../src/Object3D';
-import Renderer from '../../src/renderer/Renderer';
+import Renderer from '../../src/Renderer';
 import libConstants from '../../src/libConstants';
 
 import Material from '../../src/materials/Material';

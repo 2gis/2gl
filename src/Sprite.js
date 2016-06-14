@@ -1,7 +1,7 @@
 import Object3D from './Object3D';
 import {vec2} from 'gl-matrix';
 import libConstants from './libConstants';
-import './renderer/plugins/SpritePlugin';
+import './rendererPlugins/SpritePlugin';
 
 /**
  * Используется для отрисовки спрайтов. Спрайты всегда рисуются лицевой стороной

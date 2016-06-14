@@ -2,7 +2,7 @@ import Object3D from './Object3D';
 import Geometry from './Geometry';
 import Buffer from './Buffer';
 import libConstants from './libConstants';
-import './renderer/plugins/MultiSpritePlugin';
+import './rendererPlugins/MultiSpritePlugin';
 
 /**
  * Используется для отрисовки мультиспрайтов. Мультиспрайт представляет собой множество

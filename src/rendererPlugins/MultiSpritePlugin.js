@@ -1,9 +1,9 @@
-import fragmentShader from '../../shaders/multiSprite.frag.js';
-import vertexShader from '../../shaders/multiSprite.vert.js';
-import ShaderProgram from '../../ShaderProgram';
+import fragmentShader from '../shaders/multiSprite.frag.js';
+import vertexShader from '../shaders/multiSprite.vert.js';
+import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
 import Renderer from '../Renderer';
-import libConstants from '../../libConstants';
+import libConstants from '../libConstants';
 
 /**
  *  Плагин для рендера {@MultiSprite} объектов, добавляется автоматически при их использовании.

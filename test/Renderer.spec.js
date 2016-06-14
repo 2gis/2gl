@@ -1,14 +1,14 @@
 import assert from 'assert';
-import GlContext from '../utils/GlContext';
-import * as mockBrowser from '../utils/mockBrowser';
+import GlContext from './utils/GlContext';
+import * as mockBrowser from './utils/mockBrowser';
 import sinon from 'sinon';
 
-import Scene from '../../src/Scene';
-import Camera from '../../src/cameras/Camera';
-import RenderTarget from '../../src/RenderTarget';
-import RendererPlugin from '../../src/renderer/RendererPlugin';
+import Scene from '../src/Scene';
+import Camera from '../src/cameras/Camera';
+import RenderTarget from '../src/RenderTarget';
+import RendererPlugin from '../src/RendererPlugin';
 
-import Renderer from '../../src/renderer/Renderer';
+import Renderer from '../src/Renderer';
 
 describe('Renderer', () => {
     let renderer, options, gl, scene, camera, renderTarget;

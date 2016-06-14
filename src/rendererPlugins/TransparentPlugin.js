@@ -1,6 +1,6 @@
 import RendererPlugin from '../RendererPlugin';
 import Renderer from '../Renderer';
-import libConstants from '../../libConstants';
+import libConstants from '../libConstants';
 
 /**
  * Плагин для рендера прозрачных объектов.

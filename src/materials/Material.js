@@ -1,8 +1,8 @@
 import definitions from './definitions';
 import ShaderProgram from '../ShaderProgram';
 import libConstants from '../libConstants';
-import '../renderer/plugins/CommonPlugin';
-import '../renderer/plugins/TransparentPlugin';
+import '../rendererPlugins/CommonPlugin';
+import '../rendererPlugins/TransparentPlugin';
 
 const cachedPrograms = {};
 

@@ -1,6 +1,6 @@
 import {vec3, mat4, quat} from 'gl-matrix';
 import libConstants from './libConstants';
-import './renderer/plugins/CommonPlugin';
+import './rendererPlugins/CommonPlugin';
 
 /**
  * Базовый класс для 3D объектов.

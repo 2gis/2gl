@@ -7,7 +7,7 @@ import Buffer from '../src/Buffer';
 import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
 import Object3D from '../src/Object3D';
 import libConstants from '../src/libConstants';
-import Renderer from '../src/renderer/Renderer';
+import Renderer from '../src/Renderer';
 
 import Mesh from '../src/Mesh';
 

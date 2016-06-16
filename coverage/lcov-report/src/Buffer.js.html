@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/Buffer.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> Buffer.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.55% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>84/87</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.18% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>31/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>16/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.64% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>53/56</span>
+      </div>
+      <div class='fl pad1y'>
+        <span class="strong">2 statements, 1 function, 4 branches</span>
+        <span class="quiet">Ignored</span>  &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">67×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">67×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-yes">60×</span>
+<span class="cline-any cline-yes">60×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">583×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">67×</span>
+<span class="cline-any cline-yes">67×</span>
+<span class="cline-any cline-yes">67×</span>
+<span class="cline-any cline-yes">67×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">69×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">261×</span>
+<span class="cline-any cline-yes">143×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">85×</span>
+<span class="cline-any cline-yes">60×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Используется для хранения и подготовки данных для передачи в атрибуты шейдера
+ *
+ * @param {TypedArray} array Типизированный массив данных, например, координат вершин
+ * @param {Number} itemSize Размерность данных, например, 3 - для коодинат вершин
+ */
+class Buffer {
+    constructor(array, itemSize) {
+        this._array = array;
+&nbsp;
+        /**
+         * Размерность данных
+         * @type {Number}
+         */
+        this.itemSize = itemSize;
+&nbsp;
+        /**
+         * Количество элементов в массиве данных
+         * @type {Number}
+         */
+        this.length = array.length / itemSize;
+&nbsp;
+        /**
+         * Тип буфера. Буфер может использоваться для передачи массива данных,
+         * так и для передачи индексов элементов из данных.
+         * @type {Buffer.ArrayBuffer | Buffer.ElementArrayBuffer}
+         */
+        this.type = Buffer.ArrayBuffer;
+&nbsp;
+        /**
+         * Указывает, как часто данные буфера будут изменяться.
+         * @type {Buffer.StaticDraw | Buffer.DynamicDraw}
+         */
+        this.drawType = Buffer.StaticDraw;
+&nbsp;
+        /**
+         * Тип данных в буффере: float, int, short и т.д.
+         * @type {Buffer.Float | Buffer.UnsignedByte}
+         */
+        this.dataType = Buffer.Float;
+&nbsp;
+        /**
+         * Используется для целочисленных типов. Если выставлен в true, то
+         * значения имеющие тип BYTE от -128 до 128 будут переведены от -1.0 до 1.0.
+         * @type {Boolean}
+         */
+        this.normalized = false;
+&nbsp;
+        /**
+         * Инициализация буфера происходит в момент первого рендеринга.
+         * Текущий WebGl контекст сохраняется в этой переменной.
+         * Если контекст меняется, буфер необходимо инициализировать заново.
+         * @type {?WebGLRenderingContext}
+         * @ignore
+         */
+        this._preparedGlContext = null;
+    }
+&nbsp;
+    /**
+     * Связывает данные с контекстом WebGL.
+     *
+     * В случае Buffer.ArrayBuffer связывает с атрибутами шейдера.
+     * А в случае Buffer.ElementArrayBuffer связывает массив индексов.
+     *
+     * Если используется первый раз, добавляет данные в контекст WebGL.
+     *
+     * @param {WebGLRenderingContext} gl
+     * @param {?Number} attribute Аттрибут для связывания данных с переменными в шейдере
+     */
+    bind(gl, attribute) {
+        if (this._preparedGlContext !== gl) {
+            this._unprepare(this._preparedGlContext);
+        }
+&nbsp;
+        if (!this._glBuffer) {
+            this._prepare(gl);
+        }
+&nbsp;
+        if (this.type === Buffer.ArrayBuffer) {
+            gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);
+            gl.vertexAttribPointer(attribute, this.itemSize, this._toGlParam(gl, this.dataType), this.normalized, 0, 0);
+        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (this.type === Buffer.ElementArrayBuffer) {
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._glBuffer);
+        }
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Удаляет данные из контекста WebGL.
+     * @param {WebGLRenderingContext} gl
+     */
+    remove(gl) {
+        this._unprepare(gl);
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Возвращает массив данных
+     * @returns {TypedArray}
+     */
+    getArray() {
+        return this._array;
+    }
+&nbsp;
+    /**
+     * Возвращает элемент из массива данных
+     * @param {Number} index Номер элемента в массиве данных
+     * @returns {TypedArray}
+     */
+    getElement(index) {
+        return this._array.subarray(index * this.itemSize, (index + 1) * this.itemSize);
+    }
+&nbsp;
+    /**
+     * Возвращает тройку элементов из массива данных
+     * @param {Number} index Индекс
+     * @returns {TypedArray[]}
+     */
+    getTriangle(index) {
+        index *= 3;
+&nbsp;
+        return [
+            this.getElement(index),
+            this.getElement(index + 1),
+            this.getElement(index + 2)
+        ];
+    }
+&nbsp;
+    /**
+     * Конкатенирует данный буфер с другим.
+     * Осторожно, метод не проверяет одинаковой размерности данные или нет.
+     * @param {Buffer} buffer
+     */
+    concat(buffer) {
+        const addArray = buffer.getArray();
+        const newArray = new this._array.constructor(this._array.length + addArray.length);
+        newArray.set(this._array, 0);
+        newArray.set(addArray, this._array.length);
+&nbsp;
+        this._array = newArray;
+        this.length = newArray.length / this.itemSize;
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Заменяет часть буфера новыми данными и отправляет их в видеокарту
+     * @param {WebGLRenderingContext} gl
+     * @param {Number} index Индекс, с которого начать замену
+     * @param {TypedArray} data Новые данные
+     */
+    subData(gl, index, data) {
+<span class="cstat-no" title="statement not covered" >        g</span>l.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
+<span class="cstat-no" title="statement not covered" >        g</span>l.bufferSubData(this._toGlParam(gl, this.type), index * this.itemSize, data);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        r</span>eturn this;
+    }
+&nbsp;
+    /**
+     * Кладёт данные в видеокарту
+     * @param {WebGLRenderingContext} gl
+     * @ignore
+     */
+    _prepare(gl) {
+        this._glBuffer = gl.createBuffer();
+        gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
+        gl.bufferData(this._toGlParam(gl, this.type), this._array, this._toGlParam(gl, this.drawType));
+        this._preparedGlContext = gl;
+    }
+&nbsp;
+    /**
+     * Удаляет данные из видеокарты
+     * @param {WebGLRenderingContext} gl
+     * @ignore
+     */
+    _unprepare(gl) {
+        if (!gl) { return; }
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (this._glBuffer) {
+            gl.deleteBuffer(this._glBuffer);
+        }
+        this._glBuffer = null;
+    }
+&nbsp;
+    /**
+     * Преобразовывает параметры буфера в параметры WebGL
+     * @param {WebGLRenderingContext} gl
+     * @param {Buffer.ArrayBuffer | Buffer.ElementArrayBuffer} param
+     * @ignore
+     */
+    _toGlParam(gl, param) {
+        if (param === Buffer.ArrayBuffer) { return gl.ARRAY_BUFFER; }
+        if (param === Buffer.ElementArrayBuffer) { return gl.ELEMENT_ARRAY_BUFFER; }
+        if (param === Buffer.StaticDraw) { return gl.STATIC_DRAW; }
+        if (param === Buffer.DynamicDraw) { return gl.DYNAMIC_DRAW; }
+        if (param === Buffer.Float) { return gl.FLOAT; }
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (param === Buffer.UnsignedByte) { return gl.UNSIGNED_BYTE; }
+    }
+}
+&nbsp;
+Buffer.ArrayBuffer = 1;
+Buffer.ElementArrayBuffer = 2;
+&nbsp;
+Buffer.StaticDraw = 10;
+Buffer.DynamicDraw = 11;
+&nbsp;
+Buffer.Float = 20;
+Buffer.UnsignedByte = 21;
+&nbsp;
+export default Buffer;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 10 2016 16:55:29 GMT+0600 (NOVT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

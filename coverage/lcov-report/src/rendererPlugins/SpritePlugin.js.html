@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/rendererPlugins/SpritePlugin.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">src/rendererPlugins</a> SpritePlugin.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/19</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/18</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import fragmentShader from '../shaders/sprite.frag.glsl.js';
+import vertexShader from '../shaders/sprite.vert.glsl.js';
+import ShaderProgram from '../ShaderProgram';
+import RendererPlugin from '../RendererPlugin';
+import Geometry from '../Geometry';
+import Shader from '../Shader';
+import GeometryBuffer from '../GeometryBuffer';
+import {SPRITE_RENDERER} from '../libConstants';
+&nbsp;
+/**
+ * Плагин для рендера {@Sprite} объектов.
+ * Для того, чтобы он добавился к рендеру, его нужно создать и вызвать {@link Renderer#addPlugin}.
+ *
+ * @extends RendererPlugin
+ */
+class SpritePlugin extends RendererPlugin {
+<span class="fstat-no" title="function not covered" >    co</span>nstructor() {
+<span class="cstat-no" title="statement not covered" >        super();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this._geometry = new Geometry();</span>
+<span class="cstat-no" title="statement not covered" >        this._geometry</span>
+            .setBuffer('position', new GeometryBuffer(new Float32Array([
+                -0.5, -0.5, 0,
+                0.5, -0.5, 0,
+                0.5, 0.5, 0,
+                -0.5, 0.5, 0
+            ])))
+            .setBuffer('texture', new GeometryBuffer(new Float32Array([
+                0, 0,
+                1, 0,
+                1, 1,
+                0, 1
+            ]), {itemSize: 2}))
+            .setBuffer('index', new GeometryBuffer(new Uint16Array([
+                1, 2, 0,
+                3, 0, 2
+            ]), {itemSize: 1}));
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this._geometry.getBuffer('index').type = GeometryBuffer.ElementArrayBuffer;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this._shaderProgram = new ShaderProgram({</span>
+            vertex: new Shader('vertex', vertexShader),
+            fragment: new Shader('fragment', fragmentShader),
+            uniforms: [
+                {name: 'uPCamera', type: 'mat4'},
+                {name: 'uPosition', type: '3f'},
+                {name: 'uColorAlpha', type: '1f'},
+                {name: 'uScale', type: '2f'},
+                {name: 'uTexture', type: '1i'},
+                {name: 'uHalfSize', type: '2f'},
+                {name: 'uOffset', type: '2f'},
+                {name: 'uSmoothing', type: '1f'}
+            ],
+            attributes: [
+                {name: 'position'},
+                {name: 'texture'},
+                {name: 'index', index: true}
+            ]
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.type = SPRITE_RENDERER;</span>
+    }
+&nbsp;
+    /**
+     * Рисует сцену с помощью этого плагина
+     * @param {State} state
+     */
+<span class="fstat-no" title="function not covered" >    re</span>nder(state) {
+        const {gl, camera} = <span class="cstat-no" title="statement not covered" >state;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        state.shaderProgram = this._shaderProgram;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        gl.disable(gl.DEPTH_TEST);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        gl.enable(gl.BLEND);</span>
+<span class="cstat-no" title="statement not covered" >        gl.blendEquation(gl.FUNC_ADD);</span>
+<span class="cstat-no" title="statement not covered" >        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this._shaderProgram</span>
+            .enable(gl)
+            .bind(gl, {
+                uPCamera: new Float32Array(camera.modelViewMatrix),
+                uTexture: 0
+            }, {
+                position: this._geometry.getBuffer('position'),
+                texture: this._geometry.getBuffer('texture'),
+                index: this._geometry.getBuffer('index')
+            });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        gl.activeTexture(gl.TEXTURE0);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this._objects.forEach(<span class="fstat-no" title="function not covered" >ob</span>ject =&gt; <span class="cstat-no" title="statement not covered" >object.render(state))</span>;</span>
+<span class="cstat-no" title="statement not covered" >        this._objects = [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this._shaderProgram.disable(gl);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return this;</span>
+    }
+}
+&nbsp;
+export default SpritePlugin;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 03 2016 12:20:17 GMT+0700 (KRAT)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

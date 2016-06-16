@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/cameras/Camera.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">src/cameras/</a> Camera.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.57% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>76/83</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>41/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>15/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>21/28</span>
+      </div>
+      <div class='fl pad1y'>
+        <span class="strong">13 statements, 1 function, 20 branches</span>
+        <span class="quiet">Ignored</span>  &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">78×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">78×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">78×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">78×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">78×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Object3D from '../Object3D';
+import {vec3, mat3, mat4, quat} from 'gl-matrix';
+&nbsp;
+/**
+ * Камера
+ *
+ * @extends Object3D
+ */
+class Camera extends Object3D {
+    constructor() {
+        super();
+&nbsp;
+        /**
+         * Специфичный для камеры вектор, помогающий определить её положение
+         * @type {vec3}
+         */
+        this.up = vec3.fromValues(0, 1, 0);
+&nbsp;
+        /**
+         * Проекционная матрица
+         * @type {mat4}
+         */
+        this.projectionMatrix = mat4.create();
+&nbsp;
+        /**
+         * Матрица модель-вида использующаяся в шейдерах для получения конечного изображения
+         * @type {mat4}
+         */
+        this.modelViewMatrix = mat4.create();
+&nbsp;
+        /**
+         * Матрица, обратная к worldMatrix
+         * @type {mat4}
+         */
+        this.worldInverseMatrix = mat4.create();
+    }
+&nbsp;
+    /**
+     * Обновляет проекционную матрицу. Обычно это нужно после изменения параметров камеры.
+     * Используется в наследуемых классах.
+     */
+    updateProjectionMatrix() {}
+&nbsp;
+    /**
+     * Обновляет глобальную матрицу объекта и матрицу модель-вида.
+     * */
+    updateWorldMatrix() {
+        super.updateWorldMatrix();
+&nbsp;
+        mat4.invert(this.worldInverseMatrix, this.worldMatrix);
+        mat4.multiply(this.modelViewMatrix, this.projectionMatrix, this.worldInverseMatrix);
+    }
+&nbsp;
+    /**
+     * Проецирует вектор из глобальной системы координат на экран
+     * @param {vec3} vector
+     * @returns {vec3}
+     */
+    project(vector) {
+        const result = vec3.create();
+        vec3.transformMat4(result, vector, this.modelViewMatrix);
+        return result;
+    }
+&nbsp;
+    /**
+     * Проецирует вектор из системы координат экрана в глобальную
+     * @param {vec3} vector
+     * @returns {vec3}
+     */
+    unproject(vector) {
+        const matrix = mat4.create();
+        const inverseMatrix = mat4.create();
+        const result = vec3.create();
+&nbsp;
+        mat4.invert(inverseMatrix, this.projectionMatrix);
+        mat4.mul(matrix, this.worldMatrix, inverseMatrix);
+        vec3.transformMat4(result, vector, matrix);
+&nbsp;
+        return result;
+    }
+&nbsp;
+    /**
+     * Поворачивает камеру так, чтобы центр экрана точно смотрел на указанную позицию
+     * @param {vec3} position
+     */
+    lookAt(position) {
+<span class="cstat-no" title="statement not covered" >        c</span>onst matrix4 = mat4.create();
+<span class="cstat-no" title="statement not covered" >        c</span>onst matrix3 = mat3.create();
+<span class="cstat-no" title="statement not covered" >        m</span>at4.lookAt(matrix4, this.position, position, this.up);
+<span class="cstat-no" title="statement not covered" >        m</span>at4.transpose(matrix4, matrix4);
+<span class="cstat-no" title="statement not covered" >        m</span>at3.fromMat4(matrix3, matrix4);
+<span class="cstat-no" title="statement not covered" >        q</span>uat.fromMat3(this.quaternion, matrix3);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        r</span>eturn this;
+    }
+}
+&nbsp;
+export default Camera;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 10 2016 16:55:29 GMT+0600 (NOVT)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

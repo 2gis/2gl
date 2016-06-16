@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>MultiSpritePlugin - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AmbientLight.html">AmbientLight</a></li><li><a href="BasicMeshMaterial.html">BasicMeshMaterial</a><ul class='methods'><li data-type='method'><a href="BasicMeshMaterial.html#define">define</a></li><li data-type='method'><a href="BasicMeshMaterial.html#disable">disable</a></li><li data-type='method'><a href="BasicMeshMaterial.html#enable">enable</a></li><li data-type='method'><a href="BasicMeshMaterial.html#typifyForRender">typifyForRender</a></li></ul></li><li><a href="Box.html">Box</a><ul class='methods'><li data-type='method'><a href="Box.html#containsPoint">containsPoint</a></li><li data-type='method'><a href="Box.html#expandByPoint">expandByPoint</a></li></ul></li><li><a href="Buffer.html">Buffer</a><ul class='methods'><li data-type='method'><a href="Buffer.html#bind">bind</a></li><li data-type='method'><a href="Buffer.html#remove">remove</a></li><li data-type='method'><a href="Buffer.html#subData">subData</a></li></ul></li><li><a href="BufferChannel.html">BufferChannel</a><ul class='methods'><li data-type='method'><a href="BufferChannel.html#bind">bind</a></li></ul></li><li><a href="Camera.html">Camera</a><ul class='methods'><li data-type='method'><a href="Camera.html#add">add</a></li><li data-type='method'><a href="Camera.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="Camera.html#lookAt">lookAt</a></li><li data-type='method'><a href="Camera.html#project">project</a></li><li data-type='method'><a href="Camera.html#remove">remove</a></li><li data-type='method'><a href="Camera.html#render">render</a></li><li data-type='method'><a href="Camera.html#traverse">traverse</a></li><li data-type='method'><a href="Camera.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="Camera.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="Camera.html#unproject">unproject</a></li><li data-type='method'><a href="Camera.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="Camera.html#updateProjectionMatrix">updateProjectionMatrix</a></li><li data-type='method'><a href="Camera.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="CommonPlugin.html">CommonPlugin</a><ul class='methods'><li data-type='method'><a href="CommonPlugin.html#addObject">addObject</a></li><li data-type='method'><a href="CommonPlugin.html#render">render</a></li></ul></li><li><a href="ComplexMeshMaterial.html">ComplexMeshMaterial</a><ul class='methods'><li data-type='method'><a href="ComplexMeshMaterial.html#define">define</a></li><li data-type='method'><a href="ComplexMeshMaterial.html#disable">disable</a></li><li data-type='method'><a href="ComplexMeshMaterial.html#enable">enable</a></li><li data-type='method'><a href="ComplexMeshMaterial.html#getTexture">getTexture</a></li><li data-type='method'><a href="ComplexMeshMaterial.html#setTexture">setTexture</a></li><li data-type='method'><a href="ComplexMeshMaterial.html#typifyForRender">typifyForRender</a></li></ul></li><li><a href="DirectionalLight.html">DirectionalLight</a></li><li><a href="Frustum.html">Frustum</a><ul class='methods'><li data-type='method'><a href="Frustum.html#intersectsBox">intersectsBox</a></li><li data-type='method'><a href="Frustum.html#setFromMatrix">setFromMatrix</a></li></ul></li><li><a href="Geometry.html">Geometry</a><ul class='methods'><li data-type='method'><a href="Geometry.html#computeBoundingBox">computeBoundingBox</a></li><li data-type='method'><a href="Geometry.html#computeNormals">computeNormals</a></li><li data-type='method'><a href="Geometry.html#concat">concat</a></li><li data-type='method'><a href="Geometry.html#getBoundingBox">getBoundingBox</a></li><li data-type='method'><a href="Geometry.html#getBuffer">getBuffer</a></li><li data-type='method'><a href="Geometry.html#setBuffer">setBuffer</a></li></ul></li><li><a href="GeometryBuffer.html">GeometryBuffer</a><ul class='methods'><li data-type='method'><a href="GeometryBuffer.html#concat">concat</a></li><li data-type='method'><a href="GeometryBuffer.html#getArray">getArray</a></li><li data-type='method'><a href="GeometryBuffer.html#getElement">getElement</a></li><li data-type='method'><a href="GeometryBuffer.html#getTriangle">getTriangle</a></li></ul></li><li><a href="Light.html">Light</a><ul class='methods'><li data-type='method'><a href="Light.html#add">add</a></li><li data-type='method'><a href="Light.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="Light.html#remove">remove</a></li><li data-type='method'><a href="Light.html#render">render</a></li><li data-type='method'><a href="Light.html#traverse">traverse</a></li><li data-type='method'><a href="Light.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="Light.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="Light.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="Light.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="Line3.html">Line3</a><ul class='methods'><li data-type='method'><a href="Line3.html#closestPointToPoint">closestPointToPoint</a></li><li data-type='method'><a href="Line3.html#closestPointToPointParameter">closestPointToPointParameter</a></li><li data-type='method'><a href="Line3.html#delta">delta</a></li></ul></li><li><a href="Material.html">Material</a><ul class='methods'><li data-type='method'><a href="Material.html#define">define</a></li><li data-type='method'><a href="Material.html#disable">disable</a></li><li data-type='method'><a href="Material.html#enable">enable</a></li><li data-type='method'><a href="Material.html#typifyForRender">typifyForRender</a></li></ul></li><li><a href="Mesh.html">Mesh</a><ul class='methods'><li data-type='method'><a href="Mesh.html#add">add</a></li><li data-type='method'><a href="Mesh.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="Mesh.html#remove">remove</a></li><li data-type='method'><a href="Mesh.html#render">render</a></li><li data-type='method'><a href="Mesh.html#traverse">traverse</a></li><li data-type='method'><a href="Mesh.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="Mesh.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="Mesh.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="Mesh.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="MultiSprite.html">MultiSprite</a><ul class='methods'><li data-type='method'><a href="MultiSprite.html#add">add</a></li><li data-type='method'><a href="MultiSprite.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="MultiSprite.html#remove">remove</a></li><li data-type='method'><a href="MultiSprite.html#render">render</a></li><li data-type='method'><a href="MultiSprite.html#setElevation">setElevation</a></li><li data-type='method'><a href="MultiSprite.html#setOffset">setOffset</a></li><li data-type='method'><a href="MultiSprite.html#setOpacity">setOpacity</a></li><li data-type='method'><a href="MultiSprite.html#setPosition">setPosition</a></li><li data-type='method'><a href="MultiSprite.html#setSize">setSize</a></li><li data-type='method'><a href="MultiSprite.html#setUV">setUV</a></li><li data-type='method'><a href="MultiSprite.html#traverse">traverse</a></li><li data-type='method'><a href="MultiSprite.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="MultiSprite.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="MultiSprite.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="MultiSprite.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="MultiSpriteMaterial.html">MultiSpriteMaterial</a><ul class='methods'><li data-type='method'><a href="MultiSpriteMaterial.html#getTexture">getTexture</a></li><li data-type='method'><a href="MultiSpriteMaterial.html#setTexture">setTexture</a></li></ul></li><li><a href="MultiSpritePlugin.html">MultiSpritePlugin</a><ul class='methods'><li data-type='method'><a href="MultiSpritePlugin.html#addObject">addObject</a></li><li data-type='method'><a href="MultiSpritePlugin.html#render">render</a></li></ul></li><li><a href="Object3D.html">Object3D</a><ul class='methods'><li data-type='method'><a href="Object3D.html#add">add</a></li><li data-type='method'><a href="Object3D.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="Object3D.html#remove">remove</a></li><li data-type='method'><a href="Object3D.html#render">render</a></li><li data-type='method'><a href="Object3D.html#traverse">traverse</a></li><li data-type='method'><a href="Object3D.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="Object3D.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="Object3D.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="Object3D.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="Object3DPlugin.html">Object3DPlugin</a><ul class='methods'><li data-type='method'><a href="Object3DPlugin.html#addObject">addObject</a></li><li data-type='method'><a href="Object3DPlugin.html#render">render</a></li></ul></li><li><a href="OrthographicCamera.html">OrthographicCamera</a><ul class='methods'><li data-type='method'><a href="OrthographicCamera.html#add">add</a></li><li data-type='method'><a href="OrthographicCamera.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="OrthographicCamera.html#lookAt">lookAt</a></li><li data-type='method'><a href="OrthographicCamera.html#project">project</a></li><li data-type='method'><a href="OrthographicCamera.html#remove">remove</a></li><li data-type='method'><a href="OrthographicCamera.html#render">render</a></li><li data-type='method'><a href="OrthographicCamera.html#traverse">traverse</a></li><li data-type='method'><a href="OrthographicCamera.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="OrthographicCamera.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="OrthographicCamera.html#unproject">unproject</a></li><li data-type='method'><a href="OrthographicCamera.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="OrthographicCamera.html#updateProjectionMatrix">updateProjectionMatrix</a></li><li data-type='method'><a href="OrthographicCamera.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="PerspectiveCamera.html">PerspectiveCamera</a><ul class='methods'><li data-type='method'><a href="PerspectiveCamera.html#add">add</a></li><li data-type='method'><a href="PerspectiveCamera.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="PerspectiveCamera.html#lookAt">lookAt</a></li><li data-type='method'><a href="PerspectiveCamera.html#project">project</a></li><li data-type='method'><a href="PerspectiveCamera.html#remove">remove</a></li><li data-type='method'><a href="PerspectiveCamera.html#render">render</a></li><li data-type='method'><a href="PerspectiveCamera.html#traverse">traverse</a></li><li data-type='method'><a href="PerspectiveCamera.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="PerspectiveCamera.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="PerspectiveCamera.html#unproject">unproject</a></li><li data-type='method'><a href="PerspectiveCamera.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="PerspectiveCamera.html#updateProjectionMatrix">updateProjectionMatrix</a></li><li data-type='method'><a href="PerspectiveCamera.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="Plane.html">Plane</a><ul class='methods'><li data-type='method'><a href="Plane.html#distanceToPoint">distanceToPoint</a></li><li data-type='method'><a href="Plane.html#normalize">normalize</a></li><li data-type='method'><a href="Plane.html#setComponents">setComponents</a></li></ul></li><li><a href="Ray.html">Ray</a><ul class='methods'><li data-type='method'><a href="Ray.html#applyMatrix4">applyMatrix4</a></li><li data-type='method'><a href="Ray.html#at">at</a></li><li data-type='method'><a href="Ray.html#clone">clone</a></li><li data-type='method'><a href="Ray.html#distanceToPlane">distanceToPlane</a></li><li data-type='method'><a href="Ray.html#intersectBox">intersectBox</a></li><li data-type='method'><a href="Ray.html#intersectPlane">intersectPlane</a></li><li data-type='method'><a href="Ray.html#intersectTriangle">intersectTriangle</a></li></ul></li><li><a href="Raycaster.html">Raycaster</a><ul class='methods'><li data-type='method'><a href="Raycaster.html#intersectMesh">intersectMesh</a></li><li data-type='method'><a href="Raycaster.html#intersectObject">intersectObject</a></li><li data-type='method'><a href="Raycaster.html#intersectObjects">intersectObjects</a></li><li data-type='method'><a href="Raycaster.html#setFromCamera">setFromCamera</a></li></ul></li><li><a href="Renderer.html">Renderer</a><ul class='methods'><li data-type='method'><a href="Renderer.html#addPlugin">addPlugin</a></li><li data-type='method'><a href="Renderer.html#clear">clear</a></li><li data-type='method'><a href="Renderer.html#getPixelRatio">getPixelRatio</a></li><li data-type='method'><a href="Renderer.html#getSize">getSize</a></li><li data-type='method'><a href="Renderer.html#readPixels">readPixels</a></li><li data-type='method'><a href="Renderer.html#removePlugin">removePlugin</a></li><li data-type='method'><a href="Renderer.html#render">render</a></li><li data-type='method'><a href="Renderer.html#setPixelRatio">setPixelRatio</a></li><li data-type='method'><a href="Renderer.html#setRenderTarget">setRenderTarget</a></li><li data-type='method'><a href="Renderer.html#setSize">setSize</a></li><li data-type='method'><a href="Renderer.html#setViewport">setViewport</a></li></ul></li><li><a href="RendererPlugin.html">RendererPlugin</a><ul class='methods'><li data-type='method'><a href="RendererPlugin.html#addObject">addObject</a></li><li data-type='method'><a href="RendererPlugin.html#render">render</a></li></ul></li><li><a href="RenderTarget.html">RenderTarget</a><ul class='methods'><li data-type='method'><a href="RenderTarget.html#bind">bind</a></li><li data-type='method'><a href="RenderTarget.html#remove">remove</a></li><li data-type='method'><a href="RenderTarget.html#setSize">setSize</a></li><li data-type='method'><a href="RenderTarget.html#unbind">unbind</a></li></ul></li><li><a href="Scene.html">Scene</a><ul class='methods'><li data-type='method'><a href="Scene.html#add">add</a></li><li data-type='method'><a href="Scene.html#addLight">addLight</a></li><li data-type='method'><a href="Scene.html#getLights">getLights</a></li><li data-type='method'><a href="Scene.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="Scene.html#remove">remove</a></li><li data-type='method'><a href="Scene.html#render">render</a></li><li data-type='method'><a href="Scene.html#traverse">traverse</a></li><li data-type='method'><a href="Scene.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="Scene.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="Scene.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="Scene.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="Shader.html">Shader</a><ul class='methods'><li data-type='method'><a href="Shader.html#get">get</a></li><li data-type='method'><a href="Shader.html#remove">remove</a></li></ul></li><li><a href="ShaderProgram.html">ShaderProgram</a><ul class='methods'><li data-type='method'><a href="ShaderProgram.html#bind">bind</a></li><li data-type='method'><a href="ShaderProgram.html#disable">disable</a></li><li data-type='method'><a href="ShaderProgram.html#enable">enable</a></li></ul></li><li><a href="Sprite.html">Sprite</a><ul class='methods'><li data-type='method'><a href="Sprite.html#add">add</a></li><li data-type='method'><a href="Sprite.html#getWorldPosition">getWorldPosition</a></li><li data-type='method'><a href="Sprite.html#remove">remove</a></li><li data-type='method'><a href="Sprite.html#render">render</a></li><li data-type='method'><a href="Sprite.html#traverse">traverse</a></li><li data-type='method'><a href="Sprite.html#traverseVisible">traverseVisible</a></li><li data-type='method'><a href="Sprite.html#typifyForRender">typifyForRender</a></li><li data-type='method'><a href="Sprite.html#updateLocalMatrix">updateLocalMatrix</a></li><li data-type='method'><a href="Sprite.html#updateWorldMatrix">updateWorldMatrix</a></li></ul></li><li><a href="SpriteMaterial.html">SpriteMaterial</a><ul class='methods'><li data-type='method'><a href="SpriteMaterial.html#getTexture">getTexture</a></li><li data-type='method'><a href="SpriteMaterial.html#setTexture">setTexture</a></li></ul></li><li><a href="SpritePlugin.html">SpritePlugin</a><ul class='methods'><li data-type='method'><a href="SpritePlugin.html#addObject">addObject</a></li><li data-type='method'><a href="SpritePlugin.html#render">render</a></li></ul></li><li><a href="Texture.html">Texture</a><ul class='methods'><li data-type='method'><a href="Texture.html#enable">enable</a></li><li data-type='method'><a href="Texture.html#remove">remove</a></li></ul></li><li><a href="TransparentPlugin.html">TransparentPlugin</a><ul class='methods'><li data-type='method'><a href="TransparentPlugin.html#addObject">addObject</a></li><li data-type='method'><a href="TransparentPlugin.html#render">render</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Math.html">Math</a><ul class='methods'><li data-type='method'><a href="Math.html#.clamp">clamp</a></li><li data-type='method'><a href="Math.html#.degToRad">degToRad</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">MultiSpritePlugin</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            <div class="class-description"><p>Плагин для рендера {@MultiSprite} объектов.
+Для того, чтобы он добавился к рендеру, его нужно создать и вызвать <a href="Renderer.html#addPlugin">Renderer#addPlugin</a>.</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name method__name" id="MultiSpritePlugin"><span class="type-signature"></span>new MultiSpritePlugin<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="RendererPlugin.html">RendererPlugin</a></li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name members__name" id="type"><span class="type-signature"></span>type<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    <p>Используется для обозначения типа плагина</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="RendererPlugin.html#type">RendererPlugin#type</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name method__name" id="addObject"><span class="type-signature"></span>addObject<span class="signature">(object)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Добавляет объект к плагину на этапе рендеринга</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>object</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Object3D.html">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="RendererPlugin.html#addObject">RendererPlugin#addObject</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name method__name" id="render"><span class="type-signature"></span>render<span class="signature">(state)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Рисует сцену с помощью этого плагина</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#State">State</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="RendererPlugin.html#render">RendererPlugin#render</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu Oct 06 2016 14:07:46 GMT+0700 (KRAT) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

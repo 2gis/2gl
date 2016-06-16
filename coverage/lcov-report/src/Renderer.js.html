@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/Renderer.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">src</a> Renderer.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>69/75</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.67% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>33/36</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.5% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>14/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.78% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>67/73</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">72x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Object3DPlugin from './rendererPlugins/Object3DPlugin';
+&nbsp;
+/**
+ * Используется для инициализация WebGL контекста и отрисовки объектов.
+ * Для некоторых объектов может использовать специфичные рендеры.
+ *
+ * @param {Object} options
+ * @param {HTMLElement} [options.canvas] Элемент canvas
+ * @param {WebGLRenderingContext} [options.gl] Если элемент canvas не указан, то можно напрямую передать WebGL контекст
+ * @param {Number} [options.pixelRatio=1] Pixel ratio экрана
+ * @param {Boolean} [options.antialias=true] Использовать ли антиалиасинг
+ * @param {Boolean} [options.autoClear=true] Стирать ли прошлый кадр перед новый рендерингом
+ * @param {Array} [options.clearColor=true] Цвет заливки в формате RGBA
+ * @param {Object} [options.sortObjects=true] Нужно ли сортировать прозрачные объекты по удаленности
+ * или по renderOrder
+ * */
+class Renderer {
+    constructor(options) {
+        options = options || {};
+&nbsp;
+        if (options.canvas) {
+            this._canvasElement = typeof options.canvas === 'string' ?
+                document.getElementById(options.canvas) : options.canvas;
+&nbsp;
+            const attributes = {
+                antialias: options.antialias !== undefined ? options.antialias : true
+            };
+&nbsp;
+            this._gl = this._canvasElement.getContext('webgl', attributes) ||
+                this._canvasElement.getContext('experimental-webgl', attributes);
+        } else {
+            this._gl = options.gl;
+        }
+&nbsp;
+        this._pixelRatio = options.pixelRatio || 1;
+&nbsp;
+        /**
+         * Определяет стирать ли прошлый кадр перед новым рендерингом
+         * @type {Boolean}
+         */
+        this.autoClear = options.autoClear !== undefined ? options.autoClear : true;
+&nbsp;
+        /**
+         * Цвет заливки в формате RGBA
+         * @type {Array}
+         */
+        this.clearColor = options.clearColor || [1, 1, 1, 1];
+        this.sortObjects = true;
+&nbsp;
+        this._plugins = [];
+        this._pluginsByType = {};
+        this._maxPluginOrder = 0;
+&nbsp;
+        this.addPlugin(new Object3DPlugin(), 0);
+    }
+&nbsp;
+    /**
+     * Добавляет {@link RendererPlugin} к рендеру. К рендеру может быть добавлен только один плагин каждого типа.
+     * @param {Plugin} plugin Плагин
+     * @param {?Number} order Каждый плагин выполняется при рендеринге по возрастанию order,
+     * если его нет, то выбирается максимальный order + 1.
+     */
+    addPlugin(plugin, order) {
+        if (order === undefined) {
+            order = this._maxPluginOrder + 1;
+        }
+&nbsp;
+        this._plugins.push({
+            plugin,
+            order
+        });
+        this._plugins.sort((a, b) =&gt; a.order - b.order);
+        this._pluginsByType[plugin.type] = plugin;
+&nbsp;
+        this._maxPluginOrder = Math.max.apply(Math, this._plugins.map(p =&gt; p.order));
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Удаляет {@link RendererPlugin} из рендера.
+     * @param {Plugin} Plugin Класс плагина
+     */
+<span class="fstat-no" title="function not covered" >    re</span>movePlugin(Plugin) {
+<span class="cstat-no" title="statement not covered" >        this._plugins.some(<span class="fstat-no" title="function not covered" >(e</span>l, i) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if (el.plugin instanceof Plugin) {</span>
+<span class="cstat-no" title="statement not covered" >                delete this._pluginsByType[this._plugins[i].plugin.type];</span>
+<span class="cstat-no" title="statement not covered" >                this._plugins.splice(i, 1);</span>
+<span class="cstat-no" title="statement not covered" >                return true;</span>
+            }
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return this;</span>
+    }
+&nbsp;
+    /**
+     * Устанавливает параметр pixel ratio
+     * @param {Number} value
+     */
+    setPixelRatio(value) {
+        this._pixelRatio = value;
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Возвращает текущий pixel ratio
+     * @returns {Number}
+     */
+    getPixelRatio() {
+        return this._pixelRatio;
+    }
+&nbsp;
+    /**
+     * Устанавливает размеры элементу canvas и viewport для WebGL
+     * @param {Number} width Ширина в пикселях
+     * @param {Number} height Высота в пикселях
+     */
+    setSize(width, height) {
+        this._size = [
+            width * this._pixelRatio,
+            height * this._pixelRatio
+        ];
+&nbsp;
+        if (this._canvasElement) {
+            this._canvasElement.width = this._size[0];
+            this._canvasElement.height = this._size[1];
+            this._canvasElement.style.width = width + 'px';
+            this._canvasElement.style.height = height + 'px';
+        }
+&nbsp;
+        this.setViewport();
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Устанавливает viewport для WebGL
+     * Если размеры не указаны, то выставляет размеры указанные в функции {@link Renderer#setSize}
+     * @param {Number} [width] Ширина в пикселях
+     * @param {Number} [height] Высота в пикселях
+     */
+    setViewport(width, height) {
+        if (width !== undefined &amp;&amp; height !== undefined) {
+            this._gl.viewport(0, 0, width, height);
+        } else {
+            this._gl.viewport(0, 0, this._size[0], this._size[1]);
+        }
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Возвращает текущий viewport WebGL
+     * @returns {Array}
+     */
+    getSize() {
+        return this._size;
+    }
+&nbsp;
+    /**
+     * Устанавливает RenderTarget
+     * @param {?RenderTarget} renderTarget
+     */
+    setRenderTarget(renderTarget) {
+        this._renderTarget = renderTarget;
+        return this;
+    }
+&nbsp;
+    /**
+     * Считывает указанную область пикселей в массив
+     * @param {Number} x Координаты начала области
+     * @param {Number} y Координаты начала области
+     * @param {Number} width Ширина области
+     * @param {Number} height Высота области
+     * @param {TypedArray} array Массив для записи данных
+     */
+    readPixels(x, y, width, height, array) {
+        const gl = this._gl;
+&nbsp;
+        if (this._renderTarget) {
+            this._renderTarget.bind(gl);
+            gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, array);
+            this._renderTarget.unbind(gl);
+        } else {
+            gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, array);
+        }
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Очищает текущий кадр и заливает цветом указанным в clearColor
+     */
+    clear() {
+        const gl = this._gl;
+&nbsp;
+        gl.clearColor.apply(gl, this.clearColor);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+&nbsp;
+        return this;
+    }
+&nbsp;
+    /**
+     * Рисует сцену
+     * @param {Scene} scene Сцена
+     * @param {Camera} camera Камера
+     * @param {*} userData Дополнительная информация, которая будет передана всем плагинам и объектам
+     */
+    render(scene, camera, userData) {
+        const gl = this._gl;
+&nbsp;
+        scene.typifyForRender(this._pluginsByType);
+&nbsp;
+        if (this._renderTarget) {
+            this._renderTarget.bind(gl);
+        }
+&nbsp;
+        gl.clearDepth(1);
+        gl.clearStencil(0);
+&nbsp;
+        if (this.autoClear) {
+            this.clear();
+        }
+&nbsp;
+        camera.updateLocalMatrix();
+        camera.updateWorldMatrix();
+&nbsp;
+        const state = {
+            renderer: this,
+            scene,
+            camera,
+            gl,
+            userData
+        };
+        // TODO: make state immutable?
+&nbsp;
+        this._plugins.forEach(el =&gt; {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (el.plugin.hasObjects()) {
+                el.plugin.render(state);
+            }
+        });
+&nbsp;
+        if (this._renderTarget) {
+            this._renderTarget.unbind(gl);
+        }
+&nbsp;
+        return this;
+    }
+}
+&nbsp;
+export default Renderer;
+&nbsp;
+/**
+ * Состояние рендера. Передается объектам для отрисовки.
+ *
+ * @typedef {Object} State
+ * @property {WebGLRenderingContext} gl
+ * @property {Scene} scene
+ * @property {Camera} camera
+ * @property {Renderer} renderer
+ */
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 03 2016 12:20:17 GMT+0700 (KRAT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

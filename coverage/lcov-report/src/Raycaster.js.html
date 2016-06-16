@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/Raycaster.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> Raycaster.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">84.04% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>79/94</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.49% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>43/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>14/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.68% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>42/57</span>
+      </div>
+      <div class='fl pad1y'>
+        <span class="strong">3 statements, 1 function, 6 branches</span>
+        <span class="quiet">Ignored</span>  &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">84×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">84×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">84×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {vec3, mat3, mat4} from 'gl-matrix';
+import Ray from './math/Ray';
+import libConstants from './libConstants';
+&nbsp;
+/**
+ * Позволяет легко определять пересечения луча с объектами.
+ * Например, для определения клика пользователя.
+ */
+class Raycaster {
+    /**
+     * @param {vec3} origin Точка начала луча
+     * @param {vec3} direction Направление луча
+     * @param {Number} [near=0] Минимальное расстояние от начала до точки пересечения
+     * @param {Number} [far=Infinity] Максимальное расстояние от начала до точки пересечения
+     */
+    constructor(origin, direction, near, far) {
+        this.precision = 0.0001;
+        this.ray = new Ray(origin, direction);
+        this.near = near || 0;
+        this.far = far || Infinity;
+&nbsp;
+        /**
+         * Список методов проверки пересечений для разных типов объектов
+         * @type {Object}
+         */
+        this.intersectMethodsByType = {
+            [libConstants.MESH]: 'intersectMesh'
+        };
+    }
+&nbsp;
+    /**
+     * Устанавливает начало луча в положение камеры, а направление проецирует с переданных координат
+     * экрана в систему координат камеры.
+     *
+     * @param {vec3} coordinates
+     * @param {Camera} camera
+     */
+    setFromCamera(coordinates, camera) {
+<span class="cstat-no" title="statement not covered" >        if (camera.type === libConstants.PERSPECTIVE_CAMERA) {</span>
+<span class="cstat-no" title="statement not covered" >            t</span>his.ray.origin = vec3.clone(camera.position);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            l</span>et direction = vec3.fromValues(coordinates[0], coordinates[1], 0.5);
+<span class="cstat-no" title="statement not covered" >            d</span>irection = camera.unproject(direction);
+<span class="cstat-no" title="statement not covered" >            v</span>ec3.sub(direction, direction, camera.position);
+<span class="cstat-no" title="statement not covered" >            v</span>ec3.normalize(direction, direction);
+<span class="cstat-no" title="statement not covered" >            t</span>his.ray.direction = direction;
+&nbsp;
+        } else <span class="cstat-no" title="statement not covered" >if (camera.type === libConstants.ORTHOGRAPHIC_CAMERA) {</span>
+<span class="cstat-no" title="statement not covered" >            c</span>onst origin = vec3.fromValues(coordinates[0], coordinates[1], -1);
+<span class="cstat-no" title="statement not covered" >            t</span>his.ray.origin = camera.unproject(origin);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            t</span>his.ray.direction = vec3.fromValues(0, 0, -1);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            c</span>onst matrix3 = mat3.create();
+<span class="cstat-no" title="statement not covered" >            m</span>at3.fromMat4(matrix3, camera.worldMatrix);
+<span class="cstat-no" title="statement not covered" >            v</span>ec3.transformMat3(this.ray.direction, this.ray.direction, matrix3);
+<span class="cstat-no" title="statement not covered" >            v</span>ec3.normalize(this.ray.direction, this.ray.direction);
+        }
+    }
+&nbsp;
+    /**
+     * Ищет точки пересечения луча с объектом
+     * @param {Object3D} object
+     * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
+     * @returns {Intersect[]}
+     */
+    intersectObject(object, recursive, intersects) {
+        intersects = intersects || [];
+&nbsp;
+        const intersectMethod = this.intersectMethodsByType[object.type];
+&nbsp;
+        if (intersectMethod &amp;&amp; this[intersectMethod]) {
+            this[intersectMethod](object, recursive, intersects);
+        } else if (recursive) {
+            this.intersectObjects(object.children, recursive, intersects);
+        }
+&nbsp;
+        intersects.sort(this._descSort);
+&nbsp;
+        return intersects;
+    }
+&nbsp;
+    /**
+     * Ищет точки пересечения луча с массивом объектов
+     * @param {Object3D[]} objects
+     * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
+     * @returns {Intersect[]}
+     */
+    intersectObjects(objects, recursive, intersects) {
+        intersects = intersects || [];
+&nbsp;
+        objects.forEach(obj =&gt; this.intersectObject(obj, recursive, intersects));
+&nbsp;
+        return intersects;
+    }
+&nbsp;
+    /**
+     * Ищет точки пересечения луча с {@link Mesh}
+     * @param {Mesh} mesh
+     * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
+     * @returns {Intersect[]}
+     */
+    intersectMesh(mesh, recursive, intersects) {
+        intersects = intersects || [];
+&nbsp;
+        // get from https://github.com/mrdoob/three.js/blob/master/src/objects/Mesh.js
+&nbsp;
+        const inverseMatrix = mat4.create();
+        mat4.invert(inverseMatrix, mesh.worldMatrix);
+&nbsp;
+        const ray = this.ray.clone();
+        ray.applyMatrix4(inverseMatrix);
+&nbsp;
+        const boundingBox = mesh.geometry.getBoundingBox();
+&nbsp;
+        if (!ray.intersectBox(boundingBox)) { return mesh; }
+&nbsp;
+        const positionBuffer = mesh.geometry.buffers.position;
+&nbsp;
+        for (let i = 0; i &lt; positionBuffer.length; i += 3) {
+            const triangle = positionBuffer.getTriangle(i / 3);
+&nbsp;
+            const intersectionPoint = ray.intersectTriangle(triangle, false);
+&nbsp;
+            if (!intersectionPoint) { continue; }
+&nbsp;
+            vec3.transformMat4(intersectionPoint, intersectionPoint, mesh.worldMatrix);
+&nbsp;
+            const distance = vec3.dist(this.ray.origin, intersectionPoint);
+&nbsp;
+            if (distance &lt; this.precision || distance &lt; this.near || distance &gt; this.far) { continue; }
+&nbsp;
+            intersects.push({
+                distance: distance,
+                point: intersectionPoint,
+                object: mesh
+            });
+        }
+&nbsp;
+        if (recursive) {
+            this.intersectObjects(mesh.children, recursive, intersects);
+        }
+&nbsp;
+        return intersects;
+    }
+&nbsp;
+    _descSort(a, b) {
+        return a.distance - b.distance;
+    }
+}
+&nbsp;
+export default Raycaster;
+&nbsp;
+/**
+ * Возвращаемое значение методов raycast. Содержит информацию о точки пересечения с объектом.
+ *
+ * @typedef {Object} Intersect
+ * @property {Number} distance Расстояние от начала луча до точки пересечения
+ * @property {vec3} point Координаты точки пересечения
+ * @property {Object3D} object Объект с которым пересекся луч
+ */
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 10 2016 16:55:29 GMT+0600 (NOVT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

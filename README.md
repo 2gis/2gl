@@ -22,6 +22,23 @@
 #### Установка
 * `npm install 2gl`
 
+#### Подключение
+Есть несколько способов подключения библиотеки:
+* Напрямую через тег, скрипт `2gl.js` лежит в папке `dist` и содержит все компоненты библиотеки:
+```html
+<script src="2gl.js"></script>
+```
+* Если вы используете сборщики, например, `browserify` или `webpack`:
+```js
+var dgl = require('2gl'); // CommonJS
+import dgl from '2gl'; // ES6
+```
+* Можно подключать только нужные компоненты для уменьшения размера:
+```js
+var Mesh = require('2gl/Mesh');
+var AmbientLight = require('2gl/lights/AmbientLight');
+```
+
 #### Development
 * `npm install`
 * `npm start`

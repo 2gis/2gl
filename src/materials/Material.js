@@ -1,5 +1,8 @@
 import definitions from './definitions';
 import ShaderProgram from '../ShaderProgram';
+import libConstants from '../libConstants';
+import '../rendererPlugins/CommonPlugin';
+import '../rendererPlugins/TransparentPlugin';
 
 const cachedPrograms = {};
 
@@ -69,14 +72,14 @@ class Material {
      * чтобы определить к какому типу рендера принадлежит объект.
      * Самое простое разделение: на прозрачные и нет.
      *
-     * @param {TypedObjects} typedObjects
+     * @param {Object} renderPlugins
      * @param {Object3D} object
      */
-    typifyForRender(typedObjects, object) {
+    typifyForRender(renderPlugins, object) {
         if (this.opacity === 1) {
-            typedObjects.common.push(object);
+            renderPlugins[libConstants.COMMON_RENDERER].addObject(object);
         } else {
-            typedObjects.transparent.push(object);
+            renderPlugins[libConstants.TRANSPARENT_RENDERER].addObject(object);
         }
     }
 

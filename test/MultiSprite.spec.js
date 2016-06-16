@@ -6,6 +6,7 @@ import MultiSpriteMaterial from '../src/materials/MultiSpriteMaterial';
 import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
+import libConstants from '../src/libConstants';
 
 import MultiSprite from '../src/MultiSprite';
 
@@ -41,6 +42,10 @@ describe('MultiSprite', () => {
             assert.ok(multiSprite._geometry.getBuffer('scale'));
             assert.ok(multiSprite._geometry.getBuffer('offset'));
             assert.ok(multiSprite._geometry.getBuffer('colorAlpha'));
+        });
+
+        it('should have right type', () => {
+            assert.equal(libConstants.MULTI_SPRITE, multiSprite.type);
         });
     });
 
@@ -116,55 +121,6 @@ describe('MultiSprite', () => {
             multiSprite.material.setTexture(texture);
 
             multiSprite.render(state);
-            assert.ok(spy.calledOnce);
-        });
-    });
-
-    describe('#typifyForRender', () => {
-        let typedObjects, spy;
-
-        beforeEach(() => {
-            spy = sinon.spy(material, 'typifyForRender');
-            typedObjects = {multiSprites: []};
-        });
-
-        afterEach(() => {
-            spy.restore();
-            typedObjects = spy = null;
-        });
-
-        it('should call typifyForRender method from multiSprite material', () => {
-            const texture = new Texture({});
-            multiSprite.material.setTexture(texture);
-
-            multiSprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledOnce);
-        });
-
-        it('should call twice typifyForRender method from multiSprite and child material', () => {
-            const texture = new Texture({});
-            material.setTexture(texture);
-            const b = new MultiSprite([], material);
-
-            multiSprite.add(b);
-            multiSprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledTwice);
-        });
-
-        it('should not call if object invisible', () => {
-            multiSprite.visible = false;
-            multiSprite.typifyForRender(typedObjects);
-            assert.ok(!spy.called);
-        });
-
-        it('should call once from object and not call from invisible child', () => {
-            const texture = new Texture({});
-            material.setTexture(texture);
-            const b = new MultiSprite([], material);
-            b.visible = false;
-
-            multiSprite.add(b);
-            multiSprite.typifyForRender(typedObjects);
             assert.ok(spy.calledOnce);
         });
     });

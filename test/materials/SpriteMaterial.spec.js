@@ -1,6 +1,6 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
-import Sprite from '../../src/Sprite';
+import libConstants from '../../src/libConstants';
 
 import SpriteMaterial from '../../src/materials/SpriteMaterial';
 
@@ -23,6 +23,10 @@ describe('SpriteMaterial', () => {
         it('should have smoothing field', () => {
             assert.equal(material.smoothing, 0);
         });
+
+        it('should have right type', () => {
+            assert.equal(libConstants.SPRITE_MATERIAL, material.type);
+        });
     });
 
     describe('#setTexture and #getTexture', () => {
@@ -34,16 +38,6 @@ describe('SpriteMaterial', () => {
             const texture = {};
             material.setTexture(texture);
             assert.equal(material.getTexture(), texture);
-        });
-    });
-
-    describe('#typifyForRender', () => {
-        it('should identify as sprite', () => {
-            const object = new Sprite();
-            const typedObjects = {sprites: []};
-
-            material.typifyForRender(typedObjects, object);
-            assert.equal(typedObjects.sprites[0], object);
         });
     });
 });

@@ -1,3 +1,4 @@
+import libConstants from '../libConstants';
 import Light from './Light';
 
 /**
@@ -9,6 +10,12 @@ import Light from './Light';
 class DirectionalLight extends Light {
     constructor(color) {
         super(color);
+
+        /**
+         * Используется для обозначения типа света
+         * @type {Number}
+         */
+        this.type = libConstants.DIRECTIONAL_LIGHT;
     }
 }
 

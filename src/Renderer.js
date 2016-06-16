@@ -1,7 +1,3 @@
-import SpriteRenderer from './SpriteRenderer';
-import MultiSpriteRenderer from './MultiSpriteRenderer';
-import TransparentRenderer from './TransparentRenderer';
-
 /**
  * Используется для инициализация WebGL контекста и отрисовки объектов.
  * Для некоторых объектов может использовать специфичные рендеры.
@@ -37,7 +33,7 @@ class Renderer {
         this._pixelRatio = options.pixelRatio || 1;
 
         /**
-         * Определяет стирать ли прошлый кадр перед новый рендерингом
+         * Определяет стирать ли прошлый кадр перед новым рендерингом
          * @type {Boolean}
          */
         this.autoClear = options.autoClear !== undefined ? options.autoClear : true;
@@ -49,9 +45,13 @@ class Renderer {
         this.clearColor = options.clearColor || [1, 1, 1, 1];
         this.sortObjects = true;
 
-        this._spriteRenderer = new SpriteRenderer();
-        this._multiSpriteRenderer = new MultiSpriteRenderer(this);
-        this._transparentRenderer = new TransparentRenderer();
+        this._plugins = [];
+        this._pluginsByType = {};
+        Renderer.plugins.forEach(el => {
+            const plugin = new el.Plugin(this);
+            this._plugins.push(plugin);
+            this._pluginsByType[plugin.type] = plugin;
+        });
     }
 
     /**
@@ -169,14 +169,8 @@ class Renderer {
      */
     render(scene, camera) {
         const gl = this._gl;
-        const typedObjects = {
-            common: [],
-            transparent: [],
-            sprites: [],
-            multiSprites: []
-        };
 
-        scene.typifyForRender(typedObjects);
+        scene.typifyForRender(this._pluginsByType);
 
         if (this._renderTarget) {
             this._renderTarget.bind(gl);
@@ -185,21 +179,12 @@ class Renderer {
         gl.clearDepth(1);
         gl.clearStencil(0);
 
-        gl.enable(gl.DEPTH_TEST);
-        gl.depthFunc(gl.LEQUAL);
-
-        gl.frontFace(gl.CCW);
-        gl.cullFace(gl.BACK);
-        gl.enable(gl.CULL_FACE);
-
         if (this.autoClear) {
             this.clear();
         }
 
         camera.updateLocalMatrix();
         camera.updateWorldMatrix();
-
-        gl.disable(gl.BLEND);
 
         const state = {
             renderer: this,
@@ -209,19 +194,9 @@ class Renderer {
         };
         // TODO: make state immutable?
 
-        const renderObjects = typedObjects.common;
-
-        if (state.renderer.sortObjects) {
-            renderObjects.sort(this._renderOrderSort);
-        }
-
-        renderObjects.forEach(object => object.render(state));
-
-        this._transparentRenderer.render(state, typedObjects.transparent);
-
-        this._spriteRenderer.render(state, typedObjects.sprites);
-
-        this._multiSpriteRenderer.render(state, typedObjects.multiSprites);
+        this._plugins.forEach(plugin => {
+            plugin.render(state);
+        });
 
         if (this._renderTarget) {
             this._renderTarget.unbind(gl);
@@ -230,10 +205,34 @@ class Renderer {
         return this;
     }
 
-    _renderOrderSort(a, b) {
-        return a.renderOrder - b.renderOrder;
+    /**
+     * Добавляет {@link RendererPlugin} к рендеру. К рендеру может быть добавлен только один плагин каждого типа.
+     * @param {Number} order Каждый плагин выполняется при рендеринге по возрастанию order
+     * @param {Plugin} Plugin Класс плагина
+     */
+    static addPlugin(order, Plugin) {
+        Renderer.plugins.push({
+            Plugin: Plugin,
+            order: order
+        });
+        Renderer.plugins.sort((a, b) => b.order < a.order);
+    }
+
+    /**
+     * Удаляет {@link RendererPlugin} из рендера.
+     * @param {Plugin} Plugin Класс плагина
+     */
+    static removePlugin(Plugin) {
+        Renderer.plugins.some((el, i) => {
+            if (el.Plugin === Plugin) {
+                Renderer.plugins.splice(i, 1);
+                return true;
+            }
+        });
     }
 }
+
+Renderer.plugins = [];
 
 export default Renderer;
 
@@ -245,14 +244,4 @@ export default Renderer;
  * @property {Scene} scene
  * @property {Camera} camera
  * @property {Renderer} renderer
- */
-
-/**
- * Объект используется для распределения объектов по типам рендеров,
- * т.к. прозрачные объекты и спрайты рендерятся отдельно.
- *
- * @typedef {Object} TypedObjects
- * @property {Array} common Сюда складываются все объекты, для которых нет специальных рендеров
- * @property {Array} transparent Прозрачные объекты
- * @property {Array} sprites Спрайты
  */

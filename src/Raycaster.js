@@ -1,7 +1,6 @@
-import {vec3, mat3} from 'gl-matrix';
+import {vec3, mat3, mat4} from 'gl-matrix';
 import Ray from './math/Ray';
-import OrthographicCamera from './cameras/OrthographicCamera';
-import PerspectiveCamera from './cameras/PerspectiveCamera';
+import libConstants from './libConstants';
 
 /**
  * Позволяет легко определять пересечения луча с объектами.
@@ -19,6 +18,14 @@ class Raycaster {
         this.ray = new Ray(origin, direction);
         this.near = near || 0;
         this.far = far || Infinity;
+
+        /**
+         * Список методов проверки пересечений для разных типов объектов
+         * @type {Object}
+         */
+        this.intersectMethodsByType = {
+            [libConstants.MESH]: 'intersectMesh'
+        };
     }
 
     /**
@@ -29,7 +36,7 @@ class Raycaster {
      * @param {Camera} camera
      */
     setFromCamera(coordinates, camera) {
-        if (camera instanceof PerspectiveCamera) {
+        if (camera.type === libConstants.PERSPECTIVE_CAMERA) {
             this.ray.origin = vec3.clone(camera.position);
 
             let direction = vec3.fromValues(coordinates[0], coordinates[1], 0.5);
@@ -38,7 +45,7 @@ class Raycaster {
             vec3.normalize(direction, direction);
             this.ray.direction = direction;
 
-        } else if (camera instanceof OrthographicCamera) {
+        } else if (camera.type === libConstants.ORTHOGRAPHIC_CAMERA) {
             const origin = vec3.fromValues(coordinates[0], coordinates[1], -1);
             this.ray.origin = camera.unproject(origin);
 
@@ -55,12 +62,19 @@ class Raycaster {
      * Ищет точки пересечения луча с объектом
      * @param {Object3D} object
      * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
      * @returns {Intersect[]}
      */
-    intersectObject(object, recursive) {
-        const intersects = [];
+    intersectObject(object, recursive, intersects) {
+        intersects = intersects || [];
 
-        object.raycast(this, intersects, recursive);
+        const intersectMethod = this.intersectMethodsByType[object.type];
+
+        if (intersectMethod && this[intersectMethod]) {
+            this[intersectMethod](object, recursive, intersects);
+        } else if (recursive) {
+            this.intersectObjects(object.children, recursive, intersects);
+        }
 
         intersects.sort(this._descSort);
 
@@ -71,14 +85,64 @@ class Raycaster {
      * Ищет точки пересечения луча с массивом объектов
      * @param {Object3D[]} objects
      * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
      * @returns {Intersect[]}
      */
-    intersectObjects(objects, recursive) {
-        const intersects = [];
+    intersectObjects(objects, recursive, intersects) {
+        intersects = intersects || [];
 
-        objects.forEach(obj => obj.raycast(this, intersects, recursive));
+        objects.forEach(obj => this.intersectObject(obj, recursive, intersects));
 
-        intersects.sort(this._descSort);
+        return intersects;
+    }
+
+    /**
+     * Ищет точки пересечения луча с {@link Mesh}
+     * @param {Mesh} mesh
+     * @param {Boolean} [recursive=false] Проверять ли дочерние объекты
+     * @param {Intersect[]} [intersects]
+     * @returns {Intersect[]}
+     */
+    intersectMesh(mesh, recursive, intersects) {
+        intersects = intersects || [];
+
+        // get from https://github.com/mrdoob/three.js/blob/master/src/objects/Mesh.js
+
+        const inverseMatrix = mat4.create();
+        mat4.invert(inverseMatrix, mesh.worldMatrix);
+
+        const ray = this.ray.clone();
+        ray.applyMatrix4(inverseMatrix);
+
+        const boundingBox = mesh.geometry.getBoundingBox();
+
+        if (!ray.intersectBox(boundingBox)) { return mesh; }
+
+        const positionBuffer = mesh.geometry.buffers.position;
+
+        for (let i = 0; i < positionBuffer.length; i += 3) {
+            const triangle = positionBuffer.getTriangle(i / 3);
+
+            const intersectionPoint = ray.intersectTriangle(triangle, false);
+
+            if (!intersectionPoint) { continue; }
+
+            vec3.transformMat4(intersectionPoint, intersectionPoint, mesh.worldMatrix);
+
+            const distance = vec3.dist(this.ray.origin, intersectionPoint);
+
+            if (distance < this.precision || distance < this.near || distance > this.far) { continue; }
+
+            intersects.push({
+                distance: distance,
+                point: intersectionPoint,
+                object: mesh
+            });
+        }
+
+        if (recursive) {
+            this.intersectObjects(mesh.children, recursive, intersects);
+        }
 
         return intersects;
     }

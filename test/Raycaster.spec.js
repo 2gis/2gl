@@ -1,61 +1,25 @@
 import assert from 'assert';
-import {slice} from './utils';
+import sinon from 'sinon';
+import {slice, cubeVertices} from './utils';
 import {vec3} from 'gl-matrix';
+
 import Ray from '../src/math/Ray';
+import Object3D from '../src/Object3D';
+import Geometry from '../src/Geometry';
+import Buffer from '../src/Buffer';
+import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
+import Mesh from '../src/Mesh';
 
 import Raycaster from '../src/Raycaster';
 
 describe('Raycaster', () => {
-    let raycaster, origin, direction,
-        object1, object1Intersect,
-        object2, object2Intersect1, object2Intersect2,
-        object3, object3Intersect;
+    let raycaster, origin, direction, intersects;
 
     beforeEach(() => {
         origin = vec3.fromValues(0, 0, 0);
         direction = vec3.fromValues(1, 0, 0);
         raycaster = new Raycaster(origin, direction);
-
-        object1 = {
-            children: []
-        };
-        object1Intersect = {
-            distance: 5,
-            point: vec3.fromValues(5, 0, 0),
-            object: object1
-        };
-        object1.raycast = (_, intersects) => {
-            intersects.push(object1Intersect);
-        };
-
-        object2 = {
-            children: []
-        };
-        object2Intersect1 = {
-            distance: 10,
-            point: vec3.fromValues(10, 0, 0),
-            object: object2
-        };
-        object2Intersect2 = {
-            distance: 15,
-            point: vec3.fromValues(15, 0, 0),
-            object: object2
-        };
-        object2.raycast = (_, intersects) => {
-            intersects.push(object2Intersect2, object2Intersect1);
-        };
-
-        object3 = {
-            children: []
-        };
-        object3Intersect = {
-            distance: 1,
-            point: vec3.fromValues(1, 0, 0),
-            object: object1
-        };
-        object3.raycast = (_, intersects) => {
-            intersects.push(object3Intersect);
-        };
+        intersects = [];
     });
 
     describe('#constructor', () => {
@@ -85,34 +49,153 @@ describe('Raycaster', () => {
     });
 
     describe('#intersectObject', () => {
-        it('should return object1', () => {
-            const intersects = raycaster.intersectObject(object1);
-            assert.equal(intersects.length, 1);
-            assert.equal(intersects[0], object1Intersect);
+        it('should call intersectMesh with mesh', () => {
+            const material = new BasicMeshMaterial();
+            const geometry = new Geometry();
+            geometry.setBuffer('position', new Buffer(new Float32Array(cubeVertices), 3));
+            const mesh = new Mesh(geometry, material);
+
+            const spy = sinon.spy(raycaster, 'intersectMesh');
+            raycaster.intersectObject(mesh, false);
+            assert.ok(spy.calledOnce);
         });
 
-        it('should return sorted by distance intersects', () => {
-            const intersects = raycaster.intersectObject(object2);
-            assert.equal(intersects.length, 2);
-            assert.equal(intersects[0], object2Intersect1);
-            assert.equal(intersects[1], object2Intersect2);
+        it('shouldn\'t call intersectMesh with Object3D', () => {
+            const object = new Object3D();
+            const spy = sinon.spy(raycaster, 'intersectMesh');
+            raycaster.intersectObject(object, false);
+            assert.ok(!spy.called);
+        });
+
+        it('should return same intersect array', () => {
+            const intersect = [];
+            const object = new Object3D();
+            const result = raycaster.intersectObject(object, false, intersect);
+            assert.equal(intersect, result);
+        });
+
+        it('should call intersectObjects with object children', () => {
+            const object = new Object3D();
+            const spy = sinon.spy(raycaster, 'intersectObjects');
+
+            raycaster.intersectObject(object, true);
+            assert.ok(spy.calledOnce);
+        });
+
+        it('should\'t call intersectObjects with object children', () => {
+            const object = new Object3D();
+            const spy = sinon.spy(raycaster, 'intersectObjects');
+
+            raycaster.intersectObject(object, false);
+            assert.ok(!spy.called);
         });
     });
 
     describe('#intersectObjects', () => {
-        it('should return object1', () => {
-            const intersects = raycaster.intersectObjects([object1]);
-            assert.equal(intersects.length, 1);
-            assert.equal(intersects[0], object1Intersect);
+        it('should call intersect with each object', () => {
+            const childA = new Object3D();
+            const childB = new Object3D();
+
+            const spy = sinon.spy(raycaster, 'intersectObject');
+            raycaster.intersectObjects([childA, childB], false);
+            assert.ok(spy.calledTwice);
         });
 
-        it('should return sorted by distance intersects', () => {
-            const intersects = raycaster.intersectObjects([object1, object2, object3]);
-            assert.equal(intersects.length, 4);
-            assert.equal(intersects[0], object3Intersect);
-            assert.equal(intersects[1], object1Intersect);
-            assert.equal(intersects[2], object2Intersect1);
-            assert.equal(intersects[3], object2Intersect2);
+        it('should return same intersect array', () => {
+            const intersect = [];
+            const childA = new Object3D();
+            const childB = new Object3D();
+            const result = raycaster.intersectObjects([childA, childB], false, intersect);
+            assert.equal(intersect, result);
         });
+    });
+
+    describe('#intersectMesh', () => {
+        let mesh;
+
+        beforeEach(() => {
+            const material = new BasicMeshMaterial();
+            const geometry = new Geometry();
+            geometry.setBuffer('position', new Buffer(new Float32Array(cubeVertices), 3));
+
+            mesh = new Mesh(geometry, material);
+        });
+
+        it('should intersect ray in two places', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 0.25;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+
+            raycaster.intersectMesh(mesh, false, intersects);
+
+            assert.equal(intersects.length, 2);
+        });
+
+        it('should return array with two places', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 0.25;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+
+            const result = raycaster.intersectMesh(mesh, false);
+
+            assert.equal(result.length, 2);
+        });
+
+        it('shouldn\'t intersect ray', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 10;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+
+            raycaster.intersectMesh(mesh, false, intersects);
+
+            assert.equal(intersects.length, 0);
+        });
+
+        it('shouldn\t intersect far ray', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 0.25;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+            raycaster.far = 5;
+
+            raycaster.intersectMesh(mesh, false, intersects);
+
+            assert.equal(intersects.length, 0);
+        });
+
+        it('shouldn\t intersect near ray', () => {
+            mesh.position[0] = 10;
+            mesh.position[1] = 0.25;
+            mesh.updateLocalMatrix();
+            mesh.updateWorldMatrix();
+            raycaster.near = 15;
+
+            raycaster.intersectMesh(mesh, false, intersects);
+
+            assert.equal(intersects.length, 0);
+        });
+
+        it('shouldn\'t call intersectObject with child', () => {
+            const child = new Object3D();
+            mesh.add(child);
+            const spy = sinon.spy(raycaster, 'intersectObject');
+            raycaster.intersectMesh(mesh, false, intersects);
+            assert.ok(!spy.called);
+        });
+
+        it('should call raycast of child if recursive is true', () => {
+            const child = new Object3D();
+            mesh.add(child);
+            const spy = sinon.spy(raycaster, 'intersectObject');
+            raycaster.intersectMesh(mesh, true, intersects);
+            assert.ok(spy.calledOnce);
+        });
+    });
+
+    describe('#setFromCamera', () => {
+        //
     });
 });

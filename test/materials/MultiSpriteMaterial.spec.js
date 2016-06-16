@@ -1,6 +1,6 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
-import MultiSprite from '../../src/MultiSprite';
+import libConstants from '../../src/libConstants';
 
 import MultiSpriteMaterial from '../../src/materials/MultiSpriteMaterial';
 
@@ -19,6 +19,10 @@ describe('MultiSpriteMaterial', () => {
         it('should have smoothing field', () => {
             assert.equal(material.smoothing, 1);
         });
+
+        it('should have right type', () => {
+            assert.equal(libConstants.MULTI_SPRITE_MATERIAL, material.type);
+        });
     });
 
     describe('#setTexture and #getTexture', () => {
@@ -30,16 +34,6 @@ describe('MultiSpriteMaterial', () => {
             const texture = {};
             material.setTexture(texture);
             assert.equal(material.getTexture(), texture);
-        });
-    });
-
-    describe('#typifyForRender', () => {
-        it('should identify as multiSprite', () => {
-            const object = new MultiSprite([], material);
-            const typedObjects = {multiSprites: []};
-
-            material.typifyForRender(typedObjects, object);
-            assert.equal(typedObjects.multiSprites[0], object);
         });
     });
 });

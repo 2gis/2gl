@@ -1,3 +1,5 @@
+import libConstants from '../libConstants';
+
 /**
  * Материал для мультиспрайтов. Она не наследуются от {@link Material}
  * и выполняет только связывание шейдера с униформами.
@@ -7,6 +9,12 @@ class MultiSpriteMaterial {
     constructor() {
         this.smoothing = 1;
         this._texture = null;
+
+        /**
+         * Используется для обозначения типа материала
+         * @type {Number}
+         */
+        this.type = libConstants.MULTI_SPRITE_MATERIAL;
     }
 
     /**
@@ -38,16 +46,6 @@ class MultiSpriteMaterial {
     }
 
     disable() {}
-
-    /**
-     * Вызывается спрайтом, чтобы определить его к специфичному рендеру.
-     *
-     * @param {TypedObjects} typedObjects
-     * @param {Sprite} object
-     */
-    typifyForRender(typedObjects, object) {
-        typedObjects.multiSprites.push(object);
-    }
 }
 
 export default MultiSpriteMaterial;

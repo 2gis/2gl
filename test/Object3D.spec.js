@@ -68,22 +68,6 @@ describe('Object3D', () => {
         });
     });
 
-    describe('#raycast', () => {
-        it('shouldn\'t call raycast of child', () => {
-            a.add(b);
-            const spy = sinon.spy(b, 'raycast');
-            a.raycast(null, null);
-            assert.ok(!spy.called);
-        });
-
-        it('should call raycast of child if recursive is true', () => {
-            a.add(b);
-            const spy = sinon.spy(b, 'raycast');
-            a.raycast(null, null, true);
-            assert.ok(spy.calledOnce);
-        });
-    });
-
     it('#updateLocalMatrix', () => {
         const oldMatrix = slice(a.localMatrix);
 
@@ -222,41 +206,4 @@ describe('Object3D', () => {
             assert.ok(spy.calledOnce);
         });
     });
-
-    describe('#typifyForRender', () => {
-        let typedObjects;
-
-        beforeEach(() => {
-            typedObjects = {common: []};
-        });
-
-        afterEach(() => {
-            typedObjects = null;
-        });
-
-        it('should identify to common', () => {
-            a.typifyForRender(typedObjects);
-            assert.equal(typedObjects.common.length, 1);
-        });
-
-        it('should children identify to common', () => {
-            a.add(b);
-            a.typifyForRender(typedObjects);
-            assert.equal(typedObjects.common.length, 2);
-        });
-
-        it('should not call if object invisible', () => {
-            a.visible = false;
-            a.typifyForRender(typedObjects);
-            assert.equal(typedObjects.common.length, 0);
-        });
-
-        it('should call once if object one child invisible', () => {
-            a.add(b);
-            b.visible = false;
-            a.typifyForRender(typedObjects);
-            assert.equal(typedObjects.common.length, 1);
-        });
-    });
 });
-

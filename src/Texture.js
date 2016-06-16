@@ -64,7 +64,6 @@ class Texture {
         return this;
     }
 
-
     /**
      * Удаляет текстуру из видеокарты
      *

@@ -1,3 +1,5 @@
+import libConstants from '../libConstants';
+
 /**
  * Материал для спрайтов. Она не наследуются от {@link Material}
  * и выполняет только связывание шейдера с униформами.
@@ -8,6 +10,12 @@ class SpriteMaterial {
         this.opacity = 1;
         this.smoothing = 0;
         this._texture = null;
+
+        /**
+         * Используется для обозначения типа материала
+         * @type {Number}
+         */
+        this.type = libConstants.SPRITE_MATERIAL;
     }
 
     /**
@@ -46,16 +54,6 @@ class SpriteMaterial {
     }
 
     disable() {}
-
-    /**
-     * Вызывается спрайтом, чтобы определить его к специфичному рендеру.
-     *
-     * @param {TypedObjects} typedObjects
-     * @param {Sprite} object
-     */
-    typifyForRender(typedObjects, object) {
-        typedObjects.sprites.push(object);
-    }
 }
 
 export default SpriteMaterial;

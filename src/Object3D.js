@@ -1,4 +1,6 @@
 import {vec3, mat4, quat} from 'gl-matrix';
+import libConstants from './libConstants';
+import './rendererPlugins/CommonPlugin';
 
 /**
  * Базовый класс для 3D объектов.
@@ -69,6 +71,12 @@ class Object3D {
          * @type {boolean}
          */
         this.worldMatrixNeedsUpdate = false;
+
+        /**
+         * Используется для обозначения типа объекта
+         * @type {Number}
+         */
+        this.type = libConstants.OBJECT_3D;
     }
 
     /**
@@ -96,22 +104,6 @@ class Object3D {
         if (index !== -1) {
             object.parent = null;
             this.children.splice(index, 1);
-        }
-
-        return this;
-    }
-
-    /**
-     * Проверяет пересекает ли {@link Raycaster} данный объект, вносит все пересечения в массив intersects.
-     * @param {Raycaster} raycaster
-     * @param {Intersect[]} intersects
-     * @param {Boolean} recursive Проверять ли пересечения с дочерними объектами
-     */
-    raycast(raycaster, intersects, recursive) {
-        // у Object3D пустой метод, проверяем только дочерние объекты
-
-        if (recursive) {
-            this.children.forEach(child => child.raycast(raycaster, intersects, recursive));
         }
 
         return this;
@@ -195,14 +187,14 @@ class Object3D {
 
     /**
      * Вызывается на этапе рендеринга, чтобы определить к какому типу рендера принадлежит объект.
-     * @param {TypedObjects} typedObjects
+     * @param {Object} renderPlugins
      */
-    typifyForRender(typedObjects) {
+    typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        typedObjects.common.push(this);
+        renderPlugins[libConstants.COMMON_RENDERER].addObject(this);
 
-        this.children.forEach(child => child.typifyForRender(typedObjects));
+        this.children.forEach(child => child.typifyForRender(renderPlugins));
 
         return this;
     }

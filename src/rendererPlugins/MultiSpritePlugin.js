@@ -1,18 +1,22 @@
-import {multiSprite as shader} from '../shaders';
+import fragmentShader from '../shaders/multiSprite.frag.js';
+import vertexShader from '../shaders/multiSprite.vert.js';
 import ShaderProgram from '../ShaderProgram';
+import RendererPlugin from '../RendererPlugin';
+import Renderer from '../Renderer';
+import libConstants from '../libConstants';
 
 /**
- * Отдельный рендер, используется для отрисовки мультиспрайтов.
- * @ignore
+ *  Плагин для рендера {@MultiSprite} объектов, добавляется автоматически при их использовании.
  */
-class MultiSpriteRenderer {
+class MultiSpritePlugin extends RendererPlugin {
     constructor(renderer) {
+        super();
+
         this._renderer = renderer;
-        this._shader = shader;
 
         this._shaderProgram = new ShaderProgram({
-            vertex: shader.vertex,
-            fragment: shader.fragment,
+            vertex: vertexShader,
+            fragment: fragmentShader,
             uniforms: [
                 {name: 'uPCamera', type: 'mat4'},
                 {name: 'uHalfSize', type: '2f'},
@@ -28,9 +32,15 @@ class MultiSpriteRenderer {
                 {name: 'offset'}
             ]
         });
+
+        this.type = libConstants.MULTI_SPRITE_RENDERER;
     }
 
-    render(state, renderObjects) {
+    /**
+     * Рисует сцену с помощью этого плагина
+     * @param {State} state
+     */
+    render(state) {
         const size = this._renderer.getSize();
         const {gl, camera} = state;
 
@@ -52,7 +62,8 @@ class MultiSpriteRenderer {
 
         gl.activeTexture(gl.TEXTURE0);
 
-        renderObjects.forEach(object => object.render(state));
+        this._objects.forEach(object => object.render(state));
+        this._objects = [];
 
         this._shaderProgram.disable(gl);
 
@@ -60,4 +71,6 @@ class MultiSpriteRenderer {
     }
 }
 
-export default MultiSpriteRenderer;
+Renderer.addPlugin(30, MultiSpritePlugin);
+
+export default MultiSpritePlugin;

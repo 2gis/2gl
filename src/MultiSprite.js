@@ -1,6 +1,8 @@
 import Object3D from './Object3D';
 import Geometry from './Geometry';
 import Buffer from './Buffer';
+import libConstants from './libConstants';
+import './rendererPlugins/MultiSpritePlugin';
 
 /**
  * Используется для отрисовки мультиспрайтов. Мультиспрайт представляет собой множество
@@ -22,6 +24,12 @@ class MultiSprite extends Object3D {
          * @type {SpriteMaterial}
          */
         this.material = material;
+
+        /**
+         * Используется для обозначения типа объекта
+         * @type {Number}
+         */
+        this.type = libConstants.MULTI_SPRITE;
 
         this._initArrays(sprites);
         this._initGeometry();
@@ -190,15 +198,15 @@ class MultiSprite extends Object3D {
      * Вызывается на этапе рендеринга, чтобы определить к какому типу рендера принадлежит объект.
      * Спрайты рисуются отдельным рендером.
      *
-     * @param {TypedObjects} typedObjects
+     * @param {Object} renderPlugins
      */
-    typifyForRender(typedObjects) {
+    typifyForRender(renderPlugins) {
         // Если cпрайт невидим или у программы спрайта не установлена текстура, то не рендерим его
         if (!this.visible || !this.material.getTexture()) { return this; }
 
-        this.material.typifyForRender(typedObjects, this);
+        renderPlugins[libConstants.MULTI_SPRITE_RENDERER].addObject(this);
 
-        this.children.forEach(child => child.typifyForRender(typedObjects));
+        this.children.forEach(child => child.typifyForRender(renderPlugins));
 
         return this;
     }

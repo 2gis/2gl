@@ -1,5 +1,7 @@
 import Object3D from './Object3D';
 import {vec2} from 'gl-matrix';
+import libConstants from './libConstants';
+import './rendererPlugins/SpritePlugin';
 
 /**
  * Используется для отрисовки спрайтов. Спрайты всегда рисуются лицевой стороной
@@ -26,6 +28,12 @@ class Sprite extends Object3D {
          * @type {vec2}
          */
         this.offset = vec2.create();
+
+        /**
+         * Используется для обозначения типа объекта
+         * @type {Number}
+         */
+        this.type = libConstants.SPRITE;
     }
 
     render(state) {
@@ -54,14 +62,14 @@ class Sprite extends Object3D {
      * Вызывается на этапе рендеринга, чтобы определить к какому типу рендера принадлежит объект.
      * Спрайты рисуются отдельным рендером.
      *
-     * @param {TypedObjects} typedObjects
+     * @param {Object} renderPlugins
      */
-    typifyForRender(typedObjects) {
+    typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        this.material.typifyForRender(typedObjects, this);
+        renderPlugins[libConstants.SPRITE_RENDERER].addObject(this);
 
-        this.children.forEach(child => child.typifyForRender(typedObjects));
+        this.children.forEach(child => child.typifyForRender(renderPlugins));
 
         return this;
     }

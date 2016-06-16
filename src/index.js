@@ -1,4 +1,9 @@
-import Renderer from './renderer/Renderer';
+/**
+ * Модуль подключает все компоненты 2gl для того, чтобы их можно было собрать в один бандл в dist
+ */
+
+import Renderer from './Renderer';
+import RendererPlugin from './RendererPlugin';
 import Object3D from './Object3D';
 import PerspectiveCamera from './cameras/PerspectiveCamera';
 import OrthographicCamera from './cameras/OrthographicCamera';
@@ -31,6 +36,7 @@ glMatrix.ARRAY_TYPE = (typeof Float64Array !== 'undefined') ? Float64Array : Arr
 
 const dgl = {
     Renderer,
+    RendererPlugin,
     Object3D,
     PerspectiveCamera,
     OrthographicCamera,

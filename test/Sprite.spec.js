@@ -6,6 +6,7 @@ import SpriteMaterial from '../src/materials/SpriteMaterial';
 import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
+import libConstants from '../src/libConstants';
 
 import Sprite from '../src/Sprite';
 
@@ -29,6 +30,10 @@ describe('Sprite', () => {
 
         it('should be equal sprite.material and passed material as argument', () => {
             assert.equal(material, sprite.material);
+        });
+
+        it('should have right type', () => {
+            assert.equal(libConstants.SPRITE, sprite.type);
         });
     });
 
@@ -117,48 +122,6 @@ describe('Sprite', () => {
             sprite.material.setTexture(texture);
 
             sprite.render(state);
-            assert.ok(spy.calledOnce);
-        });
-    });
-
-    describe('#typifyForRender', () => {
-        let typedObjects, spy;
-
-        beforeEach(() => {
-            spy = sinon.spy(material, 'typifyForRender');
-            typedObjects = {sprites: []};
-        });
-
-        afterEach(() => {
-            spy.restore();
-            typedObjects = spy = null;
-        });
-
-        it('should call typifyForRender method from sprite material', () => {
-            sprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledOnce);
-        });
-
-        it('should call twice typifyForRender method from sprite and child material', () => {
-            const b = new Sprite(material);
-
-            sprite.add(b);
-            sprite.typifyForRender(typedObjects);
-            assert.ok(spy.calledTwice);
-        });
-
-        it('should not call if object invisible', () => {
-            sprite.visible = false;
-            sprite.typifyForRender(typedObjects);
-            assert.ok(!spy.called);
-        });
-
-        it('should call once from object and not call from invisible child', () => {
-            const b = new Sprite(material);
-            b.visible = false;
-
-            sprite.add(b);
-            sprite.typifyForRender(typedObjects);
             assert.ok(spy.calledOnce);
         });
     });

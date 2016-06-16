@@ -1,5 +1,12 @@
-import {basic as shader} from '../shaders';
+import fragmentShader from '../shaders/basic.frag.js';
+import vertexShader from '../shaders/basic.vert.js';
 import Material from './Material';
+import libConstants from '../libConstants';
+
+const shader = {
+    fragment: fragmentShader,
+    vertex: vertexShader
+};
 
 /**
  * Простой материал для {@link Mesh}. Раскрашивает весь объект в один заданный цвет.
@@ -26,6 +33,12 @@ class BasicMeshMaterial extends Material {
          * @type {Number[]}
          */
         this.color = [0, 0, 0];
+
+        /**
+         * Используется для обозначения типа материала
+         * @type {Number}
+         */
+        this.type = libConstants.BASIC_MESH_MATERIAL;
     }
 
     _shaderProgramBind({gl, object, camera}) {

@@ -5,9 +5,9 @@ import sinon from 'sinon';
 import Geometry from '../src/Geometry';
 import Buffer from '../src/Buffer';
 import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
-import Raycaster from '../src/Raycaster';
-import {vec3} from 'gl-matrix';
 import Object3D from '../src/Object3D';
+import libConstants from '../src/libConstants';
+import Renderer from '../src/Renderer';
 
 import Mesh from '../src/Mesh';
 
@@ -38,6 +38,10 @@ describe('Mesh', () => {
 
         it('should be equal mesh.geometry and passed geometry as argument', () => {
             assert.equal(geometry, mesh.geometry);
+        });
+
+        it('should have right type', () => {
+            assert.equal(libConstants.MESH, mesh.type);
         });
     });
 
@@ -98,110 +102,34 @@ describe('Mesh', () => {
         });
     });
 
-    describe('#raycast', () => {
-        let raycaster, intersects;
-
-        beforeEach(() => {
-            raycaster = new Raycaster(vec3.create(), vec3.fromValues(1, 0, 0));
-            intersects = [];
-        });
-
-        afterEach(() => {
-            raycaster = intersects = null;
-        });
-
-        it('should intersect ray in two places', () => {
-            mesh.position[0] = 10;
-            mesh.position[1] = 0.25;
-            mesh.updateLocalMatrix();
-            mesh.updateWorldMatrix();
-
-            mesh.raycast(raycaster, intersects);
-
-            assert.equal(intersects.length, 2);
-        });
-
-        it('shouldn\'t intersect ray', () => {
-            mesh.position[0] = 10;
-            mesh.position[1] = 10;
-            mesh.updateLocalMatrix();
-            mesh.updateWorldMatrix();
-
-            mesh.raycast(raycaster, intersects);
-
-            assert.equal(intersects.length, 0);
-        });
-
-        it('shouldn\t intersect far ray', () => {
-            mesh.position[0] = 10;
-            mesh.position[1] = 0.25;
-            mesh.updateLocalMatrix();
-            mesh.updateWorldMatrix();
-            raycaster.far = 5;
-
-            mesh.raycast(raycaster, intersects);
-
-            assert.equal(intersects.length, 0);
-        });
-
-        it('shouldn\t intersect near ray', () => {
-            mesh.position[0] = 10;
-            mesh.position[1] = 0.25;
-            mesh.updateLocalMatrix();
-            mesh.updateWorldMatrix();
-            raycaster.near = 15;
-
-            mesh.raycast(raycaster, intersects);
-
-            assert.equal(intersects.length, 0);
-        });
-
-        it('shouldn\'t call raycast of child', () => {
-            const child = new Object3D();
-            mesh.add(child);
-            const spy = sinon.spy(child, 'raycast');
-            mesh.raycast(raycaster, intersects);
-            assert.ok(!spy.called);
-        });
-
-        it('should call raycast of child if recursive is true', () => {
-            const child = new Object3D();
-            mesh.add(child);
-            const spy = sinon.spy(child, 'raycast');
-            mesh.raycast(raycaster, intersects, true);
-            assert.ok(spy.calledOnce);
-        });
-    });
-
     describe('#typifyForRender', () => {
-        let typedObjects, spy;
+        let renderer, spy;
 
         beforeEach(() => {
             spy = sinon.spy(material, 'typifyForRender');
-            typedObjects = {common: [], transparent: []};
+            renderer = new Renderer();
         });
 
         afterEach(() => {
             spy.restore();
-            typedObjects = spy = null;
+            renderer = spy = null;
         });
 
         it('should call typifyForRender method from mesh material', () => {
-            mesh.typifyForRender(typedObjects);
+            mesh.typifyForRender(renderer._pluginsByType);
             assert.ok(spy.calledOnce);
         });
 
         it('should call twice typifyForRender method from mesh and child material', () => {
             const b = new Mesh(geometry, material);
-
             mesh.add(b);
-            mesh.typifyForRender(typedObjects);
+            mesh.typifyForRender(renderer._pluginsByType);
             assert.ok(spy.calledTwice);
         });
 
         it('should not call if object invisible', () => {
             mesh.visible = false;
-            mesh.typifyForRender(typedObjects);
+            mesh.typifyForRender(renderer._pluginsByType);
             assert.ok(!spy.called);
         });
 
@@ -210,7 +138,7 @@ describe('Mesh', () => {
             b.visible = false;
 
             mesh.add(b);
-            mesh.typifyForRender(typedObjects);
+            mesh.typifyForRender(renderer._pluginsByType);
             assert.ok(spy.calledOnce);
         });
     });

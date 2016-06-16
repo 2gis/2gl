@@ -10,7 +10,7 @@ describe('Texture', () => {
     beforeEach(() => {
         src = {};
         texture = new Texture(src);
-            gl = new GlContext();
+        gl = new GlContext();
     });
 
     describe('#enable', () => {

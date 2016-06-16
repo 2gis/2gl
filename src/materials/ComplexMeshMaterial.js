@@ -1,8 +1,13 @@
-import {complex as shader} from '../shaders';
+import fragmentShader from '../shaders/complex.frag.js';
+import vertexShader from '../shaders/complex.vert.js';
 import {vec3, mat3} from 'gl-matrix';
 import Material from './Material';
-import AmbientLight from '../lights/AmbientLight';
-import DirectionalLight from '../lights/DirectionalLight';
+import libConstants from '../libConstants';
+
+const shader = {
+    fragment: fragmentShader,
+    vertex: vertexShader
+};
 
 /**
  * Более сложный материал для {@link Mesh}.
@@ -33,6 +38,12 @@ class ComplexMeshMaterial extends Material {
 
         this._shader = shader;
         this._texture = null;
+
+        /**
+         * Используется для обозначения типа материала
+         * @type {Number}
+         */
+        this.type = libConstants.COMPLEX_MESH_MATERIAL;
     }
 
     /**
@@ -67,7 +78,7 @@ class ComplexMeshMaterial extends Material {
         let directionLightNumber = 0;
 
         scene.getLights().forEach(l => {
-            if (l instanceof DirectionalLight) {
+            if (l.type === libConstants.DIRECTIONAL_LIGHT) {
                 directionLightNumber++;
             }
         });
@@ -106,9 +117,9 @@ class ComplexMeshMaterial extends Material {
             let directionLightsPosition = [];
 
             lights.forEach(light => {
-                if (light instanceof AmbientLight) {
+                if (light.type === libConstants.AMBIENT_LIGHT) {
                     uniforms.uAmbientLightColor = light.color;
-                } else if (light instanceof DirectionalLight) {
+                } else if (light.type === libConstants.DIRECTIONAL_LIGHT) {
                     directionLightsColor = directionLightsColor.concat(light.color);
 
                     const reverted = vec3.create();

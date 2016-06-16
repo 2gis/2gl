@@ -1,5 +1,6 @@
 import {mat4} from 'gl-matrix';
 import Camera from './Camera';
+import libConstants from '../libConstants';
 
 /**
  * Задаёт орфографическую камеру
@@ -53,6 +54,12 @@ class OrthographicCamera extends Camera {
          * @type {Number}
          */
         this.far = far;
+
+        /**
+         * Используется для обозначения типа камеры
+         * @type {Number}
+         */
+        this.type = libConstants.ORTHOGRAPHIC_CAMERA;
     }
 
     updateProjectionMatrix() {

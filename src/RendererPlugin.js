@@ -7,6 +7,12 @@
 class RendererPlugin {
     constructor() {
         this._objects = [];
+
+        /**
+         * Используется для обозначения типа плагина
+         * @type {Number}
+         */
+        this.type = 0;
     }
 
     /**

@@ -77,4 +77,25 @@ describe('Plane', () => {
             assert.equal(plane.constant, newConstant);
         });
     });
+
+    describe('#normalize', () => {
+        let plane;
+
+        beforeEach(() => {
+            const normal = vec3.fromValues(5, 0, 0);
+            plane = new Plane(normal, 20);
+        });
+
+        it('should change constant right', () => {
+            assert.equal(plane.constant, 20);
+            plane.normalize();
+            assert.equal(plane.constant, 4);
+        });
+
+        it('should change normal right', () => {
+            assert.deepEqual(plane.normal, [5, 0, 0]);
+            plane.normalize();
+            assert.deepEqual(plane.normal, [1, 0, 0]);
+        })
+    });
 });

@@ -36,6 +36,13 @@ class Plane {
         this.constant = w;
         return this;
     }
+
+    normalize() {
+        const inverseNormalLength = 1.0 / vec3.len(this.normal);
+        vec3.scale(this.normal, this.normal, inverseNormalLength);
+        this.constant *= inverseNormalLength;
+        return this;
+    }
 }
 
 export default Plane;

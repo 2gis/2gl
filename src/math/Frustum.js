@@ -27,26 +27,17 @@ class Frustum {
 
     /**
      * Устанавливает плоскости frustum в соответствие с матрицей
-     * @param {mat4} matrix
+     * @param {mat4} m
      */
-    setFromMatrix(matrix) {
-        this.planes[0].setComponents(matrix[12] + matrix[0], matrix[13] + matrix[1], matrix[14] + matrix[2],
-             matrix[15] + matrix[3]);
+    setFromMatrix(m) {
+        const planes = this.planes;
 
-        this.planes[1].setComponents(matrix[12] - matrix[0], matrix[13] - matrix[1], matrix[14] - matrix[2],
-             matrix[15] - matrix[3]);
-
-        this.planes[2].setComponents(matrix[12] + matrix[4], matrix[13] + matrix[5], matrix[14] + matrix[6],
-             matrix[15] + matrix[7]);
-
-        this.planes[3].setComponents(matrix[12] - matrix[4], matrix[13] - matrix[5], matrix[14] - matrix[6],
-             matrix[15] - matrix[7]);
-
-        this.planes[4].setComponents(matrix[12] + matrix[8], matrix[13] + matrix[9], matrix[14] + matrix[10],
-             matrix[15] + matrix[11]);
-
-        this.planes[5].setComponents(matrix[12] - matrix[8], matrix[13] - matrix[9], matrix[14] - matrix[10],
-             matrix[15] - matrix[11]);
+        planes[0].setComponents(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]).normalize();
+        planes[1].setComponents(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]).normalize();
+        planes[2].setComponents(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]).normalize();
+        planes[3].setComponents(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]).normalize();
+        planes[4].setComponents(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]).normalize();
+        planes[5].setComponents(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]).normalize();
 
         return this;
     }

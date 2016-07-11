@@ -37,6 +37,9 @@ class Plane {
         return this;
     }
 
+    /**
+     * Нормализует нормаль плоскости и приводит в соответствие её константу
+     */
     normalize() {
         const inverseNormalLength = 1.0 / vec3.len(this.normal);
         vec3.scale(this.normal, this.normal, inverseNormalLength);

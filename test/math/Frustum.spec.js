@@ -56,10 +56,10 @@ describe('Frustum', () => {
 
         it('should have same planes', () => {
             const m = mat4.create();
-            m[0] = 1; m[1] = 0; m[2] = 0; m[3] = -5;
-            m[4] = 0; m[5] = 0; m[6] = 1; m[7] = -5;
-            m[8] = 0; m[9] = 1; m[10] = 0; m[11] = -5;
-            m[12] = 0; m[13] = 0; m[14] = 0; m[15] = 5;
+            m[0] = -1; m[4] = 0; m[8] = 0; m[12] = 5;
+            m[1] = 0; m[5] = 0; m[9] = 1; m[13] = -5;
+            m[2] = 0; m[6] = -1; m[10] = 0; m[14] = 5;
+            m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 5;
 
             const anotherFrustum = new Frustum();
             anotherFrustum.setFromMatrix(m);

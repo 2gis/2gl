@@ -65,9 +65,11 @@ class Buffer {
      * Если используется первый раз, добавляет данные в контекст WebGL.
      *
      * @param {WebGLRenderingContext} gl
-     * @param {?Number} attribute Аттрибут для связывания данных с переменными в шейдере
+     * @param {?Number} location Положение аттрибута для связывания данных с переменными в шейдере
+     * @param {?BufferBindOptions} options Параметры передаваемые в функцию vertexAttribPointer, если их нет,
+     * то используются параметры конкретного буфера. Параметры должны быть переданы все.
      */
-    bind(gl, attribute) {
+    bind(gl, location, options) {
         if (this._preparedGlContext !== gl) {
             this._unprepare(this._preparedGlContext);
         }
@@ -78,7 +80,14 @@ class Buffer {
 
         if (this.type === Buffer.ArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);
-            gl.vertexAttribPointer(attribute, this.itemSize, this._toGlParam(gl, this.dataType), this.normalized, 0, 0);
+
+            if (options) {
+                gl.vertexAttribPointer(location, options.itemSize,
+                    this._toGlParam(gl, options.dataType), options.normalized, options.stride, options.offset);
+            } else {
+                gl.vertexAttribPointer(location, this.itemSize,
+                    this._toGlParam(gl, this.dataType), this.normalized, 0, 0);
+            }
         } else if (this.type === Buffer.ElementArrayBuffer) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._glBuffer);
         }
@@ -210,3 +219,15 @@ Buffer.Float = 20;
 Buffer.UnsignedByte = 21;
 
 export default Buffer;
+
+/**
+ * Параметры передаваемые в функцию vertexAttribPointer.
+ *
+ * @typedef {Object} BufferBindOptions
+ * @property {Number} itemSize Размерность элементов в буфере
+ * @property {Buffer.Float | Buffer.UnsignedByte} dataType Тип данных в буфере
+ * @property {Boolean} normalized Используется для целочисленных типов. Если выставлен в true, то
+ * значения имеющие тип BYTE от -128 до 128 будут переведены от -1.0 до 1.0.
+ * @property {Number} stride
+ * @property {Number} offset
+ */

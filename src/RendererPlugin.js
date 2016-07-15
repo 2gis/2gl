@@ -31,6 +31,10 @@ class RendererPlugin {
         this._objects.push(object);
         return this;
     }
+
+    haveObjects() {
+        return this._objects.length > 0;
+    }
 }
 
 export default RendererPlugin;

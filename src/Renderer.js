@@ -195,7 +195,9 @@ class Renderer {
         // TODO: make state immutable?
 
         this._plugins.forEach(plugin => {
-            plugin.render(state);
+            if (plugin.haveObjects()) {
+                plugin.render(state);
+            }
         });
 
         if (this._renderTarget) {

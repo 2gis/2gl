@@ -217,7 +217,7 @@ class Renderer {
             Plugin: Plugin,
             order: order
         });
-        Renderer.plugins.sort((a, b) => b.order < a.order);
+        Renderer.plugins.sort((a, b) => a.order - b.order);
     }
 
     /**

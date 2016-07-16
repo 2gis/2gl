@@ -55,6 +55,23 @@ describe('ShaderProgram', () => {
             program.enable(gl);
             assert.ok(spy.calledOnce);
         });
+
+        it('should concat shader code if passed array', () => {
+            const spy = sinon.spy(gl, 'shaderSource');
+            const program = new ShaderProgram({
+                vertex: [
+                    'float codeA = 1.0;',
+                    'float codeB = 2.0;'
+                ],
+                fragment: [
+                    'int codeA = 1;',
+                    'int codeB = 2;'
+                ]
+            });
+            program.enable(gl);
+            assert.equal(spy.args[0][1], '\nint codeA = 1;\nint codeB = 2;');
+            assert.equal(spy.args[1][1], '\nfloat codeA = 1.0;\nfloat codeB = 2.0;');
+        });
     });
 
     describe('#bind', () => {

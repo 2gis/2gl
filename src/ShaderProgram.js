@@ -5,18 +5,18 @@ import ShaderUniform from './ShaderUniform';
  * Шейдерная программа инициализирует шейдеры, подготавливает и связывает данные с WebGL.
  *
  * @param {Object} options
- * @param {String} vertex Код вершинного шейдера
- * @param {String} fragment Код фрагментного шейдера
+ * @param {String | String[]} vertex Код вершинного шейдера. Либо строка, либо массив строк,
+ * которые последовательно складываются.
+ * @param {String | String[]} fragment Код фрагментного шейдера. Либо строка, либо массив строк,
+ * которые последовательно складываются.
  * @param {UniformDefinition[]} [options.uniforms=[]] Описание юниформ
  * @param {AttributeDefinition[]} [options.attributes=[]] Описание атрибутов
  * @param {Object[]} [options.definitions=[]]
  */
 class ShaderProgram {
-    constructor(options) {
-        options = options || {};
-
-        this._vertexShaderCode = options.vertex || '';
-        this._fragmentShaderCode = options.fragment || '';
+    constructor(options = {}) {
+        this._vertexShaderCode = this._getShaderCode(options.vertex);
+        this._fragmentShaderCode = this._getShaderCode(options.fragment);
 
         this._uniforms = {};
         options.uniforms = options.uniforms || [];
@@ -90,6 +90,10 @@ class ShaderProgram {
         }
 
         return this;
+    }
+
+    _getShaderCode(code) {
+        return Array.isArray(code) ? code.join('\n') : (code || '');
     }
 
     _prepare(gl) {

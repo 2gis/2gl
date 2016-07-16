@@ -3,6 +3,7 @@ import vertexShader from '../shaders/multiSprite.vert.js';
 import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
 import Renderer from '../Renderer';
+import Shader from '../Shader';
 import libConstants from '../libConstants';
 
 /**
@@ -15,8 +16,8 @@ class MultiSpritePlugin extends RendererPlugin {
         this._renderer = renderer;
 
         this._shaderProgram = new ShaderProgram({
-            vertex: vertexShader,
-            fragment: fragmentShader,
+            vertex: new Shader('vertex', vertexShader),
+            fragment: new Shader('fragment', fragmentShader),
             uniforms: [
                 {name: 'uPCamera', type: 'mat4'},
                 {name: 'uHalfSize', type: '2f'},

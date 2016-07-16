@@ -24,12 +24,6 @@ describe('ShaderProgram', () => {
             program = new ShaderProgram();
         });
 
-        it('should create two shaders', () => {
-            const spy = sinon.spy(gl, 'createShader');
-            program.enable(gl);
-            assert.ok(spy.calledTwice);
-        });
-
         it('should create program', () => {
             const spy = sinon.spy(gl, 'createProgram');
             program.enable(gl);
@@ -40,13 +34,6 @@ describe('ShaderProgram', () => {
             const spy = sinon.spy(gl, 'useProgram');
             program.enable(gl);
             assert.ok(spy.calledOnce);
-        });
-
-        it('shouldn\'t create shaders after first call', () => {
-            const spy = sinon.spy(gl, 'createShader');
-            program.enable(gl);
-            program.enable(gl);
-            assert.ok(spy.calledTwice);
         });
 
         it('shouldn\'t create program after first call', () => {

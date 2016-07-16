@@ -4,6 +4,7 @@ import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
 import Geometry from '../Geometry';
 import Renderer from '../Renderer';
+import Shader from '../Shader';
 import Buffer from '../Buffer';
 import libConstants from '../libConstants';
 
@@ -36,8 +37,8 @@ class SpritePlugin extends RendererPlugin {
         this._geometry.getBuffer('index').type = Buffer.ElementArrayBuffer;
 
         this._shaderProgram = new ShaderProgram({
-            vertex: vertexShader,
-            fragment: fragmentShader,
+            vertex: new Shader('vertex', vertexShader),
+            fragment: new Shader('fragment', fragmentShader),
             uniforms: [
                 {name: 'uPCamera', type: 'mat4'},
                 {name: 'uPosition', type: '3f'},

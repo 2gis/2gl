@@ -1,6 +1,8 @@
 import definitions from './definitions';
 import ShaderProgram from '../ShaderProgram';
 import libConstants from '../libConstants';
+import Shader from '../Shader';
+
 import '../rendererPlugins/CommonPlugin';
 import '../rendererPlugins/TransparentPlugin';
 
@@ -106,11 +108,10 @@ class Material {
         }
 
         this._shaderProgram = new ShaderProgram({
-            vertex: this._shader.vertex,
-            fragment: this._shader.fragment,
+            vertex: new Shader('vertex', this._shader.vertex, this._definitions),
+            fragment: new Shader('fragment', this._shader.fragment, this._definitions),
             uniforms: this._uniforms,
-            attributes: this._attributes,
-            definitions: this._definitions
+            attributes: this._attributes
         });
 
         cachedPrograms[this._getCachedProgramKey()] = {

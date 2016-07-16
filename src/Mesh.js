@@ -1,5 +1,5 @@
 import Object3D from './Object3D';
-import libConstants from './libConstants';
+import {MESH} from './libConstants';
 
 /**
  * Используется для отрисовки 3D объектов. Каждому мешу необходимо задать программу и геометрию.
@@ -27,10 +27,18 @@ class Mesh extends Object3D {
         this.material = material;
 
         /**
+         * Определяет порядок отрисовки объектов с выключенным фильтром глубины.
+         * Работает примерно также как и z-index у dom элементов.
+         * Также этот порядок учитывается при отрисовки прозрачных мешей.
+         * @type {number}
+         */
+        this.renderOrder = 0;
+
+        /**
          * Используется для обозначения типа объекта
          * @type {Number}
          */
-        this.type = libConstants.MESH;
+        this.type = MESH;
     }
 
     /**

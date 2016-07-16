@@ -1,6 +1,5 @@
 import {vec3, mat4, quat} from 'gl-matrix';
-import libConstants from './libConstants';
-import './rendererPlugins/CommonPlugin';
+import {OBJECT_3D, COMMON_RENDERER} from './libConstants';
 
 /**
  * Базовый класс для 3D объектов.
@@ -26,14 +25,6 @@ class Object3D {
          * @type {boolean}
          */
         this.visible = true;
-
-        /**
-         * Определяет порядок отрисовки объектов с выключенным фильтром глубины.
-         * Работает примерно также как и z-index у dom элементов.
-         * Также этот порядок учитывается при отрисовки прозрачных мешей.
-         * @type {number}
-         */
-        this.renderOrder = 0;
 
         /**
          * Масштаб объекта
@@ -76,7 +67,7 @@ class Object3D {
          * Используется для обозначения типа объекта
          * @type {Number}
          */
-        this.type = libConstants.OBJECT_3D;
+        this.type = OBJECT_3D;
     }
 
     /**
@@ -192,7 +183,7 @@ class Object3D {
     typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        renderPlugins[libConstants.COMMON_RENDERER].addObject(this);
+        renderPlugins[COMMON_RENDERER].addObject(this);
 
         this.children.forEach(child => child.typifyForRender(renderPlugins));
 

@@ -8,6 +8,7 @@ import Object3D from './Object3D';
 import PerspectiveCamera from './cameras/PerspectiveCamera';
 import OrthographicCamera from './cameras/OrthographicCamera';
 import Buffer from './Buffer';
+import BufferChannel from './BufferChannel';
 import Geometry from './Geometry';
 import ShaderProgram from './ShaderProgram';
 import BasicMeshMaterial from './materials/BasicMeshMaterial';
@@ -41,6 +42,7 @@ const dgl = {
     PerspectiveCamera,
     OrthographicCamera,
     Buffer,
+    BufferChannel,
     Geometry,
     Mesh,
     Sprite,

@@ -114,6 +114,25 @@ describe('Buffer', () => {
             const args = spy.args[0];
             assert.equal(args[3], true);
         });
+
+        it('should call vertexAttribPointer with arguments from options', () => {
+            const options = {
+                itemSize: 20,
+                dataType: Buffer.UnsignedByte,
+                normalized: true,
+                stride: 21,
+                offset: 22
+            };
+            const spy = sinon.spy(gl, 'vertexAttribPointer');
+            buffer.bind(gl, 1, options);
+
+            const args = spy.args[0];
+            assert.equal(args[1], options.itemSize);
+            assert.equal(args[2], gl.UNSIGNED_BYTE);
+            assert.equal(args[3], options.normalized);
+            assert.equal(args[4], options.stride);
+            assert.equal(args[5], options.offset);
+        });
     });
 
     describe('#getArray', () => {

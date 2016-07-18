@@ -10,6 +10,7 @@ import OrthographicCamera from './cameras/OrthographicCamera';
 import Buffer from './Buffer';
 import BufferChannel from './BufferChannel';
 import Geometry from './Geometry';
+import Shader from './Shader';
 import ShaderProgram from './ShaderProgram';
 import BasicMeshMaterial from './materials/BasicMeshMaterial';
 import ComplexMeshMaterial from './materials/ComplexMeshMaterial';
@@ -47,6 +48,7 @@ const dgl = {
     Mesh,
     Sprite,
     MultiSprite,
+    Shader,
     ShaderProgram,
     BasicMeshMaterial,
     ComplexMeshMaterial,

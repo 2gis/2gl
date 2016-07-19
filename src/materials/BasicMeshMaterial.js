@@ -1,5 +1,5 @@
-import fragmentShader from '../shaders/basic.frag.js';
-import vertexShader from '../shaders/basic.vert.js';
+import fragmentShader from '../shaders/basic.frag.glsl.js';
+import vertexShader from '../shaders/basic.vert.glsl.js';
 import Material from './Material';
 import libConstants from '../libConstants';
 

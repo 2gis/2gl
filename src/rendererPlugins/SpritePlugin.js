@@ -1,5 +1,5 @@
-import fragmentShader from '../shaders/sprite.frag.js';
-import vertexShader from '../shaders/sprite.vert.js';
+import fragmentShader from '../shaders/sprite.frag.glsl.js';
+import vertexShader from '../shaders/sprite.vert.glsl.js';
 import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
 import Geometry from '../Geometry';

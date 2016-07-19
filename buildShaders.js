@@ -1,24 +1,47 @@
+#! /usr/bin/env node
 'use strict';
 
 const path = require('path');
 const fs = require('fs');
 
-getFilesByExtName(path.join(__dirname, 'src'), '.glsl')
-    .then(files => {
-        return Promise.all(files.map(file => {
-            const newFileSrc = file.replace('glsl', 'js');
+const args = process.argv.slice(2);
 
-            return readFile(file)
+const inputPath = path.join(process.cwd(), args[0] || '');
+const outputPath = args[1] ? path.join(process.cwd(), args[1]) : inputPath;
+
+/**
+ * Модуль конвертирует GLSL код в js файл со следующим содержимым:
+ *
+ * module.exports = `ваш GLSL код`;
+ *
+ * Вызывается из командной строки, на вход принимает 2 параметра:
+ * 1. Путь в котором искать файлы шейдеров (ищет вложенно)
+ * 2. Путь куда сохранять js файлы шейдеров. Если параметр не указан,
+ * то файлы кладутся рядом с оригинальными.
+ *
+ * Например: buildShaders src/shaders /src/compiledShaders
+ */
+getGLSLFiles(inputPath)
+    .then(files => {
+        return Promise.all(files.map(filePath => {
+            const newFilePath = filePath.replace(inputPath, outputPath) + '.js';
+
+            return mkdirp(path.dirname(newFilePath))
+                .then(() => readFile(filePath))
                 .then(convertGLSL)
-                .then(writeFile(newFileSrc));
+                .then(writeFile(newFilePath))
+                .catch(error => console.error(error));
         }));
     })
     .catch(error => console.error(error));
 
-function getFilesByExtName(src, extName) {
+function getGLSLFiles(src) {
     return getAllFiles(src)
         .then(res => res.filter(src => {
-            return path.extname(src) === extName;
+            const extName = path.extname(src);
+            return extName === '.glsl' ||
+                extName === '.frag' || extName === '.vert' ||
+                extName === '.vsh' || extName === '.fsh';
         }));
 }
 
@@ -64,6 +87,30 @@ function readFile(src) {
 function writeFile(src) {
     return text => new Promise((resolve, reject) => {
         fs.writeFile(src, text, 'utf8', callback(resolve, reject));
+    });
+}
+
+function mkdirp(src) {
+    return new Promise((resolve, reject) => {
+        fs.mkdir(src, err => {
+            if (!err) {
+                return resolve();
+            }
+
+            switch (err.code) {
+                case 'ENOENT':
+                    return mkdirp(path.dirname(src))
+                        .then(() => mkdirp(src))
+                        .then(resolve);
+
+                case 'EEXIST':
+                    resolve();
+                    break;
+
+                default:
+                    reject(err);
+            }
+        });
     });
 }
 

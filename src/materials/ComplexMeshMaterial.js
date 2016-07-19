@@ -1,5 +1,5 @@
-import fragmentShader from '../shaders/complex.frag.js';
-import vertexShader from '../shaders/complex.vert.js';
+import fragmentShader from '../shaders/complex.frag.glsl.js';
+import vertexShader from '../shaders/complex.vert.glsl.js';
 import {vec3, mat3} from 'gl-matrix';
 import Material from './Material';
 import libConstants from '../libConstants';

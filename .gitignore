@@ -4,5 +4,4 @@ npm-debug.log
 coverage
 docs
 dist
-*.vert.js
-*.frag.js
+*.glsl.js

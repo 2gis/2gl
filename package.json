@@ -8,6 +8,9 @@
   },
   "main": "index.js",
   "license": "SEE LICENSE IN FILE",
+  "bin": {
+    "buildShaders": "buildShaders.js"
+  },
   "dependencies": {
     "gl-matrix": "2.3.1"
   },
@@ -39,7 +42,7 @@
   "scripts": {
     "start": "npm run dev",
     "build": "npm run build:shaders && npm run build:dist",
-    "build:shaders": "node buildShaders.js",
+    "build:shaders": "node buildShaders.js src",
     "build:dist": "mkdir -p dist && npm run build:dist:bundle && npm run build:dist:uglify",
     "build:dist:bundle": "browserify src/index.js -s dgl -d -o dist/2gl.js",
     "build:dist:uglify": "uglifyjs dist/2gl.js -mc --screw-ie8 --source-map dist/2gl.js.map -o dist/2gl.js",

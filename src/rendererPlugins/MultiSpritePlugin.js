@@ -1,5 +1,5 @@
-import fragmentShader from '../shaders/multiSprite.frag.js';
-import vertexShader from '../shaders/multiSprite.vert.js';
+import fragmentShader from '../shaders/multiSprite.frag.glsl.js';
+import vertexShader from '../shaders/multiSprite.vert.glsl.js';
 import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
 import Renderer from '../Renderer';

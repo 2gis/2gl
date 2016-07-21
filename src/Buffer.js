@@ -204,6 +204,9 @@ class Buffer {
         if (param === Buffer.ElementArrayBuffer) { return gl.ELEMENT_ARRAY_BUFFER; }
         if (param === Buffer.StaticDraw) { return gl.STATIC_DRAW; }
         if (param === Buffer.DynamicDraw) { return gl.DYNAMIC_DRAW; }
+        if (param === Buffer.Byte) { return gl.BYTE }
+        if (param === Buffer.Short) { return gl.SHORT; }
+        if (param === Buffer.Int) { return gl.INT; }
         if (param === Buffer.Float) { return gl.FLOAT; }
         if (param === Buffer.UnsignedByte) { return gl.UNSIGNED_BYTE; }
         if (param === Buffer.UnsignedShort) { return gl.UNSIGNED_SHORT; }
@@ -221,6 +224,9 @@ Buffer.Float = 20;
 Buffer.UnsignedByte = 21;
 Buffer.UnsignedShort = 22;
 Buffer.UnsignedInt = 22;
+Buffer.Byte = 23;
+Buffer.Short = 24;
+Buffer.Int = 25;
 
 export default Buffer;
 

@@ -1,5 +1,6 @@
 import {vec3, mat4, quat} from 'gl-matrix';
-import {OBJECT_3D, COMMON_RENDERER} from './libConstants';
+import {OBJECT_3D, OBJECT_3D_RENDERER} from './libConstants';
+import './rendererPlugins/Object3DPlugin';
 
 /**
  * Базовый класс для 3D объектов.
@@ -183,7 +184,7 @@ class Object3D {
     typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        renderPlugins[COMMON_RENDERER].addObject(this);
+        renderPlugins[OBJECT_3D_RENDERER].addObject(this);
 
         this.children.forEach(child => child.typifyForRender(renderPlugins));
 

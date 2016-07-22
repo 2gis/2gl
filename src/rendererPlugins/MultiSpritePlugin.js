@@ -72,6 +72,6 @@ class MultiSpritePlugin extends RendererPlugin {
     }
 }
 
-Renderer.addPlugin(30, MultiSpritePlugin);
+Renderer.addPlugin(40, MultiSpritePlugin);
 
 export default MultiSpritePlugin;

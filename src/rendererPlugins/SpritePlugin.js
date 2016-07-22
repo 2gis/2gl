@@ -96,6 +96,6 @@ class SpritePlugin extends RendererPlugin {
     }
 }
 
-Renderer.addPlugin(20, SpritePlugin);
+Renderer.addPlugin(30, SpritePlugin);
 
 export default SpritePlugin;

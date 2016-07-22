@@ -1,6 +1,6 @@
 import definitions from './definitions';
 import ShaderProgram from '../ShaderProgram';
-import libConstants from '../libConstants';
+import {COMMON_RENDERER, TRANSPARENT_RENDERER} from '../libConstants';
 import Shader from '../Shader';
 
 import '../rendererPlugins/CommonPlugin';
@@ -79,9 +79,9 @@ class Material {
      */
     typifyForRender(renderPlugins, object) {
         if (this.opacity === 1) {
-            renderPlugins[libConstants.COMMON_RENDERER].addObject(object);
+            renderPlugins[COMMON_RENDERER].addObject(object);
         } else {
-            renderPlugins[libConstants.TRANSPARENT_RENDERER].addObject(object);
+            renderPlugins[TRANSPARENT_RENDERER].addObject(object);
         }
     }
 

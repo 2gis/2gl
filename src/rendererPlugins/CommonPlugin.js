@@ -48,6 +48,6 @@ class CommonPlugin extends RendererPlugin {
     }
 }
 
-Renderer.addPlugin(0, CommonPlugin);
+Renderer.addPlugin(10, CommonPlugin);
 
 export default CommonPlugin;

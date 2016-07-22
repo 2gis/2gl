@@ -6,8 +6,10 @@ import Geometry from '../src/Geometry';
 import Buffer from '../src/Buffer';
 import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
 import Object3D from '../src/Object3D';
-import libConstants from '../src/libConstants';
+import {MESH} from '../src/libConstants';
 import Renderer from '../src/Renderer';
+import CommonPlugin from '../src/rendererPlugins/CommonPlugin';
+import TransparentPlugin from '../src/rendererPlugins/TransparentPlugin';
 
 import Mesh from '../src/Mesh';
 
@@ -41,7 +43,7 @@ describe('Mesh', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(libConstants.MESH, mesh.type);
+            assert.equal(MESH, mesh.type);
         });
     });
 
@@ -108,6 +110,9 @@ describe('Mesh', () => {
         beforeEach(() => {
             spy = sinon.spy(material, 'typifyForRender');
             renderer = new Renderer();
+            renderer
+                .addPlugin(CommonPlugin)
+                .addPlugin(TransparentPlugin);
         });
 
         afterEach(() => {

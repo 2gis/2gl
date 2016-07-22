@@ -1,6 +1,6 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
-import libConstants from '../../src/libConstants';
+import {COMPLEX_MESH_MATERIAL} from '../../src/libConstants';
 
 import ComplexMeshMaterial from '../../src/materials/ComplexMeshMaterial';
 
@@ -21,7 +21,7 @@ describe('ComplexMeshMaterial', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(libConstants.COMPLEX_MESH_MATERIAL, material.type);
+            assert.equal(COMPLEX_MESH_MATERIAL, material.type);
         });
     });
 

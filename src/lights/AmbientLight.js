@@ -1,4 +1,4 @@
-import libConstants from '../libConstants';
+import {AMBIENT_LIGHT} from '../libConstants';
 import Light from './Light';
 
 /**
@@ -14,7 +14,7 @@ class AmbientLight extends Light {
          * Используется для обозначения типа света
          * @type {Number}
          */
-        this.type = libConstants.AMBIENT_LIGHT;
+        this.type = AMBIENT_LIGHT;
     }
 }
 

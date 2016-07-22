@@ -45,7 +45,7 @@ class ShaderUniform {
     }
 }
 
-module.exports = ShaderUniform;
+export default ShaderUniform;
 
 /**
  * Описание шейдерной юниформы

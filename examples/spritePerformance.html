@@ -83,7 +83,10 @@
         canvas: 'canvas'
     });
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer
+        .addPlugin(dgl.SpritePlugin)
+        .setSize(window.innerWidth, window.innerHeight);
+
     renderer.clearColor = [0.94, 0.94, 0.94, 1];
 
     window.addEventListener('resize', function() {

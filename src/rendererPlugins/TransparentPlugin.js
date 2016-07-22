@@ -1,17 +1,17 @@
 import RendererPlugin from '../RendererPlugin';
-import Renderer from '../Renderer';
-import libConstants from '../libConstants';
+import {TRANSPARENT_RENDERER} from '../libConstants';
 
 /**
  * Плагин для рендера прозрачных объектов.
- * Для того, чтобы он добавился к рендеру, модуль нужно зареквайрить.
- * Для {@link BasicMeshMaterial} и {@link ComplexMeshMaterial} модуль подключается автоматически.
+ * Для того, чтобы он добавился к рендеру, нужно вызвать {@link Renderer#addPlugin}.
+ *
+ * @extends RendererPlugin
  */
 class TransparentPlugin extends RendererPlugin {
     constructor() {
         super();
 
-        this.type = libConstants.TRANSPARENT_RENDERER;
+        this.type = TRANSPARENT_RENDERER;
     }
 
     /**
@@ -55,7 +55,5 @@ class TransparentPlugin extends RendererPlugin {
         return bZ - aZ;
     }
 }
-
-Renderer.addPlugin(10, TransparentPlugin);
 
 export default TransparentPlugin;

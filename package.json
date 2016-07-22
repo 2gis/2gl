@@ -7,6 +7,7 @@
     "url": "git@github.com:2gis/2gl.git"
   },
   "main": "index.js",
+  "jsnext:main": "src/index.js",
   "license": "SEE LICENSE IN FILE",
   "bin": {
     "buildShaders": "buildShaders.js"

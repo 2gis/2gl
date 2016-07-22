@@ -1,11 +1,11 @@
 import RendererPlugin from '../RendererPlugin';
-import Renderer from '../Renderer';
-import libConstants from '../libConstants';
+import {COMMON_RENDERER} from '../libConstants';
 
 /**
  * Плагин для рендера простых объектов.
- * Для того, чтобы он добавился к рендеру, модуль нужно зареквайрить.
- * Для {@link BasicMeshMaterial} и {@link ComplexMeshMaterial} модуль подключается автоматически.
+ * Для того, чтобы он добавился к рендеру, нужно вызвать {@link Renderer#addPlugin}.
+ *
+ * @extends RendererPlugin
  */
 class CommonPlugin extends RendererPlugin {
     constructor() {
@@ -15,7 +15,7 @@ class CommonPlugin extends RendererPlugin {
          * Используется для обозначения типа плагина
          * @type {Number}
          */
-        this.type = libConstants.COMMON_RENDERER;
+        this.type = COMMON_RENDERER;
     }
 
     /**
@@ -47,7 +47,5 @@ class CommonPlugin extends RendererPlugin {
         return a.renderOrder - b.renderOrder;
     }
 }
-
-Renderer.addPlugin(0, CommonPlugin);
 
 export default CommonPlugin;

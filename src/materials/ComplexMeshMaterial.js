@@ -2,7 +2,7 @@ import fragmentShader from '../shaders/complex.frag.glsl.js';
 import vertexShader from '../shaders/complex.vert.glsl.js';
 import {vec3, mat3} from 'gl-matrix';
 import Material from './Material';
-import libConstants from '../libConstants';
+import {COMPLEX_MESH_MATERIAL, DIRECTIONAL_LIGHT, AMBIENT_LIGHT} from '../libConstants';
 
 const shader = {
     fragment: fragmentShader,
@@ -21,6 +21,8 @@ const shader = {
  * 5. texture - 2х мерные координаты сопоставляющие координаты грани к координатам текстуры
  * 6. textureEnable - будет ли использоваться текстура для данной вершины,
  * принимает два значаения: 0 - нет, 1 - да
+ *
+ * Этот материал требует подключения {@link CommonPlugin} и {@link TransparentPlugin} к рендереру.
  *
  * @extends Material
  */
@@ -43,7 +45,7 @@ class ComplexMeshMaterial extends Material {
          * Используется для обозначения типа материала
          * @type {Number}
          */
-        this.type = libConstants.COMPLEX_MESH_MATERIAL;
+        this.type = COMPLEX_MESH_MATERIAL;
     }
 
     /**
@@ -78,7 +80,7 @@ class ComplexMeshMaterial extends Material {
         let directionLightNumber = 0;
 
         scene.getLights().forEach(l => {
-            if (l.type === libConstants.DIRECTIONAL_LIGHT) {
+            if (l.type === DIRECTIONAL_LIGHT) {
                 directionLightNumber++;
             }
         });
@@ -117,9 +119,9 @@ class ComplexMeshMaterial extends Material {
             let directionLightsPosition = [];
 
             lights.forEach(light => {
-                if (light.type === libConstants.AMBIENT_LIGHT) {
+                if (light.type === AMBIENT_LIGHT) {
                     uniforms.uAmbientLightColor = light.color;
-                } else if (light.type === libConstants.DIRECTIONAL_LIGHT) {
+                } else if (light.type === DIRECTIONAL_LIGHT) {
                     directionLightsColor = directionLightsColor.concat(light.color);
 
                     const reverted = vec3.create();

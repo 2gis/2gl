@@ -124,4 +124,4 @@ ShaderProgram.NOT_READY = 1;
 ShaderProgram.READY = 2;
 ShaderProgram.FAILED = 3;
 
-module.exports = ShaderProgram;
+export default ShaderProgram;

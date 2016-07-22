@@ -5,3 +5,5 @@ coverage
 docs
 dist
 *.glsl.js
+.nyc_output
+.DS_Store

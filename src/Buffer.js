@@ -204,7 +204,7 @@ class Buffer {
         if (param === Buffer.ElementArrayBuffer) { return gl.ELEMENT_ARRAY_BUFFER; }
         if (param === Buffer.StaticDraw) { return gl.STATIC_DRAW; }
         if (param === Buffer.DynamicDraw) { return gl.DYNAMIC_DRAW; }
-        if (param === Buffer.Byte) { return gl.BYTE }
+        if (param === Buffer.Byte) { return gl.BYTE; }
         if (param === Buffer.Short) { return gl.SHORT; }
         if (param === Buffer.Int) { return gl.INT; }
         if (param === Buffer.Float) { return gl.FLOAT; }

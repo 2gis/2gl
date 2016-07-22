@@ -96,6 +96,6 @@ describe('Plane', () => {
             assert.deepEqual(plane.normal, [5, 0, 0]);
             plane.normalize();
             assert.deepEqual(plane.normal, [1, 0, 0]);
-        })
+        });
     });
 });

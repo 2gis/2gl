@@ -1,4 +1,4 @@
-import libConstants from '../libConstants';
+import {MULTI_SPRITE_MATERIAL} from '../libConstants';
 
 /**
  * Материал для мультиспрайтов. Она не наследуются от {@link Material}
@@ -14,7 +14,7 @@ class MultiSpriteMaterial {
          * Используется для обозначения типа материала
          * @type {Number}
          */
-        this.type = libConstants.MULTI_SPRITE_MATERIAL;
+        this.type = MULTI_SPRITE_MATERIAL;
     }
 
     /**

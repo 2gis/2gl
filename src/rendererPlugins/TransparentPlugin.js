@@ -56,6 +56,6 @@ class TransparentPlugin extends RendererPlugin {
     }
 }
 
-Renderer.addPlugin(10, TransparentPlugin);
+Renderer.addPlugin(20, TransparentPlugin);
 
 export default TransparentPlugin;

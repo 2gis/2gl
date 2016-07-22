@@ -1,4 +1,4 @@
-import libConstants from '../libConstants';
+import {SPRITE_MATERIAL} from '../libConstants';
 
 /**
  * Материал для спрайтов. Она не наследуются от {@link Material}
@@ -15,7 +15,7 @@ class SpriteMaterial {
          * Используется для обозначения типа материала
          * @type {Number}
          */
-        this.type = libConstants.SPRITE_MATERIAL;
+        this.type = SPRITE_MATERIAL;
     }
 
     /**

@@ -236,7 +236,7 @@ class Renderer {
         // TODO: make state immutable?
 
         this._plugins.forEach(el => {
-            if (el.plugin.haveObjects()) {
+            if (el.plugin.hasObjects()) {
                 el.plugin.render(state);
             }
         });

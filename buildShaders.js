@@ -124,5 +124,5 @@ function callback(resolve, reject) {
 }
 
 function convertGLSL(code) {
-    return 'module.exports = `\n' + code + '`;\n';
+    return 'export default `\n' + code + '`;\n';
 }

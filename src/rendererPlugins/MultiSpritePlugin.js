@@ -2,12 +2,14 @@ import fragmentShader from '../shaders/multiSprite.frag.glsl.js';
 import vertexShader from '../shaders/multiSprite.vert.glsl.js';
 import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
-import Renderer from '../Renderer';
 import Shader from '../Shader';
-import libConstants from '../libConstants';
+import {MULTI_SPRITE_RENDERER} from '../libConstants';
 
 /**
- *  Плагин для рендера {@MultiSprite} объектов, добавляется автоматически при их использовании.
+ * Плагин для рендера {@MultiSprite} объектов.
+ * Для того, чтобы он добавился к рендеру, нужно вызвать {@link Renderer#addPlugin}.
+ *
+ * @extends RendererPlugin
  */
 class MultiSpritePlugin extends RendererPlugin {
     constructor(renderer) {
@@ -34,7 +36,7 @@ class MultiSpritePlugin extends RendererPlugin {
             ]
         });
 
-        this.type = libConstants.MULTI_SPRITE_RENDERER;
+        this.type = MULTI_SPRITE_RENDERER;
     }
 
     /**
@@ -71,7 +73,5 @@ class MultiSpritePlugin extends RendererPlugin {
         return this;
     }
 }
-
-Renderer.addPlugin(30, MultiSpritePlugin);
 
 export default MultiSpritePlugin;

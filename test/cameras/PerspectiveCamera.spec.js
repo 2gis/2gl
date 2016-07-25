@@ -2,7 +2,7 @@ import assert from 'assert';
 import {slice} from '../utils';
 
 import Camera from '../../src/cameras/Camera';
-import libConstants from '../../src/libConstants';
+import {PERSPECTIVE_CAMERA} from '../../src/libConstants';
 
 import PerspectiveCamera from '../../src/cameras/PerspectiveCamera';
 
@@ -30,7 +30,7 @@ describe('PerspectiveCamera', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(libConstants.PERSPECTIVE_CAMERA, camera.type);
+            assert.equal(PERSPECTIVE_CAMERA, camera.type);
         });
     });
 

@@ -1,9 +1,11 @@
 import assert from 'assert';
 import sinon from 'sinon';
 import {getRenderState} from '../utils';
-import Object3D from '../../src/Object3D';
+import Mesh from '../../src/Mesh';
 import Renderer from '../../src/Renderer';
-import libConstants from '../../src/libConstants';
+import {COMMON_RENDERER, TRANSPARENT_RENDERER} from '../../src/libConstants';
+import CommonPlugin from '../../src/rendererPlugins/CommonPlugin';
+import TransparentPlugin from '../../src/rendererPlugins/TransparentPlugin';
 
 import Material from '../../src/materials/Material';
 
@@ -38,26 +40,29 @@ describe('Material', () => {
     });
 
     describe('#typifyForRender', () => {
-        let object, renderer;
+        let mesh, renderer;
 
         beforeEach(() => {
-            object = new Object3D();
+            mesh = new Mesh();
             renderer = new Renderer();
+            renderer
+                .addPlugin(CommonPlugin)
+                .addPlugin(TransparentPlugin);
         });
 
         it('should identify as common', () => {
-            const spy1 = sinon.spy(renderer._pluginsByType[libConstants.COMMON_RENDERER], 'addObject');
-            const spy2 = sinon.spy(renderer._pluginsByType[libConstants.TRANSPARENT_RENDERER], 'addObject');
-            material.typifyForRender(renderer._pluginsByType, object);
+            const spy1 = sinon.spy(renderer._pluginsByType[COMMON_RENDERER], 'addObject');
+            const spy2 = sinon.spy(renderer._pluginsByType[TRANSPARENT_RENDERER], 'addObject');
+            material.typifyForRender(renderer._pluginsByType, mesh);
             assert.ok(spy1.called);
             assert.ok(!spy2.called);
         });
 
         it('should identify as transparent', () => {
-            const spy1 = sinon.spy(renderer._pluginsByType[libConstants.COMMON_RENDERER], 'addObject');
-            const spy2 = sinon.spy(renderer._pluginsByType[libConstants.TRANSPARENT_RENDERER], 'addObject');
+            const spy1 = sinon.spy(renderer._pluginsByType[COMMON_RENDERER], 'addObject');
+            const spy2 = sinon.spy(renderer._pluginsByType[TRANSPARENT_RENDERER], 'addObject');
             material.opacity = 0.5;
-            material.typifyForRender(renderer._pluginsByType, object);
+            material.typifyForRender(renderer._pluginsByType, mesh);
             assert.ok(!spy1.called);
             assert.ok(spy2.called);
         });

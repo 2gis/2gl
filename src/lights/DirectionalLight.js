@@ -1,4 +1,4 @@
-import libConstants from '../libConstants';
+import {DIRECTIONAL_LIGHT} from '../libConstants';
 import Light from './Light';
 
 /**
@@ -15,7 +15,7 @@ class DirectionalLight extends Light {
          * Используется для обозначения типа света
          * @type {Number}
          */
-        this.type = libConstants.DIRECTIONAL_LIGHT;
+        this.type = DIRECTIONAL_LIGHT;
     }
 }
 

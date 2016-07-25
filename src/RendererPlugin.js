@@ -32,7 +32,7 @@ class RendererPlugin {
         return this;
     }
 
-    haveObjects() {
+    hasObjects() {
         return this._objects.length > 0;
     }
 }

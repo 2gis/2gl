@@ -3,13 +3,15 @@ import vertexShader from '../shaders/sprite.vert.glsl.js';
 import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
 import Geometry from '../Geometry';
-import Renderer from '../Renderer';
 import Shader from '../Shader';
 import Buffer from '../Buffer';
-import libConstants from '../libConstants';
+import {SPRITE_RENDERER} from '../libConstants';
 
 /**
- *  Плагин для рендера {@Sprite} объектов, добавляется автоматически при их использовании.
+ * Плагин для рендера {@Sprite} объектов.
+ * Для того, чтобы он добавился к рендеру, нужно вызвать {@link Renderer#addPlugin}.
+ *
+ * @extends RendererPlugin
  */
 class SpritePlugin extends RendererPlugin {
     constructor() {
@@ -56,7 +58,7 @@ class SpritePlugin extends RendererPlugin {
             ]
         });
 
-        this.type = libConstants.SPRITE_RENDERER;
+        this.type = SPRITE_RENDERER;
     }
 
     /**
@@ -95,7 +97,5 @@ class SpritePlugin extends RendererPlugin {
         return this;
     }
 }
-
-Renderer.addPlugin(20, SpritePlugin);
 
 export default SpritePlugin;

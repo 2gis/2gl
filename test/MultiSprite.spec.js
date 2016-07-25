@@ -6,7 +6,7 @@ import MultiSpriteMaterial from '../src/materials/MultiSpriteMaterial';
 import ShaderProgram from '../src/ShaderProgram';
 import Object3D from '../src/Object3D';
 import Texture from '../src/Texture';
-import libConstants from '../src/libConstants';
+import {MULTI_SPRITE} from '../src/libConstants';
 
 import MultiSprite from '../src/MultiSprite';
 
@@ -45,7 +45,7 @@ describe('MultiSprite', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(libConstants.MULTI_SPRITE, multiSprite.type);
+            assert.equal(MULTI_SPRITE, multiSprite.type);
         });
     });
 

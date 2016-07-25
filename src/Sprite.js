@@ -1,12 +1,13 @@
 import Object3D from './Object3D';
 import {vec2} from 'gl-matrix';
-import libConstants from './libConstants';
-import './rendererPlugins/SpritePlugin';
+import {SPRITE, SPRITE_RENDERER} from './libConstants';
 
 /**
  * Используется для отрисовки спрайтов. Спрайты всегда рисуются лицевой стороной
  * и их размеры не зависят от положения. Т.е. координаты спрайта проецируются в плоскость экрана,
  * и уже на ней отрисовываются.
+ *
+ * Для отрисовки спрайтов нужно подключить {@link SpritePlugin} к рендереру.
  *
  * @extends {Object3D}
  */
@@ -33,7 +34,7 @@ class Sprite extends Object3D {
          * Используется для обозначения типа объекта
          * @type {Number}
          */
-        this.type = libConstants.SPRITE;
+        this.type = SPRITE;
     }
 
     render(state) {
@@ -67,7 +68,7 @@ class Sprite extends Object3D {
     typifyForRender(renderPlugins) {
         if (!this.visible) { return this; }
 
-        renderPlugins[libConstants.SPRITE_RENDERER].addObject(this);
+        renderPlugins[SPRITE_RENDERER].addObject(this);
 
         this.children.forEach(child => child.typifyForRender(renderPlugins));
 

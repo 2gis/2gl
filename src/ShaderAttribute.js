@@ -36,7 +36,7 @@ class ShaderAttribute {
     }
 }
 
-module.exports = ShaderAttribute;
+export default ShaderAttribute;
 
 /**
  * Описание шейдерного атрибута

@@ -1,6 +1,6 @@
 import assert from 'assert';
 import Material from '../../src/materials/Material';
-import libConstants from '../../src/libConstants';
+import {MULTI_SPRITE_MATERIAL} from '../../src/libConstants';
 
 import MultiSpriteMaterial from '../../src/materials/MultiSpriteMaterial';
 
@@ -21,7 +21,7 @@ describe('MultiSpriteMaterial', () => {
         });
 
         it('should have right type', () => {
-            assert.equal(libConstants.MULTI_SPRITE_MATERIAL, material.type);
+            assert.equal(MULTI_SPRITE_MATERIAL, material.type);
         });
     });
 

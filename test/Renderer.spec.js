@@ -6,7 +6,6 @@ import sinon from 'sinon';
 import Scene from '../src/Scene';
 import Camera from '../src/cameras/Camera';
 import RenderTarget from '../src/RenderTarget';
-import RendererPlugin from '../src/RendererPlugin';
 
 import Renderer from '../src/Renderer';
 
@@ -295,31 +294,6 @@ describe('Renderer', () => {
             renderer.render(scene, camera);
 
             assert.ok(spy.calledOnce);
-        });
-    });
-
-    describe('#addPlugin', () => {
-        it('should add and sort new plugins', () => {
-            class PluginA extends RendererPlugin {
-                constructor() {
-                    super();
-                    this.type = 100001;
-                }
-            }
-
-            class PluginB extends RendererPlugin {
-                constructor() {
-                    super();
-                    this.type = 100002;
-                }
-            }
-
-            Renderer.addPlugin(4000, PluginA);
-            Renderer.addPlugin(3000, PluginB);
-
-            const length = Renderer.plugins.length;
-            assert.equal(Renderer.plugins[length - 1].Plugin, PluginA);
-            assert.equal(Renderer.plugins[length - 2].Plugin, PluginB);
         });
     });
 });

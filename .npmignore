@@ -4,7 +4,6 @@ npm-debug.log
 coverage
 docs
 examples
-src
 test
 .babelrc
 .eslintrc

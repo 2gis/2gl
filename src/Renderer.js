@@ -1,3 +1,5 @@
+import Object3DPlugin from './rendererPlugins/Object3DPlugin';
+
 /**
  * Используется для инициализация WebGL контекста и отрисовки объектов.
  * Для некоторых объектов может использовать специфичные рендеры.
@@ -47,11 +49,50 @@ class Renderer {
 
         this._plugins = [];
         this._pluginsByType = {};
-        Renderer.plugins.forEach(el => {
-            const plugin = new el.Plugin(this);
-            this._plugins.push(plugin);
-            this._pluginsByType[plugin.type] = plugin;
+        this._maxPluginOrder = 0;
+
+        this.addPlugin(Object3DPlugin, 0);
+    }
+
+    /**
+     * Добавляет {@link RendererPlugin} к рендеру. К рендеру может быть добавлен только один плагин каждого типа.
+     * @param {Plugin} Plugin Класс плагина
+     * @param {?Number} order Каждый плагин выполняется при рендеринге по возрастанию order,
+     * если его нет, то выбирается максимальный order + 1.
+     */
+    addPlugin(Plugin, order) {
+        const plugin = new Plugin(this);
+
+        if (order === undefined) {
+            order = this._maxPluginOrder + 1;
+        }
+
+        this._plugins.push({
+            plugin,
+            order
         });
+        this._plugins.sort((a, b) => a.order - b.order);
+        this._pluginsByType[plugin.type] = plugin;
+
+        this._maxPluginOrder = Math.max.apply(Math, this._plugins.map(p => p.order));
+
+        return this;
+    }
+
+    /**
+     * Удаляет {@link RendererPlugin} из рендера.
+     * @param {Plugin} Plugin Класс плагина
+     */
+    removePlugin(Plugin) {
+        this._plugins.some((el, i) => {
+            if (el.plugin instanceof Plugin) {
+                delete this._pluginsByType[this._plugins[i].plugin.type];
+                this._plugins.splice(i, 1);
+                return true;
+            }
+        });
+
+        return this;
     }
 
     /**
@@ -194,9 +235,9 @@ class Renderer {
         };
         // TODO: make state immutable?
 
-        this._plugins.forEach(plugin => {
-            if (plugin.haveObjects()) {
-                plugin.render(state);
+        this._plugins.forEach(el => {
+            if (el.plugin.hasObjects()) {
+                el.plugin.render(state);
             }
         });
 
@@ -206,35 +247,7 @@ class Renderer {
 
         return this;
     }
-
-    /**
-     * Добавляет {@link RendererPlugin} к рендеру. К рендеру может быть добавлен только один плагин каждого типа.
-     * @param {Number} order Каждый плагин выполняется при рендеринге по возрастанию order
-     * @param {Plugin} Plugin Класс плагина
-     */
-    static addPlugin(order, Plugin) {
-        Renderer.plugins.push({
-            Plugin: Plugin,
-            order: order
-        });
-        Renderer.plugins.sort((a, b) => a.order - b.order);
-    }
-
-    /**
-     * Удаляет {@link RendererPlugin} из рендера.
-     * @param {Plugin} Plugin Класс плагина
-     */
-    static removePlugin(Plugin) {
-        Renderer.plugins.some((el, i) => {
-            if (el.Plugin === Plugin) {
-                Renderer.plugins.splice(i, 1);
-                return true;
-            }
-        });
-    }
 }
-
-Renderer.plugins = [];
 
 export default Renderer;
 

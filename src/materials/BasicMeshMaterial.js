@@ -1,7 +1,7 @@
 import fragmentShader from '../shaders/basic.frag.glsl.js';
 import vertexShader from '../shaders/basic.vert.glsl.js';
 import Material from './Material';
-import libConstants from '../libConstants';
+import {BASIC_MESH_MATERIAL} from '../libConstants';
 
 const shader = {
     fragment: fragmentShader,
@@ -11,6 +11,7 @@ const shader = {
 /**
  * Простой материал для {@link Mesh}. Раскрашивает весь объект в один заданный цвет.
  * {@link Geometry} меша использующего этот материал должна содержать буфер вершин.
+ * Этот материал требует подключения {@link CommonPlugin} и {@link TransparentPlugin} к рендереру.
  *
  * @extends Material
  */
@@ -38,7 +39,7 @@ class BasicMeshMaterial extends Material {
          * Используется для обозначения типа материала
          * @type {Number}
          */
-        this.type = libConstants.BASIC_MESH_MATERIAL;
+        this.type = BASIC_MESH_MATERIAL;
     }
 
     _shaderProgramBind({gl, object, camera}) {

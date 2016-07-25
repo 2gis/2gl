@@ -99,7 +99,10 @@
         canvas: 'canvas'
     });
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer
+        .addPlugin(dgl.CommonPlugin)
+        .addPlugin(dgl.TransparentPlugin)
+        .setSize(window.innerWidth, window.innerHeight);
 
     window.addEventListener('resize', function() {
         stats.reset();

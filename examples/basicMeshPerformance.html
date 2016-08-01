@@ -100,8 +100,8 @@
     });
 
     renderer
-        .addPlugin(dgl.CommonPlugin)
-        .addPlugin(dgl.TransparentPlugin)
+        .addPlugin(new dgl.CommonPlugin())
+        .addPlugin(new dgl.TransparentPlugin())
         .setSize(window.innerWidth, window.innerHeight);
 
     window.addEventListener('resize', function() {

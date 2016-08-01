@@ -7,15 +7,13 @@ import {MULTI_SPRITE_RENDERER} from '../libConstants';
 
 /**
  * Плагин для рендера {@MultiSprite} объектов.
- * Для того, чтобы он добавился к рендеру, нужно вызвать {@link Renderer#addPlugin}.
+ * Для того, чтобы он добавился к рендеру, его нужно создать и вызвать {@link Renderer#addPlugin}.
  *
  * @extends RendererPlugin
  */
 class MultiSpritePlugin extends RendererPlugin {
-    constructor(renderer) {
+    constructor() {
         super();
-
-        this._renderer = renderer;
 
         this._shaderProgram = new ShaderProgram({
             vertex: new Shader('vertex', vertexShader),
@@ -44,8 +42,8 @@ class MultiSpritePlugin extends RendererPlugin {
      * @param {State} state
      */
     render(state) {
-        const size = this._renderer.getSize();
-        const {gl, camera} = state;
+        const {gl, camera, renderer} = state;
+        const size = renderer.getSize();
 
         state.shaderProgram = this._shaderProgram;
 

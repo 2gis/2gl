@@ -111,8 +111,8 @@ describe('Mesh', () => {
             spy = sinon.spy(material, 'typifyForRender');
             renderer = new Renderer();
             renderer
-                .addPlugin(CommonPlugin)
-                .addPlugin(TransparentPlugin);
+                .addPlugin(new CommonPlugin())
+                .addPlugin(new TransparentPlugin());
         });
 
         afterEach(() => {

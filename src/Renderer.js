@@ -51,18 +51,16 @@ class Renderer {
         this._pluginsByType = {};
         this._maxPluginOrder = 0;
 
-        this.addPlugin(Object3DPlugin, 0);
+        this.addPlugin(new Object3DPlugin(), 0);
     }
 
     /**
      * Добавляет {@link RendererPlugin} к рендеру. К рендеру может быть добавлен только один плагин каждого типа.
-     * @param {Plugin} Plugin Класс плагина
+     * @param {Plugin} plugin Плагин
      * @param {?Number} order Каждый плагин выполняется при рендеринге по возрастанию order,
      * если его нет, то выбирается максимальный order + 1.
      */
-    addPlugin(Plugin, order) {
-        const plugin = new Plugin(this);
-
+    addPlugin(plugin, order) {
         if (order === undefined) {
             order = this._maxPluginOrder + 1;
         }

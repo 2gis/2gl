@@ -46,8 +46,8 @@ describe('Material', () => {
             mesh = new Mesh();
             renderer = new Renderer();
             renderer
-                .addPlugin(CommonPlugin)
-                .addPlugin(TransparentPlugin);
+                .addPlugin(new CommonPlugin())
+                .addPlugin(new TransparentPlugin());
         });
 
         it('should identify as common', () => {

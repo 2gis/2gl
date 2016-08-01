@@ -3,7 +3,7 @@ import {TRANSPARENT_RENDERER} from '../libConstants';
 
 /**
  * Плагин для рендера прозрачных объектов.
- * Для того, чтобы он добавился к рендеру, нужно вызвать {@link Renderer#addPlugin}.
+ * Для того, чтобы он добавился к рендеру, его нужно создать и вызвать {@link Renderer#addPlugin}.
  *
  * @extends RendererPlugin
  */

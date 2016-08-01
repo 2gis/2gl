@@ -5,6 +5,8 @@ import {OBJECT_3D_RENDERER} from '../libConstants';
  * Плагин - заглушка для {@link Object3D}.
  * Он не делает ничего лишнего, только вызывает метод {@link Object3D#render}.
  * Этот плагин должен всегда рендериться первым и добавляется автоматически.
+ *
+ * @extends RendererPlugin
  */
 class Object3DPlugin extends RendererPlugin {
     constructor() {

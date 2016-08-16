@@ -205,8 +205,9 @@ class Renderer {
      * Рисует сцену
      * @param {Scene} scene Сцена
      * @param {Camera} camera Камера
+     * @param {*} userData Дополнительная информация, которая будет передана всем плагинам и объектам
      */
-    render(scene, camera) {
+    render(scene, camera, userData) {
         const gl = this._gl;
 
         scene.typifyForRender(this._pluginsByType);
@@ -229,7 +230,8 @@ class Renderer {
             renderer: this,
             scene,
             camera,
-            gl
+            gl,
+            userData
         };
         // TODO: make state immutable?
 

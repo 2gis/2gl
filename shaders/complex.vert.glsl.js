@@ -1,0 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = "\nattribute vec3 position;\nattribute vec3 color;\nattribute vec3 emissive;\n\n#ifdef USE_TEXTURE\n    attribute vec2 texture;\n    attribute float textureEnable;\n    varying vec2 vTextureCoord;\n    varying float vTextureEnable;\n#endif\n\n#if DIR_LIGHT_NUM > 0\n    attribute vec3 normal;\n    uniform vec3 uDirectionLightColors[DIR_LIGHT_NUM];\n    uniform vec3 uDirectionLightPositions[DIR_LIGHT_NUM];\n    uniform mat3 uNormalMatrix;\n#endif\n\nuniform mat4 uPosition;\nuniform vec3 uAmbientLightColor;\nuniform mat4 uCamera;\n\nvarying vec3 vColor;\nvarying vec3 vEmissive;\nvarying vec3 vLightWeighting;\n\nvoid main(void) {\n    vColor = color;\n    vEmissive = emissive;\n\n    #ifdef USE_TEXTURE\n        vTextureCoord = texture;\n        vTextureEnable = textureEnable;\n    #endif\n\n    vec3 vLightTemp = vec3(0.0);\n\n    #if DIR_LIGHT_NUM > 0\n        vec3 transformedNormal = uNormalMatrix * normal;\n\n        for(int i = 0; i < DIR_LIGHT_NUM; i++) {\n            float dotProduct = dot(transformedNormal, uDirectionLightPositions[i]);\n            vec3 directionalLightWeighting = vec3(max(dotProduct, 0.0));\n            vLightTemp += uDirectionLightColors[i] * directionalLightWeighting;\n        }\n    #endif\n\n    vLightWeighting = uAmbientLightColor + vLightTemp;\n\n    gl_Position = uCamera * uPosition * vec4(position, 1.0);\n}\n";
+module.exports = exports['default'];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjb21wbGV4LnZlcnQuZ2xzbC5qcyIsInNvdXJjZXNDb250ZW50IjpbXX0=

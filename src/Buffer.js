@@ -223,10 +223,10 @@ Buffer.DynamicDraw = 11;
 Buffer.Float = 20;
 Buffer.UnsignedByte = 21;
 Buffer.UnsignedShort = 22;
-Buffer.UnsignedInt = 22;
-Buffer.Byte = 23;
-Buffer.Short = 24;
-Buffer.Int = 25;
+Buffer.UnsignedInt = 23;
+Buffer.Byte = 24;
+Buffer.Short = 25;
+Buffer.Int = 26;
 
 export default Buffer;
 

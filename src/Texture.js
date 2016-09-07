@@ -41,6 +41,18 @@ class Texture {
          * @type {Boolean}
          */
         this.generateMipmaps = true;
+
+        /**
+         * Нужно ли отражать текстуру относительно оси Y.
+         * @type {Boolean}
+         */
+        this.flipY = true;
+
+        /**
+         * Сохранен ли цвет текстуры с premultiply аlpha.
+         * @type {Boolean}
+         */
+        this.premultiplyAlpha = true;
     }
 
     /**
@@ -81,8 +93,14 @@ class Texture {
         this._texture = gl.createTexture();
 
         gl.bindTexture(gl.TEXTURE_2D, this._texture);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+
+        if (this.flipY) {
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        }
+
+        if (this.premultiplyAlpha) {
+            gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+        }
 
         if (this.size) {
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.size[0], this.size[1], 0, gl.RGBA, gl.UNSIGNED_BYTE,
@@ -109,6 +127,8 @@ class Texture {
 
     _toGlParam(gl, param) {
         if (param === Texture.ClampToEdgeWrapping) { return gl.CLAMP_TO_EDGE; }
+        if (param === Texture.Repeat) { return gl.REPEAT; }
+        if (param === Texture.MirroredRepeat) { return gl.MIRRORED_REPEAT; }
 
         if (param === Texture.NearestFilter) { return gl.NEAREST; }
         if (param === Texture.NearestMipMapNearestFilter) { return gl.NEAREST_MIPMAP_NEAREST; }
@@ -121,6 +141,8 @@ class Texture {
 }
 
 Texture.ClampToEdgeWrapping = 8;
+Texture.Repeat = 9;
+Texture.MirroredRepeat = 10;
 
 Texture.NearestFilter = 1;
 Texture.NearestMipMapNearestFilter = 2;

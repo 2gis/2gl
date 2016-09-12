@@ -108,7 +108,7 @@ class ComplexMeshMaterial extends Material {
         const attributes = {};
 
         if (this._texture) {
-            this._texture.enable(gl, true);
+            this._texture.enable(gl, 0);
             uniforms.uTexture = 0;
         }
 

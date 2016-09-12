@@ -102,7 +102,7 @@ class ShaderProgram {
 
         gl.linkProgram(this._webglProgram);
 
-        if (!gl.getProgramParameter(this._webglProgram, gl.LINK_STATUS)) {
+        if (process.env.NODE_ENV !== 'production' && !gl.getProgramParameter(this._webglProgram, gl.LINK_STATUS)) {
             console.log('Could not initialize shaders');
             this._status = ShaderProgram.FAILED;
             return;

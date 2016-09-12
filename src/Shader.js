@@ -63,7 +63,7 @@ class Shader {
         gl.shaderSource(shader, this._code);
         gl.compileShader(shader);
 
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        if (process.env.NODE_ENV !== 'production' && !gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
             console.log(gl.getShaderInfoLog(shader));
         }
     }

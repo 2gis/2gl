@@ -1,7 +1,7 @@
 import assert from 'assert';
 import {slice, cubeVertices} from './utils';
 
-import Buffer from '../src/Buffer';
+import GeometryBuffer from '../src/GeometryBuffer';
 import Box from '../src/math/Box';
 
 import Geometry from '../src/Geometry';
@@ -11,7 +11,7 @@ describe('Geometry', () => {
 
     beforeEach(() => {
         geometry = new Geometry();
-        buffer = new Buffer(new Float32Array(cubeVertices), 3);
+        buffer = new GeometryBuffer(new Float32Array(cubeVertices));
     });
 
     describe('#constructor', () => {
@@ -42,7 +42,7 @@ describe('Geometry', () => {
                 0, 0, 1
             ];
 
-            const buffer = new Buffer(new Float32Array(triangle), 3);
+            const buffer = new GeometryBuffer(new Float32Array(triangle));
 
             geometry.setBuffer('position', buffer);
             geometry.computeNormals();
@@ -99,7 +99,7 @@ describe('Geometry', () => {
                 0, -1, 0,
                 0, 0, 1
             ];
-            const anotherBuffer = new Buffer(new Float32Array(triangleVertices), 3);
+            const anotherBuffer = new GeometryBuffer(new Float32Array(triangleVertices));
             anotherGeometry.setBuffer('position', anotherBuffer);
 
             geometry.concat(anotherGeometry);

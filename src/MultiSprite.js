@@ -1,6 +1,6 @@
 import Object3D from './Object3D';
 import Geometry from './Geometry';
-import Buffer from './Buffer';
+import GeometryBuffer from './GeometryBuffer';
 import {MULTI_SPRITE, MULTI_SPRITE_RENDERER} from './libConstants';
 
 /**
@@ -259,22 +259,22 @@ class MultiSprite extends Object3D {
     _initGeometry() {
         this._geometry = new Geometry();
 
-        const textureBuffer = new Buffer(this._data.texture.array, 2);
-        textureBuffer.drawType = Buffer.DynamicDraw;
+        const textureBuffer = new GeometryBuffer(this._data.texture.array, {itemSize: 2});
+        textureBuffer.drawType = GeometryBuffer.DynamicDraw;
 
-        const positionBuffer = new Buffer(this._data.position.array, 3);
-        positionBuffer.drawType = Buffer.DynamicDraw;
+        const positionBuffer = new GeometryBuffer(this._data.position.array, {itemSize: 3});
+        positionBuffer.drawType = GeometryBuffer.DynamicDraw;
 
-        const scaleBuffer = new Buffer(this._data.scale.array, 2);
-        scaleBuffer.drawType = Buffer.DynamicDraw;
+        const scaleBuffer = new GeometryBuffer(this._data.scale.array, {itemSize: 2});
+        scaleBuffer.drawType = GeometryBuffer.DynamicDraw;
 
-        const offsetBuffer = new Buffer(this._data.offset.array, 2);
-        offsetBuffer.drawType = Buffer.DynamicDraw;
+        const offsetBuffer = new GeometryBuffer(this._data.offset.array, {itemSize: 2});
+        offsetBuffer.drawType = GeometryBuffer.DynamicDraw;
 
-        const colorAlphaBuffer = new Buffer(this._data.colorAlpha.array, 1);
-        colorAlphaBuffer.drawType = Buffer.DynamicDraw;
+        const colorAlphaBuffer = new GeometryBuffer(this._data.colorAlpha.array, {itemSize: 1});
+        colorAlphaBuffer.drawType = GeometryBuffer.DynamicDraw;
 
-        const dispositionBuffer = new Buffer(this._data.disposition.array, 3);
+        const dispositionBuffer = new GeometryBuffer(this._data.disposition.array, {itemSize: 3});
 
         this._geometry
             .setBuffer('disposition', dispositionBuffer)

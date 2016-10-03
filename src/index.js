@@ -6,6 +6,7 @@ export {default as AmbientLight} from './lights/AmbientLight';
 export {default as BasicMeshMaterial} from './materials/BasicMeshMaterial';
 export {default as Buffer} from './Buffer';
 export {default as BufferChannel} from './BufferChannel';
+export {default as GeometryBuffer} from './GeometryBuffer';
 export {default as Box} from './math/Box';
 export {default as CommonPlugin} from './rendererPlugins/CommonPlugin';
 export {default as ComplexMeshMaterial} from './materials/ComplexMeshMaterial';

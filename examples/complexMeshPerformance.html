@@ -86,8 +86,8 @@
         var material = new dgl.ComplexMeshMaterial();
         var geometry = new dgl.Geometry();
 
-        var vertexBuffer = new dgl.Buffer(new Float32Array(vertices), 3);
-        var colorBuffer = new dgl.Buffer(new Float32Array(colors), 3);
+        var vertexBuffer = new dgl.GeometryBuffer(new Float32Array(vertices));
+        var colorBuffer = new dgl.GeometryBuffer(new Float32Array(colors));
 
         var uv = [];
         var textureEnable = [];
@@ -97,9 +97,9 @@
             textureEnable.push(l % 2, l % 2, l % 2);
             l++;
         }
-        var uvBuffer = new dgl.Buffer(new Float32Array(uv), 2);
-        var textureEnableBuffer = new dgl.Buffer(new Float32Array(textureEnable), 1);
-        var emissiveBuffer = new dgl.Buffer(new Float32Array(vertices.length ), 3);
+        var uvBuffer = new dgl.GeometryBuffer(new Float32Array(uv), {itemSize: 2});
+        var textureEnableBuffer = new dgl.GeometryBuffer(new Float32Array(textureEnable), {itemSize: 1});
+        var emissiveBuffer = new dgl.GeometryBuffer(new Float32Array(vertices.length));
 
         geometry
                 .setBuffer('position', vertexBuffer)

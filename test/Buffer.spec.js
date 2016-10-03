@@ -1,14 +1,14 @@
 import assert from 'assert';
-import {slice, flatten, getNewGlContext} from './utils';
+import {getNewGlContext} from './utils';
 import sinon from 'sinon';
 
 import Buffer from '../src/Buffer';
 
 describe('Buffer', () => {
-    let squareVertices, buffer;
+    let buffer;
 
     beforeEach(() => {
-        squareVertices = [
+        const squareVertices = [
             -1, 0, -1,
             1, 0, -1,
             -1, 0, 1,
@@ -17,25 +17,11 @@ describe('Buffer', () => {
             1, 0, -1
         ];
 
-        buffer = new Buffer(new Float32Array(squareVertices), 3);
+        buffer = new Buffer(new Float32Array(squareVertices));
     });
 
     afterEach(() => {
-        squareVertices = buffer = null;
-    });
-
-    describe('#constructor', () => {
-        it('should have right itemSize field', () => {
-            assert.equal(buffer.itemSize, 3);
-        });
-
-        it('should calculate right length field', () => {
-            assert.equal(buffer.length, 6);
-        });
-
-        it('should have right default field', () => {
-            assert.equal(buffer.type, Buffer.ArrayBuffer);
-        });
+        buffer = null;
     });
 
     describe('#bind', () => {
@@ -66,25 +52,6 @@ describe('Buffer', () => {
             assert.ok(!spy.called);
         });
 
-        it('should delete and init buffer if gl context changed', () => {
-            buffer.bind(gl, 1);
-
-            const newGlContext = getNewGlContext();
-            const spy = sinon.spy(newGlContext, 'createBuffer');
-
-            buffer.bind(newGlContext);
-
-            assert.ok(spy.calledOnce);
-        });
-
-        it('shouldn\'t delete and init buffer if gl context not changed', () => {
-            const spy = sinon.spy(gl, 'createBuffer');
-            buffer.bind(gl, 1);
-            buffer.bind(gl, 1);
-
-            assert.ok(spy.calledOnce);
-        });
-
         it('should init buffer with float type', () => {
             const spy = sinon.spy(gl, 'vertexAttribPointer');
             buffer.bind(gl, 1);
@@ -93,7 +60,9 @@ describe('Buffer', () => {
         });
 
         it('should init buffer with unsigned byte type', () => {
-            buffer.dataType = Buffer.UnsignedByte;
+            const buffer = new Buffer(new Float32Array(), {
+                dataType: Buffer.UnsignedByte
+            });
             const spy = sinon.spy(gl, 'vertexAttribPointer');
             buffer.bind(gl, 1);
             const args = spy.args[0];
@@ -105,14 +74,6 @@ describe('Buffer', () => {
             buffer.bind(gl, 1);
             const args = spy.args[0];
             assert.equal(args[3], false);
-        });
-
-        it('should init with normalized = true', () => {
-            buffer.normalized = true;
-            const spy = sinon.spy(gl, 'vertexAttribPointer');
-            buffer.bind(gl, 1);
-            const args = spy.args[0];
-            assert.equal(args[3], true);
         });
 
         it('should call vertexAttribPointer with arguments from options', () => {
@@ -132,36 +93,6 @@ describe('Buffer', () => {
             assert.equal(args[3], options.normalized);
             assert.equal(args[4], options.stride);
             assert.equal(args[5], options.offset);
-        });
-    });
-
-    describe('#getArray', () => {
-        it('should return same squareVertices', () => {
-            assert.deepEqual(squareVertices, slice(buffer.getArray()));
-        });
-    });
-
-    describe('#getElement', () => {
-        it('should return second element', () => {
-            const element = squareVertices.slice(3, 6);
-            assert.deepEqual(element, slice(buffer.getElement(1)));
-        });
-    });
-
-    describe('#getTriangle', () => {
-        it('should return second triangle', () => {
-            const triangle = squareVertices.slice(9, 18);
-            assert.deepEqual(triangle, flatten(buffer.getTriangle(1)));
-        });
-    });
-
-    describe('#concat', () => {
-        it('should concat buffer', () => {
-            const anotherVertexBuffer = new Buffer([9, 9, 9], 3);
-
-            buffer.concat(anotherVertexBuffer);
-
-            assert.equal(buffer.getArray().length, 21);
         });
     });
 

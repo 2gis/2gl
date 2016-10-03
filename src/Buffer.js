@@ -1,24 +1,13 @@
 /**
  * Используется для хранения и подготовки данных для передачи в атрибуты шейдера
  *
- * @param {TypedArray} array Типизированный массив данных, например, координат вершин
- * @param {Number} itemSize Размерность данных, например, 3 - для коодинат вершин
+ * @param {TypedArray | ArrayBuffer} data Данные для передачи в видеокарту
+ * @param {?BufferBindOptions} options Параметры передачи буфера в видеокарту,
+ * могут быть переопределены из {@link BufferChannel}
  */
 class Buffer {
-    constructor(array, itemSize) {
-        this._array = array;
-
-        /**
-         * Размерность данных
-         * @type {Number}
-         */
-        this.itemSize = itemSize;
-
-        /**
-         * Количество элементов в массиве данных
-         * @type {Number}
-         */
-        this.length = array.length / itemSize;
+    constructor(data, options) {
+        this._data = data;
 
         /**
          * Тип буфера. Буфер может использоваться для передачи массива данных,
@@ -34,26 +23,18 @@ class Buffer {
         this.drawType = Buffer.StaticDraw;
 
         /**
-         * Тип данных в буффере: float, int, short и т.д.
-         * @type {Buffer.Float | Buffer.UnsignedByte}
-         */
-        this.dataType = Buffer.Float;
-
-        /**
-         * Используется для целочисленных типов. Если выставлен в true, то
-         * значения имеющие тип BYTE от -128 до 128 будут переведены от -1.0 до 1.0.
-         * @type {Boolean}
-         */
-        this.normalized = false;
-
-        /**
-         * Инициализация буфера происходит в момент первого рендеринга.
-         * Текущий WebGl контекст сохраняется в этой переменной.
-         * Если контекст меняется, буфер необходимо инициализировать заново.
-         * @type {?WebGLRenderingContext}
+         * Параметры для связывания буфера
+         * @type {BufferBindOptions}
          * @ignore
          */
-        this._preparedGlContext = null;
+        this.options = Object.assign({}, Buffer.defaultOptions, options);
+
+        /**
+         * Исходный WebGL буфер
+         * @type {?WebGLBuffer}
+         * @ignore
+         */
+        this._glBuffer = null;
     }
 
     /**
@@ -70,10 +51,6 @@ class Buffer {
      * то используются параметры конкретного буфера. Параметры должны быть переданы все.
      */
     bind(gl, location, options) {
-        if (this._preparedGlContext !== gl) {
-            this._unprepare(this._preparedGlContext);
-        }
-
         if (!this._glBuffer) {
             this._prepare(gl);
         }
@@ -81,13 +58,11 @@ class Buffer {
         if (this.type === Buffer.ArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);
 
-            if (options) {
-                gl.vertexAttribPointer(location, options.itemSize,
-                    this._toGlParam(gl, options.dataType), options.normalized, options.stride, options.offset);
-            } else {
-                gl.vertexAttribPointer(location, this.itemSize,
-                    this._toGlParam(gl, this.dataType), this.normalized, 0, 0);
-            }
+            options = options || this.options;
+
+            gl.vertexAttribPointer(location, options.itemSize, this._toGlParam(gl, options.dataType),
+                options.normalized, options.stride, options.offset);
+
         } else if (this.type === Buffer.ElementArrayBuffer) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._glBuffer);
         }
@@ -101,55 +76,6 @@ class Buffer {
      */
     remove(gl) {
         this._unprepare(gl);
-
-        return this;
-    }
-
-    /**
-     * Возвращает массив данных
-     * @returns {TypedArray}
-     */
-    getArray() {
-        return this._array;
-    }
-
-    /**
-     * Возвращает элемент из массива данных
-     * @param {Number} index Номер элемента в массиве данных
-     * @returns {TypedArray}
-     */
-    getElement(index) {
-        return this._array.subarray(index * this.itemSize, (index + 1) * this.itemSize);
-    }
-
-    /**
-     * Возвращает тройку элементов из массива данных
-     * @param {Number} index Индекс
-     * @returns {TypedArray[]}
-     */
-    getTriangle(index) {
-        index *= 3;
-
-        return [
-            this.getElement(index),
-            this.getElement(index + 1),
-            this.getElement(index + 2)
-        ];
-    }
-
-    /**
-     * Конкатенирует данный буфер с другим.
-     * Осторожно, метод не проверяет одинаковой размерности данные или нет.
-     * @param {Buffer} buffer
-     */
-    concat(buffer) {
-        const addArray = buffer.getArray();
-        const newArray = new this._array.constructor(this._array.length + addArray.length);
-        newArray.set(this._array, 0);
-        newArray.set(addArray, this._array.length);
-
-        this._array = newArray;
-        this.length = newArray.length / this.itemSize;
 
         return this;
     }
@@ -175,8 +101,8 @@ class Buffer {
     _prepare(gl) {
         this._glBuffer = gl.createBuffer();
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
-        gl.bufferData(this._toGlParam(gl, this.type), this._array, this._toGlParam(gl, this.drawType));
-        this._preparedGlContext = gl;
+        gl.bufferData(this._toGlParam(gl, this.type), this._data, this._toGlParam(gl, this.drawType));
+        this._data = null;
     }
 
     /**
@@ -185,12 +111,10 @@ class Buffer {
      * @ignore
      */
     _unprepare(gl) {
-        if (!gl) { return; }
-
         if (this._glBuffer) {
             gl.deleteBuffer(this._glBuffer);
+            this._glBuffer = null;
         }
-        this._glBuffer = null;
     }
 
     /**
@@ -227,6 +151,14 @@ Buffer.UnsignedInt = 23;
 Buffer.Byte = 24;
 Buffer.Short = 25;
 Buffer.Int = 26;
+
+Buffer.defaultOptions = {
+    itemSize: 3,
+    dataType: Buffer.Float,
+    stride: 0,
+    offset: 0,
+    normalized: false
+};
 
 export default Buffer;
 

@@ -4,7 +4,7 @@ import ShaderProgram from '../ShaderProgram';
 import RendererPlugin from '../RendererPlugin';
 import Geometry from '../Geometry';
 import Shader from '../Shader';
-import Buffer from '../Buffer';
+import GeometryBuffer from '../GeometryBuffer';
 import {SPRITE_RENDERER} from '../libConstants';
 
 /**
@@ -19,24 +19,24 @@ class SpritePlugin extends RendererPlugin {
 
         this._geometry = new Geometry();
         this._geometry
-            .setBuffer('position', new Buffer(new Float32Array([
+            .setBuffer('position', new GeometryBuffer(new Float32Array([
                 -0.5, -0.5, 0,
                 0.5, -0.5, 0,
                 0.5, 0.5, 0,
                 -0.5, 0.5, 0
-            ]), 3))
-            .setBuffer('texture', new Buffer(new Float32Array([
+            ])))
+            .setBuffer('texture', new GeometryBuffer(new Float32Array([
                 0, 0,
                 1, 0,
                 1, 1,
                 0, 1
-            ]), 2))
-            .setBuffer('index', new Buffer(new Uint16Array([
+            ]), {itemSize: 2}))
+            .setBuffer('index', new GeometryBuffer(new Uint16Array([
                 1, 2, 0,
                 3, 0, 2
-            ]), 1));
+            ]), {itemSize: 1}));
 
-        this._geometry.getBuffer('index').type = Buffer.ElementArrayBuffer;
+        this._geometry.getBuffer('index').type = GeometryBuffer.ElementArrayBuffer;
 
         this._shaderProgram = new ShaderProgram({
             vertex: new Shader('vertex', vertexShader),

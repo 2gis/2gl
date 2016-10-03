@@ -79,7 +79,7 @@
 
         var geometry = new dgl.Geometry();
 
-        var vertexBuffer = new dgl.Buffer(new Float32Array(vertices), 3);
+        var vertexBuffer = new dgl.GeometryBuffer(new Float32Array(vertices), 3);
 
         geometry.setBuffer('position', vertexBuffer);
 

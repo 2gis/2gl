@@ -6,7 +6,7 @@ import {vec3} from 'gl-matrix';
 import Ray from '../src/math/Ray';
 import Object3D from '../src/Object3D';
 import Geometry from '../src/Geometry';
-import Buffer from '../src/Buffer';
+import GeometryBuffer from '../src/GeometryBuffer';
 import BasicMeshMaterial from '../src/materials/BasicMeshMaterial';
 import Mesh from '../src/Mesh';
 
@@ -52,7 +52,7 @@ describe('Raycaster', () => {
         it('should call intersectMesh with mesh', () => {
             const material = new BasicMeshMaterial();
             const geometry = new Geometry();
-            geometry.setBuffer('position', new Buffer(new Float32Array(cubeVertices), 3));
+            geometry.setBuffer('position', new GeometryBuffer(new Float32Array(cubeVertices), 3));
             const mesh = new Mesh(geometry, material);
 
             const spy = sinon.spy(raycaster, 'intersectMesh');
@@ -116,7 +116,7 @@ describe('Raycaster', () => {
         beforeEach(() => {
             const material = new BasicMeshMaterial();
             const geometry = new Geometry();
-            geometry.setBuffer('position', new Buffer(new Float32Array(cubeVertices), 3));
+            geometry.setBuffer('position', new GeometryBuffer(new Float32Array(cubeVertices), 3));
 
             mesh = new Mesh(geometry, material);
         });

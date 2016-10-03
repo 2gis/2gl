@@ -1,15 +1,15 @@
 import {vec3} from 'gl-matrix';
-import Buffer from './Buffer';
+import GeometryBuffer from './GeometryBuffer';
 import Box from './math/Box';
 
 /**
  * Используется для задания геометрий объектов.
- * В качестве данных используются {@link Buffer}.
+ * В качестве данных используются {@link GeometryBuffer}.
  */
 class Geometry {
     constructor() {
         /**
-         * Словарь вида: название буфера - Buffer
+         * Словарь вида: название буфера - GeometryBuffer
          * @type {Object}
          */
         this.buffers = {};
@@ -25,7 +25,7 @@ class Geometry {
     /**
      * Сохраняет буфер в геометрию
      * @param {String} name Название буфера
-     * @param {Buffer} buffer
+     * @param {GeometryBuffer} buffer
      */
     setBuffer(name, buffer) {
         this.buffers[name] = buffer;
@@ -36,7 +36,7 @@ class Geometry {
     /**
      * Возвращает буфер из геометрии
      * @param {String} name Название буфера
-     * @returns {Buffer}
+     * @returns {GeometryBuffer}
      */
     getBuffer(name) {
         return this.buffers[name];
@@ -50,7 +50,7 @@ class Geometry {
 
         if (!positionBuffer) { return this; }
 
-        const normals = new Float32Array(positionBuffer.length * positionBuffer.itemSize);
+        const normals = new Float32Array(positionBuffer.length * positionBuffer.options.itemSize);
 
         const ab = vec3.create();
         const cb = vec3.create();
@@ -69,7 +69,7 @@ class Geometry {
             normals.set(n, (i + 2) * 3);
         }
 
-        this.setBuffer('normal', new Buffer(normals, 3));
+        this.setBuffer('normal', new GeometryBuffer(normals, {itemSize: 3}));
 
         return this;
     }

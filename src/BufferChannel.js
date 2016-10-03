@@ -1,13 +1,5 @@
 import Buffer from './Buffer';
 
-const defaultOptions = {
-    itemSize: 3,
-    dataType: Buffer.Float,
-    stride: 0,
-    offset: 0,
-    normalized: false
-};
-
 /**
  * Класс BufferChannel используется, если данные в обычном буфере имееют разные типы
  * и предназначены для разных атрибутов шейдера, т.е. нужно использовать webgl параметры stride и offset.
@@ -31,7 +23,7 @@ class BufferChannel {
          * @type {BufferBindOptions}
          * @ignore
          */
-        this._options = Object.assign({}, defaultOptions, options);
+        this.options = Object.assign({}, Buffer.defaultOptions, options);
     }
 
     /**
@@ -39,7 +31,7 @@ class BufferChannel {
      * Вызывает {@link Buffer#bind} исходного буфера.
      */
     bind(gl, location) {
-        this._buffer.bind(gl, location, this._options);
+        this._buffer.bind(gl, location, this.options);
     }
 }
 

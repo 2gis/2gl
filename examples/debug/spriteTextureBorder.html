@@ -27,7 +27,9 @@
             canvas: 'canvas'
         });
 
-        renderer.setSize(300, 300);
+        renderer
+            .addPlugin(new dgl.SpritePlugin())
+            .setSize(300, 300);
         renderer.clearColor = [0.94, 0.94, 0.94, 1];
 
         var spriteMaterial = new dgl.SpriteMaterial();

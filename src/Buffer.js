@@ -41,6 +41,14 @@ class Buffer {
          * @ignore
          */
         this._glBuffer = null;
+
+        /**
+         * Контекст WebGL, в котором был инициализирован буфер.
+         * Используется только для удаления буфера, подумать хорошо, прежде чем использовать для чего-то ещё.
+         * @type {?WebGLRenderingContext}
+         * @ignore
+         */
+        this._glContext = null;
     }
 
     /**
@@ -78,10 +86,9 @@ class Buffer {
 
     /**
      * Удаляет данные из контекста WebGL.
-     * @param {WebGLRenderingContext} gl
      */
-    remove(gl) {
-        this._unprepare(gl);
+    remove() {
+        this._unprepare();
 
         return this;
     }
@@ -105,6 +112,7 @@ class Buffer {
      * @ignore
      */
     _prepare(gl) {
+        this._glContext = gl;
         this._glBuffer = gl.createBuffer();
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
         gl.bufferData(this._toGlParam(gl, this.type), this._data, this._toGlParam(gl, this.drawType));
@@ -113,13 +121,13 @@ class Buffer {
 
     /**
      * Удаляет данные из видеокарты
-     * @param {WebGLRenderingContext} gl
      * @ignore
      */
-    _unprepare(gl) {
+    _unprepare() {
         if (this._glBuffer) {
-            gl.deleteBuffer(this._glBuffer);
+            this._glContext.deleteBuffer(this._glBuffer);
             this._glBuffer = null;
+            this._glContext = null;
         }
     }
 

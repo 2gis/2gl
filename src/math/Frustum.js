@@ -23,6 +23,10 @@ class Frustum {
                 new Plane()
             ];
         }
+
+        // Векторы для метода intersectsBox
+        this._v1 = vec3.create();
+        this._v2 = vec3.create();
     }
 
     /**
@@ -48,19 +52,21 @@ class Frustum {
      * @returns {Boolean}
      */
     intersectsBox(box) {
-        const p1 = vec3.create();
-        const p2 = vec3.create();
+        const p1 = this._v1;
+        const p2 = this._v2;
         const planes = this.planes;
+        const {min, max} = box;
 
         for (let i = 0; i < 6; i++) {
             const plane = planes[i];
+            const normal = plane.normal;
 
-            p1[0] = plane.normal[0] > 0 ? box.min[0] : box.max[0];
-            p2[0] = plane.normal[0] > 0 ? box.max[0] : box.min[0];
-            p1[1] = plane.normal[1] > 0 ? box.min[1] : box.max[1];
-            p2[1] = plane.normal[1] > 0 ? box.max[1] : box.min[1];
-            p1[2] = plane.normal[2] > 0 ? box.min[2] : box.max[2];
-            p2[2] = plane.normal[2] > 0 ? box.max[2] : box.min[2];
+            p1[0] = plane.normal[0] > 0 ? min[0] : max[0];
+            p2[0] = plane.normal[0] > 0 ? max[0] : min[0];
+            p1[1] = plane.normal[1] > 0 ? min[1] : max[1];
+            p2[1] = plane.normal[1] > 0 ? max[1] : min[1];
+            p1[2] = plane.normal[2] > 0 ? min[2] : max[2];
+            p2[2] = plane.normal[2] > 0 ? max[2] : min[2];
 
             const d1 = plane.distanceToPoint(p1);
             const d2 = plane.distanceToPoint(p2);

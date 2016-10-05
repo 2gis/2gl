@@ -33,6 +33,11 @@ class Camera extends Object3D {
          * @type {mat4}
          */
         this.worldInverseMatrix = mat4.create();
+
+        // Вспомогательные переменные для методов
+        this._mat3 = mat3.create();
+        this._mat4a = mat4.create();
+        this._mat4b = mat4.create();
     }
 
     /**
@@ -68,8 +73,8 @@ class Camera extends Object3D {
      * @returns {vec3}
      */
     unproject(vector) {
-        const matrix = mat4.create();
-        const inverseMatrix = mat4.create();
+        const matrix = this._mat4a;
+        const inverseMatrix = this._mat4b;
         const result = vec3.create();
 
         mat4.invert(inverseMatrix, this.projectionMatrix);
@@ -84,8 +89,8 @@ class Camera extends Object3D {
      * @param {vec3} position
      */
     lookAt(position) {
-        const matrix4 = mat4.create();
-        const matrix3 = mat3.create();
+        const matrix4 = this._mat4a;
+        const matrix3 = this._mat3;
         mat4.lookAt(matrix4, this.position, position, this.up);
         mat4.transpose(matrix4, matrix4);
         mat3.fromMat4(matrix3, matrix4);

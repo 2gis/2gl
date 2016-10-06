@@ -8,7 +8,7 @@ import Buffer from './Buffer';
  * @param {TypedArray} array Типизированный массив данных, например, координат вершин
  * @param {?BufferBindOptions} options Параметры передачи буфера в видеокарту
  */
-export default class GeometryBuffer extends Buffer {
+class GeometryBuffer extends Buffer {
     constructor(array, options) {
         super(array, options);
 
@@ -70,3 +70,5 @@ export default class GeometryBuffer extends Buffer {
         return this;
     }
 }
+
+export default GeometryBuffer;

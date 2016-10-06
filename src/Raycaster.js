@@ -26,6 +26,10 @@ class Raycaster {
         this.intersectMethodsByType = {
             [MESH]: 'intersectMesh'
         };
+
+        // Вспомогательные переменные для методов
+        this._vec3 = vec3.create();
+        this._mat3 = mat3.create();
     }
 
     /**
@@ -37,23 +41,22 @@ class Raycaster {
      */
     setFromCamera(coordinates, camera) {
         if (camera.type === PERSPECTIVE_CAMERA) {
-            this.ray.origin = vec3.clone(camera.position);
+            vec3.copy(this.ray.origin, camera.position);
 
-            let direction = vec3.fromValues(coordinates[0], coordinates[1], 0.5);
+            let direction = vec3.set(this._vec3, coordinates[0], coordinates[1], 0.5);
             direction = camera.unproject(direction);
             vec3.sub(direction, direction, camera.position);
             vec3.normalize(direction, direction);
             this.ray.direction = direction;
 
         } else if (camera.type === ORTHOGRAPHIC_CAMERA) {
-            const origin = vec3.fromValues(coordinates[0], coordinates[1], -1);
+            const origin = vec3.set(this._vec3, coordinates[0], coordinates[1], -1);
             this.ray.origin = camera.unproject(origin);
 
-            this.ray.direction = vec3.fromValues(0, 0, -1);
+            vec3.set(this.ray.direction, 0, 0, -1);
 
-            const matrix3 = mat3.create();
-            mat3.fromMat4(matrix3, camera.worldMatrix);
-            vec3.transformMat3(this.ray.direction, this.ray.direction, matrix3);
+            mat3.fromMat4(this._mat3, camera.worldMatrix);
+            vec3.transformMat3(this.ray.direction, this.ray.direction, this._mat3);
             vec3.normalize(this.ray.direction, this.ray.direction);
         }
     }

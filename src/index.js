@@ -37,6 +37,7 @@ export {default as Ray} from './math/Ray';
 export {default as Raycaster} from './Raycaster';
 export {default as RenderTarget} from './RenderTarget';
 export {default as TransparentPlugin} from './rendererPlugins/TransparentPlugin';
+export {default as Vao} from './Vao';
 export {vec3, mat3, vec2, mat4, quat, glMatrix} from 'gl-matrix';
 
 import * as Math from './math/Math';

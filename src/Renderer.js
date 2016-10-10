@@ -52,6 +52,12 @@ class Renderer {
         this._maxPluginOrder = 0;
 
         this.addPlugin(new Object3DPlugin(), 0);
+
+        /**
+         * Список включенных WebGL расширений
+         * @type {Object}
+         */
+        this.webGlExtensions = {};
     }
 
     /**
@@ -228,6 +234,7 @@ class Renderer {
 
         const state = {
             renderer: this,
+            extensions: this.webGlExtensions,
             scene,
             camera,
             gl,
@@ -245,6 +252,16 @@ class Renderer {
             this._renderTarget.unbind(gl);
         }
 
+        return this;
+    }
+
+    /**
+     * Включает расширение WebGL
+     *
+     * @param {String} name Название расширения
+     */
+    addExtension(name) {
+        this.webGlExtensions[name] = this._gl.getExtension(name);
         return this;
     }
 }

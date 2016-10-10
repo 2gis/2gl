@@ -17,16 +17,16 @@ class ShaderProgram {
         this._vertexShader = options.vertex;
         this._fragmentShader = options.fragment;
 
-        this._uniforms = {};
+        this.uniforms = {};
         options.uniforms = options.uniforms || [];
         options.uniforms.forEach(obj => {
-            this._uniforms[obj.name] = new ShaderUniform(obj);
+            this.uniforms[obj.name] = new ShaderUniform(obj);
         });
 
-        this._attributes = {};
+        this.attributes = {};
         options.attributes = options.attributes || [];
         options.attributes.forEach(obj => {
-            this._attributes[obj.name] = new ShaderAttribute(obj);
+            this.attributes[obj.name] = new ShaderAttribute(obj);
         });
 
         this._status = ShaderProgram.NOT_READY;
@@ -46,10 +46,6 @@ class ShaderProgram {
 
         gl.useProgram(this._webglProgram);
 
-        for (const name in this._attributes) {
-            this._attributes[name].enable(gl);
-        }
-
         return this;
     }
 
@@ -63,13 +59,13 @@ class ShaderProgram {
     bind(gl, uniforms, attributes) {
         if (uniforms) {
             for (const name in uniforms) {
-                this._uniforms[name].bind(gl, uniforms[name]);
+                this.uniforms[name].bind(gl, uniforms[name]);
             }
         }
 
         if (attributes) {
             for (const name in attributes) {
-                this._attributes[name].bind(gl, attributes[name]);
+                this.attributes[name].bind(gl, attributes[name]);
             }
         }
 
@@ -82,8 +78,8 @@ class ShaderProgram {
      * @param {WebGLRenderingContext} gl
      */
     disable(gl) {
-        for (const name in this._attributes) {
-            this._attributes[name].disable(gl);
+        for (const name in this.attributes) {
+            this.attributes[name].disable(gl);
         }
 
         return this;
@@ -110,12 +106,12 @@ class ShaderProgram {
 
         this._status = ShaderProgram.READY;
 
-        for (const name in this._attributes) {
-            this._attributes[name].setLocation(gl, this._webglProgram);
+        for (const name in this.attributes) {
+            this.attributes[name].setLocation(gl, this._webglProgram);
         }
 
-        for (const name in this._uniforms) {
-            this._uniforms[name].setLocation(gl, this._webglProgram);
+        for (const name in this.uniforms) {
+            this.uniforms[name].setLocation(gl, this._webglProgram);
         }
     }
 }

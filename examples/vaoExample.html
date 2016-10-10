@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="MobileOptimized" content="1000"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>2gl - VAO</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .link {
+            display: block;
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-size: 20px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<a class="link" href="https://github.com/2gis/2gl">github.com/2gis/2gl</a>
+
+<script src="../dist/2gl.js"></script>
+<script src="./assets/datgui.js"></script>
+<script src="./assets/Stats.js"></script>
+
+<script>
+    var stats = new Stats();
+    document.body.appendChild(stats.element);
+
+    var settings = {
+        triangles: 2000,
+        rotationCamera: true,
+        cameraOffset: 30,
+        useExtension: true
+    };
+
+    var random = Math.random;
+    var size = 10;
+
+    function getTriangleVertices() {
+        var x = (0.5 - random()) * size;
+        var y = (0.5 - random()) * size;
+        var z = (0.5 - random()) * size;
+
+        return [
+            random() + x, random() + y, random() + z,
+            random() + x, random() + y, random() + z,
+            random() + x, random() + y, random() + z
+        ];
+    }
+
+    function getTriangleColors() {
+        return [
+            random(), random(), random(),
+            random(), random(), random(),
+            random(), random(), random()
+        ];
+    }
+
+    var scene = new dgl.Scene();
+
+    var camera = new dgl.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 100000);
+    camera.position[2] = settings.cameraOffset;
+    camera.updateProjectionMatrix();
+
+    var renderer = new dgl.Renderer({
+        canvas: 'canvas'
+    });
+
+    renderer
+        .setSize(window.innerWidth, window.innerHeight)
+        .addExtension('OES_vertex_array_object');
+
+    var vertexShader = new dgl.Shader('vertex',
+        'attribute vec3 a_pos;\
+        attribute vec3 a_color;\
+        uniform mat4 u_cam;\
+        varying vec3 v_color;\
+        void main(void) {\
+            v_color = a_color;\
+            gl_Position = u_cam * vec4(a_pos, 1.0);\
+        }'
+    );
+
+    var fragmentShader = new dgl.Shader('fragment',
+        'precision mediump float;\
+        varying vec3 v_color;\
+        void main(void) {\
+            gl_FragColor = vec4(v_color, 1.0);\
+        }'
+    );
+
+    var shaderProgram = new dgl.ShaderProgram({
+        vertex: vertexShader,
+        fragment: fragmentShader,
+        uniforms: [
+            {name: 'u_cam', type: 'mat4'}
+        ],
+        attributes: [
+            {name: 'a_pos'},
+            {name: 'a_color'}
+        ]
+    });
+
+    function renderObj(state) {
+        var gl = state.gl;
+
+        this.vao.bind(state);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+        this.vao.unbind(state);
+    }
+
+    function createObject() {
+        var vertexBuffer = new dgl.Buffer(new Float32Array(getTriangleVertices()));
+        var colorBuffer = new dgl.Buffer(new Float32Array(getTriangleColors()));
+
+        var obj = new dgl.Object3D();
+        obj.vao = new dgl.Vao(shaderProgram, {
+            a_pos: vertexBuffer,
+            a_color: colorBuffer
+        });
+        obj.render = renderObj;
+        return obj;
+    }
+
+    for (var i = 0; i < settings.triangles; i++) {
+        var obj = createObject();
+        scene.add(obj);
+    }
+
+    window.addEventListener('resize', function() {
+        stats.reset();
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function rotateCamera(dt) {
+        if (!settings.rotationCamera) { return; }
+
+        dgl.quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
+    }
+
+    var lastUpdateTime = Date.now();
+
+    function render() {
+        requestAnimationFrame(render);
+
+        var dt = Date.now() - lastUpdateTime;
+
+        stats.start();
+        rotateCamera(dt);
+
+        var gl = renderer._gl;
+
+        shaderProgram
+            .enable(gl)
+            .bind(gl, {
+                u_cam: new Float32Array(camera.modelViewMatrix),
+            });
+
+        renderer.render(scene, camera);
+        stats.end();
+
+        lastUpdateTime = Date.now();
+    }
+
+    render();
+    stats.reset();
+
+    // dat gui settings
+    var gui = new dat.GUI();
+    var guiTriangles = gui.add(settings, 'triangles', 1, 5000);
+    var timeout;
+
+    function onChange() {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            scene.children.forEach(child => scene.remove(child));
+            for (var i = 0; i < settings.triangles; i++) {
+                var obj = createObject();
+                scene.add(obj);
+            }
+            stats.reset();
+        }, 1000);
+    }
+
+    guiTriangles.onChange(onChange);
+
+    var guiCameraOffset = gui.add(settings, 'cameraOffset', 0, 200);
+    guiCameraOffset.onChange(function(value) {
+        camera.position[2] = value;
+        stats.reset();
+    });
+    gui.add(settings, 'rotationCamera');
+
+    var guiUseExtension = gui.add(settings, 'useExtension');
+    var extension = null;
+    guiUseExtension.onChange(function(value) {
+        if (!extension) {
+            extension = renderer.webGlExtensions.OES_vertex_array_object;
+        }
+
+        renderer.webGlExtensions.OES_vertex_array_object = value ? extension : null;
+
+        scene.children.forEach(child => scene.remove(child));
+        for (var i = 0; i < settings.triangles; i++) {
+            var obj = createObject();
+            scene.add(obj);
+        }
+        stats.reset();
+    });
+</script>
+</body>
+</html>

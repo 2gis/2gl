@@ -9,6 +9,8 @@ class ShaderAttribute {
         this.name = options.name;
         this.index = options.index;
         this.location = -1;
+
+        this._enable = false;
     }
 
     setLocation(gl, shaderProgram) {
@@ -16,21 +18,20 @@ class ShaderAttribute {
         return this;
     }
 
-    enable(gl) {
-        if (this.index !== true) {
-            gl.enableVertexAttribArray(this.location);
-        }
-        return this;
-    }
-
     bind(gl, buffer) {
+        if (!this._enable && this.index !== true) {
+            gl.enableVertexAttribArray(this.location);
+            this._enable = true;
+        }
+
         buffer.bind(gl, this.location);
         return this;
     }
 
     disable(gl) {
-        if (this.index !== true) {
+        if (this._enable && this.index !== true) {
             gl.disableVertexAttribArray(this.location);
+            this._enable = false;
         }
         return this;
     }

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="MobileOptimized" content="1000"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>2gl - Custom Shader Program</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .link {
+            display: block;
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-size: 20px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<a class="link" href="https://github.com/2gis/2gl">github.com/2gis/2gl</a>
+
+<script src="../dist/2gl.js"></script>
+<script src="./assets/datgui.js"></script>
+<script src="./assets/Stats.js"></script>
+
+<script>
+    var stats = new Stats();
+    document.body.appendChild(stats.element);
+
+    var settings = {
+        rotationCamera: true,
+        cameraOffset: 900
+    };
+
+    var scene = new dgl.Scene();
+
+    var camera = new dgl.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 100000);
+    camera.position[2] = settings.cameraOffset;
+    camera.updateProjectionMatrix();
+
+    var renderer = new dgl.Renderer({
+        canvas: 'canvas'
+    });
+
+    renderer
+        .setSize(window.innerWidth, window.innerHeight);
+
+    var vertexShader = new dgl.Shader('vertex',
+        'attribute vec3 a_pos;\
+        uniform mat4 u_obj;\
+        uniform mat4 u_cam;\
+        void main(void) {\
+            gl_Position = u_cam * u_obj * vec4(a_pos, 1.0);\
+        }'
+    );
+
+    var fragmentShader = new dgl.Shader('fragment',
+        'precision mediump float;\
+        void main(void) {\
+            gl_FragColor = vec4(0.5, 0.0, 0.0, 1.0);\
+        }'
+    );
+
+    var shaderProgram = new dgl.ShaderProgram({
+        vertex: vertexShader,
+        fragment: fragmentShader,
+        uniforms: [
+            {name: 'u_cam', type: 'mat4'},
+            {name: 'u_obj', type: 'mat4'}
+        ],
+        attributes: [
+            {name: 'a_pos'}
+        ]
+    });
+
+    var buffer = new dgl.Buffer(new Float32Array([
+        -1, 0, 0,
+        1, 0, 0,
+        0, 1, 0
+    ]));
+
+    var obj = new dgl.Object3D();
+    obj.scale[0] = 200;
+    obj.scale[1] = 200;
+    obj.updateLocalMatrix();
+    obj.updateWorldMatrix();
+    obj.render = function(state) {
+        var gl = state.gl;
+
+        shaderProgram
+            .enable(gl)
+            .bind(gl, {
+                u_cam: new Float32Array(camera.modelViewMatrix),
+                u_obj: new Float32Array(obj.worldMatrix)
+            }, {
+                a_pos: buffer
+            });
+
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+    };
+
+    scene.add(obj);
+
+    window.addEventListener('resize', function() {
+        stats.reset();
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function rotateCamera(dt) {
+        if (!settings.rotationCamera) { return; }
+
+        dgl.quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
+    }
+
+    var lastUpdateTime = Date.now();
+
+    function render() {
+        requestAnimationFrame(render);
+
+        var dt = Date.now() - lastUpdateTime;
+
+        stats.start();
+        rotateCamera(dt);
+        renderer.render(scene, camera);
+        stats.end();
+
+        lastUpdateTime = Date.now();
+    }
+
+    render();
+    stats.reset();
+
+    // dat gui settings
+    var gui = new dat.GUI();
+    gui.add(settings, 'rotationCamera');
+
+    var guiCameraOffset = gui.add(settings, 'cameraOffset', 0, 10000);
+    guiCameraOffset.onChange(function(value) {
+        camera.position[2] = value;
+        stats.reset();
+    });
+</script>
+</body>
+</html>

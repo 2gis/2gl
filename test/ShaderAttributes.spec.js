@@ -1,16 +1,18 @@
 import ShaderAttribute from '../src/ShaderAttribute';
 import GlContext from './utils/GlContext';
+import Buffer from '../src/Buffer';
 import assert from 'assert';
 import sinon from 'sinon';
 
 describe('ShaderAttribute', () => {
-    let gl;
+    let gl, buffer;
 
     beforeEach(() => {
         gl = new GlContext();
+        buffer = new Buffer(new Float32Array([0, 0, 0]));
     });
 
-    describe('#enable', () => {
+    describe('#bind', () => {
         it('should call gl enableVertexAttribArray by default', () => {
             const spy = sinon.spy(gl, 'enableVertexAttribArray');
 
@@ -18,7 +20,7 @@ describe('ShaderAttribute', () => {
                 name: 'testName'
             });
 
-            shaderAttribute.enable(gl);
+            shaderAttribute.bind(gl, buffer);
 
             assert.ok(spy.calledOnce);
         });
@@ -31,7 +33,7 @@ describe('ShaderAttribute', () => {
                 index: true
             });
 
-            shaderAttribute.enable(gl);
+            shaderAttribute.bind(gl, buffer);
 
             assert.ok(!spy.called);
         });
@@ -45,9 +47,22 @@ describe('ShaderAttribute', () => {
                 name: 'testName'
             });
 
+            shaderAttribute.bind(gl, buffer);
             shaderAttribute.disable(gl);
 
             assert.ok(spy.calledOnce);
+        });
+
+        it('shouldn\'t call gl disableVertexAttribArray if do not enabled', () => {
+            const spy = sinon.spy(gl, 'disableVertexAttribArray');
+
+            const shaderAttribute = new ShaderAttribute({
+                name: 'testName'
+            });
+
+            shaderAttribute.disable(gl);
+
+            assert.ok(!spy.called);
         });
 
         it('shouldn\'t call gl disableVertexAttribArray if type = index', () => {

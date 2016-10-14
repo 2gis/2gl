@@ -157,5 +157,19 @@ GlContext.prototype.texImage2D = function() {};
 GlContext.prototype.texParameteri = function() {};
 GlContext.prototype.generateMipmap = function() {};
 
+var extensions = {};
+var vao = extensions.OES_vertex_array_object = function() {};
+vao.prototype.createVertexArrayOES = function() {
+    return {};
+};
+vao.prototype.deleteVertexArrayOES = function() {};
+vao.prototype.isVertexArrayOES = function() {};
+vao.prototype.bindVertexArrayOES = function() {};
+
+GlContext.prototype.getExtension = function(name) {
+    var Ext = extensions[name];
+    return Ext ? new Ext() : null;
+};
+
 module.exports = GlContext;
 /* eslint-enable no-var */

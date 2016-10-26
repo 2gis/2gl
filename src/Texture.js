@@ -34,6 +34,12 @@ class Texture {
         this.wrapT = Texture.ClampToEdgeWrapping;
 
         /**
+         * Формат текстуры (RGBA или Alpha)
+         * @type {TextureFormat}
+         */
+        this.format = Texture.RgbaFormat;
+
+        /**
          * Генерировать ли mipmaps.
          * Они значительно повышают качество и производительность отображения.
          * Mipmaps могут использоваться только, если размеры текстуры равны степени 2.
@@ -104,8 +110,17 @@ class Texture {
         }
 
         if (this.size) {
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.size[0], this.size[1], 0, gl.RGBA, gl.UNSIGNED_BYTE,
-                this._src);
+            gl.texImage2D(
+                gl.TEXTURE_2D,
+                0,
+                this._toGlParam(gl, this.format),
+                this.size[0],
+                this.size[1],
+                0,
+                this._toGlParam(gl, this.format),
+                gl.UNSIGNED_BYTE,
+                this._src
+            );
         } else {
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this._src);
         }
@@ -138,6 +153,8 @@ class Texture {
         if (param === Texture.LinearFilter) { return gl.LINEAR; }
         if (param === Texture.LinearMipMapNearestFilter) { return gl.LINEAR_MIPMAP_NEAREST; }
         if (param === Texture.LinearMipMapLinearFilter) { return gl.LINEAR_MIPMAP_LINEAR; }
+        if (param === Texture.RgbaFormat) { return gl.RGBA; }
+        if (param === Texture.AlphaFormat) { return gl.ALPHA; }
     }
 }
 
@@ -152,6 +169,9 @@ Texture.LinearFilter = 4;
 Texture.LinearMipMapNearestFilter = 5;
 Texture.LinearMipMapLinearFilter = 6;
 
+Texture.RgbaFormat = 11;
+Texture.AlphaFormat = 12;
+
 export default Texture;
 
 /**
@@ -162,4 +182,8 @@ export default Texture;
 
 /**
  * @typedef {Texture.ClampToEdgeWrapping} TextureClamp
+ */
+
+/**
+ * @typedef {Texture.RgbaFormat | Texture.AlphaFormat} TextureFormat
  */

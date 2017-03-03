@@ -155,6 +155,7 @@ class Texture {
         if (param === Texture.LinearMipMapLinearFilter) { return gl.LINEAR_MIPMAP_LINEAR; }
         if (param === Texture.RgbaFormat) { return gl.RGBA; }
         if (param === Texture.AlphaFormat) { return gl.ALPHA; }
+        return null;
     }
 }
 

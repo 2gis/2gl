@@ -149,6 +149,7 @@ class Buffer {
         if (param === Buffer.UnsignedByte) { return gl.UNSIGNED_BYTE; }
         if (param === Buffer.UnsignedShort) { return gl.UNSIGNED_SHORT; }
         if (param === Buffer.UnsignedInt) { return gl.UNSIGNED_INT; }
+        return null;
     }
 }
 

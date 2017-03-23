@@ -94,6 +94,7 @@ class Renderer {
                 this._plugins.splice(i, 1);
                 return true;
             }
+            return false;
         });
 
         return this;

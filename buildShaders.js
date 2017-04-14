@@ -124,5 +124,13 @@ function callback(resolve, reject) {
 }
 
 function convertGLSL(code) {
-    return 'export default `\n' + code + '`;\n';
+    return 'export default `\n' + escape(code) + '`;\n';
+}
+
+function escape(code) {
+    'ntrbvf'.split('').forEach(char => {
+        const regexp = new RegExp(`\\\\${char}`, 'g');
+        code = code.replace(regexp, `\\\\${char}`);
+    });
+    return code;
 }

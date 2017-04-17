@@ -124,5 +124,9 @@ function callback(resolve, reject) {
 }
 
 function convertGLSL(code) {
-    return 'export default `\n' + code + '`;\n';
+    return 'export default `\n' + escape(code) + '`;\n';
+}
+
+function escape(code) {
+    return code.replace(/(\\[ntrbvf])/g, '\\$1');
 }

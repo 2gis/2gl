@@ -128,9 +128,5 @@ function convertGLSL(code) {
 }
 
 function escape(code) {
-    'ntrbvf'.split('').forEach(char => {
-        const regexp = new RegExp(`\\\\${char}`, 'g');
-        code = code.replace(regexp, `\\\\${char}`);
-    });
-    return code;
+    return code.replace(/(\\[ntrbvf])/g, '\\$1');
 }

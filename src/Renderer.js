@@ -243,11 +243,17 @@ class Renderer {
         };
         // TODO: make state immutable?
 
-        this._plugins.forEach(el => {
-            if (el.plugin.hasObjects()) {
-                el.plugin.render(state);
-            }
-        });
+        const pluginsToRender = this._plugins
+            .map(item => item.plugin)
+            .filter(plugin => plugin.hasObjects());
+
+        for (let i = 0; i < pluginsToRender.length; i++) {
+            pluginsToRender[i].render(
+                state,
+                pluginsToRender[i - 1],
+                pluginsToRender[i + 1]
+            );
+        }
 
         if (this._renderTarget) {
             this._renderTarget.unbind(gl);

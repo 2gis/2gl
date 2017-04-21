@@ -9,6 +9,7 @@ import Object3DPlugin from './rendererPlugins/Object3DPlugin';
  * @param {WebGLRenderingContext} [options.gl] Если элемент canvas не указан, то можно напрямую передать WebGL контекст
  * @param {Number} [options.pixelRatio=1] Pixel ratio экрана
  * @param {Boolean} [options.antialias=true] Использовать ли антиалиасинг
+ * @param {Boolean} [options.stencil=false] Использовать ли stencil buffer
  * @param {Boolean} [options.autoClear=true] Стирать ли прошлый кадр перед новый рендерингом
  * @param {Array} [options.clearColor=true] Цвет заливки в формате RGBA
  * @param {Object} [options.sortObjects=true] Нужно ли сортировать прозрачные объекты по удаленности
@@ -23,7 +24,8 @@ class Renderer {
                 document.getElementById(options.canvas) : options.canvas;
 
             const attributes = {
-                antialias: options.antialias !== undefined ? options.antialias : true
+                antialias: options.antialias !== undefined ? options.antialias : true,
+                stencil: options.stencil !== undefined ? options.stencil : false
             };
 
             this._gl = this._canvasElement.getContext('webgl', attributes) ||

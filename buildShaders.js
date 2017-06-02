@@ -126,7 +126,7 @@ function callback(resolve, reject) {
 function convertGLSL(code) {
     if (process.env.NODE_ENV === 'production') {
         // todo find or create minifier
-        return 'export default `' + removeComments(code) + '`;';
+        return 'export default `' + minifyGlsl(code) + '`;';
     }
     return 'export default `\n' + escape(code) + '`;\n';
 }
@@ -135,7 +135,7 @@ function escape(code) {
     return code.replace(/(\\[ntrbvf])/g, '\\$1');
 }
 
-function removeComments(code) {
+function minifyGlsl(code) {
     const multiLineComments = /\/\*[^]*?\*\//g;
     const singleLineComments = /\/\/(.)*/g;
     const tabs = /\t/g;

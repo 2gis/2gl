@@ -124,9 +124,26 @@ function callback(resolve, reject) {
 }
 
 function convertGLSL(code) {
+    if (process.env.NODE_ENV === 'production') {
+        // todo find or create minifier
+        return 'export default `' + minifyGlsl(code) + '`;';
+    }
     return 'export default `\n' + escape(code) + '`;\n';
 }
 
 function escape(code) {
     return code.replace(/(\\[ntrbvf])/g, '\\$1');
+}
+
+function minifyGlsl(code) {
+    const multiLineComments = /\/\*[^]*?\*\//g;
+    const singleLineComments = /\/\/(.)*/g;
+    const tabs = /\t/g;
+    const multiNewLines = /\n[\n]*\n/g;
+
+    return code
+        .replace(multiLineComments, '')
+        .replace(singleLineComments, '')
+        .replace(tabs, '')
+        .replace(multiNewLines, '\n');
 }

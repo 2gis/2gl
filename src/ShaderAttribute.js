@@ -54,5 +54,5 @@ export default ShaderAttribute;
  * @typedef {Object} AttributeDefinition
  * @property {String} name Название атрибута
  * @property {Boolean} [index] Если атрибут используется для передачи индексов, то true
- * @property {Number} location Можно напрямую высставить location атрибуту, чтобы не вызывался getAttributeLocation
+ * @property {Number} location Можно напрямую выставить location атрибуту, чтобы не вызывался getAttributeLocation
  */

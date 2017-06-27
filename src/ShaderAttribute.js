@@ -8,13 +8,22 @@ class ShaderAttribute {
     constructor(options) {
         this.name = options.name;
         this.index = options.index;
-        this.location = -1;
+        this.location = options.location !== undefined ? options.location : -1;
 
         this._enable = false;
     }
 
-    setLocation(gl, shaderProgram) {
-        this.location = gl.getAttribLocation(shaderProgram, this.name);
+    bindLocation(gl, shaderProgram) {
+        if (this.location !== -1) {
+            gl.bindAttribLocation(shaderProgram, this.location, this.name);
+        }
+        return this;
+    }
+
+    getLocation(gl, shaderProgram) {
+        if (this.location === -1) {
+            this.location = gl.getAttribLocation(shaderProgram, this.name);
+        }
         return this;
     }
 
@@ -45,4 +54,5 @@ export default ShaderAttribute;
  * @typedef {Object} AttributeDefinition
  * @property {String} name Название атрибута
  * @property {Boolean} [index] Если атрибут используется для передачи индексов, то true
+ * @property {Number} location Можно напрямую высставить location атрибуту, чтобы не вызывался getAttributeLocation
  */

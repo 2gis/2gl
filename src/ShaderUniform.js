@@ -11,7 +11,7 @@ class ShaderUniform {
         this.location = -1;
     }
 
-    setLocation(gl, webglProgram) {
+    getLocation(gl, webglProgram) {
         this.location = gl.getUniformLocation(webglProgram, this.name);
         return this;
     }

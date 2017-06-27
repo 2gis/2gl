@@ -96,16 +96,20 @@ class ShaderProgram {
             gl.attachShader(this._webglProgram, this._fragmentShader.get(gl));
         }
 
+        for (const name in this.attributes) {
+            this.attributes[name].bindLocation(gl, this._webglProgram);
+        }
+
         gl.linkProgram(this._webglProgram);
 
         this._status = ShaderProgram.READY;
 
         for (const name in this.attributes) {
-            this.attributes[name].setLocation(gl, this._webglProgram);
+            this.attributes[name].getLocation(gl, this._webglProgram);
         }
 
         for (const name in this.uniforms) {
-            this.uniforms[name].setLocation(gl, this._webglProgram);
+            this.uniforms[name].getLocation(gl, this._webglProgram);
         }
     }
 }

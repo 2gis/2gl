@@ -98,12 +98,6 @@ class ShaderProgram {
 
         gl.linkProgram(this._webglProgram);
 
-        if (process.env.NODE_ENV !== 'production' && !gl.getProgramParameter(this._webglProgram, gl.LINK_STATUS)) {
-            console.error(gl.getProgramInfoLog(this._webglProgram));
-            this._status = ShaderProgram.FAILED;
-            return;
-        }
-
         this._status = ShaderProgram.READY;
 
         for (const name in this.attributes) {

@@ -29,7 +29,8 @@ class ShaderProgram {
             this.attributes[obj.name] = new ShaderAttribute(obj);
         });
 
-        this._status = ShaderProgram.NOT_READY;
+        this._linked = false;
+        this._located = false;
     }
 
     /**
@@ -38,11 +39,8 @@ class ShaderProgram {
      * @param {WebGLRenderingContext} gl
      */
     enable(gl) {
-        if (this._status === ShaderProgram.NOT_READY) {
-            this._prepare(gl);
-        }
-
-        if (this._status !== ShaderProgram.READY) { return this; }
+        this.link(gl);
+        this.locate(gl);
 
         gl.useProgram(this._webglProgram);
 
@@ -85,7 +83,17 @@ class ShaderProgram {
         return this;
     }
 
-    _prepare(gl) {
+    /**
+     * Компилирует шейдеры и слинковывает программу.
+     * Одна из двух необходимых функций для работы шейдерной программы.
+     *
+     * @param {WebGLRenderingContext} gl
+     */
+    link(gl) {
+        if (this._linked) {
+            return this;
+        }
+
         this._webglProgram = gl.createProgram();
 
         if (this._vertexShader) {
@@ -102,7 +110,21 @@ class ShaderProgram {
 
         gl.linkProgram(this._webglProgram);
 
-        this._status = ShaderProgram.READY;
+        this._linked = true;
+
+        return this;
+    }
+
+    /**
+     * Лоцирует атрибуты и юниформе на основе шейдера.
+     * Одна из двух необходимых функций для работы шейдерной программы.
+     *
+     * @param {WebGLRenderingContext} gl
+     */
+    locate(gl) {
+        if (this._located) {
+            return this;
+        }
 
         for (const name in this.attributes) {
             this.attributes[name].getLocation(gl, this._webglProgram);
@@ -111,11 +133,11 @@ class ShaderProgram {
         for (const name in this.uniforms) {
             this.uniforms[name].getLocation(gl, this._webglProgram);
         }
+
+        this._located = true;
+
+        return this;
     }
 }
-
-ShaderProgram.NOT_READY = 1;
-ShaderProgram.READY = 2;
-ShaderProgram.FAILED = 3;
 
 export default ShaderProgram;

@@ -25,7 +25,9 @@ class Renderer {
 
             const attributes = {
                 antialias: options.antialias !== undefined ? options.antialias : true,
-                stencil: options.stencil !== undefined ? options.stencil : false
+                stencil: options.stencil !== undefined ? options.stencil : false,
+                failIfMajorPerformanceCaveat: options.failIfMajorPerformanceCaveat !== undefined ?
+                    options.failIfMajorPerformanceCaveat : false
             };
 
             this._gl = this._canvasElement.getContext('webgl', attributes) ||

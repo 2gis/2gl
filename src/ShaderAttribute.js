@@ -14,14 +14,14 @@ class ShaderAttribute {
     }
 
     bindLocation(gl, shaderProgram) {
-        if (this.location !== -1) {
+        if (this.location !== -1 && this.index !== true) {
             gl.bindAttribLocation(shaderProgram, this.location, this.name);
         }
         return this;
     }
 
     getLocation(gl, shaderProgram) {
-        if (this.location === -1) {
+        if (this.location === -1 && this.index !== true) {
             this.location = gl.getAttribLocation(shaderProgram, this.name);
         }
         return this;

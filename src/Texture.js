@@ -59,6 +59,14 @@ class Texture {
          * @type {Boolean}
          */
         this.premultiplyAlpha = true;
+
+        /**
+         * Контекст WebGL, в котором была инициализирована текстура.
+         * Используется только для удаления, подумать хорошо, прежде чем использовать для чего-то ещё.
+         * @type {?WebGLRenderingContext}
+         * @ignore
+         */
+        this._glContext = null;
     }
 
     /**
@@ -85,18 +93,19 @@ class Texture {
 
     /**
      * Удаляет текстуру из видеокарты
-     *
-     * @param {WebGLRenderingContext} gl
      */
-    remove(gl) {
+    remove() {
         if (this._texture) {
-            gl.deleteTexture(this._texture);
+            this._glContext.deleteTexture(this._texture);
+            this._glContext = null;
+            this._texture = null;
         }
 
         return this;
     }
 
     _prepare(gl) {
+        this._glContext = gl;
         this._texture = gl.createTexture();
 
         gl.bindTexture(gl.TEXTURE_2D, this._texture);

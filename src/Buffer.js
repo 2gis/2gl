@@ -1,19 +1,14 @@
 /**
  * Используется для хранения и подготовки данных для передачи в атрибуты шейдера
  *
- * @param {TypedArray | ArrayBuffer} data Данные для передачи в видеокарту
+ * @param {TypedArray | ArrayBuffer | number} initData Данные для инита буфера:
+ * содержимое буфера или его размер
  * @param {?BufferBindOptions} options Параметры передачи буфера в видеокарту,
  * могут быть переопределены из {@link BufferChannel}
  */
 class Buffer {
-    constructor(data, options) {
-        this._data = data;
-
-        /**
-         * Размер данных в буфере в байтах
-         * @type {Number}
-         */
-        this.byteLength = data.byteLength;
+    constructor(initData, options) {
+        this._initData = initData;
 
         /**
          * Тип буфера. Буфер может использоваться для передачи массива данных,
@@ -66,7 +61,7 @@ class Buffer {
      */
     bind(gl, location, options) {
         if (!this._glBuffer) {
-            this._prepare(gl);
+            this.prepare(gl);
         }
 
         if (this.type === Buffer.ArrayBuffer) {
@@ -101,7 +96,7 @@ class Buffer {
      */
     subData(gl, index, data) {
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
-        gl.bufferSubData(this._toGlParam(gl, this.type), index * this.itemSize, data);
+        gl.bufferSubData(this._toGlParam(gl, this.type), index, data);
 
         return this;
     }
@@ -111,12 +106,12 @@ class Buffer {
      * @param {WebGLRenderingContext} gl
      * @ignore
      */
-    _prepare(gl) {
+    prepare(gl) {
         this._glContext = gl;
         this._glBuffer = gl.createBuffer();
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
-        gl.bufferData(this._toGlParam(gl, this.type), this._data, this._toGlParam(gl, this.drawType));
-        this._data = null;
+        gl.bufferData(this._toGlParam(gl, this.type), this._initData, this._toGlParam(gl, this.drawType));
+        this._initData = null;
     }
 
     /**

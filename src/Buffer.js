@@ -11,6 +11,12 @@ class Buffer {
         this._initData = initData;
 
         /**
+         * Размер данных в буфере в байтах
+         * @type {Number}
+         */
+        this.byteLength = initData.byteLength !== undefined ? initData.byteLength : initData;
+
+        /**
          * Тип буфера. Буфер может использоваться для передачи массива данных,
          * так и для передачи индексов элементов из данных.
          * @type {Buffer.ArrayBuffer | Buffer.ElementArrayBuffer}

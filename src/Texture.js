@@ -109,14 +109,8 @@ class Texture {
         this._texture = gl.createTexture();
 
         gl.bindTexture(gl.TEXTURE_2D, this._texture);
-
-        if (this.flipY) {
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-        }
-
-        if (this.premultiplyAlpha) {
-            gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-        }
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, this.flipY);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this.premultiplyAlpha);
 
         if (this.size) {
             gl.texImage2D(

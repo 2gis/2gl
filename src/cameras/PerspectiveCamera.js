@@ -1,4 +1,4 @@
-import {mat4} from 'gl-matrix';
+import * as mat4 from '@2gis/gl-matrix/mat4';
 import Camera from './Camera';
 import {degToRad} from '../math/Math';
 import {PERSPECTIVE_CAMERA} from '../libConstants';

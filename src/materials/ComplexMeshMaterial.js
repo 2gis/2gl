@@ -1,6 +1,7 @@
+import * as vec3 from '@2gis/gl-matrix/vec3';
+import * as mat3 from '@2gis/gl-matrix/mat3';
 import fragmentShader from '../shaders/complex.frag.glsl.js';
 import vertexShader from '../shaders/complex.vert.glsl.js';
-import {vec3, mat3} from 'gl-matrix';
 import Material from './Material';
 import {COMPLEX_MESH_MATERIAL, DIRECTIONAL_LIGHT, AMBIENT_LIGHT} from '../libConstants';
 

@@ -1,4 +1,4 @@
-import {vec3} from 'gl-matrix';
+import * as vec3 from '@2gis/gl-matrix/vec3';
 import GeometryBuffer from './GeometryBuffer';
 import Box from './math/Box';
 

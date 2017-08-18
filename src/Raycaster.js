@@ -1,4 +1,6 @@
-import {vec3, mat3, mat4} from 'gl-matrix';
+import * as vec3 from '@2gis/gl-matrix/vec3';
+import * as mat3 from '@2gis/gl-matrix/mat3';
+import * as mat4 from '@2gis/gl-matrix/mat4';
 import Ray from './math/Ray';
 import {MESH, PERSPECTIVE_CAMERA, ORTHOGRAPHIC_CAMERA} from './libConstants';
 

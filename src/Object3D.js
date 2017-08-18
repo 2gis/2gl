@@ -1,4 +1,6 @@
-import {vec3, mat4, quat} from 'gl-matrix';
+import * as vec3 from '@2gis/gl-matrix/vec3';
+import * as mat4 from '@2gis/gl-matrix/mat4';
+import * as quat from '@2gis/gl-matrix/quat';
 import {OBJECT_3D, OBJECT_3D_RENDERER} from './libConstants';
 
 /**
@@ -104,7 +106,7 @@ class Object3D {
      * Вызывается рендером для подготовки и отрисовки объекта.
      * @param {State} state Текущие состояние рендера
      */
-    render(state) {
+    render() {
         if (!this.visible) { return this; }
 
         if (this.worldMatrixNeedsUpdate) {

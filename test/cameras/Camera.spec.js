@@ -1,6 +1,6 @@
+import * as mat4 from '@2gis/gl-matrix/mat4';
 import assert from 'assert';
 import {slice} from '../utils';
-import {mat4} from 'gl-matrix';
 import Object3D from '../../src/Object3D';
 
 import Camera from '../../src/cameras/Camera';

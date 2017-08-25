@@ -41,7 +41,3 @@ export {default as Vao} from './Vao';
 
 import * as Math from './math/Math';
 export {Math};
-
-// with Float32Array we have errors with raycast
-import {setMatrixArrayType} from '@2gis/gl-matrix/common';
-setMatrixArrayType(Float64Array);

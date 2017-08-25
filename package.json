@@ -14,7 +14,7 @@
     "buildShaders": "buildShaders.js"
   },
   "dependencies": {
-    "@2gis/gl-matrix": "^2.4.0"
+    "@2gis/gl-matrix": "^2.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

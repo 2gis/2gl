@@ -1,5 +1,5 @@
+import * as vec2 from '@2gis/gl-matrix/vec2';
 import Object3D from './Object3D';
-import {vec2} from 'gl-matrix';
 import {SPRITE, SPRITE_RENDERER} from './libConstants';
 
 /**

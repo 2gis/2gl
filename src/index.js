@@ -38,12 +38,6 @@ export {default as Raycaster} from './Raycaster';
 export {default as RenderTarget} from './RenderTarget';
 export {default as TransparentPlugin} from './rendererPlugins/TransparentPlugin';
 export {default as Vao} from './Vao';
-export {vec3, mat3, vec2, mat4, quat, glMatrix} from 'gl-matrix';
 
 import * as Math from './math/Math';
 export {Math};
-
-import {glMatrix} from 'gl-matrix';
-
-// with Float32Array we have errors with raycast
-glMatrix.ARRAY_TYPE = (typeof Float64Array !== 'undefined') ? Float64Array : Array;

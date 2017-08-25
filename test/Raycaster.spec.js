@@ -1,7 +1,7 @@
+import * as vec3 from '@2gis/gl-matrix/vec3';
 import assert from 'assert';
 import sinon from 'sinon';
 import {slice, cubeVertices} from './utils';
-import {vec3} from 'gl-matrix';
 
 import Ray from '../src/math/Ray';
 import Object3D from '../src/Object3D';

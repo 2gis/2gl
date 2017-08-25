@@ -1,6 +1,6 @@
+import * as vec3 from '@2gis/gl-matrix/vec3';
 import assert from 'assert';
 import {slice} from '../utils';
-import {vec3} from 'gl-matrix';
 
 import Box from '../../src/math/Box';
 

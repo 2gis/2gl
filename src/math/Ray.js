@@ -1,4 +1,4 @@
-import {vec3} from 'gl-matrix';
+import * as vec3 from '@2gis/gl-matrix/vec3';
 
 /**
  * Луч
@@ -77,6 +77,7 @@ class Ray {
 
         // These lines also handle the case where tmin or tmax is NaN
         // (result of 0 * Infinity). x !== x returns true if x is NaN
+        /* eslint-disable no-self-compare */
         if (tymin > tmin || tmin !== tmin) { tmin = tymin; }
 
         if (tymax < tmax || tmax !== tmax) { tmax = tymax; }
@@ -94,6 +95,7 @@ class Ray {
         if (tzmin > tmin || tmin !== tmin) { tmin = tzmin; }
 
         if (tzmax < tmax || tmax !== tmax) { tmax = tzmax; }
+        /* eslint-enable no-self-compare */
 
         // return point closest to the ray (positive side)
         if (tmax < 0) { return null; }

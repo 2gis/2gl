@@ -1,5 +1,8 @@
+import * as vec3 from '@2gis/gl-matrix/vec3';
+import * as mat3 from '@2gis/gl-matrix/mat3';
+import * as mat4 from '@2gis/gl-matrix/mat4';
+import * as quat from '@2gis/gl-matrix/quat';
 import Object3D from '../Object3D';
-import {vec3, mat3, mat4, quat} from 'gl-matrix';
 
 /**
  * Камера

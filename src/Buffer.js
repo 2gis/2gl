@@ -118,6 +118,7 @@ class Buffer {
         gl.bindBuffer(this._toGlParam(gl, this.type), this._glBuffer);
         gl.bufferData(this._toGlParam(gl, this.type), this._initData, this._toGlParam(gl, this.drawType));
         this._initData = null;
+        return this;
     }
 
     /**

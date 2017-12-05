@@ -3,12 +3,24 @@ import Texture from './Texture';
 /**
  * Используется для создания фреймбуфера, куда можно отрендерить кадр.
  *
- * @param {Object} options
- * @param {vec2} [options.size] Размер фреймбуфера
+ * @param {RenderTargetOptions & TextureOptions} options
  */
 class RenderTarget {
     constructor(options = {}) {
-        this._size = options.size;
+        /**
+         * Параметры для связывания фреймбуфера
+         * @type {RenderTargetOptions & TextureOptions}
+         * @readonly
+         */
+        this.options = Object.assign({}, RenderTarget.defaultOptions, options);
+
+        /**
+         * Контекст WebGL, в котором был инициализирован фреймбуфер.
+         * Используется только для удаления, подумать хорошо, прежде чем использовать для чего-то ещё.
+         * @type {?WebGLRenderingContext}
+         * @ignore
+         */
+        this._glContext = null;
     }
 
     /**
@@ -16,11 +28,6 @@ class RenderTarget {
      * @param {WebGLRenderingContext} gl
      */
     bind(gl) {
-        if (this._sizeChanged) {
-            this._unprepare(gl);
-            this._sizeChanged = false;
-        }
-
         if (!this._frameBuffer) {
             this._prepare(gl);
         }
@@ -41,10 +48,9 @@ class RenderTarget {
 
     /**
      * Удаляет фреймбуфер из видеокарты
-     * @param {WebGLRenderingContext} gl
      */
-    remove(gl) {
-        this._unprepare(gl);
+    remove() {
+        this._unprepare();
         return this;
     }
 
@@ -53,9 +59,17 @@ class RenderTarget {
      * @param {vec2} size
      */
     setSize(size) {
-        this._size = size;
-        this._sizeChanged = true;
+        this.options.size = size;
+        this._unprepare();
         return this;
+    }
+
+    /**
+     * Возвращает текущую текстуру фреймбуфера
+     * @return {Texture | null}
+     */
+    getTexture() {
+        return this._texture;
     }
 
     /**
@@ -64,10 +78,8 @@ class RenderTarget {
      * @ignore
      */
     _prepare(gl) {
-        this._texture = new Texture();
-        this._texture.generateMipmaps = false;
-        this._texture.size = this._size;
-
+        this._glContext = gl;
+        this._texture = new Texture(null, this.options);
         this._texture._prepare(gl);
 
         this._frameBuffer = gl.createFramebuffer();
@@ -75,9 +87,9 @@ class RenderTarget {
 
         this._renderBuffer = gl.createRenderbuffer();
         gl.bindRenderbuffer(gl.RENDERBUFFER, this._renderBuffer);
-        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this._size[0], this._size[1]);
+        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.options.size[0], this.options.size[1]);
 
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this._texture._texture, 0);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this._texture.getTexture(), 0);
         gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, this._renderBuffer);
 
         this._checkComplete(gl);
@@ -88,15 +100,17 @@ class RenderTarget {
 
     /**
      * Удаляет данные из видеокарты
-     * @param {WebGLRenderingContext} gl
      * @ignore
      */
-    _unprepare(gl) {
+    _unprepare() {
         if (this._frameBuffer) {
+            const gl = this._glContext;
             this._texture.remove(gl);
             gl.deleteFramebuffer(this._frameBuffer);
             gl.deleteRenderbuffer(this._renderBuffer);
             this._frameBuffer = null;
+            this._renderBuffer = null;
+            this._texture = null;
         }
     }
 
@@ -124,4 +138,16 @@ class RenderTarget {
     }
 }
 
+RenderTarget.defaultOptions = Object.assign({}, Texture.defaultOptions, {
+    size: [0, 0],
+    generateMipmaps: false,
+});
+
 export default RenderTarget;
+
+/**
+ * Параметры связывания текстуры
+ *
+ * @typedef {Object} RenderTargetOptions
+ * @property {Number[]} size
+ */

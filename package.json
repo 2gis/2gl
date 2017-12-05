@@ -4,9 +4,10 @@
   "description": "WebGL library for 2GIS projects",
   "repository": {
     "type": "git",
-    "url": "git@github.com:2gis/2gl.git"
+    "url": "git+https://github.com/2gis/2gl.git"
   },
   "main": "index.js",
+  "typings": "index.d.ts",
   "module": "src/index.js",
   "jsnext:main": "src/index.js",
   "license": "SEE LICENSE IN FILE",

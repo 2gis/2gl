@@ -41,15 +41,19 @@ describe('Texture', () => {
         });
 
         it('shouldn\'t generate mipmaps if min filter is linear', () => {
+            texture = new Texture(src, {
+                minFilter: Texture.LinearFilter,
+            });
             const spy = sinon.spy(gl, 'generateMipmap');
-            texture.minFilter = Texture.LinearFilter;
             texture.enable(gl, 1);
             assert.ok(!spy.called);
         });
 
         it('shouldn\'t generate mipmaps if min filter is nearest', () => {
+            texture = new Texture(src, {
+                minFilter: Texture.NearestFilter,
+            });
             const spy = sinon.spy(gl, 'generateMipmap');
-            texture.minFilter = Texture.NearestFilter;
             texture.enable(gl, 1);
             assert.ok(!spy.called);
         });

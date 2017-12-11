@@ -110,8 +110,8 @@ class Texture {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, this._toGlParam(gl, this.options.minFilter));
 
         if (this.options.generateMipmaps &&
-            this.minFilter !== Texture.NearestFilter &&
-            this.minFilter !== Texture.LinearFilter
+            this.options.minFilter !== Texture.NearestFilter &&
+            this.options.minFilter !== Texture.LinearFilter
         ) {
             gl.generateMipmap(gl.TEXTURE_2D);
         }

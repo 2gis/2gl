@@ -35,7 +35,7 @@ describe('Texture', () => {
 
         it('shouldn\'t generate mipmaps if it disable', () => {
             const spy = sinon.spy(gl, 'generateMipmap');
-            texture.generateMipmaps = false;
+            texture = new Texture(src, {generateMipmaps: false});
             texture.enable(gl, 1);
             assert.ok(!spy.called);
         });
@@ -81,7 +81,7 @@ describe('Texture', () => {
         });
 
         it('should call gl texImage2D with size', () => {
-            texture.size = [16, 25];
+            texture = new Texture(src, {size: [16, 25]});
             const spy = sinon.spy(gl, 'texImage2D');
             texture.enable(gl);
             assert.ok(spy.calledOnce);

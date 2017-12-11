@@ -42,14 +42,10 @@ class Vao {
      * Отвязывает vao от контекста WebGL.
      * ВНИМАНИЕ: Этот метод нужно вызывать всегда, перед тем как будет использоваться
      * стандартный подход для связывания атрибутов через {@link ShaderProgram#bind}.
-     *
-     * @param {State} state Стейт рендерера
      */
-    unbind(state) {
-        const ext = state.extensions.OES_vertex_array_object;
-
-        if (ext) {
-            ext.bindVertexArrayOES(null);
+    unbind() {
+        if (this._ext) {
+            this._ext.bindVertexArrayOES(null);
         }
 
         return this;

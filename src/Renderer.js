@@ -11,8 +11,8 @@ import Object3DPlugin from './rendererPlugins/Object3DPlugin';
  * @param {Boolean} [options.antialias=true] Использовать ли антиалиасинг
  * @param {Boolean} [options.stencil=false] Использовать ли stencil buffer
  * @param {Boolean} [options.autoClear=true] Стирать ли прошлый кадр перед новый рендерингом
- * @param {Array} [options.clearColor=true] Цвет заливки в формате RGBA
- * @param {Object} [options.sortObjects=true] Нужно ли сортировать прозрачные объекты по удаленности
+ * @param {Number[]} [options.clearColor=[1,1,1,1]] Цвет заливки в формате RGBA
+ * @param {Boolean} [options.sortObjects=true] Нужно ли сортировать прозрачные объекты по удаленности
  * или по renderOrder
  * */
 class Renderer {
@@ -30,8 +30,10 @@ class Renderer {
                     options.failIfMajorPerformanceCaveat : false
             };
 
-            this._gl = this._canvasElement.getContext('webgl', attributes) ||
-                this._canvasElement.getContext('experimental-webgl', attributes);
+            this._gl = options.version === 2 ?
+                this._canvasElement.getContext('webgl2', attributes) :
+                (this._canvasElement.getContext('webgl', attributes) ||
+                    this._canvasElement.getContext('experimental-webgl', attributes));
         } else {
             this._gl = options.gl;
         }

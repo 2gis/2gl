@@ -72,6 +72,28 @@ class Texture {
         return this._texture;
     }
 
+    /**
+     * Обновляет часть текстуры
+     *
+     * @param {WebGLRenderingContext} gl
+     * @param {HTMLImageElement | HTMLCanvasElement | ImageBitmap | ImageData | TypedArray} src
+     * @param {number} x Горизонтальное смещение, с которого записываем в текстуру
+     * @param {number} y Вертикальное смещение, с которого записываем в текстуру
+     */
+    subImage(gl, src, x, y) {
+        gl.bindTexture(gl.TEXTURE_2D, this._texture);
+        gl.texSubImage2D(
+            gl.TEXTURE_2D,
+            0,
+            x, y,
+            this._toGlParam(gl, this.options.format),
+            gl.UNSIGNED_BYTE,
+            src,
+        );
+
+        return this;
+    }
+
     _prepare(gl) {
         this._glContext = gl;
         this._texture = gl.createTexture();

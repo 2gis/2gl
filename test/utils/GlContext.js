@@ -154,6 +154,7 @@ GlContext.prototype.deleteTexture = function() {};
 GlContext.prototype.activeTexture = function() {};
 GlContext.prototype.pixelStorei = function() {};
 GlContext.prototype.texImage2D = function() {};
+GlContext.prototype.texSubImage2D = function() {};
 GlContext.prototype.texParameteri = function() {};
 GlContext.prototype.generateMipmap = function() {};
 

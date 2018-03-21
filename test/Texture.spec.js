@@ -96,6 +96,23 @@ describe('Texture', () => {
         });
     });
 
+    describe('#subImage', () => {
+        it('should call gl.texSubImage2D with offset', () => {
+            const spy = sinon.spy(gl, 'texSubImage2D');
+
+            texture = new Texture(src, {size: [16, 25]});
+            texture.enable(gl);
+            texture.subImage(gl, src, 2, 3);
+
+            assert.ok(spy.calledOnce);
+
+            const args = spy.args[0];
+            assert.equal(args.length, 7);
+            assert.equal(args[2], 2);
+            assert.equal(args[3], 3);
+        });
+    });
+
     describe('#remove', () => {
         it('shouldn\'t call deleteTexture', () => {
             const spy = sinon.spy(gl, 'deleteTexture');

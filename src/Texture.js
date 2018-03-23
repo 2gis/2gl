@@ -82,6 +82,9 @@ class Texture {
      */
     subImage(gl, src, x, y) {
         gl.bindTexture(gl.TEXTURE_2D, this._texture);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, this.options.flipY);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this.options.premultiplyAlpha);
+
         gl.texSubImage2D(
             gl.TEXTURE_2D,
             0,

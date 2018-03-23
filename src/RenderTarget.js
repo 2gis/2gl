@@ -80,7 +80,7 @@ class RenderTarget {
     _prepare(gl) {
         this._glContext = gl;
         this._texture = new Texture(null, this.options);
-        this._texture._prepare(gl);
+        this._texture.prepare(gl);
 
         this._frameBuffer = gl.createFramebuffer();
         gl.bindFramebuffer(gl.FRAMEBUFFER, this._frameBuffer);

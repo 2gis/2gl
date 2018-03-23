@@ -121,6 +121,7 @@ declare module '2gl' {
             options?: Partial<TextureOptions>,
         );
         public enable(gl: WebGLRenderingContext, index?: number): this;
+        public prepare(gl: WebGLRenderingContext): this;
         public subImage(
             gl: WebGLRenderingContext,
             src: HTMLImageElement | HTMLCanvasElement | ImageBitmap | ImageData | TypedArray,

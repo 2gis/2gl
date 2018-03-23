@@ -43,7 +43,7 @@ class Texture {
         }
 
         if (!this._texture) {
-            this._prepare(gl);
+            this.prepare(gl);
         }
 
         gl.bindTexture(gl.TEXTURE_2D, this._texture);
@@ -94,7 +94,11 @@ class Texture {
         return this;
     }
 
-    _prepare(gl) {
+    /**
+     * Кладёт текстуру в видеокарту
+     * @param {WebGLRenderingContext} gl
+     */
+    prepare(gl) {
         this._glContext = gl;
         this._texture = gl.createTexture();
 
@@ -139,6 +143,8 @@ class Texture {
         }
 
         gl.bindTexture(gl.TEXTURE_2D, null);
+
+        return this;
     }
 
     _toGlParam(gl, param) {

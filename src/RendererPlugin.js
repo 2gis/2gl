@@ -23,6 +23,7 @@ class RendererPlugin {
      */
     render() {
         this._objects = [];
+        return this;
     }
 
     /**

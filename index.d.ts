@@ -1,3 +1,5 @@
+/// <reference types="@2gis/gl-matrix" />
+
 declare module '2gl' {
     export class Shader {
         constructor(
@@ -9,13 +11,13 @@ declare module '2gl' {
         public remove(gl: WebGLRenderingContext): void;
     }
 
-    interface AttributeDefinition {
+    export interface AttributeDefinition {
         name: string;
         index?: boolean;
         location?: number;
     }
 
-    interface UniformDefinition {
+    export interface UniformDefinition {
         name: string;
         type: 'mat2' | 'mat3' | 'mat4' |
             '1f' | '2f' | '3f' | '4f' |
@@ -24,7 +26,7 @@ declare module '2gl' {
             '1iv' | '2iv' | '3iv' | '4iv';
     }
 
-    interface ShaderProgramOptions {
+    export interface ShaderProgramOptions {
         vertex: Shader;
         fragment: Shader;
         uniforms?: UniformDefinition[];
@@ -44,7 +46,7 @@ declare module '2gl' {
         public locate(gl: WebGLRenderingContext): this;
     }
 
-    interface BufferBindOptions {
+    export interface BufferBindOptions {
         itemSize: number;
         dataType: number;
         normalized: boolean;
@@ -87,7 +89,7 @@ declare module '2gl' {
         public bind(gl: WebGLRenderingContext, location?: number): this;
     }
 
-    interface TextureOptions {
+    export interface TextureOptions {
         magFilter: number;
         minFilter: number;
         wrapS: number;
@@ -132,8 +134,44 @@ declare module '2gl' {
         public getTexture(): WebGLTexture;
     }
 
-    interface RenderTargetOptions extends TextureOptions {
+    export interface RenderTargetOptions extends TextureOptions {
         size: Vec2;
+    }
+
+    export class Object3D {
+        public children: Object3D[];
+        public parent: Object3D | null;
+        public visible: boolean;
+        public scale: Vec3;
+        public position: Vec3;
+        public quaternion: Quat;
+        public localMatrix: Mat4;
+        public worldMatrix: Mat4;
+        public worldMatrixNeedsUpdate: boolean;
+        public type: number;
+        constructor();
+        public add(object: Object3D): this;
+        public remove(object: Object3D): this;
+        public render(): this;
+        public updateLocalMatrix(): this;
+        public updateWorldMatrix(): this;
+        public getWorldPosition(): Vec3;
+        public traverse(callback: (obj: Object3D) => void): this;
+        public traverseVisible(callback: (obj: Object3D) => void): this;
+        public typifyForRender(rp: {[type: number]: RendererPlugin}): this;
+    }
+
+    export class Scene extends Object3D {}
+
+    export class Camera extends Object3D {}
+
+    export class RendererPlugin {
+        public _objects: Object3D[];
+        public type: number;
+        constructor();
+        public render(): this;
+        public addObject(object: Object3D): this;
+        public hasObjects(): boolean;
     }
 
     export class RenderTarget {
@@ -146,9 +184,45 @@ declare module '2gl' {
         public getTexture(): Texture;
     }
 
-    interface RendererState {
+    export interface RendererState {
         gl: WebGLRenderingContext;
         extensions: {[name: string]: any};
+    }
+
+    export interface RendererOptions {
+        canvas: string | HTMLCanvasElement;
+        gl: WebGLRenderingContext;
+        pixelRatio: number;
+        antialias: boolean;
+        stencil: boolean;
+        autoClear: boolean;
+        clearColor: Vec4;
+        sortObjects: boolean;
+        failIfMajorPerformanceCaveat: boolean;
+        version: number;
+    }
+
+    export class Renderer {
+        public _gl: WebGLRenderingContext;
+        public autoClear: boolean;
+        public clearColor: Vec4;
+        public sortObjects: boolean;
+        public _pluginsByType: {[type: number]: RendererPlugin};
+        public _plugins: RendererPlugin[];
+        public webGlExtensions: {[name: string]: any};
+        constructor(options: Partial<RendererOptions>);
+        public addPlugin(plugin: RendererPlugin, order?: number): this;
+        public removePlugin(plugin: RendererPlugin): this;
+        public setPixelRatio(value: number): this;
+        public getPixelRatio(): this;
+        public setSize(width: number, height: number): this;
+        public setViewport(width: number, height: number): this;
+        public getSize(): Vec2;
+        public setRenderTarget(rt: RenderTarget): this;
+        public readPixels(x: number, y: number, width: number, height: number, arrat: TypedArray): this;
+        public clear(): this;
+        public render(scene: Scene, camera: Camera, userData: any): this;
+        public addExtension(name: string): this;
     }
 
     export class Vao {
@@ -156,6 +230,30 @@ declare module '2gl' {
         public bind(state: RendererState): this;
         public unbind(): this;
         public remove(): this;
+    }
+
+    export class Box {
+        public min: Vec3;
+        public max: Vec3;
+        constructor(min?: Vec3, max?: Vec3);
+        public containsPoint(point: Vec3): boolean;
+        public expandByPoint(point: Vec3): this;
+    }
+
+    export class Plane {
+        public normal: Vec3;
+        public constant: number;
+        constructor(normal?: Vec3, constane?: number);
+        public distanceToPoint(point: Vec3): number;
+        public setComponents(x: number, y: number, z: number, w: number): this;
+        public normalize(): this;
+    }
+
+    export class Frustum {
+        public planes: Plane[];
+        constructor(planes?: Plane[]);
+        public setFromMatrix(m: Mat4): this;
+        public intersectsBox(box: Box): boolean;
     }
 }
 
@@ -189,7 +287,37 @@ declare module '2gl/RenderTarget' {
     export default RenderTarget;
 }
 
+declare module '2gl/Renderer' {
+    import { Renderer } from '2gl';
+    export default Renderer;
+}
+
+declare module '2gl/RendererPlugin' {
+    import { RendererPlugin } from '2gl';
+    export default RendererPlugin;
+}
+
+declare module '2gl/Object3D' {
+    import { Object3D } from '2gl';
+    export default Object3D;
+}
+
 declare module '2gl/Vao' {
     import { Vao } from '2gl';
     export default Vao;
+}
+
+declare module '2gl/math/Box' {
+    import { Box } from '2gl';
+    export default Box;
+}
+
+declare module '2gl/math/Plane' {
+    import { Plane } from '2gl';
+    export default Plane;
+}
+
+declare module '2gl/math/Frustum' {
+    import { Frustum } from '2gl';
+    export default Frustum;
 }

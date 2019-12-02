@@ -199,6 +199,7 @@ declare module '2gl' {
         clearColor: Vec4;
         sortObjects: boolean;
         failIfMajorPerformanceCaveat: boolean;
+        preserveDrawingBuffer: boolean;
         version: number;
     }
 

@@ -12,8 +12,9 @@ import Object3DPlugin from './rendererPlugins/Object3DPlugin';
  * @param {Boolean} [options.stencil=false] Использовать ли stencil buffer
  * @param {Boolean} [options.autoClear=true] Стирать ли прошлый кадр перед новый рендерингом
  * @param {Number[]} [options.clearColor=[1,1,1,1]] Цвет заливки в формате RGBA
- * @param {Boolean} [options.sortObjects=true] Нужно ли сортировать прозрачные объекты по удаленности
- * или по renderOrder
+ * @param {Boolean} [options.sortObjects=true] Нужно ли сортировать прозрачные объекты по удаленности или по renderOrder
+ * @param {Boolean} [options.preserveDrawingBuffer=false] Сохранять ли содержимое Drawing Buffer
+ * (может влиять на производительность)
  * */
 class Renderer {
     constructor(options) {
@@ -27,7 +28,9 @@ class Renderer {
                 antialias: options.antialias !== undefined ? options.antialias : true,
                 stencil: options.stencil !== undefined ? options.stencil : false,
                 failIfMajorPerformanceCaveat: options.failIfMajorPerformanceCaveat !== undefined ?
-                    options.failIfMajorPerformanceCaveat : false
+                    options.failIfMajorPerformanceCaveat : false,
+                preserveDrawingBuffer: options.preserveDrawingBuffer !== undefined ?
+                    options.preserveDrawingBuffer : false,
             };
 
             this._gl = options.version === 2 ?

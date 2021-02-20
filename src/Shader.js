@@ -63,7 +63,7 @@ class Shader {
         gl.shaderSource(shader, this._code);
         gl.compileShader(shader);
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            throw new Error('Shader compile error');
+            throw new Error(gl.getShaderInfoLog(shader));
         }
     }
 }

@@ -125,7 +125,7 @@ class ShaderProgram {
     
             gl.linkProgram(this._webglProgram);
             if (!gl.getProgramParameter(this._webglProgram, gl.LINK_STATUS)) {
-                console.error('Shader program link error');
+                throw new Error(gl.getProgramInfoLog(this._webglProgram));
             }
     
             this._linked = true;    

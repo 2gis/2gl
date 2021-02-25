@@ -62,6 +62,9 @@ class Shader {
         const shader = this._shader = gl.createShader(glType);
         gl.shaderSource(shader, this._code);
         gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            throw new Error(gl.getShaderInfoLog(shader));
+        }
     }
 }
 

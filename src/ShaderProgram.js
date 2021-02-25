@@ -31,6 +31,7 @@ class ShaderProgram {
 
         this._linked = false;
         this._located = false;
+        this._error = false;
     }
 
     /**
@@ -39,8 +40,14 @@ class ShaderProgram {
      * @param {WebGLRenderingContext} gl
      */
     enable(gl) {
+        if (this._error) {
+            return this;
+        }
         this.link(gl);
         this.locate(gl);
+        if (this._error) {
+            return this;
+        }
 
         gl.useProgram(this._webglProgram);
 
@@ -55,6 +62,9 @@ class ShaderProgram {
      * @param {Object} [attributes] Key-value объект содержащий значения атрибутов
      */
     bind(gl, uniforms, attributes) {
+        if (this._error) {
+            return this;
+        }
         if (uniforms) {
             for (const name in uniforms) {
                 this.uniforms[name].bind(gl, uniforms[name]);
@@ -76,6 +86,10 @@ class ShaderProgram {
      * @param {WebGLRenderingContext} gl
      */
     disable(gl) {
+        if (this._error) {
+            return this;
+        }
+
         for (const name in this.attributes) {
             this.attributes[name].disable(gl);
         }
@@ -90,27 +104,35 @@ class ShaderProgram {
      * @param {WebGLRenderingContext} gl
      */
     link(gl) {
-        if (this._linked) {
+        if (this._linked || this._error) {
             return this;
         }
 
-        this._webglProgram = gl.createProgram();
+        try {
+            this._webglProgram = gl.createProgram();
 
-        if (this._vertexShader) {
-            gl.attachShader(this._webglProgram, this._vertexShader.get(gl));
+            if (this._vertexShader) {
+                gl.attachShader(this._webglProgram, this._vertexShader.get(gl));
+            }
+    
+            if (this._fragmentShader) {
+                gl.attachShader(this._webglProgram, this._fragmentShader.get(gl));
+            }
+    
+            for (const name in this.attributes) {
+                this.attributes[name].bindLocation(gl, this._webglProgram);
+            }
+    
+            gl.linkProgram(this._webglProgram);
+            if (!gl.getProgramParameter(this._webglProgram, gl.LINK_STATUS)) {
+                throw new Error(gl.getProgramInfoLog(this._webglProgram));
+            }
+    
+            this._linked = true;    
+        } catch (error) {
+            this._error = true;
+            throw error;
         }
-
-        if (this._fragmentShader) {
-            gl.attachShader(this._webglProgram, this._fragmentShader.get(gl));
-        }
-
-        for (const name in this.attributes) {
-            this.attributes[name].bindLocation(gl, this._webglProgram);
-        }
-
-        gl.linkProgram(this._webglProgram);
-
-        this._linked = true;
 
         return this;
     }
@@ -122,7 +144,7 @@ class ShaderProgram {
      * @param {WebGLRenderingContext} gl
      */
     locate(gl) {
-        if (this._located) {
+        if (this._located || this._error) {
             return this;
         }
 

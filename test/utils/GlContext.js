@@ -69,6 +69,10 @@ GlContext.prototype.createBuffer = function() {
     return {};
 };
 
+GlContext.prototype.isContextLost = function() {
+    return false;
+};
+
 GlContext.prototype.bindBuffer = function() {};
 GlContext.prototype.bufferData = function() {};
 GlContext.prototype.bufferSubData = function() {};

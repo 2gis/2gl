@@ -63,13 +63,12 @@ class Shader {
      * @ignore
      */
     _compile(gl) {
-        const glType =
-            this.type === Shader.Vertex ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER;
+        const glType = this.type === Shader.Vertex ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER;
         const shader = (this._shader = gl.createShader(glType));
 
         if (!shader || gl.isContextLost()) {
             throw new Error(
-                `[2gl] Failed to create shader. Shader is null: ${!shader}. Context is lost: ${gl.isContextLost()}`
+                `[2gl] Failed to create shader. Shader is null: ${!shader}. Context is lost: ${gl.isContextLost()}`,
             );
         }
 

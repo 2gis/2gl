@@ -20,15 +20,20 @@ class Shader {
          * @type {String}
          * @ignore
          */
-        this._code = Array.isArray(code) ? code.join('\n') : (code || '');
+        this._code = Array.isArray(code) ? code.join('\n') : code || '';
 
-        this._code = definitions.map(def => {
-            if (def.value !== undefined) {
-                return '#define ' + def.type + ' ' + def.value;
-            } else {
-                return '#define ' + def.type;
-            }
-        }).join('\n') + '\n' + this._code;
+        this._code =
+            definitions
+                .map((def) => {
+                    if (def.value !== undefined) {
+                        return '#define ' + def.type + ' ' + def.value;
+                    } else {
+                        return '#define ' + def.type;
+                    }
+                })
+                .join('\n') +
+            '\n' +
+            this._code;
     }
 
     /**
@@ -59,7 +64,14 @@ class Shader {
      */
     _compile(gl) {
         const glType = this.type === Shader.Vertex ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER;
-        const shader = this._shader = gl.createShader(glType);
+        const shader = (this._shader = gl.createShader(glType));
+
+        if (!shader || gl.isContextLost()) {
+            throw new Error(
+                `[2gl] Failed to create shader. Shader is null: ${!shader}. Context is lost: ${gl.isContextLost()}`,
+            );
+        }
+
         gl.shaderSource(shader, this._code);
         gl.compileShader(shader);
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {

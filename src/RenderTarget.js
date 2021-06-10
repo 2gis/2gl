@@ -114,14 +114,15 @@ class RenderTarget {
      * @ignore
      */
     _unprepare() {
+        const gl = this._glContext;
+        this._texture.remove(gl);
+        this._texture = null;
+
         if (this._frameBuffer) {
-            const gl = this._glContext;
-            this._texture.remove(gl);
             gl.deleteFramebuffer(this._frameBuffer);
             gl.deleteRenderbuffer(this._renderBuffer);
             this._frameBuffer = null;
             this._renderBuffer = null;
-            this._texture = null;
         }
     }
 

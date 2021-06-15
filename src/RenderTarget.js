@@ -15,6 +15,13 @@ class RenderTarget {
         this.options = Object.assign({}, RenderTarget.defaultOptions, options);
 
         /**
+         * Текстура создается в конструкторе, чтобы можно было сразу получить на нее ссылку.
+         * @type {?Texture}
+         * @ignore
+         */
+        this._texture = new Texture(null, this.options);
+
+        /**
          * Контекст WebGL, в котором был инициализирован фреймбуфер.
          * Используется только для удаления, подумать хорошо, прежде чем использовать для чего-то ещё.
          * @type {?WebGLRenderingContext}
@@ -79,7 +86,11 @@ class RenderTarget {
      */
     _prepare(gl) {
         this._glContext = gl;
-        this._texture = new Texture(null, this.options);
+        
+        // Проверяем наличие текстуры, т.к. она может быть удалена через метод _unprepare.
+        if (!this._texture) {
+            this._texture = new Texture(null, this.options);
+        }
         this._texture.prepare(gl);
 
         this._frameBuffer = gl.createFramebuffer();
@@ -103,14 +114,16 @@ class RenderTarget {
      * @ignore
      */
     _unprepare() {
+        if (this._texture) {
+            this._texture.remove(this._glContext);
+            this._texture = null;
+        }
+
         if (this._frameBuffer) {
-            const gl = this._glContext;
-            this._texture.remove(gl);
-            gl.deleteFramebuffer(this._frameBuffer);
-            gl.deleteRenderbuffer(this._renderBuffer);
+            this._glContext.deleteFramebuffer(this._frameBuffer);
+            this._glContext.deleteRenderbuffer(this._renderBuffer);
             this._frameBuffer = null;
             this._renderBuffer = null;
-            this._texture = null;
         }
     }
 

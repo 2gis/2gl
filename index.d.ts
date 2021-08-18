@@ -5,7 +5,7 @@ declare module '2gl' {
         constructor(
             type: 'fragment' | 'vertex',
             code: string | string[],
-            definitions?: {[key: string]: {type: string, value: number | string}},
+            definitions?: { [key: string]: { type: string; value: number | string } },
         );
         public get(gl: WebGLRenderingContext): WebGLShader;
         public remove(gl: WebGLRenderingContext): void;
@@ -19,11 +19,26 @@ declare module '2gl' {
 
     export interface UniformDefinition {
         name: string;
-        type: 'mat2' | 'mat3' | 'mat4' |
-            '1f' | '2f' | '3f' | '4f' |
-            '1i' | '2i' | '3i' | '4i' |
-            '1fv' | '2fv' | '3fv' | '4fv' |
-            '1iv' | '2iv' | '3iv' | '4iv';
+        type:
+            | 'mat2'
+            | 'mat3'
+            | 'mat4'
+            | '1f'
+            | '2f'
+            | '3f'
+            | '4f'
+            | '1i'
+            | '2i'
+            | '3i'
+            | '4i'
+            | '1fv'
+            | '2fv'
+            | '3fv'
+            | '4fv'
+            | '1iv'
+            | '2iv'
+            | '3iv'
+            | '4iv';
     }
 
     export interface ShaderProgramOptions {
@@ -38,8 +53,8 @@ declare module '2gl' {
         public enable(gl: WebGLRenderingContext): this;
         public bind(
             gl: WebGLRenderingContext,
-            uniforms?: {[name: string]: number | number[] | TypedArray},
-            attributes?: {[name: string]: Buffer | BufferChannel},
+            uniforms?: { [name: string]: number | number[] | TypedArray },
+            attributes?: { [name: string]: Buffer | BufferChannel },
         ): this;
         public disable(gl: WebGLRenderingContext): this;
         public link(gl: WebGLRenderingContext): this;
@@ -78,9 +93,17 @@ declare module '2gl' {
             options?: Partial<BufferBindOptions>,
         );
 
-        public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions): this;
+        public bind(
+            gl: WebGLRenderingContext,
+            location?: number,
+            options?: BufferBindOptions,
+        ): this;
         public remove(): this;
-        public subData(gl: WebGLRenderingContext, index: number, data: TypedArray | ArrayBuffer): this;
+        public subData(
+            gl: WebGLRenderingContext,
+            index: number,
+            data: TypedArray | ArrayBuffer,
+        ): this;
         public prepare(gl: WebGLRenderingContext): this;
     }
 
@@ -158,7 +181,7 @@ declare module '2gl' {
         public getWorldPosition(): Vec3;
         public traverse(callback: (obj: Object3D) => void): this;
         public traverseVisible(callback: (obj: Object3D) => void): this;
-        public typifyForRender(rp: {[type: number]: RendererPlugin}): this;
+        public typifyForRender(rp: { [type: number]: RendererPlugin }): this;
     }
 
     export class Scene extends Object3D {}
@@ -186,7 +209,7 @@ declare module '2gl' {
 
     export interface RendererState {
         gl: WebGLRenderingContext;
-        extensions: {[name: string]: any};
+        extensions: { [name: string]: any };
     }
 
     export interface RendererOptions {
@@ -208,26 +231,32 @@ declare module '2gl' {
         public autoClear: boolean;
         public clearColor: Vec4;
         public sortObjects: boolean;
-        public _pluginsByType: {[type: number]: RendererPlugin};
+        public _pluginsByType: { [type: number]: RendererPlugin };
         public _plugins: RendererPlugin[];
-        public webGlExtensions: {[name: string]: any};
+        public webGlExtensions: { [name: string]: any };
         constructor(options: Partial<RendererOptions>);
         public addPlugin(plugin: RendererPlugin, order?: number): this;
         public removePlugin(plugin: RendererPlugin): this;
         public setPixelRatio(value: number): this;
-        public getPixelRatio(): this;
+        public getPixelRatio(): number;
         public setSize(width: number, height: number): this;
         public setViewport(width: number, height: number): this;
         public getSize(): Vec2;
         public setRenderTarget(rt: RenderTarget): this;
-        public readPixels(x: number, y: number, width: number, height: number, arrat: TypedArray): this;
+        public readPixels(
+            x: number,
+            y: number,
+            width: number,
+            height: number,
+            arrat: TypedArray,
+        ): this;
         public clear(): this;
         public render(scene: Scene, camera: Camera, userData: any): this;
         public addExtension(name: string): this;
     }
 
     export class Vao {
-        constructor(program: ShaderProgram, attributes: {[name: string]: Buffer | BufferChannel});
+        constructor(program: ShaderProgram, attributes: { [name: string]: Buffer | BufferChannel });
         public bind(state: RendererState): this;
         public unbind(): this;
         public remove(): this;

@@ -215,7 +215,7 @@ declare module '2gl' {
         public addPlugin(plugin: RendererPlugin, order?: number): this;
         public removePlugin(plugin: RendererPlugin): this;
         public setPixelRatio(value: number): this;
-        public getPixelRatio(): this;
+        public getPixelRatio(): number;
         public setSize(width: number, height: number): this;
         public setViewport(width: number, height: number): this;
         public getSize(): Vec2;

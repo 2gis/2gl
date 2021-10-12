@@ -1,7 +1,8 @@
-attribute vec2 disposition;
 attribute vec2 texture;
 
 attribute vec3 position;
+
+attribute vec2 disposition;
 attribute vec2 scale;
 attribute vec2 offset;
 attribute float colorAlpha;
@@ -13,27 +14,22 @@ uniform vec2 uHalfSize;
 varying vec2 vTextureCoord;
 varying float vColorAlpha;
 
-void main(void) {
+void main() {
     vTextureCoord = texture;
     vColorAlpha = colorAlpha;
 
-    vec2 alignedPosition = disposition * scale;
-    alignedPosition += offset;
-    alignedPosition /= uHalfSize;
+    vec4 anchor = uPCamera * vec4(position, 1.0);
+    vec2 align = (disposition * scale + offset) / uHalfSize;
+    vec2 pos_2d = anchor.xy + align.xy * anchor.w;
 
-    vec4 ndcPosition = uPCamera * vec4(position, 1.0);
-    ndcPosition.xyz = ndcPosition.xyz / ndcPosition.w;
-    ndcPosition.w = 1.0;
-    ndcPosition.xy += alignedPosition.xy;
-
-    vec2 roundedPosition = floor((ndcPosition.xy + 1.0) * uHalfSize.xy + 0.5) / uHalfSize.xy - 1.0;
-    vec2 roundingDelta = roundedPosition - ndcPosition.xy;
+    vec2 round_pos = floor((pos_2d.xy + 1.0) * uHalfSize.xy + 0.5) / uHalfSize.xy - 1.0;
+    vec2 round_delta = round_pos - pos_2d.xy;
 
     if (vColorAlpha == 0.0) {
-        ndcPosition.xy = vec2(-2.0, -2.0);
+        pos_2d = vec2(-2.0, -2.0);
     } else {
-        ndcPosition.xy = ndcPosition.xy + roundingDelta * uSmoothing;
+        pos_2d.xy = pos_2d.xy + round_delta * uSmoothing;
     }
 
-    gl_Position = ndcPosition;
+    gl_Position = vec4(pos_2d, anchor.z, anchor.w);
 }

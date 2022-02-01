@@ -68,7 +68,7 @@ class Shader {
 
         if (!shader || gl.isContextLost()) {
             throw new Error(
-                `[2gl] Failed to create shader. Shader is null: ${!shader}. Context is lost: ${gl.isContextLost()}`,
+                `[2gl] Failed to create shader. Shader is null: ${!shader}. Context is lost: ${gl.isContextLost()}. Shader code: ${this._code.slice(0,100)}`,
             );
         }
 

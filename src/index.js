@@ -14,7 +14,7 @@ export {default as DirectionalLight} from './lights/DirectionalLight';
 export {default as Frustum} from './math/Frustum';
 export {default as Geometry} from './Geometry';
 export {default as Mesh} from './Mesh';
-export {default as libConstants} from './libConstants';
+export * as libConstants from './libConstants';
 export {default as Line3} from './math/Line3';
 export {default as MultiSprite} from './MultiSprite';
 export {default as MultiSpriteMaterial} from './materials/MultiSpriteMaterial';

@@ -4,7 +4,6 @@ npm-debug.log
 coverage
 docs
 dist
-*.glsl.js
 .nyc_output
 .DS_Store
 package-lock.json

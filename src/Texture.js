@@ -237,5 +237,5 @@ export default Texture;
  * @property {Boolean} premultiplyAlpha
  * @property {?Number[]} size
  * @property {?Number} unit
- * @property {?Number} type
+ * @property {?TextureType} type
  */

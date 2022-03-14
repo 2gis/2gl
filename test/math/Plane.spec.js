@@ -55,7 +55,7 @@ describe('Plane', () => {
         let newNormal, newConstant;
 
         before(() => {
-            newNormal = [0, 1, 2];
+            newNormal = new Float64Array([0, 1, 2]);
             newConstant = 15;
         });
 
@@ -93,9 +93,9 @@ describe('Plane', () => {
         });
 
         it('should change normal right', () => {
-            assert.deepEqual(plane.normal, [5, 0, 0]);
+            assert.deepEqual(plane.normal, new Float64Array([5, 0, 0]));
             plane.normalize();
-            assert.deepEqual(plane.normal, [1, 0, 0]);
+            assert.deepEqual(plane.normal, new Float64Array([1, 0, 0]));
         });
     });
 });

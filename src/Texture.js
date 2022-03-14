@@ -90,7 +90,7 @@ class Texture {
             0,
             x, y,
             this._toGlParam(gl, this.options.format),
-            gl.UNSIGNED_BYTE,
+            this._toGlParam(gl, this.options.type),
             src,
         );
 
@@ -118,7 +118,7 @@ class Texture {
                 this.options.size[1],
                 0,
                 this._toGlParam(gl, this.options.format),
-                gl.UNSIGNED_BYTE,
+                this._toGlParam(gl, this.options.type),
                 this._src
             );
         } else {
@@ -127,7 +127,7 @@ class Texture {
                 0,
                 this._toGlParam(gl, this.options.format),
                 this._toGlParam(gl, this.options.format),
-                gl.UNSIGNED_BYTE,
+                this._toGlParam(gl, this.options.type),
                 this._src
             );
         }
@@ -165,6 +165,10 @@ class Texture {
         if (param === Texture.RgbaFormat) { return gl.RGBA; }
         if (param === Texture.AlphaFormat) { return gl.ALPHA; }
         if (param === Texture.RgbFormat) { return gl.RGB; }
+
+        if (param === Texture.UnsignedByte) { return gl.UNSIGNED_BYTE; }
+        if (param === Texture.Float) { return gl.FLOAT; }
+
         return null;
     }
 }
@@ -184,6 +188,9 @@ Texture.RgbaFormat = 11;
 Texture.AlphaFormat = 12;
 Texture.RgbFormat = 13;
 
+Texture.UnsignedByte = 14;
+Texture.Float = 15;
+
 Texture.defaultOptions = {
     magFilter: Texture.LinearFilter,
     minFilter: Texture.LinearMipMapLinearFilter,
@@ -193,6 +200,7 @@ Texture.defaultOptions = {
     generateMipmaps: true,
     flipY: true,
     premultiplyAlpha: true,
+    type: Texture.UnsignedByte,
 };
 
 export default Texture;
@@ -212,6 +220,10 @@ export default Texture;
  */
 
 /**
+ * @typedef {Texture.UnsignedByte | Texture.Float} TextureType
+ */
+
+/**
  * Параметры связывания текстуры
  *
  * @typedef {Object} TextureOptions
@@ -225,4 +237,5 @@ export default Texture;
  * @property {Boolean} premultiplyAlpha
  * @property {?Number[]} size
  * @property {?Number} unit
+ * @property {?Number} type
  */

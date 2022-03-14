@@ -100,6 +100,7 @@ declare module '2gl' {
         premultiplyAlpha: boolean;
         size?: Vec2;
         unit: number | undefined;
+        type?: number;
     }
 
     export class Texture {
@@ -115,6 +116,8 @@ declare module '2gl' {
         static RgbaFormat: number;
         static AlphaFormat: number;
         static RgbFormat: number;
+        static UnsignedByte: number;
+        static Float: number
         static defaultOptions: TextureOptions;
 
         public readonly options: TextureOptions;

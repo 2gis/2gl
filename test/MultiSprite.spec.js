@@ -136,9 +136,9 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setOpacity(0, 0.5);
 
-                assert.deepEqual(multiSprite._data.colorAlpha.array, [
+                assert.deepEqual(multiSprite._data.colorAlpha.array, new Float32Array([
                     0.5, 0.5, 0.5, 0.5, 0.5, 0.5
-                ]);
+                ]));
             });
         });
 
@@ -146,14 +146,14 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setPosition(0, [5, 7]);
 
-                assert.deepEqual(multiSprite._data.position.array, [
+                assert.deepEqual(multiSprite._data.position.array, new Float32Array([
                     5, 7, 0,
                     5, 7, 0,
                     5, 7, 0,
                     5, 7, 0,
                     5, 7, 0,
                     5, 7, 0
-                ]);
+                ]));
             });
         });
 
@@ -161,14 +161,14 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setElevation(0, 5);
 
-                assert.deepEqual(multiSprite._data.position.array, [
+                assert.deepEqual(multiSprite._data.position.array, new Float32Array([
                     1, 2, 5,
                     1, 2, 5,
                     1, 2, 5,
                     1, 2, 5,
                     1, 2, 5,
                     1, 2, 5
-                ]);
+                ]));
             });
         });
 
@@ -176,14 +176,14 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setSize(0, [5, 7]);
 
-                assert.deepEqual(multiSprite._data.scale.array, [
+                assert.deepEqual(multiSprite._data.scale.array, new Float32Array([
                     5, 7,
                     5, 7,
                     5, 7,
                     5, 7,
                     5, 7,
                     5, 7
-                ]);
+                ]));
             });
         });
 
@@ -191,14 +191,14 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setOffset(0, [5, 7]);
 
-                assert.deepEqual(multiSprite._data.offset.array, [
+                assert.deepEqual(multiSprite._data.offset.array, new Float32Array([
                     5, 7,
                     5, 7,
                     5, 7,
                     5, 7,
                     5, 7,
                     5, 7
-                ]);
+                ]));
             });
         });
 
@@ -206,14 +206,14 @@ describe('MultiSprite', () => {
             it('should update buffer', () => {
                 multiSprite.setUV(0, [1, 2, 3, 4]);
 
-                assert.deepEqual(multiSprite._data.texture.array, [
+                assert.deepEqual(multiSprite._data.texture.array, new Float32Array([
                     3, -3,
                     3, -1,
                     1, -3,
                     1, -1,
                     1, -3,
                     3, -1
-                ]);
+                ]));
             });
         });
     });

@@ -34,6 +34,8 @@ class Shader {
                 .join('\n') +
             '\n' +
             this._code;
+
+        this._code = '#version 300 es\n' + this._code;
     }
 
     /**
@@ -73,8 +75,10 @@ class Shader {
         }
 
         gl.shaderSource(shader, this._code);
-        gl.compileShader(shader);
+        gl.compileShader(shader);    
+
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            console.log(`Error compiling shader, here is code: \n${this._code}`);
             throw new Error(gl.getShaderInfoLog(shader));
         }
     }

@@ -28,12 +28,13 @@ class Vao {
     bind(state) {
         const ext = state.extensions.OES_vertex_array_object;
 
-        if (ext) {
-            this._bind(state.gl, ext);
-        } else {
-            // В случае фоллбека - биндим атрибуты прямо из шейдерной программы
-            this._shaderProgram.bind(state.gl, null, this._attributes);
-        }
+        this._bind(state.gl, ext);
+        // if (ext) {
+            
+        // } else {
+        //     // В случае фоллбека - биндим атрибуты прямо из шейдерной программы
+        //     this._shaderProgram.bind(state.gl, null, this._attributes);
+        // }
 
         return this;
     }
@@ -47,6 +48,9 @@ class Vao {
         if (this._ext) {
             this._ext.bindVertexArrayOES(null);
         }
+        if (this._gl) {
+            this._gl.bindVertexArray(null);
+        }
 
         return this;
     }
@@ -56,7 +60,10 @@ class Vao {
      */
     remove() {
         if (this._vao) {
-            this._ext.deleteVertexArrayOES(this._vao);
+            if (this._gl) {
+                this._gl.deleteVertexArray(this._vao)
+            }
+            // this._ext.deleteVertexArrayOES(this._vao);
         }
 
         return this;
@@ -66,15 +73,22 @@ class Vao {
         if (!this._vao) {
             this._prepare(gl, ext);
         } else {
-            ext.bindVertexArrayOES(this._vao);
+            gl.bindVertexArray(this._vao);
+            // ext.bindVertexArrayOES(this._vao);
         }
     }
 
     _prepare(gl, ext) {
+        this._gl = gl;
         this._ext = ext;
-        this._vao = ext.createVertexArrayOES();
-
-        ext.bindVertexArrayOES(this._vao);
+       
+        if (gl instanceof WebGL2RenderingContext) {
+            this._vao = gl.createVertexArray();
+            gl.bindVertexArray(this._vao);
+        } else {
+            this._vao = ext.createVertexArrayOES();
+            ext.bindVertexArrayOES(this._vao);
+        }
 
         const shaderAttributes = this._shaderProgram.attributes;
         const attributes = this._attributes;

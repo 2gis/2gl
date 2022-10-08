@@ -28,12 +28,7 @@ class Vao {
     bind(state) {
         const ext = state.extensions.OES_vertex_array_object;
 
-        if (ext) {
-            this._bind(state.gl, ext);
-        } else {
-            // В случае фоллбека - биндим атрибуты прямо из шейдерной программы
-            this._shaderProgram.bind(state.gl, null, this._attributes);
-        }
+        this._bind(state.gl, ext);
 
         return this;
     }
@@ -44,9 +39,7 @@ class Vao {
      * стандартный подход для связывания атрибутов через {@link ShaderProgram#bind}.
      */
     unbind() {
-        if (this._ext) {
-            this._ext.bindVertexArrayOES(null);
-        }
+        this._glBindVertexArray(null);
 
         return this;
     }
@@ -56,7 +49,8 @@ class Vao {
      */
     remove() {
         if (this._vao) {
-            this._ext.deleteVertexArrayOES(this._vao);
+            this._glDeleteVertexArray(this._vao);
+            this._vao = undefined;
         }
 
         return this;
@@ -66,15 +60,16 @@ class Vao {
         if (!this._vao) {
             this._prepare(gl, ext);
         } else {
-            ext.bindVertexArrayOES(this._vao);
+            this._glBindVertexArray(this._vao);
         }
     }
 
     _prepare(gl, ext) {
+        this._gl = gl;
         this._ext = ext;
-        this._vao = ext.createVertexArrayOES();
-
-        ext.bindVertexArrayOES(this._vao);
+       
+        this._vao = this._glCreateVertexArray();
+        this._glBindVertexArray(this._vao);
 
         const shaderAttributes = this._shaderProgram.attributes;
         const attributes = this._attributes;
@@ -86,6 +81,40 @@ class Vao {
                 gl.enableVertexAttribArray(shaderAttribute.location);
             }
             attributes[name].bind(gl, shaderAttribute.location);
+        }
+    }
+
+
+    _glCreateVertexArray() {
+        const gl = this._gl;
+        const ext = this._ext;
+        if (gl instanceof WebGL2RenderingContext) {
+            return gl.createVertexArray();
+        } else if (ext) {
+            return ext.createVertexArrayOES();
+        }
+    }
+
+    _glBindVertexArray(vao) {
+        const gl = this._gl;
+        const ext = this._ext;
+        if (gl instanceof WebGL2RenderingContext) {
+            gl.bindVertexArray(vao);
+        } else if (ext) {
+            ext.bindVertexArrayOES(vao);
+        } else {
+            // В случае фоллбека - биндим атрибуты прямо из шейдерной программы
+            this._shaderProgram.bind(gl, null, this._attributes);
+        }
+    }
+
+    _glDeleteVertexArray(vao) {
+        const gl = this._gl;
+        const ext = this._ext;
+        if (gl instanceof WebGL2RenderingContext) {
+            gl.deleteVertexArray(vao);
+        } else if (ext) {
+            ext.deleteVertexArrayOES(vao);
         }
     }
 }

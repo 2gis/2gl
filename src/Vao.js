@@ -28,13 +28,7 @@ class Vao {
     bind(state) {
         const ext = state.extensions.OES_vertex_array_object;
 
-        if (ext) {
-            this._bind(state.gl, ext);       
-        } else {
-            this._gl = state.gl;
-            // В случае фоллбека - биндим атрибуты прямо из шейдерной программы
-            this._shaderProgram.bind(state.gl, null, this._attributes);
-        }
+        this._bind(state.gl, ext);
 
         return this;
     }
@@ -108,6 +102,9 @@ class Vao {
             gl.bindVertexArray(vao);
         } else if (ext) {
             ext.bindVertexArrayOES(vao);
+        } else {
+            // В случае фоллбека - биндим атрибуты прямо из шейдерной программы
+            this._shaderProgram.bind(gl, null, this._attributes);
         }
     }
 

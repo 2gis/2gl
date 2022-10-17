@@ -86,8 +86,17 @@ class Shader {
         gl.compileShader(shader);    
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.log(`Error compiling shader, here is code: \n${this._code}`);
-            throw new Error(gl.getShaderInfoLog(shader));
+            const infoLog = gl.getShaderInfoLog(shader);
+            const codeLines = (this._code || '').split('\n');
+            throw new Error(infoLog.replace(/^ERROR:\s*(\d+):(\d+):\s*(.*?)\n/, 
+                function (wholeMatch, col, row, message) {
+                    const line = codeLines[Number(row) - 1];
+                    if (line) {
+                        return `ERROR ${col}:${row}: ${message}\nErroneous line: <<${line}>>\n`;
+                    } else {
+                        return wholeMatch;
+                    }
+                }));
         }
     }
 }

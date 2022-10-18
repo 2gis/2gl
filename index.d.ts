@@ -5,7 +5,7 @@ declare module '2gl' {
         constructor(
             type: 'fragment' | 'vertex',
             code: string | string[],
-            definitions?: {[key: string]: {type: string, value: number | string}},
+            definitions?: Array<{type: string, value: number | string}>,
         );
         public get(gl: WebGLRenderingContext): WebGLShader;
         public remove(gl: WebGLRenderingContext): void;

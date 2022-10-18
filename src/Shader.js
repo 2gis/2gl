@@ -90,6 +90,8 @@ class Shader {
             const codeLines = (this._code || '').split('\n');
             throw new Error(infoLog.replace(/^ERROR:\s*(\d+):(\d+):\s*(.*?)\n/, 
                 function (wholeMatch, col, row, message) {
+                    // It's useful to inject erroneous line of code
+                    // in the error message to concise what happened
                     const line = codeLines[Number(row) - 1];
                     if (line) {
                         return `ERROR ${col}:${row}: ${message}\nErroneous line: <<${line}>>\n`;

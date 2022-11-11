@@ -114,21 +114,21 @@ class ShaderProgram {
             if (this._vertexShader) {
                 gl.attachShader(this._webglProgram, this._vertexShader.get(gl));
             }
-    
+
             if (this._fragmentShader) {
                 gl.attachShader(this._webglProgram, this._fragmentShader.get(gl));
             }
-    
+
             for (const name in this.attributes) {
                 this.attributes[name].bindLocation(gl, this._webglProgram);
             }
-    
+
             gl.linkProgram(this._webglProgram);
             if (!gl.getProgramParameter(this._webglProgram, gl.LINK_STATUS)) {
                 throw new Error(gl.getProgramInfoLog(this._webglProgram));
             }
-    
-            this._linked = true;    
+
+            this._linked = true;
         } catch (error) {
             this._error = true;
             throw error;

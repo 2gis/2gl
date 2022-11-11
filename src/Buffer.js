@@ -24,17 +24,17 @@ class Buffer {
         this.type = Buffer.ArrayBuffer;
 
         /**
-         * Указывает, как часто данные буфера будут изменяться.
-         * @type {Buffer.StaticDraw | Buffer.DynamicDraw}
-         */
-        this.drawType = Buffer.StaticDraw;
-
-        /**
          * Параметры для связывания буфера
          * @type {BufferBindOptions}
          * @ignore
          */
         this.options = Object.assign({}, Buffer.defaultOptions, options);
+
+        /**
+         * Указывает, как часто данные буфера будут изменяться.
+         * @type {Buffer.StaticDraw | Buffer.DynamicDraw}
+         */
+        this.drawType = this.options.instanceDivisor ? Buffer.dynamicDraw : Buffer.StaticDraw;
 
         /**
          * Исходный WebGL буфер
@@ -78,6 +78,9 @@ class Buffer {
             gl.vertexAttribPointer(location, options.itemSize, this._toGlParam(gl, options.dataType),
                 options.normalized, options.stride, options.offset);
 
+            if (options.instanceDivisor) {
+                gl.vertexAttribDivisor(location, options.instanceDivisor);
+            }
         } else if (this.type === Buffer.ElementArrayBuffer) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._glBuffer);
         }
@@ -174,7 +177,8 @@ Buffer.defaultOptions = {
     dataType: Buffer.Float,
     stride: 0,
     offset: 0,
-    normalized: false
+    normalized: false,
+    instanceDivisor: 0
 };
 
 export default Buffer;

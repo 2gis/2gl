@@ -52,6 +52,7 @@ declare module '2gl' {
         normalized: boolean;
         stride: number;
         offset: number;
+        instanceDivisor: number;
     }
 
     export class Buffer {
@@ -232,6 +233,7 @@ declare module '2gl' {
     export class Vao {
         constructor(program: ShaderProgram, attributes: {[name: string]: Buffer | BufferChannel});
         public bind(state: RendererState): this;
+        public setAttribute(name: string, buffer: Buffer | BufferChannel): this;
         public unbind(): this;
         public remove(): this;
     }

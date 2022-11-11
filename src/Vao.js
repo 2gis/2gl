@@ -44,6 +44,10 @@ class Vao {
         return this;
     }
 
+    setAttribute(name, buffer) {
+        this._attributes[name] = buffer;
+    }
+
     /**
      * Удаляет vao.
      */
@@ -67,7 +71,7 @@ class Vao {
     _prepare(gl, ext) {
         this._gl = gl;
         this._ext = ext;
-       
+
         this._vao = this._glCreateVertexArray();
         this._glBindVertexArray(this._vao);
 
@@ -80,10 +84,9 @@ class Vao {
             if (shaderAttribute.index !== true) {
                 gl.enableVertexAttribArray(shaderAttribute.location);
             }
-            attributes[name].bind(gl, shaderAttribute.location);
+            attributes[name].bind(gl, shaderAttribute.location, undefined);
         }
     }
-
 
     _glCreateVertexArray() {
         const gl = this._gl;
@@ -93,6 +96,7 @@ class Vao {
         } else if (ext) {
             return ext.createVertexArrayOES();
         }
+        return undefined;
     }
 
     _glBindVertexArray(vao) {
@@ -118,8 +122,8 @@ class Vao {
         }
     }
 
-    _isWebGL2 (gl) {
-        return 'WebGL2RenderingContext' in window && gl instanceof WebGL2RenderingContext
+    _isWebGL2(gl) {
+        return 'WebGL2RenderingContext' in window && gl instanceof WebGL2RenderingContext;
     }
 }
 

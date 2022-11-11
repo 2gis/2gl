@@ -44,6 +44,10 @@ class Vao {
         return this;
     }
 
+    setAttribute(name, buffer) {
+        this._attributes[name] = buffer;
+    }
+
     /**
      * Удаляет vao.
      */
@@ -80,7 +84,7 @@ class Vao {
             if (shaderAttribute.index !== true) {
                 gl.enableVertexAttribArray(shaderAttribute.location);
             }
-            attributes[name].bind(gl, shaderAttribute.location);
+            attributes[name].bind(gl, shaderAttribute.location, undefined);
         }
     }
 

@@ -16,6 +16,13 @@ describe('Vao', () => {
         }
     }
 
+    /**
+     * В коде Vao.js используется только проверка на webgl2 и, соответственно, 
+     * требуется наличие только WebGL2RenderingContext. Поэтому в тестах только 
+     * он и мокается, только в моке mockWebGL2 он делается эквивалентным моку GlContext, 
+     * а тут пустому объекту, что в случае c instanceof будет работать также, как будто 
+     * у нас контекст от webgl1.
+     */
     function mockWebGL1 () {
         global.WebGL2RenderingContext = function () {}
         global.window = {

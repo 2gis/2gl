@@ -88,7 +88,7 @@ class Vao {
     _glCreateVertexArray() {
         const gl = this._gl;
         const ext = this._ext;
-        if (gl instanceof WebGL2RenderingContext) {
+        if (this._isWebGL2(gl)) {
             return gl.createVertexArray();
         } else if (ext) {
             return ext.createVertexArrayOES();
@@ -98,7 +98,7 @@ class Vao {
     _glBindVertexArray(vao) {
         const gl = this._gl;
         const ext = this._ext;
-        if (gl instanceof WebGL2RenderingContext) {
+        if (this._isWebGL2(gl)) {
             gl.bindVertexArray(vao);
         } else if (ext) {
             ext.bindVertexArrayOES(vao);
@@ -111,11 +111,15 @@ class Vao {
     _glDeleteVertexArray(vao) {
         const gl = this._gl;
         const ext = this._ext;
-        if (gl instanceof WebGL2RenderingContext) {
+        if (this._isWebGL2(gl)) {
             gl.deleteVertexArray(vao);
         } else if (ext) {
             ext.deleteVertexArrayOES(vao);
         }
+    }
+
+    _isWebGL2 (gl) {
+        return 'WebGL2RenderingContext' in window && gl instanceof WebGL2RenderingContext
     }
 }
 

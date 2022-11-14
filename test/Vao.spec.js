@@ -11,10 +11,16 @@ describe('Vao', () => {
 
     function mockWebGL2 () {
         global.WebGL2RenderingContext = GlContext;
+        global.window = {
+            WebGL2RenderingContext: global.WebGL2RenderingContext
+        }
     }
 
     function mockWebGL1 () {
         global.WebGL2RenderingContext = function () {}
+        global.window = {
+            WebGL2RenderingContext: global.WebGL2RenderingContext
+        }
     }
 
     afterEach(() => {

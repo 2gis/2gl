@@ -57,6 +57,6 @@
     "doc": "./node_modules/.bin/jsdoc src -r -R README.md -t node_modules/minami -c jsdoc.json -d docs",
     "test": "npm run build:shaders && BABEL_ENV=cov nyc --reporter=lcov --reporter=text mocha --require=test/babelRegister.js test/*.spec.js test/**/*.spec.js",
     "test:dev": "npm run build:shaders && ./node_modules/.bin/_mocha --require=test/babelRegister.js -w test/*.spec.js test/**/*.spec.js",
-    "pub": "npm run build && npm run build:es5 && npm publish --tag beta && git clean -d -f"
+    "pub": "npm run build && npm run build:es5 && npm publish && git clean -d -f"
   }
 }

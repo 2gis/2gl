@@ -15,7 +15,7 @@ class Shader {
          */
         this.type = type === 'vertex' ? Shader.Vertex : Shader.Fragment;
 
-        const result = 
+        const result =
             definitions
                 .map((def) => {
                     if (def.value !== undefined) {
@@ -27,13 +27,13 @@ class Shader {
 
         const lines = Array.isArray(code) ? code : [code || ''];
         let firstLine = true;
-        for (let line of lines) {
+        for (const line of lines) {
             // Если в шейдерах указана версия, то ее нужно обязательно
             // поместить первой строкой
             if (firstLine && line.indexOf('#version') !== -1) {
                 result.unshift(line);
             } else {
-                result.push(line)
+                result.push(line);
             }
             firstLine = false;
         }
@@ -43,7 +43,7 @@ class Shader {
          * @type {String}
          * @ignore
          */
-        this._code = result.join('\n')
+        this._code = result.join('\n');
     }
 
     /**
@@ -78,20 +78,20 @@ class Shader {
 
         if (!shader || gl.isContextLost()) {
             throw new Error(
-                `[2gl] Failed to create shader. Shader is null: ${!shader}. Context is lost: ${gl.isContextLost()}`,
+                `[2gl] Failed to create shader. Shader is null: ${!shader}. Context is lost: ${gl.isContextLost()}`
             );
         }
 
         gl.shaderSource(shader, this._code);
-        gl.compileShader(shader);    
+        gl.compileShader(shader);
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
             const infoLog = gl.getShaderInfoLog(shader);
             const codeLines = (this._code || '').split('\n');
-            throw new Error(infoLog.replace(/^ERROR:\s*(\d+):(\d+):\s*(.*?)\n/, 
+            throw new Error(infoLog.replace(/^ERROR:\s*(\d+):(\d+):\s*(.*?)\n/,
                 // It's useful to inject erroneous line of code
                 // in the error message to concise what happened
-                function (wholeMatch, col, row, message) {
+                function(wholeMatch, col, row, message) {
                     const line = codeLines[Number(row) - 1];
                     if (line) {
                         return `ERROR ${col}:${row}: ${message}\nErroneous line: <<${line}>>\n`;

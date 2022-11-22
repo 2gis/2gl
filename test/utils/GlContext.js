@@ -64,9 +64,9 @@ GlContext.prototype.blendFunc = function() {};
 GlContext.prototype.blendEquationSeparate = function() {};
 GlContext.prototype.blendFuncSeparate = function() {};
 GlContext.prototype.readPixels = function() {};
-GlContext.prototype.createVertexArray = function () {};
-GlContext.prototype.bindVertexArray = function () {};
-GlContext.prototype.deleteVertexArray = function () {};
+GlContext.prototype.createVertexArray = function() {};
+GlContext.prototype.bindVertexArray = function() {};
+GlContext.prototype.deleteVertexArray = function() {};
 
 GlContext.prototype.createBuffer = function() {
     return {};

@@ -86,7 +86,7 @@ class RenderTarget {
      */
     _prepare(gl) {
         this._glContext = gl;
-        
+
         // Проверяем наличие текстуры, т.к. она может быть удалена через метод _unprepare.
         if (!this._texture) {
             this._texture = new Texture(null, this.options);

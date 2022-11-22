@@ -91,7 +91,7 @@ class Texture {
             x, y,
             this._toGlParam(gl, this.options.format),
             this._toGlParam(gl, this.options.type),
-            src,
+            src
         );
 
         return this;

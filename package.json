@@ -18,14 +18,9 @@
     "@2gis/gl-matrix": "^2.4.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-istanbul": "^4.1.4",
-    "babel-plugin-module-resolver": "^2.7.1",
-    "babel-preset-env": "^1.6.0",
-    "babel-register": "^6.26.0",
+    "@babel/core": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "babel-loader": "^9.1.0",
     "chokidar-cli": "^1.2.0",
     "coveralls": "^2.13.1",
     "dat-gui": "^0.5.0",
@@ -35,7 +30,8 @@
     "mocha": "^3.5.0",
     "nyc": "^10.1.2",
     "sinon": "^1.17.2",
-    "webpack": "^3.5.5"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "nyc": {
     "sourceMap": false,
@@ -48,7 +44,7 @@
     "build:dist": "webpack --env.production",
     "build:es5": "babel src --out-dir=. -s inline",
     "dev": "npm run dev:dist & npm run dev:shaders",
-    "dev:dist": "webpack --env.development",
+    "dev:dist": "webpack --env development",
     "dev:shaders": "chokidar 'src/**/*.glsl' -c 'npm run build:shaders'",
     "dev:es5": "npm run dev:shaders & npm run dev:babel",
     "dev:babel": "babel --watch src --out-dir=. -s inline",

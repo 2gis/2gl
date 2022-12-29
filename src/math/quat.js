@@ -1,1 +1,1 @@
-export {quat as default} from 'gl-matrix';
+export * as quat from '@2gis/gl-matrix/quat';

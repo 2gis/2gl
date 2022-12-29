@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = function(env = {}) {
+    /*
     const config = {
         module: {
             rules: [
@@ -57,5 +58,28 @@ module.exports = function(env = {}) {
         });
     }
 
+    return config;
+    */
+
+    const config = {
+        mode: 'development',
+        entry: './src/index.js',
+        output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: '2gl.js',
+            libraryTarget: 'umd',
+            library: 'dgl'
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: ["babel-loader"]
+                }
+            ]
+        },
+        watch: true,
+    }
     return config;
 };

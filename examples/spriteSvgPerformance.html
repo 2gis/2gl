@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="MobileOptimized" content="1000"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>2gl - SVG Sprite Performance</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .link {
+            display: block;
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-size: 20px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<a class="link" href="https://github.com/2gis/2gl">github.com/2gis/2gl</a>
+
+<script src="../dist/2gl.js"></script>
+<script src="./assets/datgui.js"></script>
+<script src="./assets/Stats.js"></script>
+
+<script>
+    function svgToImage(svg, width, height) {
+        const img = document.createElement('img');
+
+        img.width = width;
+        img.height = height;
+
+        return new Promise((resolve) => {
+            img.onload = () => resolve(img);
+            img.src = `data:image/svg+xml;base64,${btoa(svg)}`;
+        });
+    }
+
+    var stats = new Stats();
+    document.body.appendChild(stats.element);
+
+    var settings = {
+        sprites: 150,
+        rotationCamera: true,
+        cameraOffset: 25
+    };
+
+    var scene = new dgl.Scene();
+    var spriteMaterial = new dgl.SpriteMaterial();
+    var texture;
+    var object;
+
+    function addSprites() {
+        var max = 30;
+        object = new dgl.Object3D();
+
+        settings.sprites = Math.round(settings.sprites);
+
+        for (var i = 0; i < settings.sprites; i++) {
+            var s = new dgl.Sprite(spriteMaterial);
+            s.position[0] = (Math.random() - 0.5) * max;
+            s.position[1] = (Math.random() - 0.5) * max;
+            s.scale[0] = 50;
+            s.scale[1] = 50;
+            s.updateLocalMatrix();
+            s.updateWorldMatrix();
+            object.add(s);
+        }
+
+        scene.add(object);
+    }
+
+    fetch('./assets/point-green.svg')
+        .then(r => r.text())
+        .then(svgText => svgToImage(svgText, 80, 80))
+        .then(img => {
+            const texture = new dgl.Texture(img, {
+                flipY: false,
+                premultiplyAlpha: true,
+                magFilter: dgl.Texture.LinearFilter,
+                minFilter: dgl.Texture.LinearFilter,
+            });
+            spriteMaterial.setTexture(texture);
+            addSprites();
+        })
+
+    var camera = new dgl.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
+    camera.position[2] = settings.cameraOffset;
+    camera.updateProjectionMatrix();
+
+    var renderer = new dgl.Renderer({
+        canvas: 'canvas'
+    });
+
+    renderer
+        .addPlugin(new dgl.SpritePlugin())
+        .setSize(window.innerWidth, window.innerHeight);
+
+    renderer.clearColor = [0.94, 0.94, 0.94, 1];
+
+    window.addEventListener('resize', function() {
+        stats.reset();
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function rotateCamera(dt) {
+        if (!settings.rotationCamera) { return; }
+
+        dgl.quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
+    }
+
+    var lastUpdateTime = Date.now();
+
+    function render() {
+        requestAnimationFrame(render);
+
+        var dt = Date.now() - lastUpdateTime;
+
+        stats.start();
+        rotateCamera(dt);
+        renderer.render(scene, camera);
+        stats.end();
+
+        lastUpdateTime = Date.now();
+    }
+
+    render();
+    stats.reset();
+
+    // dat gui settings
+    var gui = new dat.GUI();
+    var guiSprites = gui.add(settings, 'sprites', 1, 3000);
+    var timeout;
+
+    function onChange() {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            scene.remove(object);
+            addSprites();
+            stats.reset();
+        }, 1000);
+    }
+
+    guiSprites.onChange(onChange);
+
+    gui.add(settings, 'rotationCamera');
+
+    var guiCameraOffset = gui.add(settings, 'cameraOffset', 1, 5000);
+    guiCameraOffset.onChange(function(value) {
+        camera.position[2] = value;
+        stats.reset();
+    });
+</script>
+</body>
+</html>

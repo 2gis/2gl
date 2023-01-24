@@ -44,17 +44,17 @@
     "build": "npm run build:shaders && npm run build:dist",
     "build:shaders": "node buildShaders.js src",
     "build:dist": "webpack --env production",
-    "build:es5": "babel src --out-dir=. -s inline",
+    "build:es6": "babel --no-babelrc src --out-dir=. -s inline",
     "dev": "npm run dev:dist & npm run dev:shaders",
     "dev:dist": "webpack --env development",
     "dev:shaders": "chokidar 'src/**/*.glsl' -c 'npm run build:shaders'",
-    "dev:es5": "npm run dev:shaders & npm run dev:babel",
-    "dev:babel": "babel --watch src --out-dir=. -s inline",
+    "dev:es6": "npm run dev:shaders & npm run dev:babel",
+    "dev:babel": "babel --no-babelrc --watch src --out-dir=. -s inline",
     "lint": "eslint src test",
     "lint-fix": "eslint --fix src test",
     "doc": "./node_modules/.bin/jsdoc src -r -R README.md -t node_modules/minami -c jsdoc.json -d docs",
     "test": "npm run build:shaders && BABEL_ENV=cov nyc --reporter=lcov --reporter=text mocha --require=test/babelRegister.js test/*.spec.js test/**/*.spec.js",
     "test:dev": "npm run build:shaders && ./node_modules/.bin/_mocha --require=test/babelRegister.js -w test/*.spec.js test/**/*.spec.js",
-    "pub": "npm run build && npm run build:es5 && npm publish && git clean -d -f"
+    "pub": "npm run build && npm run build:es6 && npm publish && git clean -d -f"
   }
 }

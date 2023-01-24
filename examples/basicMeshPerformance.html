@@ -28,6 +28,7 @@
 <canvas id="canvas"></canvas>
 <a class="link" href="https://github.com/2gis/2gl">github.com/2gis/2gl</a>
 
+<script src="./assets/gl-matrix.js"></script>
 <script src="../dist/2gl.js"></script>
 <script src="./assets/datgui.js"></script>
 <script src="./assets/Stats.js"></script>
@@ -114,8 +115,8 @@
     function rotateMesh(dt) {
         if (!settings.rotationMesh) { return; }
 
-        dgl.quat.rotateX(mesh.quaternion, mesh.quaternion, dt / 3000);
-        dgl.quat.rotateY(mesh.quaternion, mesh.quaternion, dt / 3000);
+        quat.rotateX(mesh.quaternion, mesh.quaternion, dt / 3000);
+        quat.rotateY(mesh.quaternion, mesh.quaternion, dt / 3000);
 
         mesh.updateLocalMatrix();
         mesh.updateWorldMatrix();
@@ -124,7 +125,7 @@
     function rotateCamera(dt) {
         if (!settings.rotationCamera) { return; }
 
-        dgl.quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
+        quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
     }
 
     var lastUpdateTime = Date.now();

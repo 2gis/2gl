@@ -29,7 +29,7 @@
     "eslint": "^4.5.0",
     "jsdoc": "git://github.com/jsdoc3/jsdoc.git",
     "minami": "git://github.com/Trufi/minami.git",
-    "mocha": "^3.5.0",
+    "mocha": "^10.2.0",
     "nyc": "^10.1.2",
     "sinon": "^1.17.2",
     "webpack": "^5.75.0",

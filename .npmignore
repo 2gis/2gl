@@ -10,3 +10,4 @@ test
 .travis.yml
 jsdoc.json
 .npmignore
+.nyc_output

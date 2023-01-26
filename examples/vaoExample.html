@@ -28,7 +28,6 @@
 <canvas id="canvas"></canvas>
 <a class="link" href="https://github.com/2gis/2gl">github.com/2gis/2gl</a>
 
-<script src="./assets/gl-matrix.js"></script>
 <script src="../dist/2gl.js"></script>
 <script src="./assets/datgui.js"></script>
 <script src="./assets/Stats.js"></script>
@@ -150,7 +149,7 @@
     function rotateCamera(dt) {
         if (!settings.rotationCamera) { return; }
 
-        quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
+        dgl.quat.rotateZ(camera.quaternion, camera.quaternion, dt / 3000);
     }
 
     var lastUpdateTime = Date.now();

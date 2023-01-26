@@ -38,6 +38,7 @@ export {default as Raycaster} from './Raycaster';
 export {default as RenderTarget} from './RenderTarget';
 export {default as TransparentPlugin} from './rendererPlugins/TransparentPlugin';
 export {default as Vao} from './Vao';
+export {default as quat} from './math/quat';
 
 import * as Math from './math/Math';
 export {Math};

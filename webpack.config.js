@@ -1,61 +1,39 @@
-const webpack = require('webpack');
 const path = require('path');
 
-module.exports = function(env = {}) {
-    const config = {
+module.exports = function(env) {
+    return {
+        mode: env.production ? 'production' : 'development',
+        entry: './src/index.js',
+        devtool: env.production ? 'source-map' : 'eval-source-map',
+        output: {
+            filename: '2gl.js',
+            path: path.resolve(__dirname, 'dist'),
+            publicPath: '/dist/',
+            library: {
+                name: 'dgl',
+                type: env.production ? 'umd' : 'module',
+            },
+        },
         module: {
             rules: [
                 {
                     test: /\.js$/,
+                    exclude: /node_modules/,
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            babelrc: false,
-                            presets: [['env', {'modules': false}]],
-                            plugins: ['babel-plugin-add-module-exports'],
-                            cacheDirectory: true
-                        }
-                    }
-                }
-            ]
+                            cacheDirectory: true,
+                        },
+                    },
+                },
+            ],
         },
         resolve: {
             alias: {
-                '@2gis/gl-matrix': '@2gis/gl-matrix/src/gl-matrix'
+                '@2gis/gl-matrix': '@2gis/gl-matrix/src/gl-matrix',
             },
-            symlinks: false
-        }
+            symlinks: false,
+        },
+        watch: env.development,
     };
-
-    if (env.production) {
-        Object.assign(config, {
-            devtool: 'source-map',
-            entry: './src/index.js',
-            output: {
-                filename: '2gl.js',
-                path: path.resolve(__dirname, 'dist'),
-                publicPath: '/dist/',
-                libraryTarget: 'umd',
-                library: 'dgl'
-            },
-            plugins: [
-                new webpack.optimize.UglifyJsPlugin({
-                    sourceMap: true
-                })
-            ]
-        });
-    } else {
-        Object.assign(config, {
-            devtool: 'eval-source-map',
-            entry: './src/index.js',
-            output: {
-                filename: '2gl.js',
-                path: path.resolve(__dirname, 'dist'),
-                publicPath: '/dist/'
-            },
-            watch: true
-        });
-    }
-
-    return config;
 };

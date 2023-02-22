@@ -10,7 +10,6 @@ module.exports = function(env) {
             path: path.resolve(__dirname, 'dist'),
             publicPath: '/dist/',
             library: {
-                name: 'dgl',
                 type: env.production ? 'umd' : 'module',
             },
         },
@@ -35,5 +34,8 @@ module.exports = function(env) {
             symlinks: false,
         },
         watch: env.development,
+        experiments: {
+            outputModule: true,
+        }
     };
 };

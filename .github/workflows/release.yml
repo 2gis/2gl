@@ -26,9 +26,9 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
       - run: |
-        npm ci
-        npm run build
-        npm run copy
+          npm ci
+          npm run build
+          npm run copy
       - run: npm publish --access public --dry-run
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}

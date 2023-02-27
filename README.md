@@ -49,4 +49,4 @@ var AmbientLight = require('2gl/lights/AmbientLight');
 * Open http://localhost:8080/ and navigate to some `*.html` demo at the `examples` directory
 
 #### Release
-* [Create a new release](https://github.com/2gis/2gl/releases)
+* [Create a new release](https://github.com/2gis/2gl/releases), this will run the release workflow

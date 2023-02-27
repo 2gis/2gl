@@ -44,6 +44,7 @@
     "build": "npm run build:shaders && npm run build:dist",
     "build:shaders": "node buildShaders.js src",
     "build:dist": "webpack --env production",
+    "copy": "cp -r src/* .",
     "dev": "npm run dev:dist & npm run dev:shaders",
     "dev:dist": "webpack --env development",
     "dev:shaders": "chokidar 'src/**/*.glsl' -c 'npm run build:shaders'",

@@ -43,6 +43,10 @@ var AmbientLight = require('2gl/lights/AmbientLight');
 * `npm install`
 * `npm start`
 
+#### Examples
+* Install `http-server`
+* Run `http-server` at the root project directory
+* Open http://localhost:8080/ and navigate to some `*.html` demo at the `examples` directory
+
 #### Release
-* `npm version patch` - поднять патч версию
-* `npm run pub` - собрать проект, отправить в npm, вернуть в исходное состояние
+* [Create a new release](https://github.com/2gis/2gl/releases)

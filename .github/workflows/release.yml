@@ -32,8 +32,3 @@ jobs:
       - run: npm publish --access public --dry-run
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-      - name: Archive
-        uses: actions/upload-artifact@v3
-        with:
-          name: package
-          path: /*.tgz

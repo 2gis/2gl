@@ -9,7 +9,7 @@
 На данный момент может работать со следующими типами объектов для отображения:
 
 1. [Basic mesh](https://2gis.github.io/2gl/docs/BasicMeshMaterial.html) - меш, закрашивается в один цвет
-2. [Complex mesh](https://2gis.github.io/2gl/docs/ComplexMeshMaterial.html) - меш, для которого можно устанавить: цвета для каждой из вершин, освещение, текстуру и определять для какой из вершин будет использоваться текстура
+2. [Complex mesh](https://2gis.github.io/2gl/docs/ComplexMeshMaterial.html) - меш, для которого можно установить: цвета для каждой из вершин, освещение, текстуру и определять для какой из вершин будет использоваться текстура
 3. [Sprite](https://2gis.github.io/2gl/docs/Sprite.html) - спрайт, к камере расположен всегда одной гранью, удалённость не влияет на размеры изображения
 4. [MultiSprite](https://2gis.github.io/2gl/docs/MultiSprite.html) - мультиспрайт представляет собой множество спрайтов, которые рисуются в один draw call
 
@@ -43,6 +43,10 @@ var AmbientLight = require('2gl/lights/AmbientLight');
 * `npm install`
 * `npm start`
 
+#### Checking examples locally
+* Install `http-server`
+* Run `http-server` at the root project directory
+* Open http://localhost:8080/ and navigate to some `*.html` demo at the `examples` directory
+
 #### Release
-* `npm version patch` - поднять патч версию
-* `npm run pub` - собрать проект, отправить в npm, вернуть в исходное состояние
+* [Create a new release](https://github.com/2gis/2gl/releases), this will run the release workflow

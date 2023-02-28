@@ -1,4 +1,5 @@
 require('@babel/register')({
     ignore: [/node_modules\/(?!@2gis\/gl-matrix)/],
-    plugins: ['istanbul']
+    plugins: ['istanbul'],
+    presets: ['@babel/preset-env']
 });

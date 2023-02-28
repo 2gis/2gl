@@ -43,7 +43,7 @@ var AmbientLight = require('2gl/lights/AmbientLight');
 * `npm install`
 * `npm start`
 
-#### Examples
+#### Checking examples locally
 * Install `http-server`
 * Run `http-server` at the root project directory
 * Open http://localhost:8080/ and navigate to some `*.html` demo at the `examples` directory

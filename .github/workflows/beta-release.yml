@@ -1,0 +1,35 @@
+name: Release 2gl Library beta version
+
+on:
+  push:
+    tags:
+      - "^v[0-9]+\.[0-9]+\.[0-9]+-\S+-[0-9]+"
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test
+
+  publish-npm:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
+      - run: |
+          npm ci
+          npm run build
+          npm run copy
+      - run: npm publish --tag beta --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}

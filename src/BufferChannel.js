@@ -30,8 +30,8 @@ class BufferChannel {
      * Связывает данные с контекстом WebGL с нужными параметрами.
      * Вызывает {@link Buffer#bind} исходного буфера.
      */
-    bind(gl, location) {
-        this._buffer.bind(gl, location, this.options);
+    bind(gl, location, instancesExt) {
+        this._buffer.bind(gl, location, this.options, instancesExt);
     }
 }
 

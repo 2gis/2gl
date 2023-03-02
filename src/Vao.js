@@ -15,9 +15,8 @@ class Vao {
 
         /**
          * WebGL экстеншен, в котором был инициализирован буфер.
-         * Используется только для удаления vao, подумать хорошо, прежде чем использовать для чего-то ещё.
          */
-        this._ext = null;
+        this._vaoExt = null;
     }
 
     /**
@@ -26,9 +25,10 @@ class Vao {
      * @param {State} Стейт рендера
      */
     bind(state) {
-        const ext = state.extensions.OES_vertex_array_object;
+        const vaoExt = state.extensions.OES_vertex_array_object;
+        const instancesExt = state.extensions.ANGLE_instanced_arrays;
 
-        this._bind(state.gl, ext);
+        this._bind(state.gl, vaoExt, instancesExt);
 
         return this;
     }
@@ -60,17 +60,17 @@ class Vao {
         return this;
     }
 
-    _bind(gl, ext) {
+    _bind(gl, vaoExt, instancesExt) {
         if (!this._vao) {
-            this._prepare(gl, ext);
+            this._prepare(gl, vaoExt, instancesExt);
         } else {
             this._glBindVertexArray(this._vao);
         }
     }
 
-    _prepare(gl, ext) {
+    _prepare(gl, vaoExt, instancesExt) {
         this._gl = gl;
-        this._ext = ext;
+        this._vaoExt = vaoExt;
 
         this._vao = this._glCreateVertexArray();
         this._glBindVertexArray(this._vao);
@@ -84,13 +84,13 @@ class Vao {
             if (shaderAttribute.index !== true) {
                 gl.enableVertexAttribArray(shaderAttribute.location);
             }
-            attributes[name].bind(gl, shaderAttribute.location, undefined);
+            attributes[name].bind(gl, shaderAttribute.location, instancesExt);
         }
     }
 
     _glCreateVertexArray() {
         const gl = this._gl;
-        const ext = this._ext;
+        const ext = this._vaoExt;
         if (this._isWebGL2(gl)) {
             return gl.createVertexArray();
         } else if (ext) {
@@ -101,7 +101,7 @@ class Vao {
 
     _glBindVertexArray(vao) {
         const gl = this._gl;
-        const ext = this._ext;
+        const ext = this._vaoExt;
         if (this._isWebGL2(gl)) {
             gl.bindVertexArray(vao);
         } else if (ext) {
@@ -114,7 +114,7 @@ class Vao {
 
     _glDeleteVertexArray(vao) {
         const gl = this._gl;
-        const ext = this._ext;
+        const ext = this._vaoExt;
         if (this._isWebGL2(gl)) {
             gl.deleteVertexArray(vao);
         } else if (ext) {

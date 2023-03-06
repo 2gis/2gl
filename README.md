@@ -72,7 +72,7 @@ If you plan to release a new version from your branch
 
 Beta-release is suitable to perform some checks/integrations with npm-package.
 
-It releases the same npm package as regular release, but in beta tag, which do not update latest version on npm.
+It releases the same npm package as a regular release, but in the beta tag, which do not update latest version on npm.
 
 To make beta-release you should create a tag with a current version in `package.json` and suffix, e.g.
 

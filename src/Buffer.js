@@ -60,12 +60,13 @@ class Buffer {
      *
      * Если используется первый раз, добавляет данные в контекст WebGL.
      *
-     * @param {WebGLRenderingContext} gl
+     * @param {WebGLRenderingContext | WebGL2RenderingContext} gl
      * @param {?Number} location Положение аттрибута для связывания данных с переменными в шейдере
      * @param {?BufferBindOptions} options Параметры передаваемые в функцию vertexAttribPointer, если их нет,
      * то используются параметры конкретного буфера. Параметры должны быть переданы все.
+     * @param {?ANGLE_instanced_arrays} instancesExt Экстеншн для работы с instanced буферами,
      */
-    bind(gl, location, options) {
+    bind(gl, location, options, instancesExt) {
         if (!this._glBuffer) {
             this.prepare(gl);
         }
@@ -73,13 +74,23 @@ class Buffer {
         if (this.type === Buffer.ArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, this._glBuffer);
 
+            location = location || 0;
             options = options || this.options;
 
             gl.vertexAttribPointer(location, options.itemSize, this._toGlParam(gl, options.dataType),
                 options.normalized, options.stride, options.offset);
 
             if (options.instanceDivisor) {
-                gl.vertexAttribDivisor(location, options.instanceDivisor);
+                if (gl instanceof WebGLRenderingContext) {
+                    if (instancesExt) {
+                        instancesExt.vertexAttribDivisorANGLE(location, options.instanceDivisor);
+                    } else {
+                        console.error('Can\'t set up instanced attribute divisor. ' +
+                                      'Missing ANGLE_instanced_arrays extension');
+                    }
+                } else {
+                    gl.vertexAttribDivisor(location, options.instanceDivisor);
+                }
             }
         } else if (this.type === Buffer.ElementArrayBuffer) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._glBuffer);

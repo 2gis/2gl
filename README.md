@@ -62,7 +62,7 @@ var AmbientLight = require("2gl/lights/AmbientLight");
 
 #### Release
 
-If you plan a release on your branch
+If you plan to release a new version from your branch
 
 - Bump version via `npm version major | minor | patch`
 - Merge your branch into master

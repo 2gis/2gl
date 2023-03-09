@@ -79,7 +79,7 @@ declare module '2gl' {
             options?: Partial<BufferBindOptions>,
         );
 
-        public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions): this;
+        public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions, instancesExt: ?ANGLE_instanced_arrays): this;
         public remove(): this;
         public subData(gl: WebGLRenderingContext, index: number, data: TypedArray | ArrayBuffer): this;
         public prepare(gl: WebGLRenderingContext): this;

@@ -1,7 +1,7 @@
 /**
  * Используется для хранения и подготовки данных для передачи в атрибуты шейдера
  *
- * @param {TypedArray | ArrayBuffer | number} initData Данные для инита буфера:
+ * @param {DataView | TypedArray | ArrayBuffer | number} initData Данные для инита буфера:
  * содержимое буфера или его размер
  * @param {?BufferBindOptions} options Параметры передачи буфера в видеокарту,
  * @param {?boolean} isElementArray Флаг определяющий является ли буффер индексным (если true)

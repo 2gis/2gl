@@ -75,7 +75,7 @@ declare module '2gl' {
         public options: BufferBindOptions;
 
         constructor(
-            initData: TypedArray | ArrayBuffer | number,
+            initData: DataView | TypedArray | ArrayBuffer | number,
             options?: Partial<BufferBindOptions>,
             isElementArray?: boolean,
             uintExt?: OES_element_index_uint,

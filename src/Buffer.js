@@ -4,8 +4,9 @@
  * @param {DataView | TypedArray | ArrayBuffer | number} initData Данные для инита буфера:
  * содержимое буфера или его размер
  * @param {?BufferBindOptions} options Параметры передачи буфера в видеокарту,
+ * могут быть переопределены из {@link BufferChannel}
  * @param {?boolean} isElementArray Флаг определяющий является ли буффер индексным (если true)
- * или повертексным (если false) могут быть переопределены из {@link BufferChannel}
+ * или повертексным (если false)
  * @param {?OES_element_index_uint} uintExt Расширение WebGL1 для поддержки 32 битных индексов
  * OES_element_index_uint
  */

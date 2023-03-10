@@ -77,6 +77,8 @@ declare module '2gl' {
         constructor(
             initData: TypedArray | ArrayBuffer | number,
             options?: Partial<BufferBindOptions>,
+            isElementArray?: boolean,
+            uintExt?: OES_element_index_uint,
         );
 
         public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions, instancesExt: ?ANGLE_instanced_arrays): this;
@@ -231,7 +233,7 @@ declare module '2gl' {
     }
 
     export class Vao {
-        constructor(program: ShaderProgram, attributes: {[name: string]: Buffer | BufferChannel});
+        constructor(program: ShaderProgram, attributes: {[name: string]: Buffer | BufferChannel}, indicesBuffer?: Buffer);
         public bind(state: RendererState): this;
         public setAttribute(name: string, buffer: Buffer | BufferChannel): this;
         public unbind(): this;

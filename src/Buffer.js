@@ -4,10 +4,13 @@
  * @param {TypedArray | ArrayBuffer | number} initData Данные для инита буфера:
  * содержимое буфера или его размер
  * @param {?BufferBindOptions} options Параметры передачи буфера в видеокарту,
- * могут быть переопределены из {@link BufferChannel}
+ * @param {?boolean} isElementArray Флаг определяющий является ли буффер индексным (если true)
+ * или повертексным (если false) могут быть переопределены из {@link BufferChannel}
+ * @param {?OES_element_index_uint} uintExt Расширение WebGL1 для поддержки 32 битных индексов
+ * OES_element_index_uint
  */
 class Buffer {
-    constructor(initData, options) {
+    constructor(initData, options, isElementArray = false, uintExt = null) {
         this._initData = initData;
 
         /**
@@ -21,7 +24,7 @@ class Buffer {
          * так и для передачи индексов элементов из данных.
          * @type {Buffer.ArrayBuffer | Buffer.ElementArrayBuffer}
          */
-        this.type = Buffer.ArrayBuffer;
+        this.type = isElementArray ? Buffer.ElementArrayBuffer : Buffer.ArrayBuffer;
 
         /**
          * Параметры для связывания буфера
@@ -37,6 +40,15 @@ class Buffer {
         this.drawType = this.options.instanceDivisor ? Buffer.dynamicDraw : Buffer.StaticDraw;
 
         /**
+         * Тип элементов в индeксном буфере. Применим только к буферам типа ElementArrayBuffer
+         * UNSIGNED_INT поддерживается при поддержке расширения OES_element_index_uint (core в WebGL2)
+         * Определяется автоматически на основе наибольшего элемента в буфере
+         * @type {Buffer.UnsignedByte | Buffer.UnsignedShort | Buffer.UnsignedInt}
+         * @ignore
+         */
+        this.elementsType = isElementArray ? this._calculateElementsType() : null;
+
+        /**
          * Исходный WebGL буфер
          * @type {?WebGLBuffer}
          * @ignore
@@ -50,6 +62,8 @@ class Buffer {
          * @ignore
          */
         this._glContext = null;
+
+        this._uintExt = uintExt;
     }
 
     /**
@@ -164,8 +178,25 @@ class Buffer {
         if (param === Buffer.Float) { return gl.FLOAT; }
         if (param === Buffer.UnsignedByte) { return gl.UNSIGNED_BYTE; }
         if (param === Buffer.UnsignedShort) { return gl.UNSIGNED_SHORT; }
-        if (param === Buffer.UnsignedInt) { return gl.UNSIGNED_INT; }
+        if (param === Buffer.UnsignedInt) { return this._uintExt ? this._uintExt.UNSIGNED_INT : gl.UNSIGNED_INT; }
         return null;
+    }
+
+    _calculateElementsType() {
+        let max = 0;
+        for (const elem of this._initData) {
+            if (elem > max) {
+                max = elem;
+                if (max > 65535) { // 2^16
+                    return Buffer.UnsignedInt;
+                }
+            }
+        }
+        if (max > 255) { // 2^8
+            return Buffer.UnsignedShort;
+        } else {
+            return Buffer.UnsignedByte;
+        }
     }
 }
 

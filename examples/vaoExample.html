@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="MobileOptimized" content="1000"/>
     <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>2gl - VAO</title>
 
     <style>
@@ -33,37 +33,47 @@
 <script src="./assets/Stats.js"></script>
 
 <script>
+    const USE_ELEMENTS_ARRAY = true;
     var stats = new Stats();
     document.body.appendChild(stats.element);
 
     var settings = {
-        triangles: 2000,
+        numObjects: 10,
+        numVertsPerObject: 257,
         rotationCamera: true,
         cameraOffset: 30,
         useExtension: true
     };
 
     var random = Math.random;
-    var size = 10;
+    var offset = 10;
+    var size = 2;
 
-    function getTriangleVertices() {
-        var x = (0.5 - random()) * size;
-        var y = (0.5 - random()) * size;
-        var z = (0.5 - random()) * size;
-
-        return [
-            random() + x, random() + y, random() + z,
-            random() + x, random() + y, random() + z,
-            random() + x, random() + y, random() + z
-        ];
+    function getVertices(numVerts) {
+        var x = (0.5 - random()) * offset;
+        var y = (0.5 - random()) * offset;
+        var z = (0.5 - random()) * offset;
+        const a = [];
+        for (let i = 0; i < numVerts; i++) {
+            a.push(size * random() + x, size * random() + y, size * random() + z);
+        }
+        return a;
     }
 
-    function getTriangleColors() {
-        return [
-            random(), random(), random(),
-            random(), random(), random(),
-            random(), random(), random()
-        ];
+    function getColors(numVerts) {
+        const colors = [];
+        for (let i = 0; i < numVerts; i++) {
+            colors.push(random(), random(), random());
+        }
+        return colors;
+    }
+
+    function getIndices(len) {
+        const a = [];
+        for (let i = 0; i < len; i++) {
+            a.push(i);
+        }
+        return a;
     }
 
     var scene = new dgl.Scene();
@@ -78,7 +88,8 @@
 
     renderer
         .setSize(window.innerWidth, window.innerHeight)
-        .addExtension('OES_vertex_array_object');
+        .addExtension('OES_vertex_array_object')
+        .addExtension('OES_element_index_uint');
 
     var vertexShader = new dgl.Shader('vertex',
         'attribute vec3 a_pos;\
@@ -116,25 +127,34 @@
 
         this.vao.bind(state);
 
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        const indsBuffer = this.vao.indicesBuffer;
+        if (indsBuffer) {
+            const length = indsBuffer.byteLength
+            gl.drawElements(gl.TRIANGLES, settings.numVertsPerObject, indsBuffer._toGlParam(gl, indsBuffer.elementsType), 0);
+        } else {
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+        }
 
         this.vao.unbind(state);
     }
 
     function createObject() {
-        var vertexBuffer = new dgl.Buffer(new Float32Array(getTriangleVertices()));
-        var colorBuffer = new dgl.Buffer(new Float32Array(getTriangleColors()));
+        const numVerts = settings.numVertsPerObject;
+        const uintExt = renderer.webGlExtensions.OES_element_index_uint;
+        var vertexBuffer = new dgl.Buffer(new Float32Array(getVertices(numVerts)));
+        var colorBuffer = new dgl.Buffer(new Float32Array(getColors(numVerts)));
+        var indicesBuffer = USE_ELEMENTS_ARRAY ? new dgl.Buffer(new Uint16Array(getIndices(numVerts)), {itemSize: 1}, true ) : null;
 
         var obj = new dgl.Object3D();
         obj.vao = new dgl.Vao(shaderProgram, {
             a_pos: vertexBuffer,
             a_color: colorBuffer
-        });
+        }, indicesBuffer);
         obj.render = renderObj;
         return obj;
     }
 
-    for (var i = 0; i < settings.triangles; i++) {
+    for (var i = 0; i < settings.numObjects; i++) {
         var obj = createObject();
         scene.add(obj);
     }
@@ -181,14 +201,14 @@
 
     // dat gui settings
     var gui = new dat.GUI();
-    var guiTriangles = gui.add(settings, 'triangles', 1, 5000);
+    var guiObjects = gui.add(settings, 'numObjects', 1, 5000);
     var timeout;
 
     function onChange() {
         clearTimeout(timeout);
         timeout = setTimeout(function() {
             scene.children.forEach(child => scene.remove(child));
-            for (var i = 0; i < settings.triangles; i++) {
+            for (var i = 0; i < settings.numObjects; i++) {
                 var obj = createObject();
                 scene.add(obj);
             }
@@ -196,7 +216,7 @@
         }, 1000);
     }
 
-    guiTriangles.onChange(onChange);
+    guiObjects.onChange(onChange);
 
     var guiCameraOffset = gui.add(settings, 'cameraOffset', 0, 200);
     guiCameraOffset.onChange(function(value) {
@@ -208,18 +228,12 @@
     var guiUseExtension = gui.add(settings, 'useExtension');
     var extension = null;
     guiUseExtension.onChange(function(value) {
-        if (!extension) {
-            extension = renderer.webGlExtensions.OES_vertex_array_object;
-        }
-
-        renderer.webGlExtensions.OES_vertex_array_object = value ? extension : null;
-
         scene.children.forEach(child => scene.remove(child));
-        for (var i = 0; i < settings.triangles; i++) {
+        for (var i = 0; i < settings.numObjects; i++) {
             var obj = createObject();
             scene.add(obj);
         }
-        stats.reset();
+        ats.reset();
     });
 </script>
 </body>

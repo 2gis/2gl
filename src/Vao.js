@@ -6,12 +6,14 @@
  *
  * @param {ShaderProgram} Шейдерная программа, каждый Vao привязан к одной шейдерной программе.
  * @param {Object} Key-value объект содержащий данные атрибутов.
+ * @param {?Buffer} Буффер индексов.
  */
 class Vao {
-    constructor(shaderProgram, attributes = {}) {
+    constructor(shaderProgram, attributes = {}, indicesBuffer = null) {
         this._vao = null;
         this._attributes = attributes;
         this._shaderProgram = shaderProgram;
+        this.indicesBuffer = indicesBuffer;
 
         /**
          * WebGL экстеншен, в котором был инициализирован буфер.
@@ -85,6 +87,9 @@ class Vao {
                 gl.enableVertexAttribArray(shaderAttribute.location);
             }
             attributes[name].bind(gl, shaderAttribute.location, instancesExt);
+        }
+        if (this.indicesBuffer) {
+            this.indicesBuffer.bind(gl);
         }
     }
 

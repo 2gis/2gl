@@ -7,11 +7,9 @@
  * могут быть переопределены из {@link BufferChannel}
  * @param {?boolean} isElementArray Флаг определяющий является ли буффер индексным (если true)
  * или повертексным (если false)
- * @param {?OES_element_index_uint} uintExt Расширение WebGL1 для поддержки 32 битных индексов
- * OES_element_index_uint
  */
 class Buffer {
-    constructor(initData, options, isElementArray = false, uintExt = null) {
+    constructor(initData, options, isElementArray = false) {
         this._initData = initData;
 
         /**
@@ -63,8 +61,6 @@ class Buffer {
          * @ignore
          */
         this._glContext = null;
-
-        this._uintExt = uintExt;
     }
 
     /**

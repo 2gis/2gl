@@ -144,6 +144,12 @@ class Buffer {
         return this;
     }
 
+    /**
+     * Возвращает GL-тип буфера
+     * @param {WebGLRenderingContext} gl
+     * @returns {number | null} GL-тип буфера
+     * @ignore
+     */
     getGLType(gl) {
         return this._toGlParam(gl, this.options.dataType);
     }

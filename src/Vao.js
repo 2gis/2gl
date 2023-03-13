@@ -62,19 +62,24 @@ class Vao {
         return this;
     }
 
+    /**
+     * Возвращает GL-тип индексного буфера или null
+     * @param {WebGLRenderingContext | WebGL2RenderingContext} gl Gl-контекст
+     * @returns {number | null} GL-тип индексного буфера
+     */
+    getElementsGLType(gl) {
+        if (this.indicesBuffer) {
+            return this.indicesBuffer.getGLType(gl);
+        }
+        return null;
+    }
+
     _bind(gl, vaoExt, instancesExt) {
         if (!this._vao) {
             this._prepare(gl, vaoExt, instancesExt);
         } else {
             this._glBindVertexArray(this._vao);
         }
-    }
-
-    getElementsGLType(gl) {
-        if (this.indicesBuffer) {
-            return this.indicesBuffer.getGLType(gl);
-        }
-        return null;
     }
 
     _prepare(gl, vaoExt, instancesExt) {

@@ -85,6 +85,7 @@ declare module '2gl' {
         public remove(): this;
         public subData(gl: WebGLRenderingContext, index: number, data: TypedArray | ArrayBuffer): this;
         public prepare(gl: WebGLRenderingContext): this;
+        public getGLType(gl: WebGLRenderingContext): number | null;
     }
 
     export class BufferChannel {
@@ -238,6 +239,7 @@ declare module '2gl' {
         public setAttribute(name: string, buffer: Buffer | BufferChannel): this;
         public unbind(): this;
         public remove(): this;
+        public getElementsGLType(gl: WebGLRenderingContext): number | null;
     }
 
     export class Box {

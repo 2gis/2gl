@@ -98,7 +98,7 @@ class Vao {
             if (shaderAttribute.index !== true) {
                 gl.enableVertexAttribArray(shaderAttribute.location);
             }
-            attributes[name].bind(gl, shaderAttribute.location, instancesExt);
+            attributes[name].bind(gl, shaderAttribute.location, null, instancesExt);
         }
         if (this.indicesBuffer) {
             this.indicesBuffer.bind(gl);

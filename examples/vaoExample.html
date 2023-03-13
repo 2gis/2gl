@@ -139,10 +139,10 @@
 
     function createObject() {
         const numVerts = settings.numVertsPerObject;
-        const uintExt = renderer.webGlExtensions.OES_element_index_uint;
+        const dataType = dgl.Buffer.UnsignedInt;
         var vertexBuffer = new dgl.Buffer(new Float32Array(getVertices(numVerts)));
         var colorBuffer = new dgl.Buffer(new Float32Array(getColors(numVerts)));
-        var indicesBuffer = USE_ELEMENTS_ARRAY ? new dgl.Buffer(new Uint16Array(getIndices(numVerts)), {itemSize: 1}, true ) : null;
+        var indicesBuffer = USE_ELEMENTS_ARRAY ? new dgl.Buffer(new Uint32Array(getIndices(numVerts)), {itemSize: 1, dataType}, true ) : null;
 
         var obj = new dgl.Object3D();
         obj.vao = new dgl.Vao(shaderProgram, {

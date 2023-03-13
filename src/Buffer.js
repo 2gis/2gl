@@ -39,15 +39,6 @@ class Buffer {
         this.drawType = this.options.instanceDivisor ? Buffer.dynamicDraw : Buffer.StaticDraw;
 
         /**
-         * Тип элементов в индeксном буфере. Применим только к буферам типа ElementArrayBuffer
-         * UNSIGNED_INT поддерживается при поддержке расширения OES_element_index_uint (core в WebGL2)
-         * Определяется автоматически на основе наибольшего элемента в буфере
-         * @type {Buffer.UnsignedByte | Buffer.UnsignedShort | Buffer.UnsignedInt}
-         * @ignore
-         */
-        this.elementsType = isElementArray ? this._calculateElementsType() : null;
-
-        /**
          * Исходный WebGL буфер
          * @type {?WebGLBuffer}
          * @ignore
@@ -61,6 +52,13 @@ class Buffer {
          * @ignore
          */
         this._glContext = null;
+
+        const supportedElementArrayTypes = [Buffer.UnsignedByte, Buffer.UnsignedShort, Buffer.UnsignedInt];
+        if (isElementArray && !supportedElementArrayTypes.includes(this.options.dataType)) {
+            console.warn('Please provide dataType of one of the following values:' +
+                          'Buffer.UnsignedByte, Buffer.UnsignedShort, Buffer.UnsignedInt. Defaulting to UnsignedInt');
+            this.options.dataType = Buffer.UnsignedInt;
+        }
     }
 
     /**
@@ -146,6 +144,10 @@ class Buffer {
         return this;
     }
 
+    getGLType(gl) {
+        return this._toGlParam(gl, this.options.dataType);
+    }
+
     /**
      * Удаляет данные из видеокарты
      * @ignore
@@ -177,23 +179,6 @@ class Buffer {
         if (param === Buffer.UnsignedShort) { return gl.UNSIGNED_SHORT; }
         if (param === Buffer.UnsignedInt) { return gl.UNSIGNED_INT; }
         return null;
-    }
-
-    _calculateElementsType() {
-        let max = 0;
-        for (const elem of this._initData) {
-            if (elem > max) {
-                max = elem;
-                if (max > 65535) { // 2^16
-                    return Buffer.UnsignedInt;
-                }
-            }
-        }
-        if (max > 255) { // 2^8
-            return Buffer.UnsignedShort;
-        } else {
-            return Buffer.UnsignedByte;
-        }
     }
 }
 

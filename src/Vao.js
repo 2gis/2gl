@@ -72,7 +72,7 @@ class Vao {
 
     getElementsGLType(gl) {
         if (this.indicesBuffer) {
-            return this.indicesBuffer._toGlParam(gl, this.indicesBuffer.elementsType);
+            return this.indicesBuffer.getGLType(gl);
         }
         return null;
     }

@@ -75,14 +75,16 @@ declare module '2gl' {
         public options: BufferBindOptions;
 
         constructor(
-            initData: TypedArray | ArrayBuffer | number,
+            initData: DataView | TypedArray | ArrayBuffer | number,
             options?: Partial<BufferBindOptions>,
+            isElementArray?: boolean,
         );
 
-        public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions): this;
+        public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions, instancesExt?: ANGLE_instanced_arrays): this;
         public remove(): this;
         public subData(gl: WebGLRenderingContext, index: number, data: TypedArray | ArrayBuffer): this;
         public prepare(gl: WebGLRenderingContext): this;
+        public getGLType(gl: WebGLRenderingContext): number | null;
     }
 
     export class BufferChannel {
@@ -231,11 +233,12 @@ declare module '2gl' {
     }
 
     export class Vao {
-        constructor(program: ShaderProgram, attributes: {[name: string]: Buffer | BufferChannel});
+        constructor(program: ShaderProgram, attributes: {[name: string]: Buffer | BufferChannel}, indicesBuffer?: Buffer);
         public bind(state: RendererState): this;
         public setAttribute(name: string, buffer: Buffer | BufferChannel): this;
         public unbind(): this;
         public remove(): this;
+        public getElementsGLType(gl: WebGLRenderingContext): number | null;
     }
 
     export class Box {

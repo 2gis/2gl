@@ -1,13 +1,15 @@
 /**
  * Используется для хранения и подготовки данных для передачи в атрибуты шейдера
  *
- * @param {TypedArray | ArrayBuffer | number} initData Данные для инита буфера:
+ * @param {DataView | TypedArray | ArrayBuffer | number} initData Данные для инита буфера:
  * содержимое буфера или его размер
  * @param {?BufferBindOptions} options Параметры передачи буфера в видеокарту,
  * могут быть переопределены из {@link BufferChannel}
+ * @param {?boolean} isElementArray Флаг определяющий является ли буффер индексным (если true)
+ * или повертексным (если false)
  */
 class Buffer {
-    constructor(initData, options) {
+    constructor(initData, options, isElementArray = false) {
         this._initData = initData;
 
         /**
@@ -21,7 +23,7 @@ class Buffer {
          * так и для передачи индексов элементов из данных.
          * @type {Buffer.ArrayBuffer | Buffer.ElementArrayBuffer}
          */
-        this.type = Buffer.ArrayBuffer;
+        this.type = isElementArray ? Buffer.ElementArrayBuffer : Buffer.ArrayBuffer;
 
         /**
          * Параметры для связывания буфера
@@ -50,6 +52,13 @@ class Buffer {
          * @ignore
          */
         this._glContext = null;
+
+        const supportedElementArrayTypes = [Buffer.UnsignedByte, Buffer.UnsignedShort, Buffer.UnsignedInt];
+        if (isElementArray && !supportedElementArrayTypes.includes(this.options.dataType)) {
+            console.warn('Please provide dataType of one of the following values:' +
+                          'Buffer.UnsignedByte, Buffer.UnsignedShort, Buffer.UnsignedInt. Defaulting to UnsignedInt');
+            this.options.dataType = Buffer.UnsignedInt;
+        }
     }
 
     /**
@@ -133,6 +142,16 @@ class Buffer {
         gl.bufferData(this._toGlParam(gl, this.type), this._initData, this._toGlParam(gl, this.drawType));
         this._initData = null;
         return this;
+    }
+
+    /**
+     * Возвращает GL-тип буфера
+     * @param {WebGLRenderingContext} gl
+     * @returns {number | null} GL-тип буфера
+     * @ignore
+     */
+    getGLType(gl) {
+        return this._toGlParam(gl, this.options.dataType);
     }
 
     /**

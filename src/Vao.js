@@ -70,6 +70,13 @@ class Vao {
         }
     }
 
+    getElementsGLType(gl) {
+        if (this.indicesBuffer) {
+            return this.indicesBuffer._toGlParam(gl, this.indicesBuffer.elementsType);
+        }
+        return null;
+    }
+
     _prepare(gl, vaoExt, instancesExt) {
         this._gl = gl;
         this._vaoExt = vaoExt;

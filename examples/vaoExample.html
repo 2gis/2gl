@@ -127,10 +127,9 @@
 
         this.vao.bind(state);
 
-        const indsBuffer = this.vao.indicesBuffer;
-        if (indsBuffer) {
-            const length = indsBuffer.byteLength
-            gl.drawElements(gl.TRIANGLES, settings.numVertsPerObject, indsBuffer._toGlParam(gl, indsBuffer.elementsType), 0);
+        const elemsType = this.vao.getElementsGLType(gl);
+        if (elemsType) {
+            gl.drawElements(gl.TRIANGLES, settings.numVertsPerObject, elemsType, 0);
         } else {
             gl.drawArrays(gl.TRIANGLES, 0, 3);
         }

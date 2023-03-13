@@ -78,10 +78,9 @@ declare module '2gl' {
             initData: DataView | TypedArray | ArrayBuffer | number,
             options?: Partial<BufferBindOptions>,
             isElementArray?: boolean,
-            uintExt?: OES_element_index_uint,
         );
 
-        public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions, instancesExt: ?ANGLE_instanced_arrays): this;
+        public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions, instancesExt?: ANGLE_instanced_arrays): this;
         public remove(): this;
         public subData(gl: WebGLRenderingContext, index: number, data: TypedArray | ArrayBuffer): this;
         public prepare(gl: WebGLRenderingContext): this;

@@ -89,7 +89,7 @@ declare module '2gl' {
 
     export class BufferChannel {
         constructor(buffer: Buffer, options: Partial<BufferBindOptions>);
-        public bind(gl: WebGLRenderingContext, location?: number): this;
+        public bind(gl: WebGLRenderingContext, location?: number, options?: BufferBindOptions, instancesExt?: ANGLE_instanced_arrays): this;
     }
 
     export interface TextureOptions {

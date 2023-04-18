@@ -165,9 +165,11 @@ class Texture {
         if (param === Texture.RgbaFormat) { return gl.RGBA; }
         if (param === Texture.AlphaFormat) { return gl.ALPHA; }
         if (param === Texture.RgbFormat) { return gl.RGB; }
+        if (param === Texture.DepthComponentFormat) { return gl.DEPTH_COMPONENT; }
 
         if (param === Texture.UnsignedByte) { return gl.UNSIGNED_BYTE; }
         if (param === Texture.Float) { return gl.FLOAT; }
+        if (param === Texture.UnsignedInt) { return gl.UNSIGNED_INT; }
 
         return null;
     }
@@ -184,12 +186,14 @@ Texture.LinearFilter = 4;
 Texture.LinearMipMapNearestFilter = 5;
 Texture.LinearMipMapLinearFilter = 6;
 
+Texture.DepthComponentFormat = 7;
 Texture.RgbaFormat = 11;
 Texture.AlphaFormat = 12;
 Texture.RgbFormat = 13;
 
 Texture.UnsignedByte = 14;
 Texture.Float = 15;
+Texture.UnsignedInt = 16;
 
 Texture.defaultOptions = {
     magFilter: Texture.LinearFilter,

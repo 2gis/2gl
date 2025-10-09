@@ -142,6 +142,7 @@ declare module '2gl' {
 
     export interface RenderTargetOptions extends TextureOptions {
         size: Vec2;
+        depthTexture: boolean;
     }
 
     export class Object3D {
@@ -188,6 +189,7 @@ declare module '2gl' {
         public remove(gl: WebGLRenderingContext): this;
         public setSize(size: Vec2): this;
         public getTexture(): Texture;
+        public getDepthBuffer(): Texture | WebGLRenderbuffer | null;
     }
 
     export interface RendererState {

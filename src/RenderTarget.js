@@ -21,6 +21,13 @@ class RenderTarget {
          */
         this._texture = new Texture(null, this.options);
 
+
+        /**
+         * @type {Texture | WebGLRenderbuffer | null}
+         * @ignore
+         */
+        this._depthBuffer = null;
+
         /**
          * Контекст WebGL, в котором был инициализирован фреймбуфер.
          * Используется только для удаления, подумать хорошо, прежде чем использовать для чего-то ещё.
@@ -80,6 +87,14 @@ class RenderTarget {
     }
 
     /**
+     * Возвращает текущие буфер или текстуру глубины фреймбуфера
+     * @return {Texture | WebGLRenderbuffer | null}
+     */
+    getDepthBuffer() {
+        return this._depthBuffer;
+    }
+
+    /**
      * Инициализирует фреймбуфер, текстуры и рендербуфер
      * @param {WebGLRenderingContext} gl
      * @ignore
@@ -96,12 +111,32 @@ class RenderTarget {
         this._frameBuffer = gl.createFramebuffer();
         gl.bindFramebuffer(gl.FRAMEBUFFER, this._frameBuffer);
 
-        this._renderBuffer = gl.createRenderbuffer();
-        gl.bindRenderbuffer(gl.RENDERBUFFER, this._renderBuffer);
-        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.options.size[0], this.options.size[1]);
-
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this._texture.getTexture(), 0);
-        gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, this._renderBuffer);
+
+        if (this.options.depthTexture) {
+            this._depthBuffer = new Texture(null, {
+                magFilter: Texture.NearestFilter,
+                minFilter: Texture.NearestFilter,
+                format: Texture.DepthComponentFormat,
+                size: this.options.size,
+                premultiplyAlpha: false,
+                generateMipmaps: false,
+                type: Texture.UnsignedInt,
+            });
+            this._depthBuffer.prepare(gl);
+            gl.framebufferTexture2D(
+                gl.FRAMEBUFFER,
+                gl.DEPTH_ATTACHMENT,
+                gl.TEXTURE_2D,
+                this._depthBuffer.getTexture(),
+                0
+            );
+        } else {
+            this._depthBuffer = gl.createRenderbuffer();
+            gl.bindRenderbuffer(gl.RENDERBUFFER, this._depthBuffer);
+            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.options.size[0], this.options.size[1]);
+            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, this._depthBuffer);
+        }
 
         this._checkComplete(gl);
 
@@ -119,11 +154,15 @@ class RenderTarget {
             this._texture = null;
         }
 
+        if (this._depthBuffer) {
+            this._depthBuffer instanceof Texture ?
+                this._depthBuffer.remove(this._glContext) : this._glContext.deleteRenderbuffer(this._depthBuffer);
+            this._depthBuffer = null;
+        }
+
         if (this._frameBuffer) {
             this._glContext.deleteFramebuffer(this._frameBuffer);
-            this._glContext.deleteRenderbuffer(this._renderBuffer);
             this._frameBuffer = null;
-            this._renderBuffer = null;
         }
     }
 
@@ -154,6 +193,7 @@ class RenderTarget {
 RenderTarget.defaultOptions = Object.assign({}, Texture.defaultOptions, {
     size: [0, 0],
     generateMipmaps: false,
+    depthTexture: false,
 });
 
 export default RenderTarget;
@@ -163,4 +203,5 @@ export default RenderTarget;
  *
  * @typedef {Object} RenderTargetOptions
  * @property {Number[]} size
+ * @property {Boolean} depthTexture
  */
